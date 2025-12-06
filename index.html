@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" data-lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LacrapuleStudio Carousel | TTTISE</title>
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
 </head>
-
 <body>
     <nav>
         <div class="logo">
-            <a href="#">Studio Arcane</a>
+            <a href="index.html">Studio Arcane</a>
         </div>
         <div class="nav-links">
             <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
             <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="#" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-            <a href="#" data-en="Projects" data-zh="项目展示">Projects</a>
-            <a href="#" data-en="About Us" data-zh="关于我们">About Us</a>
+            <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+            <a href="projects.html" data-en="Projects" data-zh="项目展示">Projects</a>
+            <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
         </div>
     </nav>
 
@@ -27,79 +26,17 @@
     </div>
 
     <div class="slider-controls">
-        <button class="control-btn prev-btn">
+        <button class="control-btn prev-btn" aria-label="Previous slide">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
                 <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80h313Z" />
             </svg>
         </button>
-
-        <button class="control-btn next-btn">
+        <button class="control-btn next-btn" aria-label="Next slide">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
                 <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
             </svg>
         </button>
     </div>
-
-    <section class="registration-form-section" style="display: none;">
-        <button class="back-to-carousel-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
-                <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80h313Z" />
-            </svg>
-            <span data-en="Back" data-zh="返回">Back</span>
-        </button>
-
-        <div class="form-container">
-            <h2 data-en="Unveil Your Arcane Connection" data-zh="解锁你的奥秘连接">Unveil Your Arcane Connection</h2>
-            <p data-en="Fill out the form below to customize your companion." data-zh="填写以下表格，定制你的专属陪伴。">Fill out the
-                form below to customize your companion.</p>
-            <form id="companion-form">
-
-                <fieldset>
-                    <legend data-en="Basic Information" data-zh="基本信息">Basic Information</legend>
-                    <div class="form-group">
-                        <label for="name" data-en="Your Name" data-zh="你的姓名">Your Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email" data-en="Email" data-zh="电子邮件">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="age" data-en="Age" data-zh="年龄">Age</label>
-                        <input type="number" id="age" name="age" min="18" required>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend data-en="Companion Persona" data-zh="陪伴者属性">Companion Persona</legend>
-                    <div class="form-group radio-group">
-                        <span data-en="Desired Gender" data-zh="期望性别">Desired Gender:</span>
-                        <input type="radio" id="gender-m" name="desired_gender" value="male" required>
-                        <label for="gender-m" data-en="Male" data-zh="男性">Male</label>
-                        <input type="radio" id="gender-f" name="desired_gender" value="female">
-                        <label for="gender-f" data-en="Female" data-zh="女性">Female</label>
-                        <input type="radio" id="gender-o" name="desired_gender" value="other">
-                        <label for="gender-o" data-en="Other" data-zh="其他">Other</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="service-type" data-en="Service Focus" data-zh="服务重点">Service Focus</label>
-                        <select id="service-type" name="service_type" required>
-                            <option value="" disabled selected data-en="Select a focus" data-zh="选择重点">Select a focus
-                            </option>
-                            <option value="therapy" data-en="Emotional Support/Therapy" data-zh="情感支持/咨询">Emotional
-                                Support/Therapy</option>
-                            <option value="dating" data-en="Dating Simulation/Roleplay" data-zh="交友模拟/角色扮演">Dating
-                                Simulation/Roleplay</option>
-                            <option value="intellectual" data-en="Intellectual Discussion" data-zh="知识性讨论">Intellectual
-                                Discussion</option>
-                        </select>
-                    </div>
-                </fieldset>
-
-                <button type="submit" data-en="Connect Now" data-zh="立即连接">Connect Now</button>
-            </form>
-        </div>
-    </section>
 
     <footer>
         <p data-en="Experiment 502" data-zh="实验 502">Experiment 502</p>
@@ -109,15 +46,20 @@
     <svg viewBox="0 0 0 0" aria-hidden="true" style="position: fixed; z-index: -1; opacity: 0">
         <defs>
             <filter id="blur-matrix">
-                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 255 -140">
-                </feColorMatrix>
+                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 255 -140"></feColorMatrix>
             </filter>
         </defs>
     </svg>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+    <script>
+        window.GSAP_LOAD_ERROR = false;
+        if (typeof gsap === 'undefined' || typeof SplitText === 'undefined' || typeof CustomEase === 'undefined') {
+            console.warn('GSAP plugins not loaded, falling back to basic animation');
+            window.GSAP_LOAD_ERROR = true;
+        }
+    </script>
     <script src="/script.js"></script>
 </body>
-
 </html>
