@@ -3,16 +3,31 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LacrapuleStudio Carousel | TTTISE</title>
+    <title>Studio Carousel | Home</title>
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
 </head>
 <body>
-    <!-- 彻底删除顶部导航栏、底部文字栏 -->
+    <!-- 导航栏（仅保留跳转功能，无多余文字） -->
+    <nav>
+        <div class="logo">
+            <a href="index.html"></a> <!-- 可自定义添加logo图标 -->
+        </div>
+        <div class="nav-links">
+            <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
+            <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
+            <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+            <a href="projects.html" data-en="Projects" data-zh="项目展示">Projects</a>
+            <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
+        </div>
+    </nav>
+
+    <!-- 轮播图（无中间花圈文字） -->
     <div class="carousel">
         <div class="carousel-images"></div>
     </div>
 
+    <!-- 轮播控制按钮 -->
     <div class="slider-controls">
         <button class="control-btn prev-btn" aria-label="Previous slide">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
@@ -26,7 +41,17 @@
         </button>
     </div>
 
-    <!-- 删掉花圈相关的模糊滤镜SVG -->
+    <!-- 页脚（无多余文字） -->
+    <footer>
+    </footer>
+
+    <svg viewBox="0 0 0 0" aria-hidden="true" style="position: fixed; z-index: -1; opacity: 0">
+        <defs>
+            <filter id="blur-matrix">
+                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 255 -140"></feColorMatrix>
+            </filter>
+        </defs>
+    </svg>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
