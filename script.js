@@ -1,23 +1,23 @@
-// 1. 数据定义（路径已匹配你的carousel文件夹）
+// 1. 轮播图数据（替换成你的新图片路径）
 const carouselSlides = [
     {
-        title: "Feast of Color",
+        title: "", // 留空，已隐藏中间文字
         image: "carousel/slide-img-1.jpg",
     },
     {
-        title: "The Matador",
+        title: "",
         image: "carousel/slide-img-2.jpg",
     },
     {
-        title: "Final Plea",
+        title: "",
         image: "carousel/slide-img-3.jpg",
     },
     {
-        title: "Old Philosopher",
+        title: "",
         image: "carousel/slide-img-4.jpg",
     },
     {
-        title: "Evening Waltz",
+        title: "",
         image: "carousel/slide-img-5.jpg",
     },
 ];
@@ -103,7 +103,7 @@ function preloadCarouselImages() {
     });
 }
 
-// 6. 创建所有幻灯片标题的 DOM 元素
+// 6. 创建所有幻灯片标题的 DOM 元素（虽隐藏但保留逻辑，不影响功能）
 function createCarouselTitles() {
     carouselSlides.forEach((slide) => {
         const slideTitleContainer = document.createElement("div");
@@ -189,7 +189,7 @@ function bindTouchEvents() {
     });
 }
 
-// 11. 初始化第一张幻灯片的文字动画
+// 11. 初始化第一张幻灯片的文字动画（虽隐藏但不影响功能）
 function initFirstSlide() {
     if (window.GSAP_LOAD_ERROR) return;
     // 确保除了第一个之外的所有文字都设置为初始隐藏状态
@@ -200,7 +200,6 @@ function initFirstSlide() {
     });
 
     const initialSlideWords = carouselTextElements[0].querySelectorAll(".word");
-
     gsap.to(initialSlideWords, {
         filter: "blur(0px)",
         opacity: 1,
@@ -209,10 +208,9 @@ function initFirstSlide() {
     });
 }
 
-// 12. 文本切换动画
+// 12. 文本切换动画（隐藏后无视觉影响）
 function updateActiveTextSlide(prevIndex) {
     if (window.GSAP_LOAD_ERROR) {
-        // 降级方案：直接显示/隐藏
         const prevWords = carouselTextElements[prevIndex].querySelectorAll(".word");
         prevWords.forEach(word => word.style.opacity = "0");
 
@@ -233,7 +231,7 @@ function updateActiveTextSlide(prevIndex) {
         overwrite: true
     });
 
-    // 显示当前幻灯片的文字（从模糊到清晰）
+    // 显示当前幻灯片的文字
     const currentWords = carouselTextElements[currentIndex].querySelectorAll(".word");
     gsap.fromTo(currentWords,
         { filter: "blur(75px)", opacity: 0 },
@@ -312,7 +310,7 @@ function animateSlide(direction) {
         ease: easeType,
     });
 
-    // 5. 动画文字
+    // 5. 动画文字（隐藏后无视觉影响）
     updateActiveTextSlide(prevIndex);
 }
 
@@ -346,7 +344,7 @@ function switchLanguage(lang) {
     elements.forEach(el => {
         const text = el.getAttribute(`data-${lang}`);
         if (text) {
-            // 排除 H1 (因为 SplitText 处理了它) 和输入控件
+            // 排除 H1 (已隐藏) 和输入控件
             if (!el.classList.contains('title') && el.tagName !== 'INPUT' && el.tagName !== 'SELECT' && el.tagName !== 'OPTION') {
                 el.textContent = text;
             }
