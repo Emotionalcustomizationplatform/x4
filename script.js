@@ -1,24 +1,24 @@
-// 1. 数据定义
+// 1. 数据定义（路径已匹配你的carousel文件夹）
 const carouselSlides = [
     {
         title: "Feast of Color",
-        image: "/carousel/slide-img-1.jpg",
+        image: "carousel/slide-img-1.jpg",
     },
     {
         title: "The Matador",
-        image: "/carousel/slide-img-2.jpg",
+        image: "carousel/slide-img-2.jpg",
     },
     {
         title: "Final Plea",
-        image: "/carousel/slide-img-3.jpg",
+        image: "carousel/slide-img-3.jpg",
     },
     {
         title: "Old Philosopher",
-        image: "/carousel/slide-img-4.jpg",
+        image: "carousel/slide-img-4.jpg",
     },
     {
         title: "Evening Waltz",
-        image: "/carousel/slide-img-5.jpg",
+        image: "carousel/slide-img-5.jpg",
     },
 ];
 
@@ -98,7 +98,7 @@ function preloadCarouselImages() {
         img.onerror = () => {
             console.error(`Failed to preload image: ${slide.image}`);
             // 加载失败时使用备用图片
-            slide.image = "/carousel/fallback.jpg";
+            slide.image = "carousel/slide-img-1.jpg"; // 用第一张图做备用
         };
     });
 }
