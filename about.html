@@ -3,61 +3,88 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Us | Studio Arcane</title>
+    <title>About Us | Introduction</title>
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav>
         <div class="logo">
-            <a href="index.html">Studio Arcane</a>
+            <a href="index.html"></a>
         </div>
         <div class="nav-links">
             <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
             <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="form.html" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+            <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
             <a href="projects.html" data-en="Projects" data-zh="项目展示">Projects</a>
             <a href="about.html" data-en="About Us" data-zh="关于我们" class="active">About Us</a>
         </div>
     </nav>
 
+    <!-- 关于我们区域 -->
     <section class="about-section">
         <div class="about-container">
-            <h2 data-en="About Studio Arcane" data-zh="关于奥秘工作室">About Studio Arcane</h2>
-            <p data-en="We create unique companions that bridge the gap between reality and fantasy. Our mission is to provide emotional support, intellectual stimulation, and immersive experiences through cutting-edge technology." data-zh="我们创造独特的陪伴者，连接现实与幻想的鸿沟。我们的使命是通过尖端技术提供情感支持、智力刺激和沉浸式体验。">We create unique companions that bridge the gap between reality and fantasy. Our mission is to provide emotional support, intellectual stimulation, and immersive experiences through cutting-edge technology.</p>
-            
-            <h3 data-en="Our Team" data-zh="我们的团队">Our Team</h3>
+            <h2 data-en="About Us" data-zh="关于我们">About Us</h2>
+            <p data-en="We are a passionate team dedicated to creating exceptional experiences and delivering high-quality projects. Our mission is to inspire, innovate, and collaborate with individuals and organizations to bring ideas to life. With years of experience in the industry, we combine creativity, expertise, and cutting-edge technology to achieve outstanding results. Whether you're looking to join our programs, partner with us, or learn more about our work, we're excited to connect with you and embark on a journey of growth and success together." data-zh="我们是一支充满激情的团队，致力于创造卓越体验并交付高质量项目。我们的使命是激发灵感、推动创新，与个人和组织合作将想法变为现实。凭借多年行业经验，我们融合创意、专业知识和前沿技术，追求卓越成果。无论您是想加入我们的项目、寻求合作，还是了解更多我们的工作，我们都期待与您携手，共同开启成长与成功之旅。">We are a passionate team dedicated to creating exceptional experiences and delivering high-quality projects. Our mission is to inspire, innovate, and collaborate with individuals and organizations to bring ideas to life. With years of experience in the industry, we combine creativity, expertise, and cutting-edge technology to achieve outstanding results. Whether you're looking to join our programs, partner with us, or learn more about our work, we're excited to connect with you and embark on a journey of growth and success together.</p>
+
+            <h2 data-en="Our Team" data-zh="我们的团队">Our Team</h2>
             <div class="team-grid">
+                <!-- 团队成员1 -->
                 <div class="team-member">
-                    <img src="/team/member-1.jpg" alt="Team Member 1" class="team-img">
-                    <h4 data-en="Arcane Master" data-zh="奥秘大师">Arcane Master</h4>
-                    <p data-en="Founder & Creative Director" data-zh="创始人&创意总监">Founder & Creative Director</p>
+                    <div class="team-img">
+                        <img src="team/member1.jpg" alt="Team Member 1" data-en="Team Member 1" data-zh="团队成员1">
+                    </div>
+                    <h3 data-en="Alex Johnson" data-zh="亚历克斯·约翰逊">Alex Johnson</h3>
+                    <p data-en="Founder & CEO" data-zh="创始人兼首席执行官">Founder & CEO</p>
                 </div>
+
+                <!-- 团队成员2 -->
                 <div class="team-member">
-                    <img src="/team/member-2.jpg" alt="Team Member 2" class="team-img">
-                    <h4 data-en="Tech Enchanter" data-zh="技术魔法师">Tech Enchanter</h4>
-                    <p data-en="Lead Developer" data-zh="首席开发者">Lead Developer</p>
+                    <div class="team-img">
+                        <img src="team/member2.jpg" alt="Team Member 2" data-en="Team Member 2" data-zh="团队成员2">
+                    </div>
+                    <h3 data-en="Sarah Lee" data-zh="萨拉·李">Sarah Lee</h3>
+                    <p data-en="Creative Director" data-zh="创意总监">Creative Director</p>
                 </div>
+
+                <!-- 团队成员3 -->
                 <div class="team-member">
-                    <img src="/team/member-3.jpg" alt="Team Member 3" class="team-img">
-                    <h4 data-en="Emotion Weaver" data-zh="情感编织者">Emotion Weaver</h4>
-                    <p data-en="UX/UI Designer" data-zh="用户体验/界面设计师">UX/UI Designer</p>
+                    <div class="team-img">
+                        <img src="team/member3.jpg" alt="Team Member 3" data-en="Team Member 3" data-zh="团队成员3">
+                    </div>
+                    <h3 data-en="Michael Chen" data-zh="迈克尔·陈">Michael Chen</h3>
+                    <p data-en="Technical Lead" data-zh="技术负责人">Technical Lead</p>
                 </div>
             </div>
 
             <div class="contact-info">
                 <h3 data-en="Contact Us" data-zh="联系我们">Contact Us</h3>
-                <p data-en="Email: contact@studioarcane.com" data-zh="邮箱: contact@studioarcane.com">Email: contact@studioarcane.com</p>
-                <p data-en="Location: Arcane Tower, Mystery City" data-zh="地址: 奥秘塔，神秘之城">Location: Arcane Tower, Mystery City</p>
+                <p data-en="Email: info@example.com" data-zh="邮箱：info@example.com">Email: info@example.com</p>
+                <p data-en="Phone: +1 (123) 456-7890" data-zh="电话：+1 (123) 456-7890">Phone: +1 (123) 456-7890</p>
+                <p data-en="Address: 123 Innovation Street, Creative City, 10001" data-zh="地址：创意市创新街123号，邮编10001">Address: 123 Innovation Street, Creative City, 10001</p>
             </div>
         </div>
     </section>
 
+    <!-- 页脚 -->
     <footer>
-        <p data-en="Experiment 502" data-zh="实验 502">Experiment 502</p>
-        <p data-en="Developed by TTTISE" data-zh="开发者:TTTISE">Developed by TTTISE</p>
     </footer>
 
-    <script src="/lang.js"></script>
+    <script>
+        // 语言切换逻辑
+        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.getAttribute('data-target-lang');
+                document.documentElement.setAttribute('data-lang', lang);
+                
+                // 更新页面文字
+                document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
+                    el.textContent = el.getAttribute(`data-${lang}`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
