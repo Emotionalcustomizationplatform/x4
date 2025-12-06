@@ -26,43 +26,42 @@
     <section class="about-section">
         <div class="about-container">
             <h2 data-en="About Us" data-zh="关于我们">About Us</h2>
-            <p data-en="We are a passionate team dedicated to creating exceptional experiences and delivering high-quality projects. Our mission is to inspire, innovate, and collaborate with individuals and organizations to bring ideas to life. With years of experience in the industry, we combine creativity, expertise, and cutting-edge technology to achieve outstanding results. Whether you're looking to join our programs, partner with us, or learn more about our work, we're excited to connect with you and embark on a journey of growth and success together." data-zh="我们是一支充满激情的团队，致力于创造卓越体验并交付高质量项目。我们的使命是激发灵感、推动创新，与个人和组织合作将想法变为现实。凭借多年行业经验，我们融合创意、专业知识和前沿技术，追求卓越成果。无论您是想加入我们的项目、寻求合作，还是了解更多我们的工作，我们都期待与您携手，共同开启成长与成功之旅。">We are a passionate team dedicated to creating exceptional experiences and delivering high-quality projects. Our mission is to inspire, innovate, and collaborate with individuals and organizations to bring ideas to life. With years of experience in the industry, we combine creativity, expertise, and cutting-edge technology to achieve outstanding results. Whether you're looking to join our programs, partner with us, or learn more about our work, we're excited to connect with you and embark on a journey of growth and success together.</p>
+            <!-- 替换为你的专属内容（英文）+ 对应中文翻译 -->
+            <p data-en="Our services are primarily based in China, and we’re looking to expand overseas this time. We have quite a few successful cases, but we can’t share details to protect our clients’ privacy. For more information, please fill out the form above—we’ll reach out to you shortly. Stay safe from scams, thank you! Wishing you a great day, every day." data-zh="我们的服务主要立足中国，此次计划拓展海外市场。我们拥有多个成功案例，但为保护客户隐私，暂无法分享具体细节。如需了解更多信息，请填写上方表单，我们将尽快与您取得联系。谨防诈骗，感谢您的理解！祝您日日顺心，万事顺意。">
+                Our services are primarily based in China, and we’re looking to expand overseas this time. We have quite a few successful cases, but we can’t share details to protect our clients’ privacy. For more information, please fill out the form above—we’ll reach out to you shortly. Stay safe from scams, thank you! Wishing you a great day, every day.
+            </p>
 
+            <!-- 保留团队展示模块（可按需删除或替换图片） -->
             <h2 data-en="Our Team" data-zh="我们的团队">Our Team</h2>
             <div class="team-grid">
-                <!-- 团队成员1 -->
                 <div class="team-member">
                     <div class="team-img">
                         <img src="team/member1.jpg" alt="Team Member 1" data-en="Team Member 1" data-zh="团队成员1">
                     </div>
-                    <h3 data-en="Alex Johnson" data-zh="亚历克斯·约翰逊">Alex Johnson</h3>
-                    <p data-en="Founder & CEO" data-zh="创始人兼首席执行官">Founder & CEO</p>
+                    <h3 data-en="Core Team" data-zh="核心团队">Core Team</h3>
+                    <p data-en="Professional & Experienced" data-zh="专业高效 · 经验丰富">Professional & Experienced</p>
                 </div>
-
-                <!-- 团队成员2 -->
                 <div class="team-member">
                     <div class="team-img">
                         <img src="team/member2.jpg" alt="Team Member 2" data-en="Team Member 2" data-zh="团队成员2">
                     </div>
-                    <h3 data-en="Sarah Lee" data-zh="萨拉·李">Sarah Lee</h3>
-                    <p data-en="Creative Director" data-zh="创意总监">Creative Director</p>
+                    <h3 data-en="Project Division" data-zh="项目分部">Project Division</h3>
+                    <p data-en="Dedicated & Reliable" data-zh="专注负责 · 值得信赖">Dedicated & Reliable</p>
                 </div>
-
-                <!-- 团队成员3 -->
                 <div class="team-member">
                     <div class="team-img">
                         <img src="team/member3.jpg" alt="Team Member 3" data-en="Team Member 3" data-zh="团队成员3">
                     </div>
-                    <h3 data-en="Michael Chen" data-zh="迈克尔·陈">Michael Chen</h3>
-                    <p data-en="Technical Lead" data-zh="技术负责人">Technical Lead</p>
+                    <h3 data-en="Overseas Team" data-zh="海外团队">Overseas Team</h3>
+                    <p data-en="Global Vision" data-zh="全球视野 · 接轨国际">Global Vision</p>
                 </div>
             </div>
 
+            <!-- 更新联系信息（替换为你的邮箱） -->
             <div class="contact-info">
                 <h3 data-en="Contact Us" data-zh="联系我们">Contact Us</h3>
-                <p data-en="Email: info@example.com" data-zh="邮箱：info@example.com">Email: info@example.com</p>
-                <p data-en="Phone: +1 (123) 456-7890" data-zh="电话：+1 (123) 456-7890">Phone: +1 (123) 456-7890</p>
-                <p data-en="Address: 123 Innovation Street, Creative City, 10001" data-zh="地址：创意市创新街123号，邮编10001">Address: 123 Innovation Street, Creative City, 10001</p>
+                <p data-en="Email: xinc2529@gmail.com" data-zh="邮箱：xinc2529@gmail.com">Email: xinc2529@gmail.com</p>
+                <p data-en="For business cooperation, please fill out the form" data-zh="商务合作请填写上方表单">For business cooperation, please fill out the form</p>
             </div>
         </div>
     </section>
@@ -72,14 +71,14 @@
     </footer>
 
     <script>
-        // 语言切换逻辑
+        // 语言切换逻辑（自动同步中英文内容）
         document.querySelectorAll('.lang-switch-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const lang = btn.getAttribute('data-target-lang');
                 document.documentElement.setAttribute('data-lang', lang);
                 
-                // 更新页面文字
+                // 更新页面所有中英文切换元素
                 document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
                     el.textContent = el.getAttribute(`data-${lang}`);
                 });
