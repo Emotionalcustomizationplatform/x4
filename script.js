@@ -23,16 +23,15 @@ const carouselSlides = [
 ];
 
 // 2. 全局变量
-let carousel, carouselImages, prevBtn, nextBtn, toFormBtn, backBtn;
-let registrationSection;
-
+let carousel, carouselImages, prevBtn, nextBtn;
 let currentIndex = 0;
 let carouselTextElements = [];
 let splitTextInstances = [];
 let isAnimating = false;
+let touchStartX = 0; // 触摸起始X坐标
 
 // 3. 自定义缓动函数
-if (typeof CustomEase !== "undefined") {
+if (typeof CustomEase !== "undefined" && !window.GSAP_LOAD_ERROR) {
     CustomEase.create(
         "hop",
         "M0,0 C0.071,0.505 0.192,0.726 0.318,0.852 0.45,0.984 0.504,1 1,1"
@@ -46,25 +45,38 @@ function initCarousel() {
     carouselImages = document.querySelector(".carousel-images");
     prevBtn = document.querySelector(".prev-btn");
     nextBtn = document.querySelector(".next-btn");
-    toFormBtn = document.querySelector(".to-form-btn"); // 获取新的按钮
-    backBtn = document.querySelector(".back-to-carousel-btn");
-    registrationSection = document.querySelector(".registration-form-section"); // 获取表单区
 
     // 如果关键元素不存在，防止报错
     if (!carousel || !carouselImages) return;
 
+    // 预加载轮播图图片
+    preloadCarouselImages();
+
     createCarouselTitles();
     createInitialSlide();
     bindCarouselControls();
-    bindLanguageSwitch(); // 绑定语言切换
-    bindFormTransition(); // 绑定表单切换
-    bindBackToCarousel(); // 绑定返回事件
+    bindLanguageSwitch();
+    bindTouchEvents(); // 绑定触摸事件（移动端滑动）
+
+    // 监听窗口大小变化，重新适配
+    window.addEventListener('resize', debounce(() => {
+        if (currentIndex >= 0 && carouselTextElements[currentIndex]) {
+            const currentWords = carouselTextElements[currentIndex].querySelectorAll(".word");
+            gsap.set(currentWords, { filter: "blur(0px)", opacity: 1 });
+        }
+    }, 300));
 
     // 等待字体加载完成后执行文本相关的操作
     document.fonts.ready.then(() => {
-        // 确保 SplitText 插件已加载
-        if (typeof SplitText === 'undefined') {
-            console.error("GSAP SplitText plugin is not loaded.");
+        if (window.GSAP_LOAD_ERROR) {
+            // GSAP加载失败，降级显示文字
+            carouselTextElements.forEach((slide, index) => {
+                const words = slide.querySelectorAll(".word");
+                words.forEach(word => {
+                    word.style.filter = "blur(0px)";
+                    word.style.opacity = index === 0 ? "1" : "0";
+                });
+            });
             return;
         }
         splitTitles();
@@ -75,7 +87,23 @@ function initCarousel() {
     });
 }
 
-// 5. 创建所有幻灯片标题的 DOM 元素 (之前缺失的部分)
+// 5. 图片预加载
+function preloadCarouselImages() {
+    carouselSlides.forEach(slide => {
+        const img = new Image();
+        img.src = slide.image;
+        img.onload = () => {
+            console.log(`Image preloaded: ${slide.image}`);
+        };
+        img.onerror = () => {
+            console.error(`Failed to preload image: ${slide.image}`);
+            // 加载失败时使用备用图片
+            slide.image = "/carousel/fallback.jpg";
+        };
+    });
+}
+
+// 6. 创建所有幻灯片标题的 DOM 元素
 function createCarouselTitles() {
     carouselSlides.forEach((slide) => {
         const slideTitleContainer = document.createElement("div");
@@ -92,60 +120,7 @@ function createCarouselTitles() {
     });
 }
 
-// 新增函数：绑定返回轮播图的事件
-function bindBackToCarousel() {
-    if (!backBtn || !registrationSection) return;
-
-    backBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (isAnimating) return;
-        isAnimating = true;
-
-        // 1. 隐藏表单区域 (淡出并下移)
-        gsap.to(registrationSection, {
-            opacity: 0,
-            y: 50,
-            duration: 0.8,
-            ease: "power2.in",
-            onComplete: () => {
-                registrationSection.style.display = 'none';
-                carousel.style.display = 'block';
-
-                // 2. 恢复轮播图容器 (放大并展开 ClipPath)
-                gsap.to(carousel, {
-                    clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)", // 恢复全屏
-                    scale: 1, // 恢复原始大小
-                    opacity: 1,
-                    duration: 1,
-                    ease: "power3.out"
-                });
-
-                // 3. 恢复当前幻灯片的文字 (淡入并消除模糊)
-                const currentWords = carouselTextElements[currentIndex].querySelectorAll(".word");
-                gsap.to(currentWords, {
-                    opacity: 1,
-                    filter: "blur(0px)",
-                    duration: 1.5,
-                    delay: 0.3, // 稍微延迟一点，等画面展开再出文字
-                    ease: "power3.out"
-                });
-
-                // 4. 恢复页脚和导航控制按钮
-                const footer = document.querySelector('footer');
-                if (prevBtn && prevBtn.parentElement) {
-                    gsap.to(prevBtn.parentElement, { opacity: 1, duration: 0.5, delay: 0.5 });
-                }
-                if (footer) {
-                    gsap.to(footer, { opacity: 1, duration: 0.5, delay: 0.5 });
-                }
-
-                isAnimating = false;
-            }
-        });
-    });
-}
-
-// 6. 创建初始图片幻灯片的 DOM 元素 (之前缺失的部分)
+// 7. 创建初始图片幻灯片的 DOM 元素
 function createInitialSlide() {
     const initialSlideImgContainer = document.createElement("div");
     initialSlideImgContainer.classList.add("img");
@@ -157,8 +132,9 @@ function createInitialSlide() {
     carouselImages.appendChild(initialSlideImgContainer);
 }
 
-// 7. 使用 SplitText 拆分标题为单词 (之前缺失的部分)
+// 8. 使用 SplitText 拆分标题为单词
 function splitTitles() {
+    if (window.GSAP_LOAD_ERROR) return;
     carouselTextElements.forEach((slide) => {
         const slideTitle = slide.querySelector(".title");
         const splitText = new SplitText(slideTitle, {
@@ -169,7 +145,7 @@ function splitTitles() {
     });
 }
 
-// 8. 绑定导航按钮事件监听器 (之前缺失的部分)
+// 9. 绑定导航按钮事件监听器
 function bindCarouselControls() {
     if (nextBtn) {
         nextBtn.addEventListener("click", () => {
@@ -184,10 +160,38 @@ function bindCarouselControls() {
             animateSlide("left");
         });
     }
+
+    // 键盘方向键控制
+    document.addEventListener("keydown", (e) => {
+        if (isAnimating) return;
+        if (e.key === "ArrowRight") animateSlide("right");
+        if (e.key === "ArrowLeft") animateSlide("left");
+    });
 }
 
-// 9. 初始化第一张幻灯片的文字动画 (之前缺失的部分)
+// 10. 绑定移动端触摸事件
+function bindTouchEvents() {
+    carousel.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+    });
+
+    carousel.addEventListener("touchend", (e) => {
+        if (isAnimating) return;
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchDelta = touchEndX - touchStartX;
+
+        // 滑动距离超过50px才触发切换
+        if (touchDelta > 50) {
+            animateSlide("left");
+        } else if (touchDelta < -50) {
+            animateSlide("right");
+        }
+    });
+}
+
+// 11. 初始化第一张幻灯片的文字动画
 function initFirstSlide() {
+    if (window.GSAP_LOAD_ERROR) return;
     // 确保除了第一个之外的所有文字都设置为初始隐藏状态
     carouselTextElements.forEach((slide, index) => {
         if (index !== 0) {
@@ -205,23 +209,34 @@ function initFirstSlide() {
     });
 }
 
-// 10. 文本切换动画 (之前缺失的部分)
+// 12. 文本切换动画
 function updateActiveTextSlide(prevIndex) {
+    if (window.GSAP_LOAD_ERROR) {
+        // 降级方案：直接显示/隐藏
+        const prevWords = carouselTextElements[prevIndex].querySelectorAll(".word");
+        prevWords.forEach(word => word.style.opacity = "0");
+
+        const currentWords = carouselTextElements[currentIndex].querySelectorAll(".word");
+        currentWords.forEach(word => {
+            word.style.filter = "blur(0px)";
+            word.style.opacity = "1";
+        });
+        return;
+    }
+
     // 隐藏前一个幻灯片的文字
     const prevWords = carouselTextElements[prevIndex].querySelectorAll(".word");
-
     gsap.to(prevWords, {
         opacity: 0,
-        duration: 0.5, // 快速淡出
+        duration: 0.5,
         ease: "power1.out",
         overwrite: true
     });
 
     // 显示当前幻灯片的文字（从模糊到清晰）
     const currentWords = carouselTextElements[currentIndex].querySelectorAll(".word");
-
     gsap.fromTo(currentWords,
-        { filter: "blur(75px)", opacity: 0 }, // 初始状态
+        { filter: "blur(75px)", opacity: 0 },
         {
             filter: "blur(0px)",
             opacity: 1,
@@ -232,7 +247,7 @@ function updateActiveTextSlide(prevIndex) {
     );
 }
 
-// 11. 核心幻灯片切换动画
+// 13. 核心幻灯片切换动画
 function animateSlide(direction) {
     if (isAnimating) return;
     isAnimating = true;
@@ -267,10 +282,11 @@ function animateSlide(direction) {
     carouselImages.appendChild(newSlideImgContainer);
 
     // 2. 动画旧图片 (推出)
+    const easeType = window.GSAP_LOAD_ERROR ? "power1.out" : "hop";
     gsap.to(currentSlideImage, {
         x: direction === "left" ? slideOffset : -slideOffset,
-        duration: 1.5,
-        ease: "hop",
+        duration: window.GSAP_LOAD_ERROR ? 0.8 : 1.5,
+        ease: easeType,
     });
 
     // 3. 动画新幻灯片容器 (剪裁路径展开)
@@ -281,8 +297,8 @@ function animateSlide(direction) {
                 : "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
     }, {
         clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-        duration: 1.5,
-        ease: "hop",
+        duration: window.GSAP_LOAD_ERROR ? 0.8 : 1.5,
+        ease: easeType,
         onComplete: () => {
             cleanupCarouselSlides();
             isAnimating = false;
@@ -292,15 +308,15 @@ function animateSlide(direction) {
     // 4. 动画新图片 (移入中心)
     gsap.to(newSlideImg, {
         x: 0,
-        duration: 1.5,
-        ease: "hop",
+        duration: window.GSAP_LOAD_ERROR ? 0.8 : 1.5,
+        ease: easeType,
     });
 
     // 5. 动画文字
     updateActiveTextSlide(prevIndex);
 }
 
-// 12. 清理旧幻灯片
+// 14. 清理旧幻灯片
 function cleanupCarouselSlides() {
     const imgElements = carouselImages.querySelectorAll(".img");
     if (imgElements.length > 1) {
@@ -310,7 +326,7 @@ function cleanupCarouselSlides() {
     }
 }
 
-// 13. 语言切换逻辑
+// 15. 语言切换逻辑
 function switchLanguage(lang) {
     document.documentElement.setAttribute('data-lang', lang);
     const elements = document.querySelectorAll(`[data-${lang}]`);
@@ -349,6 +365,7 @@ function switchLanguage(lang) {
     });
 }
 
+// 16. 绑定语言切换事件
 function bindLanguageSwitch() {
     const langBtns = document.querySelectorAll('.lang-switch-btn');
     if (langBtns) {
@@ -362,59 +379,16 @@ function bindLanguageSwitch() {
     }
 }
 
-// 14. 轮播图到表单的过渡动画
-function bindFormTransition() {
-    if (!toFormBtn || !registrationSection) return;
-
-    toFormBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (isAnimating) return;
-        isAnimating = true;
-
-        // 1. 隐藏轮播图文本
-        const currentWords = carouselTextElements[currentIndex].querySelectorAll(".word");
-        gsap.to(currentWords, {
-            opacity: 0,
-            filter: "blur(75px)",
-            duration: 0.8,
-            ease: "power2.in",
-        });
-
-        // 2. 动画轮播图容器 (快速收缩/剪裁)
-        gsap.to(carousel, {
-            clipPath: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)", // 收缩到中心点
-            scale: 1.1, // 略微放大
-            opacity: 0.5,
-            duration: 1,
-            ease: "power3.inOut",
-            onComplete: () => {
-                // 3. 隐藏轮播，显示表单
-                carousel.style.display = 'none';
-                registrationSection.style.display = 'flex';
-
-                // 4. 动画表单区域 (从隐藏状态滑入/淡入)
-                gsap.fromTo(registrationSection,
-                    { opacity: 0, y: 50 },
-                    { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
-                );
-
-                // 5. 重新设置轮播图为初始状态，为返回做准备 (虽然这里没做返回按钮，但这是好习惯)
-                gsap.set(carousel, {
-                    clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-                    scale: 1,
-                    opacity: 1
-                });
-
-                isAnimating = false;
-            }
-        });
-
-        // 隐藏轮播图控制和页脚
-        const footer = document.querySelector('footer');
-        if (prevBtn && prevBtn.parentElement) gsap.to(prevBtn.parentElement, { opacity: 0, duration: 0.5 });
-        if (footer) gsap.to(footer, { opacity: 0, duration: 0.5 });
-    });
+// 17. 防抖函数（优化窗口resize事件）
+function debounce(func, wait) {
+    let timeout;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
 }
 
-// 15. DOM 加载完成事件监听
+// 18. DOM 加载完成事件监听
 document.addEventListener("DOMContentLoaded", initCarousel);
