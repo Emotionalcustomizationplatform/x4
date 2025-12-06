@@ -3,67 +3,93 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projects | Studio Arcane</title>
+    <title>Our Projects | Gallery</title>
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav>
         <div class="logo">
-            <a href="index.html">Studio Arcane</a>
+            <a href="index.html"></a>
         </div>
         <div class="nav-links">
             <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
             <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="form.html" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+            <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
             <a href="projects.html" data-en="Projects" data-zh="项目展示" class="active">Projects</a>
             <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
         </div>
     </nav>
 
+    <!-- 项目展示区域 -->
     <section class="projects-section">
-        <h2 data-en="Our Arcane Projects" data-zh="我们的奥秘项目">Our Arcane Projects</h2>
+        <h2 data-en="Our Projects" data-zh="我们的项目">Our Projects</h2>
         <div class="projects-grid">
-            <!-- 项目卡片1 -->
+            <!-- 项目1 -->
             <div class="project-card">
-                <img src="/projects/project-1.jpg" alt="Project 1" class="project-img">
+                <div class="project-img">
+                    <img src="projects/project1.jpg" alt="Project One" data-en="Project One" data-zh="项目一">
+                </div>
                 <div class="project-info">
-                    <h3 data-en="Feast of Color" data-zh="色彩盛宴">Feast of Color</h3>
-                    <p data-en="A vibrant journey of emotions" data-zh="一场充满活力的情感之旅">A vibrant journey of emotions</p>
+                    <h3 data-en="Project One" data-zh="项目一">Project One</h3>
+                    <p data-en="A creative project focused on innovation and collaboration, designed to deliver exceptional results." data-zh="一个专注于创新与协作的创意项目，旨在交付卓越成果。">A creative project focused on innovation and collaboration, designed to deliver exceptional results.</p>
                 </div>
             </div>
-            <!-- 项目卡片2 -->
+
+            <!-- 项目2 -->
             <div class="project-card">
-                <img src="/projects/project-2.jpg" alt="Project 2" class="project-img">
+                <div class="project-img">
+                    <img src="projects/project2.jpg" alt="Project Two" data-en="Project Two" data-zh="项目二">
+                </div>
                 <div class="project-info">
-                    <h3 data-en="The Matador" data-zh="斗牛士">The Matador</h3>
-                    <p data-en="Courage in the face of chaos" data-zh="混乱中的勇气">Courage in the face of chaos</p>
+                    <h3 data-en="Project Two" data-zh="项目二">Project Two</h3>
+                    <p data-en="Combining art and technology to create unique experiences that inspire and engage audiences worldwide." data-zh="融合艺术与科技，创造激发全球观众参与的独特体验。">Combining art and technology to create unique experiences that inspire and engage audiences worldwide.</p>
                 </div>
             </div>
-            <!-- 项目卡片3 -->
+
+            <!-- 项目3 -->
             <div class="project-card">
-                <img src="/projects/project-3.jpg" alt="Project 3" class="project-img">
+                <div class="project-img">
+                    <img src="projects/project3.jpg" alt="Project Three" data-en="Project Three" data-zh="项目三">
+                </div>
                 <div class="project-info">
-                    <h3 data-en="Final Plea" data-zh="最后的恳求">Final Plea</h3>
-                    <p data-en="Seeking truth beyond words" data-zh="追寻言语之外的真相">Seeking truth beyond words</p>
+                    <h3 data-en="Project Three" data-zh="项目三">Project Three</h3>
+                    <p data-en="A community-driven initiative dedicated to making a positive impact through meaningful actions and partnerships." data-zh="一项以社区为导向的计划，通过有意义的行动和合作产生积极影响。">A community-driven initiative dedicated to making a positive impact through meaningful actions and partnerships.</p>
                 </div>
             </div>
-            <!-- 项目卡片4 -->
+
+            <!-- 项目4（可按需添加） -->
             <div class="project-card">
-                <img src="/projects/project-4.jpg" alt="Project 4" class="project-img">
+                <div class="project-img">
+                    <img src="projects/project4.jpg" alt="Project Four" data-en="Project Four" data-zh="项目四">
+                </div>
                 <div class="project-info">
-                    <h3 data-en="Old Philosopher" data-zh="老哲学家">Old Philosopher</h3>
-                    <p data-en="Wisdom passed through time" data-zh="穿越时光的智慧">Wisdom passed through time</p>
+                    <h3 data-en="Project Four" data-zh="项目四">Project Four</h3>
+                    <p data-en="Exploring new possibilities and pushing boundaries to redefine what's possible in the industry." data-zh="探索新可能，突破边界，重新定义行业潜力。">Exploring new possibilities and pushing boundaries to redefine what's possible in the industry.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- 页脚 -->
     <footer>
-        <p data-en="Experiment 502" data-zh="实验 502">Experiment 502</p>
-        <p data-en="Developed by TTTISE" data-zh="开发者:TTTISE">Developed by TTTISE</p>
     </footer>
 
-    <script src="/lang.js"></script>
+    <script>
+        // 语言切换逻辑
+        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.getAttribute('data-target-lang');
+                document.documentElement.setAttribute('data-lang', lang);
+                
+                // 更新页面文字
+                document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
+                    el.textContent = el.getAttribute(`data-${lang}`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
