@@ -1,23 +1,101 @@
-// 表单提交逻辑
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById('companion-form');
-    const successMsg = document.getElementById('form-success');
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form | Enroll</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">
+            <a href="index.html"></a>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
+            <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
+            <a href="form.html" class="to-form-btn active" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+            <a href="projects.html" data-en="Projects" data-zh="项目展示">Projects</a>
+            <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
+        </div>
+    </nav>
 
-    if (form) {
-        form.addEventListener('submit', async (e) => {
+    <!-- 表单区域 -->
+    <section class="registration-form-section">
+        <div class="form-container">
+            <h2 data-en="Registration Form" data-zh="报名表单">Registration Form</h2>
+            <p data-en="Fill in the form below to enroll in our program" data-zh="填写以下表单报名参与我们的项目">Fill in the form below to enroll in our program</p>
+            
+            <form id="registrationForm">
+                <fieldset>
+                    <legend data-en="Personal Information" data-zh="个人信息">Personal Information</legend>
+                    <div class="form-group">
+                        <label for="name" data-en="Full Name" data-zh="姓名">Full Name</label>
+                        <input type="text" id="name" name="name" required data-en-placeholder="Enter your full name" data-zh-placeholder="输入您的姓名" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" data-en="Email Address" data-zh="电子邮箱">Email Address</label>
+                        <input type="email" id="email" name="email" required data-en-placeholder="Enter your email" data-zh-placeholder="输入您的电子邮箱" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" data-en="Phone Number" data-zh="手机号码">Phone Number</label>
+                        <input type="number" id="phone" name="phone" required data-en-placeholder="Enter your phone number" data-zh-placeholder="输入您的手机号码" placeholder="Enter your phone number">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend data-en="Program Selection" data-zh="项目选择">Program Selection</legend>
+                    <div class="form-group">
+                        <label data-en="Select a Program" data-zh="选择项目">Select a Program</label>
+                        <select id="program" name="program" required>
+                            <option value="" disabled selected data-en="Choose a program" data-zh="选择项目">Choose a program</option>
+                            <option value="program1" data-en="Program One" data-zh="项目一">Program One</option>
+                            <option value="program2" data-en="Program Two" data-zh="项目二">Program Two</option>
+                            <option value="program3" data-en="Program Three" data-zh="项目三">Program Three</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Preferred Start Date" data-zh="预计开始时间">Preferred Start Date</label>
+                        <input type="text" id="startDate" name="startDate" required data-en-placeholder="MM/DD/YYYY" data-zh-placeholder="年/月/日" placeholder="MM/DD/YYYY">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend data-en="Additional Information" data-zh="补充信息">Additional Information</legend>
+                    <div class="form-group">
+                        <label data-en="How did you hear about us?" data-zh="您如何了解到我们？">How did you hear about us?</label>
+                        <div class="radio-group">
+                            <input type="radio" id="source1" name="source" value="socialMedia" required>
+                            <label for="source1" data-en="Social Media" data-zh="社交媒体">Social Media</label>
+                            
+                            <input type="radio" id="source2" name="source" value="friend" required>
+                            <label for="source2" data-en="Friend/Referral" data-zh="朋友推荐">Friend/Referral</label>
+                            
+                            <input type="radio" id="source3" name="source" value="other" required>
+                            <label for="source3" data-en="Other" data-zh="其他">Other</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <button type="submit" data-en="Submit Application" data-zh="提交申请">Submit Application</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+    </footer>
+
+    <script>
+        // 表单提交逻辑（关联后端接口）
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            // 禁用提交按钮，防止重复提交
-            const submitBtn = form.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-            submitBtn.textContent = submitBtn.getAttribute(`data-${document.documentElement.getAttribute('data-lang') || 'en'}`) || 'Submitting...';
-
-            // 收集表单数据
-            const formData = new FormData(form);
+            const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
 
             try {
-                // 后端接口请求（替换为你的实际接口地址）
                 const response = await fetch('/api/submit-form', {
                     method: 'POST',
                     headers: {
@@ -27,15 +105,35 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 const result = await response.json();
-
-                if (response.ok && result.success) {
-                    // 提交成功，显示成功信息
-                    form.style.display = 'none';
-                    successMsg.style.display = 'block';
-                } else {
-                    throw new Error(result.message || '提交失败，请重试');
+                alert(result.message);
+                if (result.success) {
+                    e.target.reset(); // 提交成功后重置表单
                 }
             } catch (error) {
-                alert(error.message);
-                // 恢复提交按钮状态
-                submitBtn.disabled = false;
+                alert('提交失败，请稍后再试');
+                console.error(error);
+            }
+        });
+
+        // 语言切换逻辑
+        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.getAttribute('data-target-lang');
+                document.documentElement.setAttribute('data-lang', lang);
+                
+                // 更新表单文字
+                document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
+                    if (el.tagName === 'INPUT' && el.hasAttribute(`data-${lang}-placeholder`)) {
+                        el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
+                    } else if (el.tagName !== 'OPTION' && el.tagName !== 'INPUT') {
+                        el.textContent = el.getAttribute(`data-${lang}`);
+                    } else if (el.tagName === 'INPUT' && el.type === 'submit') {
+                        el.value = el.getAttribute(`data-${lang}`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
