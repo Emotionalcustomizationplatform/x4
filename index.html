@@ -8,8 +8,7 @@
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
 </head>
 <body>
-    <!-- 移除了顶部导航栏（原nav部分，对应之前的“工作室的阿卡恩”黑框） -->
-
+    <!-- 彻底删除顶部导航栏、底部文字栏 -->
     <div class="carousel">
         <div class="carousel-images"></div>
     </div>
@@ -27,15 +26,7 @@
         </button>
     </div>
 
-    <!-- 移除了底部文字栏（原footer部分，对应之前的“实验502”黑框） -->
-
-    <svg viewBox="0 0 0 0" aria-hidden="true" style="position: fixed; z-index: -1; opacity: 0">
-        <defs>
-            <filter id="blur-matrix">
-                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 255 -140"></feColorMatrix>
-            </filter>
-        </defs>
-    </svg>
+    <!-- 删掉花圈相关的模糊滤镜SVG -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
