@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Our Projects | Gallery</title>
+    <title>Our Services | Language Learning</title>
     <link rel="stylesheet" href="/styles.css" />
-    <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
+    <link rel="preload" href="./Creepster-Regular.ttf" as="font/truetype" crossorigin>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -17,56 +17,25 @@
             <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
             <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
             <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-            <a href="projects.html" data-en="Projects" data-zh="项目展示" class="active">Projects</a>
+            <a href="projects.html" data-en="Our Services" data-zh="我们的服务" class="active">Our Services</a>
             <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
         </div>
     </nav>
 
-    <!-- 项目展示区域 -->
+    <!-- 项目/服务展示区域 -->
     <section class="projects-section">
-        <h2 data-en="Our Projects" data-zh="我们的项目">Our Projects</h2>
+        <h2 data-en="One-on-One Customized Language Learning" data-zh="一对一定制语言学习服务">One-on-One Customized Language Learning</h2>
         <div class="projects-grid">
-            <!-- 项目1 -->
-            <div class="project-card">
+            <!-- 核心服务卡片（单卡片聚焦核心业务） -->
+            <div class="project-card" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto;">
                 <div class="project-img">
-                    <img src="projects/project1.jpg" alt="Project One" data-en="Project One" data-zh="项目一">
+                    <img src="projects/language-learning.jpg" alt="Customized Language Learning" data-en="Customized Language Learning" data-zh="定制语言学习">
                 </div>
                 <div class="project-info">
-                    <h3 data-en="Project One" data-zh="项目一">Project One</h3>
-                    <p data-en="A creative project focused on innovation and collaboration, designed to deliver exceptional results." data-zh="一个专注于创新与协作的创意项目，旨在交付卓越成果。">A creative project focused on innovation and collaboration, designed to deliver exceptional results.</p>
-                </div>
-            </div>
-
-            <!-- 项目2 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="projects/project2.jpg" alt="Project Two" data-en="Project Two" data-zh="项目二">
-                </div>
-                <div class="project-info">
-                    <h3 data-en="Project Two" data-zh="项目二">Project Two</h3>
-                    <p data-en="Combining art and technology to create unique experiences that inspire and engage audiences worldwide." data-zh="融合艺术与科技，创造激发全球观众参与的独特体验。">Combining art and technology to create unique experiences that inspire and engage audiences worldwide.</p>
-                </div>
-            </div>
-
-            <!-- 项目3 -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="projects/project3.jpg" alt="Project Three" data-en="Project Three" data-zh="项目三">
-                </div>
-                <div class="project-info">
-                    <h3 data-en="Project Three" data-zh="项目三">Project Three</h3>
-                    <p data-en="A community-driven initiative dedicated to making a positive impact through meaningful actions and partnerships." data-zh="一项以社区为导向的计划，通过有意义的行动和合作产生积极影响。">A community-driven initiative dedicated to making a positive impact through meaningful actions and partnerships.</p>
-                </div>
-            </div>
-
-            <!-- 项目4（可按需添加） -->
-            <div class="project-card">
-                <div class="project-img">
-                    <img src="projects/project4.jpg" alt="Project Four" data-en="Project Four" data-zh="项目四">
-                </div>
-                <div class="project-info">
-                    <h3 data-en="Project Four" data-zh="项目四">Project Four</h3>
-                    <p data-en="Exploring new possibilities and pushing boundaries to redefine what's possible in the industry." data-zh="探索新可能，突破边界，重新定义行业潜力。">Exploring new possibilities and pushing boundaries to redefine what's possible in the industry.</p>
+                    <h3 data-en="Personalized Language Services" data-zh="个性化语言服务">Personalized Language Services</h3>
+                    <p data-en="We also offer one-on-one customized language learning services — whatever you can imagine, we’ll do our best to make it happen. Pricing is based on the specific content, and we strive to deliver exceptional service every time." data-zh="我们提供一对一定制语言学习服务——无论你有何种需求，我们都会全力以赴实现。价格根据具体服务内容而定，我们始终致力于提供卓越的服务体验。">
+                        We also offer one-on-one customized language learning services — whatever you can imagine, we’ll do our best to make it happen. Pricing is based on the specific content, and we strive to deliver exceptional service every time.
+                    </p>
                 </div>
             </div>
         </div>
@@ -77,14 +46,14 @@
     </footer>
 
     <script>
-        // 语言切换逻辑
+        // 语言切换逻辑（自动同步中英文内容）
         document.querySelectorAll('.lang-switch-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const lang = btn.getAttribute('data-target-lang');
                 document.documentElement.setAttribute('data-lang', lang);
                 
-                // 更新页面文字
+                // 更新页面所有中英文切换元素
                 document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
                     el.textContent = el.getAttribute(`data-${lang}`);
                 });
