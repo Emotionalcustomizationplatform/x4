@@ -3,65 +3,85 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Studio Carousel | Home</title>
+    <title>Customized Chat | Home</title>
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
+    <style>
+        /* 核心样式：确保图片100%完整显示，无任何裁剪 */
+        .home-wrapper {
+            width: 100vw;        /* 占满屏幕宽度 */
+            min-height: 100vh;   /* 占满屏幕高度（至少） */
+            display: flex;
+            align-items: center; /* 图片垂直居中 */
+            justify-content: center; /* 图片水平居中 */
+            background-color: #000; /* 图片周围空白区域的背景色（可根据图片风格调整） */
+            padding: 2rem;       /* 手机端留边，避免图片贴屏幕边缘 */
+        }
+
+        /* 首页唯一图片：完整显示，不裁剪 */
+        .home-img {
+            max-width: 100%;     /* 图片宽度不超过屏幕 */
+            max-height: 100vh;   /* 图片高度不超过屏幕 */
+            object-fit: contain; /* 强制完整显示图片，无裁剪 */
+        }
+    </style>
 </head>
 <body>
-    <!-- 导航栏（仅保留跳转功能，无多余文字） -->
+    <!-- 1. 导航栏（保留所有功能：首页标识、语言切换、页面跳转） -->
     <nav>
         <div class="logo">
-            <a href="index.html"></a> <!-- 可自定义添加logo图标 -->
+            <!-- 首页标识（点击可刷新首页） -->
+            <a href="index.html" class="back-btn" data-en="Home" data-zh="首页">首页</a>
         </div>
         <div class="nav-links">
+            <!-- 功能1：中英文切换按钮 -->
             <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
             <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
+            
+            <!-- 功能2：页面跳转按钮（连接到其他功能页） -->
             <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-            <a href="projects.html" data-en="Projects" data-zh="项目展示">Projects</a>
+            <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
             <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
         </div>
     </nav>
 
-    <!-- 轮播图（无中间花圈文字） -->
-    <div class="carousel">
-        <div class="carousel-images"></div>
+    <!-- 2. 首页核心：仅显示 slide-img-1.jpg（完整无裁剪） -->
+    <div class="home-wrapper">
+        <!-- 图片路径：对应你保留的 carousel/slide-img-1.jpg -->
+        <img 
+            src="carousel/slide-img-1.jpg" 
+            alt="Home Page Image" 
+            class="home-img"
+        />
     </div>
 
-    <!-- 轮播控制按钮 -->
-    <div class="slider-controls">
-        <button class="control-btn prev-btn" aria-label="Previous slide">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
-                <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80h313Z" />
-            </svg>
-        </button>
-        <button class="control-btn next-btn" aria-label="Next slide">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
-                <path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z" />
-            </svg>
-        </button>
-    </div>
-
-    <!-- 页脚（无多余文字） -->
+    <!-- 3. 页脚：无任何文字，彻底清空 -->
     <footer>
     </footer>
 
-    <svg viewBox="0 0 0 0" aria-hidden="true" style="position: fixed; z-index: -1; opacity: 0">
-        <defs>
-            <filter id="blur-matrix">
-                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 255 -140"></feColorMatrix>
-            </filter>
-        </defs>
-    </svg>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+    <!-- 4. 功能脚本：仅保留语言切换（其他功能已无需轮播） -->
     <script>
-        window.GSAP_LOAD_ERROR = false;
-        if (typeof gsap === 'undefined' || typeof SplitText === 'undefined' || typeof CustomEase === 'undefined') {
-            console.warn('GSAP plugins not loaded, falling back to basic animation');
-            window.GSAP_LOAD_ERROR = true;
-        }
+        // 页面加载完成后初始化语言切换功能
+        document.addEventListener("DOMContentLoaded", () => {
+            // 绑定语言切换按钮的点击事件
+            const langButtons = document.querySelectorAll('.lang-switch-btn');
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault(); // 阻止默认跳转行为
+                    
+                    // 获取目标语言（中文/English）
+                    const targetLanguage = btn.getAttribute('data-target-lang');
+                    
+                    // 更新页面的语言标识
+                    document.documentElement.setAttribute('data-lang', targetLanguage);
+                    
+                    // 切换所有带中英文标识的文字（导航栏文字）
+                    document.querySelectorAll('[data-en], [data-zh]').forEach(element => {
+                        element.textContent = element.getAttribute(`data-${targetLanguage}`);
+                    });
+                });
+            });
+        });
     </script>
-    <script src="/script.js"></script>
 </body>
 </html>
