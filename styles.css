@@ -460,4 +460,13 @@ button[type="submit"]:hover {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
   }
+/* 首页单张图适配 */
+.carousel {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+.carousel-images .img img {
+    object-fit: cover; /* 若想完整显示图片，可改为object-fit: contain; */
 }
