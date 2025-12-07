@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
     <style>
-        /* 提交成功提示样式 */
         .success-alert {
             display: none;
             position: fixed;
@@ -23,7 +22,6 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏：无“工作室”文字 -->
     <nav>
         <div class="logo">
             <a href="index.html" class="back-btn" data-en="Back" data-zh="返回">← 返回</a>
@@ -37,16 +35,13 @@
         </div>
     </nav>
 
-    <!-- 提交成功提示框 -->
     <div class="success-alert" id="successAlert" data-en="Registration successful! We'll contact you soon." data-zh="注册成功！我们会尽快联系你。">
         Registration successful! We'll contact you soon.
     </div>
 
-    <!-- 表单区域 -->
     <section class="registration-form-section">
         <div class="form-container">
-            <h2 data-en="Enroll Now" data-zh="立即报名">Enroll Now</h2>
-            <p data-en="Fill out the form to customize your service" data-zh="填写表单定制你的服务">Fill out the form to customize your service</p>
+            <h2 data-en="Fill out the form below to customize your companion." data-zh="填写以下表单定制你的专属服务">Fill out the form below to customize your companion.</h2>
             
             <form id="registrationForm">
                 <fieldset>
@@ -65,17 +60,49 @@
                     </div>
                 </fieldset>
 
-                <button type="submit" data-en="Submit" data-zh="提交">Submit</button>
+                <fieldset>
+                    <legend data-en="Program Selection" data-zh="项目选择">Program Selection</legend>
+                    <div class="form-group">
+                        <label data-en="Select a Program" data-zh="选择项目">Select a Program</label>
+                        <select id="program" name="program" required>
+                            <option value="" disabled selected data-en="Choose a program" data-zh="选择项目">Choose a program</option>
+                            <option value="program1" data-en="Program One" data-zh="项目一">Program One</option>
+                            <option value="program2" data-en="Program Two" data-zh="项目二">Program Two</option>
+                            <option value="program3" data-en="Program Three" data-zh="项目三">Program Three</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Preferred Start Date" data-zh="预计开始时间">Preferred Start Date</label>
+                        <input type="text" id="startDate" name="startDate" required placeholder="MM/DD/YYYY">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend data-en="Additional Information" data-zh="补充信息">Additional Information</legend>
+                    <div class="form-group">
+                        <label data-en="How did you hear about us?" data-zh="您如何了解到我们？">How did you hear about us?</label>
+                        <div class="radio-group">
+                            <input type="radio" id="source1" name="source" value="socialMedia" required>
+                            <label for="source1" data-en="Social Media" data-zh="社交媒体">Social Media</label>
+                            
+                            <input type="radio" id="source2" name="source" value="friend" required>
+                            <label for="source2" data-en="Friend/Referral" data-zh="朋友推荐">Friend/Referral</label>
+                            
+                            <input type="radio" id="source3" name="source" value="other" required>
+                            <label for="source3" data-en="Other" data-zh="其他">Other</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <button type="submit" data-en="Submit Application" data-zh="提交申请">Submit Application</button>
             </form>
         </div>
     </section>
 
-    <!-- 底端：清空所有文字 -->
     <footer>
     </footer>
 
     <script>
-        // 表单提交逻辑（替换为友好提示）
         const form = document.getElementById('registrationForm');
         const successAlert = document.getElementById('successAlert');
 
@@ -85,7 +112,6 @@
             const data = Object.fromEntries(formData.entries());
 
             try {
-                // 模拟提交成功（实际项目替换为后端接口）
                 const response = await fetch('/api/submit-form', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -93,11 +119,8 @@
                 });
                 const result = await response.json();
 
-                // 显示成功提示
                 successAlert.style.display = 'block';
                 form.reset();
-
-                // 3秒后隐藏提示
                 setTimeout(() => {
                     successAlert.style.display = 'none';
                 }, 3000);
@@ -107,14 +130,11 @@
             }
         });
 
-        // 语言切换逻辑
         document.querySelectorAll('.lang-switch-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const lang = btn.getAttribute('data-target-lang');
                 document.documentElement.setAttribute('data-lang', lang);
-                
-                // 更新所有文字
                 document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
                     el.textContent = el.getAttribute(`data-${lang}`);
                 });
