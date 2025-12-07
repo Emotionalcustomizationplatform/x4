@@ -3,79 +3,123 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enroll Now | Studio Arcane</title>
+    <title>Enroll | Customized Chat</title>
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
+    <style>
+        /* 提交成功提示样式 */
+        .success-alert {
+            display: none;
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+    </style>
 </head>
 <body>
+    <!-- 导航栏：无“工作室”文字 -->
     <nav>
         <div class="logo">
-            <a href="index.html">Studio Arcane</a>
+            <a href="index.html" class="back-btn" data-en="Back" data-zh="返回">← 返回</a>
         </div>
         <div class="nav-links">
             <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
             <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="form.html" data-en="Enroll Now" data-zh="立即报名" class="active">Enroll Now</a>
-            <a href="projects.html" data-en="Projects" data-zh="项目展示">Projects</a>
+            <a href="form.html" class="to-form-btn active" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+            <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
             <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
         </div>
     </nav>
 
+    <!-- 提交成功提示框 -->
+    <div class="success-alert" id="successAlert" data-en="Registration successful! We'll contact you soon." data-zh="注册成功！我们会尽快联系你。">
+        Registration successful! We'll contact you soon.
+    </div>
+
+    <!-- 表单区域 -->
     <section class="registration-form-section">
         <div class="form-container">
-            <h2 data-en="Unveil Your Arcane Connection" data-zh="解锁你的奥秘连接">Unveil Your Arcane Connection</h2>
-            <p data-en="Fill out the form below to customize your companion." data-zh="填写以下表格，定制你的专属陪伴。">Fill out the form below to customize your companion.</p>
-            <form id="companion-form">
+            <h2 data-en="Enroll Now" data-zh="立即报名">Enroll Now</h2>
+            <p data-en="Fill out the form to customize your service" data-zh="填写表单定制你的服务">Fill out the form to customize your service</p>
+            
+            <form id="registrationForm">
                 <fieldset>
-                    <legend data-en="Basic Information" data-zh="基本信息">Basic Information</legend>
+                    <legend data-en="BASIC INFORMATION" data-zh="基础信息">BASIC INFORMATION</legend>
                     <div class="form-group">
                         <label for="name" data-en="Your Name" data-zh="你的姓名">Your Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
                     </div>
                     <div class="form-group">
-                        <label for="email" data-en="Email" data-zh="电子邮件">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="email" data-en="Email" data-zh="电子邮箱">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
                     </div>
                     <div class="form-group">
                         <label for="age" data-en="Age" data-zh="年龄">Age</label>
-                        <input type="number" id="age" name="age" min="18" required>
+                        <input type="number" id="age" name="age" required placeholder="Enter your age">
                     </div>
                 </fieldset>
-                <fieldset>
-                    <legend data-en="Companion Persona" data-zh="陪伴者属性">Companion Persona</legend>
-                    <div class="form-group radio-group">
-                        <span data-en="Desired Gender" data-zh="期望性别">Desired Gender:</span>
-                        <input type="radio" id="gender-m" name="desired_gender" value="male" required>
-                        <label for="gender-m" data-en="Male" data-zh="男性">Male</label>
-                        <input type="radio" id="gender-f" name="desired_gender" value="female">
-                        <label for="gender-f" data-en="Female" data-zh="女性">Female</label>
-                        <input type="radio" id="gender-o" name="desired_gender" value="other">
-                        <label for="gender-o" data-en="Other" data-zh="其他">Other</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="service-type" data-en="Service Focus" data-zh="服务重点">Service Focus</label>
-                        <select id="service-type" name="service_type" required>
-                            <option value="" disabled selected data-en="Select a focus" data-zh="选择重点">Select a focus</option>
-                            <option value="therapy" data-en="Emotional Support/Therapy" data-zh="情感支持/咨询">Emotional Support/Therapy</option>
-                            <option value="dating" data-en="Dating Simulation/Roleplay" data-zh="交友模拟/角色扮演">Dating Simulation/Roleplay</option>
-                            <option value="intellectual" data-en="Intellectual Discussion" data-zh="知识性讨论">Intellectual Discussion</option>
-                        </select>
-                    </div>
-                </fieldset>
-                <button type="submit" data-en="Connect Now" data-zh="立即连接">Connect Now</button>
+
+                <button type="submit" data-en="Submit" data-zh="提交">Submit</button>
             </form>
-            <div id="form-success" class="form-feedback" style="display: none; text-align: center; margin-top: 1rem; color: #4CAF50;">
-                <p data-en="Form submitted successfully! We will contact you soon." data-zh="表单提交成功！我们将尽快与你联系。">Form submitted successfully! We will contact you soon.</p>
-            </div>
         </div>
     </section>
 
+    <!-- 底端：清空所有文字 -->
     <footer>
-        <p data-en="Experiment 502" data-zh="实验 502">Experiment 502</p>
-        <p data-en="Developed by TTTISE" data-zh="开发者:TTTISE">Developed by TTTISE</p>
     </footer>
 
-    <script src="/lang.js"></script>
-    <script src="/form.js"></script>
+    <script>
+        // 表单提交逻辑（替换为友好提示）
+        const form = document.getElementById('registrationForm');
+        const successAlert = document.getElementById('successAlert');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                // 模拟提交成功（实际项目替换为后端接口）
+                const response = await fetch('/api/submit-form', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+                const result = await response.json();
+
+                // 显示成功提示
+                successAlert.style.display = 'block';
+                form.reset();
+
+                // 3秒后隐藏提示
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            } catch (error) {
+                alert('提交失败，请稍后再试');
+                console.error(error);
+            }
+        });
+
+        // 语言切换逻辑
+        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = btn.getAttribute('data-target-lang');
+                document.documentElement.setAttribute('data-lang', lang);
+                
+                // 更新所有文字
+                document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
+                    el.textContent = el.getAttribute(`data-${lang}`);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
