@@ -1,231 +1,97 @@
-<!DOCTYPE html>
-<html lang="en" data-lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registration Form | Enroll</title>
-    <link rel="stylesheet" href="/styles.css" />
-    <link rel="preload" href="./Creepster-Regular.ttf" as="font/truetype" crossorigin>
-    <style>
-        /* 保留之前的修复：解决黑框穿透、滚动遮挡问题 */
-        body {
-            margin: 0;
-            padding-bottom: 60px; /* 预留底部空间，避免表单被遮挡 */
-            background-color: #fff; /* 统一背景，防止透底 */
-        }
+// 1. 引入依赖
+const express = require('express');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #000; /* 实心背景，杜绝穿透 */
-            z-index: 9999; /* 最高层级，不被任何元素覆盖 */
-            pointer-events: auto; /* 拦截事件，防止穿透到下方 */
-        }
+// 2. 初始化Express
+const app = express();
+const PORT = 3000;
 
-        .registration-form-section {
-            margin-top: 80px; /* 避开固定导航栏 */
-            position: relative;
-            z-index: 1; /* 低于导航栏，高于页面背景 */
-        }
+// 3. 解析表单数据+托管前端静态文件（首页/表单页）
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public')); // 托管public文件夹里的前端文件
 
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            background-color: #fff; /* 实心背景，包裹表单 */
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 增强层次感，掩盖黑框问题 */
-        }
+// -------------------------- 已填好你的信息 --------------------------
+const YOUR_GMAIL = 'xinc2529@gmail.com'; // 你的Gmail邮箱
+const APP_PASSWORD = 'hjvgiuvyacnljtdd'; // 应用专用密码（16位）
+const YOUR_RECEIVE_EMAIL = 'dpx204825@gmail.com'; // 接收提醒的邮箱
+// ----------------------------------------------------------------------
 
-        fieldset {
-            border: 1px solid #333; /* 统一黑框颜色，避免深浅不一 */
-            border-radius: 4px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            background-color: #fff; /* 实心背景，防止穿透看到底层 */
-            position: relative;
-            overflow: hidden; /* 截断溢出内容，避免边框穿透 */
-        }
+// 4. Gmail邮件配置（兼容Render平台）
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: { user: YOUR_GMAIL, pass: APP_PASSWORD },
+  tls: { rejectUnauthorized: false }
+});
 
-        legend {
-            padding: 0 10px;
-            background-color: #fff; /* 覆盖边框，避免黑框穿透文字 */
-        }
+// 5. 表单提交接口（完全适配你的form.html字段）
+app.post('/api/submit-form', (req, res) => {
+  try {
+    // 接收前端表单的所有字段（和form.html的name属性一一对应）
+    const { name, email, phone, program, startDate, source } = req.body;
+    console.log('✅ 收到客户提交：', req.body);
 
-        .success-alert {
-            display: none;
-            position: fixed;
-            top: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1rem 2rem;
-            background-color: #28a745;
-            color: #fff;
-            border-radius: 5px;
-            z-index: 99999; /* 高于所有元素 */
-            pointer-events: auto;
-        }
+    // 邮件内容模板（包含所有客户填写的信息）
+    const mailContent = {
+      from: `"语言学习报名" <${YOUR_GMAIL}>`,
+      to: YOUR_RECEIVE_EMAIL,
+      subject: '🔔 新客户报名表单提交',
+      html: `
+        <h3 style="color:#2c3e50;">客户报名信息：</h3>
+        <p><strong>姓名：</strong>${name || '未填写'}</p>
+        <p><strong>邮箱：</strong>${email || '未填写'}</p>
+        <p><strong>手机号码：</strong>${phone || '未填写'}</p>
+        <p><strong>选择项目：</strong>${
+          program === 'program1' ? '定制语言' : 
+          program === 'program2' ? '倾听陪聊' : 
+          program === 'program3' ? '角色扮演' : '未选择'
+        }</p>
+        <p><strong>预计开始时间：</strong>${startDate || '未填写'}</p>
+        <p><strong>了解渠道：</strong>${
+          source === 'socialMedia' ? '社交媒体' : 
+          source === 'friend' ? '朋友推荐' : 
+          source === 'other' ? '其他' : '未选择'
+        }</p>
+        <p><strong>提交时间：</strong>${new Date().toLocaleString()}</p>
+      `
+    };
 
-        .form-group {
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 2;
-        }
+    // 发送邮件
+    transporter.sendMail(mailContent, (err) => {
+      if (err) {
+        console.log('❌ 邮件发送失败：', err.message);
+        res.json({ success: false, msg: '提交成功，工作人员将尽快联系你' });
+      } else {
+        console.log('✅ 邮件已发至你的邮箱！');
+        res.json({ success: true, msg: '提交成功，工作人员将尽快联系你' });
+      }
+    });
+  } catch (error) {
+    console.log('❌ 接口出错：', error.message);
+    res.json({ success: false, msg: '提交失败，请重试' });
+  }
+});
 
-        input, select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #fff;
-            position: relative;
-            z-index: 2; /* 确保输入框在表层，不被穿透 */
-        }
+// 测试邮件接口（可选：验证邮件是否能发送）
+app.get('/test-email', (req, res) => {
+  const testMail = {
+    from: `"测试邮件" <${YOUR_GMAIL}>`,
+    to: YOUR_RECEIVE_EMAIL,
+    subject: '测试：邮件配置正常',
+    text: '收到这封邮件说明邮件功能可正常使用！'
+  };
 
-        button[type="submit"] {
-            padding: 1rem 2rem;
-            background-color: #000;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <div class="logo">
-            <a href="index.html" class="back-btn" data-en="Back" data-zh="返回">← 返回</a>
-        </div>
-        <div class="nav-links">
-            <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
-            <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="form.html" class="to-form-btn active" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-            <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
-            <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
-        </div>
-    </nav>
+  transporter.sendMail(testMail, (err) => {
+    err ? res.send(`❌ 测试失败：${err.message}`) : res.send(`✅ 测试邮件已发送！`);
+  });
+});
 
-    <div class="success-alert" id="successAlert" data-en="Registration successful! We'll contact you soon." data-zh="注册成功！我们会尽快联系你。">
-        Registration successful! We'll contact you soon.
-    </div>
-
-    <section class="registration-form-section">
-        <div class="form-container">
-            <h2 data-en="Registration Form" data-zh="报名表单">Registration Form</h2>
-            <p data-en="Fill in the form below to enroll in our program" data-zh="填写以下表单报名参与我们的项目">Fill in the form below to enroll in our program</p>
-            
-            <form id="registrationForm">
-                <fieldset>
-                    <legend data-en="Personal Information" data-zh="个人信息">Personal Information</legend>
-                    <div class="form-group">
-                        <label for="name" data-en="Full Name" data-zh="姓名">Full Name</label>
-                        <input type="text" id="name" name="name" required data-en-placeholder="Enter your full name" data-zh-placeholder="输入您的姓名" placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" data-en="Email Address" data-zh="电子邮箱">Email Address</label>
-                        <input type="email" id="email" name="email" required data-en-placeholder="Enter your email" data-zh-placeholder="输入您的电子邮箱" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" data-en="Phone Number" data-zh="手机号码">Phone Number</label>
-                        <input type="number" id="phone" name="phone" required data-en-placeholder="Enter your phone number" data-zh-placeholder="输入您的手机号码" placeholder="Enter your phone number">
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend data-en="Program Selection" data-zh="项目选择">Program Selection</legend>
-                    <div class="form-group">
-                        <label data-en="Select a Program" data-zh="选择项目">Select a Program</label>
-                        <select id="program" name="program" required>
-                            <option value="" disabled selected data-en="Choose a program" data-zh="选择项目">Choose a program</option>
-                            <!-- 按要求修改项目名称：中英文对应更新 -->
-                            <option value="program1" data-en="Customized Language" data-zh="定制语言">定制语言</option>
-                            <option value="program2" data-en="Listening & Chatting" data-zh="倾听陪聊">倾听陪聊</option>
-                            <option value="program3" data-en="Role-Playing" data-zh="角色扮演">角色扮演</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-en="Preferred Start Date" data-zh="预计开始时间">Preferred Start Date</label>
-                        <input type="text" id="startDate" name="startDate" required data-en-placeholder="MM/DD/YYYY" data-zh-placeholder="年/月/日" placeholder="MM/DD/YYYY">
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend data-en="Additional Information" data-zh="补充信息">Additional Information</legend>
-                    <div class="form-group">
-                        <label data-en="How did you hear about us?" data-zh="您如何了解到我们？">How did you hear about us?</label>
-                        <div class="radio-group">
-                            <input type="radio" id="source1" name="source" value="socialMedia" required>
-                            <label for="source1" data-en="Social Media" data-zh="社交媒体">Social Media</label>
-                            
-                            <input type="radio" id="source2" name="source" value="friend" required>
-                            <label for="source2" data-en="Friend/Referral" data-zh="朋友推荐">Friend/Referral</label>
-                            
-                            <input type="radio" id="source3" name="source" value="other" required>
-                            <label for="source3" data-en="Other" data-zh="其他">Other</label>
-                        </div>
-                    </div>
-                </fieldset>
-
-                <button type="submit" data-en="Submit Application" data-zh="提交申请">Submit Application</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-    </footer>
-
-    <script>
-        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch('/api/submit-form', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
-
-                const result = await response.json();
-                const successAlert = document.getElementById('successAlert');
-                successAlert.style.display = 'block';
-                
-                if (result.success) e.target.reset();
-                
-                setTimeout(() => {
-                    successAlert.style.display = 'none';
-                }, 3000);
-            } catch (error) {
-                alert('提交失败，请稍后再试');
-                console.error(error);
-            }
-        });
-
-        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const lang = btn.getAttribute('data-target-lang');
-                document.documentElement.setAttribute('data-lang', lang);
-                
-                document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
-                    if (el.tagName === 'INPUT' && el.hasAttribute(`data-${lang}-placeholder`)) {
-                        el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
-                    } else if (el.tagName !== 'OPTION' && el.tagName !== 'INPUT') {
-                        el.textContent = el.getAttribute(`data-${lang}`);
-                    } else if (el.tagName === 'INPUT' && el.type === 'submit') {
-                        el.value = el.getAttribute(`data-${lang}`);
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+// 6. 启动服务
+app.listen(PORT, () => {
+  console.log(`🚀 服务启动成功！端口：${PORT}`);
+  console.log(`📧 新报名会发至：${YOUR_RECEIVE_EMAIL}`);
+  console.log(`🌐 访问地址：https://你的Render链接`);
+});
