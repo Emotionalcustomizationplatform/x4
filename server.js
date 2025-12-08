@@ -10,7 +10,7 @@ const PORT = 3000;
 // 3. 解析表单数据+托管前端静态文件（首页/表单页）
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // 托管public文件夹里的前端文件
+app.use(express.static('./')); // 托管项目根目录下的所有文件
 
 // -------------------------- 已填好你的信息 --------------------------
 const YOUR_GMAIL = 'xinc2529@gmail.com'; // 你的Gmail邮箱
