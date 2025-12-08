@@ -29,6 +29,15 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false }
 });
 
+// 新增：测试邮件服务器连接（部署后查看Render日志）
+transporter.verify(function(error, success) {
+  if (error) {
+    console.error('❌ 邮件服务器连接失败:', error.message);
+  } else {
+    console.log('✅ 邮件服务器连接成功！');
+  }
+});
+
 // 5. 表单提交接口（适配你的form.html）
 app.post('/api/submit-form', (req, res) => {
   try {
@@ -61,7 +70,7 @@ app.post('/api/submit-form', (req, res) => {
 
     transporter.sendMail(mailContent, (err) => {
       if (err) {
-        console.log('❌ 邮件发送失败：', err.message);
+        console.log('❌ 邮件发送失败：', err.message, err.stack); // 新增错误栈，更易定位
         res.json({ success: false, msg: '提交成功，工作人员将尽快联系你' });
       } else {
         console.log('✅ 邮件已发至你的邮箱！');
@@ -69,7 +78,7 @@ app.post('/api/submit-form', (req, res) => {
       }
     });
   } catch (error) {
-    console.log('❌ 接口出错：', error.message);
+    console.log('❌ 接口出错：', error.message, error.stack); // 新增错误栈
     res.json({ success: false, msg: '提交失败，请重试' });
   }
 });
@@ -84,7 +93,13 @@ app.get('/test-email', (req, res) => {
   };
 
   transporter.sendMail(testMail, (err) => {
-    err ? res.send(`❌ 测试失败：${err.message}`) : res.send(`✅ 测试邮件已发送！`);
+    if (err) {
+      console.log('❌ 测试邮件失败：', err.message);
+      res.send(`❌ 测试失败：${err.message}`);
+    } else {
+      console.log('✅ 测试邮件已发送！');
+      res.send(`✅ 测试邮件已发送！`);
+    }
   });
 });
 
@@ -92,5 +107,5 @@ app.get('/test-email', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 服务启动成功！端口：${PORT}`);
   console.log(`📧 新报名会发至：${YOUR_RECEIVE_EMAIL}`);
-  console.log(`🌐 访问地址：https://你的Render链接`);
+  console.log(`🌐 访问地址：https://x4-0ifr.onrender.com`); // 替换为你的Render链接
 });
