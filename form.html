@@ -40,14 +40,17 @@
             display: none;
         }
 
-        /* 表单区域：完全去掉黑框+最小间距 */
+        /* 核心修改：表单整体往上移，避开底部黑框 */
         .registration-form-section {
             padding: 0 1rem;
+            margin-bottom: 4rem; /* 增加底部间距，彻底避开黑框 */
+            position: relative;
+            top: -20px; /* 整体往上移20px，让提交按钮完全露出 */
         }
         .form-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 0.5rem 0; /* 去掉多余内边距 */
+            padding: 0.5rem 0;
         }
         h2 {
             font-size: 1.6rem;
@@ -58,21 +61,21 @@
             margin-bottom: 0.8rem;
             color: #666;
         }
-        /* 去掉字段集黑框+最小间距 */
+        /* 去掉字段集黑框+优化间距 */
         fieldset {
-            border: none; /* 隐藏黑框 */
+            border: none;
             padding: 0.5rem 0;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1.2rem;
             background-color: transparent;
         }
         legend {
             padding: 0;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
         }
         .form-group {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
         label {
             display: block;
@@ -96,7 +99,7 @@
             width: auto;
             margin-right: 0.5rem;
         }
-        /* 核心修改：提交按钮往上移15px */
+        /* 提交按钮样式，确保醒目且不被遮挡 */
         button[type="submit"] {
             padding: 0.8rem;
             background-color: #000;
@@ -106,7 +109,9 @@
             cursor: pointer;
             font-size: 1rem;
             width: 100%;
-            margin-top: -15px; /* 往上移15px，可根据需要调整数值 */
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 10; /* 确保按钮在最上层，不被任何元素遮挡 */
         }
         .success-alert {
             display: none;
@@ -172,7 +177,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label data-en="Preferred Start Date" data-zh="预计开始时间">Preferred Start Date</label>
+                        <label data-en="Preferred Start Date" data-zh="预计开始时间">预计开始时间</label>
                         <input type="text" id="startDate" name="startDate" required data-en-placeholder="MM/DD/YYYY" data-zh-placeholder="年/月/日" placeholder="MM/DD/YYYY">
                     </div>
                 </fieldset>
@@ -194,7 +199,7 @@
                     </div>
                 </fieldset>
 
-                <button type="submit" data-en="Submit Application" data-zh="提交申请">Submit Application</button>
+                <button type="submit" data-en="Submit Application" data-zh="提交申请">提交申请</button>
             </form>
         </div>
     </section>
