@@ -10,9 +10,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // -------------------------- 只改这3处 --------------------------
-const YOUR_GMAIL = '你的Gmail邮箱@gmail.com'; // 比如xxx@gmail.com
-const APP_PASSWORD = '你的16位应用专用密码'; // 之前生成的，去掉空格
-const YOUR_RECEIVE_EMAIL = '你的接收邮箱@gmail.com'; // 可以和上面一样，也能填其他邮箱
+const YOUR_GMAIL = 'xinc2529@gmail.com'; // 比如xxx@gmail.com
+const APP_PASSWORD = 'hjvgiuvyanljtdd'; // 之前生成的，去掉空格
+const YOUR_RECEIVE_EMAIL = 'xinc2529@gmail.com'; // 可以和上面一样，也能填其他邮箱
 // ----------------------------------------------------------------
 
 // Gmail专属配置（兼容465/587端口，不怕被挡）
