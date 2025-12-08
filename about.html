@@ -6,6 +6,34 @@
     <title>About Us | Introduction</title>
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
+    <style>
+        /* 核心修改：调整黑框位置，不挡文字 */
+        .about-section {
+            padding-top: 20px; /* 增加顶部间距，让黑框整体上移 */
+        }
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        /* 调整"关于我们"标题上方间距，避免黑框遮挡 */
+        .about-container h2:first-of-type {
+            margin-top: -10px; /* 往上移10px，避开黑框遮挡 */
+            position: relative;
+            z-index: 1; /* 确保文字在黑框上方显示 */
+        }
+        /* 调整"联系我们"区域黑框上移 */
+        .contact-info {
+            margin-top: 20px;
+            padding: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        /* 确保团队展示区域不被影响 */
+        .team-grid {
+            margin: 1rem 0;
+        }
+    </style>
 </head>
 <body>
     <!-- 导航栏：添加返回键（与表单页、服务页样式一致） -->
