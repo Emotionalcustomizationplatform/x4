@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // -------------------------- 已填好你的信息 --------------------------
 const YOUR_GMAIL = 'xinc2529@gmail.com'; // 你的Gmail邮箱
 const APP_PASSWORD = 'hjvgiuvyacnljtdd'; // 应用专用密码（已去掉空格）
-const YOUR_RECEIVE_EMAIL = 'xinc2529@gmail.com'; // 接收提醒的邮箱
+const YOUR_RECEIVE_EMAIL = 'dpx204825@gmail.com'; // 接收提醒的邮箱
 // ----------------------------------------------------------------------
 
 // 4. Gmail邮件配置
