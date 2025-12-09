@@ -1,472 +1,250 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+/* Root variables — dark SaaS theme */
+:root {
+    --bg: #0f0f10;
+    --bg-light: #161618;
+    --glass: rgba(255,255,255,0.03);
 
-@font-face {
-  font-family: "De Fonte Plus";
-  src: url("./Creepster-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+    --text: #ffffff;
+    --text-muted: #bdbdbd;
+
+    --accent: #ffd700;
+    --accent-dark: #d4b100;
+
+    --radius: 10px;
+    --max-width: 1100px;
+
+    --font-main: "DM Sans", Arial, sans-serif;
 }
 
+/* Reset */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body {
-  font-family: "DM Sans", sans-serif;
-  background-color: #000;
-  color: #fff;
-  overflow-x: hidden;
+html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-main);
+    -webkit-font-smoothing: antialiased;
 }
 
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 可改成contain避免裁剪 */
-  will-change: transform;
-  backface-visibility: hidden;
+/* -----------------------------
+   NAVIGATION (shared)
+----------------------------- */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    z-index: 9999;
+    padding: 1rem 1.25rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-h1 {
-  text-transform: uppercase;
-  font-size: clamp(3rem, 8vw, 5rem);
-  font-family: "De Fonte Plus";
-  letter-spacing: -0.1rem;
-  line-height: 0.85;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  text-transform: uppercase;
-  font-family: "De Fonte Plus";
-}
-
-h3 {
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-p {
-  color: #fff;
-  text-decoration: none;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
-  line-height: 1.6;
-  text-transform: none;
-}
-
-a {
-  color: #fff;
-  text-decoration: none;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  font-weight: 550;
-  line-height: 1;
-  display: inline-block;
-  padding: 0.5rem 0;
-}
-
-/* 导航栏样式 */
-nav,
-footer {
-  position: fixed;
-  width: 100%;
-  padding: 1.5rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-}
-
-nav .logo {
-  width: 2rem;
+nav .logo a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
 }
 
 nav .nav-links {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.nav-links a.active {
-  color: #ffd700; /* 金色高亮当前页 */
-}
-
-footer {
-  bottom: 0;
-  align-items: center;
-  padding: 1rem 2rem;
-  font-size: 0.8rem;
-}
-
-/* 轮播图样式 */
-.carousel {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.carousel-images,
-.carousel-images .img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.carousel-images .img {
-  will-change: clip-path;
-  transition: clip-path 0.3s ease;
-}
-
-.carousel-images {
-  opacity: 0.85;
-}
-
-/* 隐藏中间花圈文字容器 */
-.slide-title-container {
-  display: none;
-}
-
-/* 轮播控制按钮 */
-.slider-controls {
-  position: absolute;
-  width: 100%;
-  top: auto;
-  bottom: 8rem;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  z-index: 10;
-}
-
-.control-btn {
-  padding: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  border: 0.075rem dashed rgba(255, 255, 255, 0.75);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.control-btn:hover {
-  background-color: #fff;
-  transform: scale(1.1);
-}
-
-.control-btn svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  stroke: #000;
-  transition: fill 0.2s ease-in-out;
-}
-
-.control-btn:hover svg {
-  fill: #000;
-}
-
-/* 表单页面样式 */
-.registration-form-section {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #111;
-  padding: 8rem 2rem 4rem;
-  overflow-y: auto;
-}
-
-.form-container {
-  width: 100%;
-  max-width: 600px;
-  padding: 2rem;
-  background-color: #222;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-}
-
-.form-container > p {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-fieldset {
-  border: 1px dashed rgba(255, 255, 255, 0.5);
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  border-radius: 5px;
-}
-
-legend {
-  color: #fff;
-  padding: 0 1rem;
-  font-weight: bold;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: normal;
-  text-transform: none;
-}
-
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="number"],
-.form-group select {
-  width: 100%;
-  padding: 1rem;
-  background-color: #333;
-  border: 1px solid #555;
-  color: #fff;
-  border-radius: 5px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: #ffd700;
-}
-
-/* 单选按钮样式 */
-.radio-group {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-
-.radio-group span {
-  font-size: 0.9rem;
-  font-weight: normal;
-  text-transform: none;
-}
-
-.radio-group input[type="radio"] {
-  display: none;
-}
-
-.radio-group label {
-  display: inline-block;
-  padding: 0.75rem 1.25rem;
-  border: 1px solid #777;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  text-transform: none;
-  font-size: 0.9rem;
-}
-
-.radio-group input[type="radio"]:checked + label {
-  background-color: #fff;
-  color: #000;
-  border-color: #fff;
-}
-
-button[type="submit"] {
-  display: block;
-  width: 100%;
-  padding: 1.25rem;
-  background-color: transparent;
-  border: 2px solid #fff;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: all 0.3s;
-  font-size: 1rem;
-  border-radius: 5px;
-}
-
-button[type="submit"]:hover {
-  background-color: #fff;
-  color: #000;
-  transform: translateY(-2px);
-}
-
-/* 项目展示页面样式 */
-.projects-section {
-  width: 100%;
-  min-height: 100vh;
-  padding: 8rem 2rem 4rem;
-  background-color: #111;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.project-card {
-  background-color: #222;
-  border-radius: 10px;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-}
-
-.project-img {
-  height: 200px;
-  object-fit: cover;
-}
-
-.project-info {
-  padding: 1.5rem;
-}
-
-/* 关于我们页面样式 */
-.about-section {
-  width: 100%;
-  min-height: 100vh;
-  padding: 8rem 2rem 4rem;
-  background-color: #111;
-}
-
-.about-container {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.about-container p {
-  margin-bottom: 2rem;
-  text-align: justify;
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.team-member {
-  text-align: center;
-}
-
-.team-img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin: 0 auto 1rem;
-  object-fit: cover;
-  border: 2px solid #fff;
-}
-
-.contact-info {
-  background-color: #222;
-  padding: 2rem;
-  border-radius: 10px;
-}
-
-.contact-info h3 {
-  margin-bottom: 1rem;
-}
-
-.contact-info p {
-  margin-bottom: 0.5rem;
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-  nav .nav-links {
+    display: flex;
     gap: 1rem;
-  }
-
-  .slider-controls {
-    bottom: 6rem;
-    gap: 1rem;
-  }
-
-  .control-btn {
-    padding: 1rem;
-  }
-
-  .control-btn svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
-  .form-container {
-    padding: 1.5rem;
-  }
-
-  .projects-section,
-  .about-section,
-  .registration-form-section {
-    padding: 7rem 1.5rem 3rem;
-  }
-
-  .team-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
-
-  .team-img {
-    width: 120px;
-    height: 120px;
-  }
+    align-items: center;
 }
 
-@media (max-width: 480px) {
-  nav {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-  }
+nav .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0.35rem 0.45rem;
+}
 
-  .nav-links {
+nav .nav-links a.cta {
+    background: #fff;
+    color: #000;
+    border-radius: 6px;
+    padding: 0.45rem 0.8rem;
+    font-weight: 600;
+}
+
+/* Keep space for fixed nav */
+body {
+    padding-top: 72px;
+}
+
+/* -----------------------------
+   LAYOUT WRAPPERS
+----------------------------- */
+.page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+}
+
+/* Generic title */
+h1, h2, h3, h4 {
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.3px;
+}
+
+/* -----------------------------
+   BUTTONS
+----------------------------- */
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: var(--accent);
+    color: #000;
+}
+
+.btn.primary:hover {
+    background: var(--accent-dark);
+}
+
+.btn.ghost {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.btn.ghost:hover {
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* -----------------------------
+   CARDS (used across pages)
+----------------------------- */
+.card {
+    background: var(--bg-light);
+    border-radius: var(--radius);
+    padding: 1.3rem;
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+}
+
+.card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* -----------------------------
+   FORM (for form.html)
+----------------------------- */
+form {
+    background: var(--bg-light);
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.45);
+    margin-top: 1.5rem;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+input, select, textarea {
     width: 100%;
-    justify-content: flex-start;
-  }
-
-  .radio-group {
-    gap: 0.75rem;
-  }
-
-  .radio-group label {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
-  }
-/* 首页单张图适配 */
-.carousel {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    border-radius: 6px;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
 }
-.carousel-images .img img {
-    object-fit: cover; /* 若想完整显示图片，可改为object-fit: contain; */
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.1);
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+/* -----------------------------
+   GRID HELPERS
+----------------------------- */
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+/* -----------------------------
+   TEAM STRIP (About page)
+----------------------------- */
+.team-strip {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.team-item {
+    display: flex;
+    gap: 0.8rem;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.team-item img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* -----------------------------
+   FOOTER
+----------------------------- */
+footer {
+    text-align: center;
+    color: var(--text-muted);
+    margin-top: 3rem;
+    padding-bottom: 4rem;
+    font-size: 0.9rem;
+}
+
+/* -----------------------------
+   MOBILE RESPONSIVE
+----------------------------- */
+@media (max-width: 960px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+
+    nav { padding: 0.8rem 1rem; }
+}
+
+@media (max-width: 560px) {
+    body { padding-top: 68px; }
 }
