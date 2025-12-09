@@ -3,116 +3,119 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registration Form | Enroll</title>
+    <title>Enroll | Registration Form</title>
     <link rel="stylesheet" href="/styles.css" />
-    <link rel="preload" href="https://fonts.gstatic.com/s/creepster/v15/55xoey1sJ0K2X4ZZy8yA_vo.woff2" as="font/truetype" crossorigin>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
+        /* 全局一致的极简白底 + 黑色专业风 */
         body {
-            background-color: #fff;
-            color: #333;
-            padding-top: 60px; /* 给顶部返回键留空间 */
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #222;
+            margin: 0;
+            padding-top: 70px; /* 顶部留空间给导航 */
         }
 
-        /* 仅保留返回键的导航栏 */
+        /* 导航栏（与首页统一） */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             background-color: #000;
-            z-index: 9999;
             padding: 1rem;
+            z-index: 9999;
         }
-        .back-btn {
+        nav .logo a {
             color: #fff;
-            text-decoration: none;
             font-size: 1.1rem;
-        }
-        /* 隐藏其他导航选项 */
-        .nav-links {
-            display: none;
+            font-weight: bold;
+            text-decoration: none;
         }
 
-        /* 核心修改：表单整体往上移，避开底部黑框 */
-        .registration-form-section {
-            padding: 0 1rem;
-            margin-bottom: 4rem; /* 增加底部间距，彻底避开黑框 */
-            position: relative;
-            top: -20px; /* 整体往上移20px，让提交按钮完全露出 */
-        }
-        .form-container {
-            max-width: 800px;
+        /* 表单主体布局 */
+        .form-wrapper {
+            max-width: 700px;
             margin: 0 auto;
-            padding: 0.5rem 0;
+            padding: 1.5rem;
         }
+
         h2 {
-            font-size: 1.6rem;
-            margin-bottom: 0.8rem;
-            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 0.4rem;
+            color: #111;
         }
-        p {
-            margin-bottom: 0.8rem;
-            color: #666;
+
+        p.section-desc {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
         }
-        /* 去掉字段集黑框+优化间距 */
+
+        /* 区块标题 */
         fieldset {
             border: none;
-            padding: 0.5rem 0;
+            padding: 1rem 0;
             margin-bottom: 1.2rem;
-            background-color: transparent;
+            border-bottom: 1px solid #eee;
         }
+
         legend {
-            padding: 0;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 0.8rem;
-        }
-        .form-group {
+            font-size: 1.15rem;
+            font-weight: 600;
             margin-bottom: 1rem;
+            color: #111;
         }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
         label {
             display: block;
-            margin-bottom: 0.3rem;
-            color: #333;
             font-weight: 500;
+            margin-bottom: 0.4rem;
+            color: #222;
         }
+
         input, select {
             width: 100%;
-            padding: 0.6rem;
+            padding: 0.75rem;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1rem;
         }
-        .radio-group {
+
+        /* radio 全新专业排版 */
+        .radio-list {
             display: flex;
-            gap: 1rem;
             flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
         }
-        .radio-group input {
-            width: auto;
-            margin-right: 0.5rem;
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        /* 提交按钮样式，确保醒目且不被遮挡 */
+
         button[type="submit"] {
-            padding: 0.8rem;
+            width: 100%;
+            padding: 0.9rem;
             background-color: #000;
             color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-size: 1.05rem;
             cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-            margin-top: 0.5rem;
-            position: relative;
-            z-index: 10; /* 确保按钮在最上层，不被任何元素遮挡 */
+            margin-top: 0.8rem;
         }
+
+        button[type="submit"]:hover {
+            background-color: #333;
+        }
+
         .success-alert {
             display: none;
             position: fixed;
@@ -122,92 +125,124 @@
             padding: 0.8rem 1.5rem;
             background-color: #28a745;
             color: #fff;
-            border-radius: 5px;
+            border-radius: 6px;
             z-index: 99999;
             font-size: 1rem;
         }
     </style>
 </head>
+
 <body>
-    <!-- 仅保留返回键的导航栏 -->
+    <!-- 导航栏 -->
     <nav>
         <div class="logo">
-            <a href="index.html" class="back-btn" data-en="Back" data-zh="返回">← 返回</a>
-        </div>
-        <div class="nav-links">
-            <!-- 已隐藏其他选项 -->
+            <a href="index.html" data-en="Back" data-zh="返回">← Back</a>
         </div>
     </nav>
 
-    <div class="success-alert" id="successAlert" data-en="Registration successful! We'll contact you soon." data-zh="注册成功！我们会尽快联系你。">
+    <!-- 成功提示 -->
+    <div class="success-alert" id="successAlert"
+        data-en="Registration successful! We'll contact you soon."
+        data-zh="注册成功！我们会尽快联系你。">
         Registration successful! We'll contact you soon.
     </div>
 
-    <section class="registration-form-section">
-        <div class="form-container">
-            <h2 data-en="Registration Form" data-zh="报名表单">Registration Form</h2>
-            <p data-en="Fill in the form below to enroll in our program" data-zh="填写以下表单报名参与我们的项目">Fill in the form below to enroll in our program</p>
-            
-            <form id="registrationForm">
-                <fieldset>
-                    <legend data-en="Personal Information" data-zh="个人信息">Personal Information</legend>
-                    <div class="form-group">
-                        <label for="name" data-en="Full Name" data-zh="姓名">Full Name</label>
-                        <input type="text" id="name" name="name" required data-en-placeholder="Enter your full name" data-zh-placeholder="输入您的姓名" placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" data-en="Email Address" data-zh="电子邮箱">Email Address</label>
-                        <input type="email" id="email" name="email" required data-en-placeholder="Enter your email" data-zh-placeholder="输入您的电子邮箱" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone" data-en="Phone Number" data-zh="手机号码">Phone Number</label>
-                        <input type="number" id="phone" name="phone" required data-en-placeholder="Enter your phone number" data-zh-placeholder="输入您的手机号码" placeholder="Enter your phone number">
-                    </div>
-                </fieldset>
+    <!-- 表单主体 -->
+    <div class="form-wrapper">
+        <h2 data-en="Registration Form" data-zh="报名表单">Registration Form</h2>
+        <p class="section-desc" data-en="Fill in this form to enroll" data-zh="请填写以下表单进行报名">
+            Fill in this form to enroll
+        </p>
 
-                <fieldset>
-                    <legend data-en="Program Selection" data-zh="项目选择">Program Selection</legend>
-                    <div class="form-group">
-                        <label data-en="Select a Program" data-zh="选择项目">Select a Program</label>
-                        <select id="program" name="program" required>
-                            <option value="" disabled selected data-en="Choose a program" data-zh="选择项目">Choose a program</option>
-                            <option value="program1" data-en="Customized Language" data-zh="定制语言">定制语言</option>
-                            <option value="program2" data-en="Listening & Chatting" data-zh="倾听陪聊">倾听陪聊</option>
-                            <option value="program3" data-en="Role-Playing" data-zh="角色扮演">角色扮演</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label data-en="Preferred Start Date" data-zh="预计开始时间">预计开始时间</label>
-                        <input type="text" id="startDate" name="startDate" required data-en-placeholder="MM/DD/YYYY" data-zh-placeholder="年/月/日" placeholder="MM/DD/YYYY">
-                    </div>
-                </fieldset>
+        <form id="registrationForm">
 
-                <fieldset>
-                    <legend data-en="Additional Information" data-zh="补充信息">Additional Information</legend>
-                    <div class="form-group">
-                        <label data-en="How did you hear about us?" data-zh="您如何了解到我们？">How did you hear about us?</label>
-                        <div class="radio-group">
-                            <input type="radio" id="source1" name="source" value="socialMedia" required>
-                            <label for="source1" data-en="Social Media" data-zh="社交媒体">Social Media</label>
-                            
-                            <input type="radio" id="source2" name="source" value="friend" required>
-                            <label for="source2" data-en="Friend/Referral" data-zh="朋友推荐">Friend/Referral</label>
-                            
-                            <input type="radio" id="source3" name="source" value="other" required>
-                            <label for="source3" data-en="Other" data-zh="其他">Other</label>
-                        </div>
-                    </div>
-                </fieldset>
+            <!-- 个人信息 -->
+            <fieldset>
+                <legend data-en="Personal Information" data-zh="个人信息">Personal Information</legend>
 
-                <button type="submit" data-en="Submit Application" data-zh="提交申请">提交申请</button>
-            </form>
-        </div>
-    </section>
+                <div class="form-group">
+                    <label for="name" data-en="Full Name" data-zh="姓名">Full Name</label>
+                    <input type="text" id="name" name="name" required
+                        data-en-placeholder="Enter your full name"
+                        data-zh-placeholder="输入您的姓名"
+                        placeholder="Enter your full name">
+                </div>
 
-    <footer style="text-align: center; padding: 1rem; margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                <div class="form-group">
+                    <label for="email" data-en="Email Address" data-zh="电子邮箱">Email Address</label>
+                    <input type="email" id="email" name="email" required
+                        data-en-placeholder="Enter your email"
+                        data-zh-placeholder="输入您的电子邮箱"
+                        placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" data-en="Phone Number" data-zh="手机号码">Phone Number</label>
+                    <input type="number" id="phone" name="phone" required
+                        data-en-placeholder="Enter your phone number"
+                        data-zh-placeholder="输入您的手机号码"
+                        placeholder="Enter your phone number">
+                </div>
+            </fieldset>
+
+            <!-- 项目选择 -->
+            <fieldset>
+                <legend data-en="Program Selection" data-zh="项目选择">Program Selection</legend>
+
+                <div class="form-group">
+                    <label data-en="Select a Program" data-zh="选择项目">Select a Program</label>
+                    <select id="program" name="program" required>
+                        <option value="" disabled selected>Choose a program</option>
+                        <option value="program1" data-en="Customized Language" data-zh="定制语言">Customized Language</option>
+                        <option value="program2" data-en="Listening & Chatting" data-zh="倾听陪聊">Listening & Chatting</option>
+                        <option value="program3" data-en="Role-Playing" data-zh="角色扮演">Role-Playing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Preferred Start Date" data-zh="预计开始时间">Preferred Start Date</label>
+                    <input type="text" id="startDate" name="startDate" required
+                        data-en-placeholder="MM/DD/YYYY"
+                        data-zh-placeholder="年/月/日"
+                        placeholder="MM/DD/YYYY">
+                </div>
+            </fieldset>
+
+            <!-- 补充信息 -->
+            <fieldset>
+                <legend data-en="Additional Information" data-zh="补充信息">Additional Information</legend>
+
+                <label data-en="How did you hear about us?" data-zh="您如何了解到我们？">How did you hear about us?</label>
+
+                <div class="radio-list">
+
+                    <label class="radio-item">
+                        <input type="radio" name="source" value="socialMedia" required>
+                        <span data-en="Social Media" data-zh="社交媒体">Social Media</span>
+                    </label>
+
+                    <label class="radio-item">
+                        <input type="radio" name="source" value="friend">
+                        <span data-en="Friend/Referral" data-zh="朋友推荐">Friend/Referral</span>
+                    </label>
+
+                    <label class="radio-item">
+                        <input type="radio" name="source" value="other">
+                        <span data-en="Other" data-zh="其他">Other</span>
+                    </label>
+
+                </div>
+            </fieldset>
+
+            <button type="submit" data-en="Submit Application" data-zh="提交申请">Submit Application</button>
+        </form>
+    </div>
+
+    <footer style="text-align:center; padding:2rem 0; color:#777; font-size:0.9rem;">
         © 2025 Language Learning Service. All rights reserved.
     </footer>
 
+    <!-- 提交逻辑：保持原样 -->
     <script>
         document.getElementById('registrationForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -226,51 +261,25 @@
                     body: JSON.stringify(data),
                 });
 
-                console.log('📡 请求响应状态：', response.status);
-                if (!response.ok) {
-                    throw new Error(`请求失败，状态码：${response.status}`);
-                }
+                if (!response.ok) throw new Error(`Status: ${response.status}`);
 
                 const result = await response.json();
-                console.log('📩 后端返回结果：', result);
-
                 if (result.success) {
-                    successAlert.textContent = document.documentElement.getAttribute('data-lang') === 'zh' ? '注册成功！我们会尽快联系你。' : 'Registration successful! We\'ll contact you soon.';
+                    successAlert.textContent = document.documentElement.getAttribute('data-lang') === 'zh' 
+                        ? '注册成功！我们会尽快联系你。'
+                        : 'Registration successful! We\'ll contact you soon.';
                     successAlert.style.display = 'block';
                     e.target.reset();
-                } else {
-                    successAlert.textContent = document.documentElement.getAttribute('data-lang') === 'zh' ? '提交成功，工作人员将尽快联系你' : 'Submission successful, we\'ll contact you soon.';
-                    successAlert.style.display = 'block';
                 }
             } catch (error) {
-                console.error('❌ 表单提交失败：', error.message);
-                alert(document.documentElement.getAttribute('data-lang') === 'zh' ? `提交失败：${error.message}，请刷新页面重试` : `Submission failed: ${error.message}, please refresh and try again`);
+                alert('Submission failed: ' + error.message);
             } finally {
                 formBtn.disabled = false;
-                formBtn.textContent = document.documentElement.getAttribute('data-lang') === 'zh' ? '提交申请' : 'Submit Application';
-                setTimeout(() => {
-                    successAlert.style.display = 'none';
-                }, 3000);
+                formBtn.textContent = document.documentElement.getAttribute('data-lang') === 'zh'
+                    ? '提交申请'
+                    : 'Submit Application';
+                setTimeout(() => successAlert.style.display = 'none', 3000);
             }
-        });
-
-        // 语言切换功能（若需要可保留，按钮已隐藏）
-        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const lang = btn.getAttribute('data-target-lang');
-                document.documentElement.setAttribute('data-lang', lang);
-                
-                document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
-                    if (el.tagName === 'INPUT' && el.hasAttribute(`data-${lang}-placeholder`)) {
-                        el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
-                    } else if (el.tagName !== 'OPTION' && el.tagName !== 'INPUT') {
-                        el.textContent = el.getAttribute(`data-${lang}`);
-                    } else if (el.tagName === 'INPUT' && el.type === 'submit') {
-                        el.value = el.getAttribute(`data-${lang}`);
-                    }
-                });
-            });
         });
     </script>
 </body>
