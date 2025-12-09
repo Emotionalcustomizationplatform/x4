@@ -1,85 +1,87 @@
-// 1. 引入依赖（新增cors和resend）
+// 1. 引入依赖
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // 新增：解决跨域红色错误
-const { Resend } = require('resend'); // 新增：替代SMTP的邮件服务
+const cors = require('cors');
+const { Resend } = require('resend');
 require('dotenv').config();
 
-// 2. 初始化（新增Resend和CORS配置）
+// 2. 初始化
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 新增：环境变量校验（启动时提示缺失配置）
+// 3. 环境变量校验
 if (!process.env.RESEND_API_KEY) throw new Error('❌ 缺少 RESEND_API_KEY 环境变量！');
 if (!process.env.RECEIVE_EMAIL) throw new Error('❌ 缺少 RECEIVE_EMAIL 环境变量！');
 
-const resend = new Resend(process.env.RESEND_API_KEY); // 从环境变量读API Key
+const resend = new Resend(process.env.RESEND_API_KEY);
+const YOUR_RECEIVE_EMAIL = process.env.RECEIVE_EMAIL;
+const RESEND_FROM = 'onboarding@resend.dev';
 
-// 3. 关键：解决跨域红色错误（必须放在所有路由前）
-app.use(cors()); // 允许所有跨域请求（测试/小型项目够用）
+// 4. 中间件
+app.use(cors()); // 可以改成 { origin: 'https://你的前端域名' } 生产环境更安全
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./'));
 
-// 4. 环境变量（只保留3个，新增RESEND_API_KEY）
-const YOUR_RECEIVE_EMAIL = process.env.RECEIVE_EMAIL; // 你要收邮件的邮箱
-const RESEND_FROM = 'onboarding@resend.dev'; // Resend默认发件邮箱（不用改）
-
-// 5. 表单提交接口（核心：修复邮件发送状态判断+错误排查）
+// 5. 表单提交接口
 app.post('/api/submit-form', async (req, res) => {
   try {
     const { name, email, phone, program, startDate, source } = req.body;
+    const clientIP = req.ip;
+    const userAgent = req.get('User-Agent');
+
     console.log('✅ 收到客户提交：', req.body);
+    console.log('📌 来源IP：', clientIP, '| UA：', userAgent);
 
-    // 整理邮件内容（和之前一样，只改发送方式）
-    const programText = program === 'program1' ? '定制语言' : 
-                        program === 'program2' ? '倾听陪聊' : 
-                        program === 'program3' ? '角色扮演' : '未选择';
-    const sourceText = source === 'socialMedia' ? '社交媒体' : 
-                       source === 'friend' ? '朋友推荐' : 
-                       source === 'other' ? '其他' : '未选择';
+    // 验证必填字段
+    if (!name || !email || !phone || !program || !startDate || !source) {
+      return res.status(400).json({ success: false, msg: '请填写所有必填字段' });
+    }
 
-    // 关键：用Resend API发送邮件（新增错误捕获+状态判断）
+    const programText = program === 'program1' ? '定制专属伴侣' :
+                        program === 'program2' ? '学习中文' : '未选择';
+    const sourceText = source === 'socialMedia' ? '社交媒体' :
+                       source === 'friend' ? '朋友推荐' : '其他';
+
+    // 发送邮件
     const { data, error } = await resend.emails.send({
-      from: `语言学习报名 <${RESEND_FROM}>`,
-      to: YOUR_RECEIVE_EMAIL, // 发给你自己（也可以加客户邮箱：[YOUR_RECEIVE_EMAIL, email]）
+      from: `报名通知 <${RESEND_FROM}>`,
+      to: YOUR_RECEIVE_EMAIL, // 也可以加客户邮箱：[YOUR_RECEIVE_EMAIL, email]
       subject: '🔔 新客户报名表单提交',
       html: `
-        <h3 style="color:#2c3e50;">客户报名信息：</h3>
-        <p><strong>姓名：</strong>${name || '未填写'}</p>
-        <p><strong>邮箱：</strong>${email || '未填写'}</p>
-        <p><strong>手机号码：</strong>${phone || '未填写'}</p>
-        <p><strong>选择项目：</strong>${programText}</p>
-        <p><strong>预计开始时间：</strong>${startDate || '未填写'}</p>
-        <p><strong>了解渠道：</strong>${sourceText}</p>
-        <p><strong>提交时间：</strong>${new Date().toLocaleString()}</p>
+        <h2 style="color:#2c3e50;">客户报名信息</h2>
+        <table style="border-collapse: collapse; width: 100%;">
+          <tr><td><strong>姓名：</strong></td><td>${name}</td></tr>
+          <tr><td><strong>邮箱：</strong></td><td>${email}</td></tr>
+          <tr><td><strong>手机号码：</strong></td><td>${phone}</td></tr>
+          <tr><td><strong>选择项目：</strong></td><td>${programText}</td></tr>
+          <tr><td><strong>预计开始时间：</strong></td><td>${startDate}</td></tr>
+          <tr><td><strong>了解渠道：</strong></td><td>${sourceText}</td></tr>
+          <tr><td><strong>提交时间：</strong></td><td>${new Date().toLocaleString()}</td></tr>
+          <tr><td><strong>客户IP：</strong></td><td>${clientIP}</td></tr>
+          <tr><td><strong>浏览器：</strong></td><td>${userAgent}</td></tr>
+        </table>
       `
     });
 
-    // 新增：判断邮件是否发送成功
     if (error) {
       console.error('❌ Resend邮件发送失败：', error.message);
-      return res.status(500).json({ 
-        success: false, 
-        msg: '表单提交成功，但邮件通知发送失败，请查看服务器日志' 
+      return res.status(500).json({
+        success: false,
+        msg: '表单提交成功，但邮件通知发送失败，请查看服务器日志'
       });
     }
 
-    console.log('✅ 邮件已发至你的邮箱！Resend发送ID：', data.id);
-    res.json({ 
-      success: true, 
-      msg: '提交成功，工作人员将尽快联系你' 
-    });
-  } catch (error) {
-    console.error('❌ 表单处理失败：', error.message);
-    res.status(500).json({ 
-      success: false, 
-      msg: '表单提交失败，请刷新页面重试' 
-    });
+    console.log('✅ 邮件发送成功，Resend ID：', data.id);
+    res.json({ success: true, msg: '提交成功，工作人员将尽快联系你' });
+
+  } catch (err) {
+    console.error('❌ 表单处理异常：', err.message);
+    res.status(500).json({ success: false, msg: '表单提交失败，请刷新页面重试' });
   }
 });
 
-// 6. 测试邮件接口（验证Resend是否配置成功）
+// 6. 测试邮件接口
 app.get('/test-email', async (req, res) => {
   try {
     const { data, error } = await resend.emails.send({
@@ -89,20 +91,17 @@ app.get('/test-email', async (req, res) => {
       text: '收到这封邮件说明表单提交后能正常收通知！'
     });
 
-    if (error) {
-      return res.send(`❌ 测试失败：${error.message}（检查Resend API Key和接收邮箱）`);
-    }
-
-    res.send(`✅ 测试邮件已发送！Resend发送ID：${data.id}，去 ${YOUR_RECEIVE_EMAIL} 查收～`);
-  } catch (error) {
-    res.send(`❌ 测试失败：${error.message}`);
+    if (error) return res.send(`❌ 测试失败：${error.message}`);
+    res.send(`✅ 测试邮件已发送！Resend发送ID：${data.id}，请查收邮箱 ${YOUR_RECEIVE_EMAIL}`);
+  } catch (err) {
+    res.send(`❌ 测试失败：${err.message}`);
   }
 });
 
 // 7. 启动服务
 app.listen(PORT, () => {
   console.log(`🚀 服务启动成功！端口：${PORT}`);
-  console.log(`📧 新报名会发至：${YOUR_RECEIVE_EMAIL}`);
-  console.log(`🌐 访问地址：https://x4-0ifr.onrender.com`);
+  console.log(`📧 新报名邮件将发送至：${YOUR_RECEIVE_EMAIL}`);
+  console.log(`🌐 前端访问：https://x4-0ifr.onrender.com`);
   console.log(`🔍 测试邮件接口：https://x4-0ifr.onrender.com/test-email`);
 });
