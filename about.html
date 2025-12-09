@@ -3,106 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us | Language Learning</title>
+<title>About Us | Custom Companion & Chinese Learning</title>
 <link rel="stylesheet" href="/styles.css">
 <style>
-body { background-color:#111; color:#fff; font-family:"DM Sans", sans-serif; padding-top:70px;}
-nav { position:fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:rgba(0,0,0,0.8); backdrop-filter:blur(5px); z-index:100;}
-nav .logo a { color:#fff; font-weight:bold; text-decoration:none;}
-nav .nav-links { display:flex; gap:1.5rem; }
-nav .nav-links a { color:#fff; text-decoration:none; text-transform:uppercase; }
-nav .nav-links a.active { color:#ffd700; }
-.about-section { max-width:1200px; margin:0 auto; padding:4rem 2rem; }
-.about-section h2 { font-size:2rem; margin-bottom:1rem; text-align:center; }
-.about-section p { max-width:800px; margin:0 auto 2rem; line-height:1.8; color:#ccc; text-align:justify; }
-.team-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:2rem; margin-bottom:3rem; }
-.team-member { text-align:center; transition: transform 0.3s, box-shadow 0.3s; }
-.team-member:hover { transform: translateY(-6px); box-shadow:0 8px 20px rgba(255,255,255,0.1);}
-.team-img { width:140px; height:140px; border-radius:50%; object-fit:cover; margin-bottom:0.5rem; border:2px solid #fff; }
-.team-name { font-weight:bold; margin-bottom:0.3rem; }
-.team-role { font-size:0.9rem; color:#ccc; }
-.contact-info { background:#222; padding:2rem; border-radius:10px; max-width:800px; margin:0 auto 3rem; }
-.contact-info h3 { margin-bottom:1rem; }
-.contact-info p { margin-bottom:0.5rem; color:#ccc; }
-footer { text-align:center; padding:1.5rem; font-size:0.9rem; color:#666; }
-
-@media(max-width:768px){ .team-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));} }
-@media(max-width:480px){ .team-grid{grid-template-columns:1fr;} }
+body{margin:0;font-family:'DM Sans',sans-serif;background:#000;color:#fff;}
+nav{position:fixed;top:0;left:0;width:100%;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.8);backdrop-filter:blur(5px);z-index:100;}
+nav .nav-links a{margin-left:1rem;color:#fff;text-decoration:none;font-weight:500;text-transform:uppercase;transition:0.3s;}
+nav .nav-links a:hover{color:#ffd700;}
+.about-section{max-width:1000px;margin:8rem auto;padding:0 1rem;}
+.about-section h2{text-align:center;font-size:2rem;margin-bottom:2rem;}
+.about-section p{margin-bottom:1.5rem;line-height:1.7;color:#ccc;text-align:justify;}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;}
+.team-member{text-align:center;opacity:0;transform:translateY(40px);transition:0.7s;}
+.team-member.in-view{opacity:1;transform:translateY(0);}
+.team-img{width:150px;height:150px;border-radius:50%;object-fit:cover;margin-bottom:0.8rem;border:2px solid #fff;}
+.contact-info{text-align:center;margin-top:3rem;color:#ccc;}
+.contact-info a{color:#ffd700;text-decoration:none;}
+footer{text-align:center;padding:2rem;font-size:0.85rem;color:#888;background:#000;}
+@media(max-width:768px){.team-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-
 <nav>
-  <div class="logo">
-    <a href="index.html" data-en="Language Learning" data-zh="语言学习服务">Language Learning</a>
-  </div>
-  <div class="nav-links">
-    <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
-    <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-    <a href="form.html" class="cta-btn" style="padding:0.5rem 1rem;" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-    <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
-    <a href="about.html" class="active" data-en="About Us" data-zh="关于我们">About Us</a>
-  </div>
+<div class="logo"><a href="index.html" style="color:#fff;font-weight:bold;" data-en="Custom Companion" data-zh="定制专属伴侣">Custom Companion</a></div>
+<div class="nav-links">
+<a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
+<a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
+<a href="form.html" class="cta-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+<a href="index.html" data-en="Home" data-zh="首页">Home</a>
+<a href="services.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
+</div>
 </nav>
 
 <section class="about-section">
-  <h2 data-en="About Us" data-zh="关于我们">About Us</h2>
-  <p data-en="We are dedicated to helping students improve their language skills through personalized one-on-one sessions. Our goal is to provide flexible and effective learning tailored to each individual's needs."
-     data-zh="我们致力于通过一对一定制化课程帮助学生提升语言能力。我们的目标是根据每位学员的需求提供灵活高效的学习方案。">
-     We are dedicated to helping students improve their language skills through personalized one-on-one sessions. Our goal is to provide flexible and effective learning tailored to each individual's needs.
-  </p>
-  <p data-en="Our team consists of experienced educators and native speakers passionate about language education. Join us to start your language journey today!"
-     data-zh="我们的团队由经验丰富的教师和热爱语言教育的母语者组成。加入我们，今天就开始你的语言学习之旅！">
-     Our team consists of experienced educators and native speakers passionate about language education. Join us to start your language journey today!
-  </p>
+<h2 data-en="About Us" data-zh="关于我们">About Us</h2>
+<p data-en="We provide personalized companion and Chinese learning services for international clients. Our team is dedicated to making your experience enjoyable and effective." 
+data-zh="我们为海外客户提供定制专属伴侣和中文学习服务。我们的团队致力于让您的体验愉快而高效。">We provide personalized companion and Chinese learning services for international clients. Our team is dedicated to making your experience enjoyable and effective.</p>
 
-  <h2 data-en="Meet Our Team" data-zh="团队成员">Meet Our Team</h2>
-  <div class="team-grid">
-    <div class="team-member">
-      <img src="team/member1.jpg" alt="Alice Smith" class="team-img">
-      <div class="team-name">Alice Smith</div>
-      <div class="team-role" data-en="Lead Instructor" data-zh="首席讲师">Lead Instructor</div>
-    </div>
-    <div class="team-member">
-      <img src="team/member2.jpg" alt="John Doe" class="team-img">
-      <div class="team-name">John Doe</div>
-      <div class="team-role" data-en="Conversation Coach" data-zh="口语教练">Conversation Coach</div>
-    </div>
-    <div class="team-member">
-      <img src="team/member3.jpg" alt="Maria Lee" class="team-img">
-      <div class="team-name">Maria Lee</div>
-      <div class="team-role" data-en="Curriculum Designer" data-zh="课程设计师">Curriculum Designer</div>
-    </div>
-  </div>
+<div class="team-grid">
+<div class="team-member">
+<img src="team1.jpg" alt="Team Member" class="team-img">
+<h3 data-en="Alice" data-zh="爱丽丝">Alice</h3>
+<p data-en="Lead Companion Specialist" data-zh="首席陪伴专家">Lead Companion Specialist</p>
+</div>
+<div class="team-member">
+<img src="team2.jpg" alt="Team Member" class="team-img">
+<h3 data-en="Bob" data-zh="鲍勃">Bob</h3>
+<p data-en="Chinese Learning Expert" data-zh="中文学习专家">Chinese Learning Expert</p>
+</div>
+</div>
 
-  <div class="contact-info">
-    <h3 data-en="Contact Us" data-zh="联系我们">Contact Us</h3>
-    <p data-en="Email: support@languagelearning.com" data-zh="邮箱: support@languagelearning.com">Email: support@languagelearning.com</p>
-    <p data-en="Phone: +1 (555) 123-4567" data-zh="电话: +1 (555) 123-4567">Phone: +1 (555) 123-4567</p>
-    <p data-en="Address: 123 Language St, Portland, USA" data-zh="地址: 美国波特兰语言街123号">Address: 123 Language St, Portland, USA</p>
-  </div>
+<div class="contact-info">
+<p data-en="Contact us via email:" data-zh="联系我们邮箱：">Contact us via email: <a href="mailto:xinc2529@gmail.com">xinc2529@gmail.com</a></p>
+</div>
 </section>
 
 <footer>
-  <p data-en="© 2025 Language Learning Service. All rights reserved." data-zh="© 2025 语言学习服务 保留所有权利。">© 2025 Language Learning Service. All rights reserved.</p>
+<p data-en="© 2025 Custom Companion. All rights reserved." data-zh="© 2025 定制专属伴侣 版权所有。">© 2025 Custom Companion. All rights reserved.</p>
 </footer>
 
 <script>
+// 中英文切换
 document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
-  btn.addEventListener('click', e=>{
+  btn.addEventListener('click',e=>{
     e.preventDefault();
-    const lang = btn.getAttribute('data-target-lang');
-    document.documentElement.setAttribute('data-lang', lang);
+    const lang=btn.getAttribute('data-target-lang');
+    document.documentElement.setAttribute('data-lang',lang);
     document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
-      if(el.tagName==='IMG'){
-        el.alt=el.getAttribute(`data-${lang}`);
-      }else{
-        el.textContent=el.getAttribute(`data-${lang}`);
-      }
+      if(el.tagName==='INPUT'&&el.hasAttribute(`data-${lang}-placeholder`)){el.placeholder=el.getAttribute(`data-${lang}-placeholder`);}
+      else if(el.tagName!=='OPTION'&&el.tagName!=='INPUT'){el.textContent=el.getAttribute(`data-${lang}`);}
     });
   });
 });
-</script>
 
+// 滑入动画
+const members=document.querySelectorAll('.team-member');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('in-view');}
+  });
+},{threshold:0.3});
+members.forEach(member=>observer.observe(member));
+</script>
 </body>
 </html>
