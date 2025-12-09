@@ -1,192 +1,84 @@
 <!DOCTYPE html>
 <html lang="en" data-lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Customized Chat | Home</title>
-    <link rel="stylesheet" href="/styles.css" />
-
-    <style>
-        /* ======== 首页全屏 Hero 图 ========= */
-        .hero {
-            width: 100vw;
-            height: 100vh;
-            background: url("carousel/slide-img-1.jpeg") center center / cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-            background-color: #000; 
-        }
-
-        .hero h1 {
-            font-family: "De Fonte Plus";
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            letter-spacing: -1px;
-            margin-bottom: 1.5rem;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .hero p {
-            max-width: 700px;
-            color: #ddd;
-            font-size: 1.1rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-        }
-
-        .hero .cta-btn {
-            padding: 1rem 2rem;
-            border: 2px solid #fff;
-            color: #fff;
-            background: transparent;
-            border-radius: 6px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .hero .cta-btn:hover {
-            background: #fff;
-            color: #000;
-        }
-
-        /* ======== 首页服务概览区 ========= */
-        .services-section {
-            padding: 6rem 2rem;
-            background-color: #111;
-        }
-
-        .services-section h2 {
-            text-align: center;
-            font-family: "De Fonte Plus";
-            font-size: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .services-grid {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .service-card {
-            background-color: #222;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.08);
-            transition: 0.3s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(255,255,255,0.12);
-        }
-
-        .service-card h3 {
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-
-        .service-card p {
-            color: #ccc;
-            line-height: 1.7;
-            margin-bottom: 1rem;
-        }
-
-        .service-card a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home | Language Learning</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+body { margin:0; font-family: Arial,sans-serif; background:#111; color:#fff;}
+nav { position:fixed; top:0; width:100%; background:#000; z-index:999; display:flex; justify-content:space-between; align-items:center; padding:1rem;}
+.nav-links a { color:#fff; margin-left:1rem; text-decoration:none; transition:transform 0.2s;}
+.nav-links a:hover { transform:scale(1.1);}
+.lang-switch-btn { cursor:pointer;}
+.hero { display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height:80vh; background:#222; animation:fadeIn 0.5s ease;}
+.hero h1 { font-size:2.5rem; color:#ffd700; margin-bottom:1rem; animation:slideUp 0.5s ease forwards;}
+.hero p { max-width:700px; color:#ccc; margin-bottom:2rem;}
+.cta-btn { padding:1rem 2rem; background:#ffd700; color:#000; border:none; border-radius:6px; font-weight:bold; cursor:pointer; transition:transform 0.2s;}
+.cta-btn:hover { transform:scale(1.05); background:#ffec7f;}
+.services { max-width:1000px; margin:3rem auto; padding:0 1rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;}
+.card { background:#222; padding:1.5rem; border-radius:10px; text-align:center; transition:transform 0.3s, box-shadow 0.3s;}
+.card:hover { transform:translateY(-5px); box-shadow:0 4px 20px rgba(255,215,0,0.3);}
+.card h3 { color:#ffd700; margin-bottom:0.8rem;}
+.card p { color:#ccc; margin-bottom:1rem;}
+.card a { color:#ffd700; text-decoration:none; font-weight:500;}
+footer { text-align:center; padding:1rem; color:#888; font-size:0.9rem; background:#000; margin-top:3rem;}
+@keyframes fadeIn { from{opacity:0} to{opacity:1}}
+@keyframes slideUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0)}}
+</style>
 </head>
 <body>
+<nav>
+  <div class="logo"><a href="index.html" style="color:#fff;font-weight:bold;font-size:1.2rem;" data-en="Language Learning" data-zh="语言学习服务">Language Learning</a></div>
+  <div class="nav-links">
+    <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
+    <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
+    <a href="form.html" class="cta-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+    <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
+    <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
+  </div>
+</nav>
 
-    <!-- 导航栏（与你全站一致） -->
-    <nav>
-        <div class="logo">
-            <a href="index.html" style="color:#fff; font-size:1.2rem; font-weight:bold;" 
-               data-en="Customized Chat" data-zh="定制陪聊">Customized Chat</a>
-        </div>
-        <div class="nav-links">
-            <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
-            <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-            <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
-            <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
-        </div>
-    </nav>
+<section class="hero">
+  <h1 data-en="One-on-One Customized Language Learning" data-zh="一对一定制语言学习服务">One-on-One Customized Language Learning</h1>
+  <p data-en="Tailored to your needs, flexible and effective — start your language journey today!" data-zh="按需定制，灵活高效——今日开启你的语言学习之旅！">Tailored to your needs, flexible and effective — start your language journey today!</p>
+  <a href="form.html" class="cta-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+</section>
 
-    <!-- ======== 全屏首页 Hero ========= -->
-    <section class="hero">
-        <h1 data-en="One-on-One Customized Chat" data-zh="一对一定制陪聊">One-on-One Customized Chat</h1>
-        <p data-en="Professional, private, and fully customized — experience a new level of emotional support."
-           data-zh="专业、私密、完全定制——体验全新的情感支持方式。">
-           Professional, private, and fully customized — experience a new level of emotional support.
-        </p>
-        <a href="form.html" class="cta-btn" data-en="Get Started" data-zh="立即开始">Get Started</a>
-    </section>
+<section class="services">
+  <div class="card">
+    <h3 data-en="Customized Language" data-zh="定制语言">Customized Language</h3>
+    <p data-en="Personalized courses based on your goals and level" data-zh="根据你的目标和水平定制专属课程">Personalized courses based on your goals and level</p>
+    <a href="projects.html" data-en="Learn More" data-zh="了解更多">Learn More →</a>
+  </div>
+  <div class="card">
+    <h3 data-en="Listening & Chatting" data-zh="倾听陪聊">Listening & Chatting</h3>
+    <p data-en="Improve your oral English with real conversations" data-zh="通过真实对话提升口语表达能力">Improve your oral English with real conversations</p>
+    <a href="projects.html" data-en="Learn More" data-zh="了解更多">Learn More →</a>
+  </div>
+  <div class="card">
+    <h3 data-en="Role-Playing" data-zh="角色扮演">Role-Playing</h3>
+    <p data-en="Practical scenarios to enhance your language skills" data-zh="实用场景模拟，强化语言应用能力">Practical scenarios to enhance your language skills</p>
+    <a href="projects.html" data-en="Learn More" data-zh="了解更多">Learn More →</a>
+  </div>
+</section>
 
-    <!-- ======== 服务预览区 ========= -->
-    <section class="services-section">
-        <h2 data-en="What We Offer" data-zh="我们提供什么">What We Offer</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3 data-en="Customized Chat" data-zh="定制陪聊">Customized Chat</h3>
-                <p data-en="Emotional support designed around your personal needs."
-                   data-zh="围绕你的需求提供专属情感支持。">
-                   Emotional support designed around your personal needs.
-                </p>
-                <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
-            </div>
+<footer>
+  © 2025 Language Learning Service. All rights reserved.
+</footer>
 
-            <div class="service-card">
-                <h3 data-en="Role-Playing" data-zh="角色扮演">Role-Playing</h3>
-                <p data-en="Experience realistic conversation scenarios tailored to you."
-                   data-zh="体验专为你打造的真实对话场景。">
-                   Experience realistic conversation scenarios tailored to you.
-                </p>
-                <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
-            </div>
-
-            <div class="service-card">
-                <h3 data-en="Long-Term Support" data-zh="长期陪伴">Long-Term Support</h3>
-                <p data-en="Weekly membership with stable, reliable one-on-one communication."
-                   data-zh="按周订阅，为你提供稳定可靠的一对一沟通。">
-                   Weekly membership with stable, reliable one-on-one communication.
-                </p>
-                <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- 页脚 -->
-    <footer>
-        <p data-en="© 2025 Customized Chat. All rights reserved."
-           data-zh="© 2025 定制陪聊平台 保留所有权利。">
-           © 2025 Customized Chat. All rights reserved.
-        </p>
-    </footer>
-
-    <!-- 语言切换脚本 -->
-    <script>
-        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const lang = btn.getAttribute('data-target-lang');
-                document.documentElement.setAttribute('data-lang', lang);
-                document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
-                    el.textContent = el.getAttribute(`data-${lang}`);
-                });
-            });
-        });
-    </script>
-
+<script>
+// 中英文切换
+document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    e.preventDefault();
+    const lang = btn.getAttribute('data-target-lang');
+    document.documentElement.setAttribute('data-lang',lang);
+    document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
+      if(el.tagName!=='INPUT'&&el.tagName!=='OPTION') el.textContent=el.getAttribute(`data-${lang}`);
+    });
+  });
+});
+</script>
 </body>
 </html>
