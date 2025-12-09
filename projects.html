@@ -3,62 +3,190 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Our Services | Language Learning</title>
+    <title>Our Services</title>
     <link rel="stylesheet" href="/styles.css" />
-    <link rel="preload" href="./Creepster-Regular.ttf" as="font/truetype" crossorigin>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding-top: 90px;
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* ============================
+           顶部导航栏
+        ============================ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000;
+            padding: 1rem;
+            z-index: 9999;
+        }
+
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a.active {
+            color: #ccc;
+            font-weight: bold;
+        }
+
+        /* ============================
+           服务区域
+        ============================ */
+        .projects-section {
+            padding: 40px 1rem 60px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .projects-section h2 {
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .projects-grid {
+            display: flex;
+            justify-content: center;
+        }
+
+        .project-card {
+            background-color: #fff;
+            padding: 1.6rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 850px;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+        }
+
+        .project-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: #2c3e50;
+        }
+
+        .project-info p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* 手机端优化 */
+        @media (max-width: 600px) {
+            .project-img img {
+                height: 180px;
+            }
+
+            .project-info h3 {
+                font-size: 1.2rem;
+            }
+
+            .projects-section h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <!-- 导航栏：添加返回键（与表单页样式一致） -->
     <nav>
-        <div class="logo">
-            <a href="index.html" class="back-btn" data-en="Back" data-zh="返回">← 返回</a>
-        </div>
+        <a href="index.html" class="back-btn" data-en="Back" data-zh="返回">← Back</a>
         <div class="nav-links">
             <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
             <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-            <a href="projects.html" data-en="Our Services" data-zh="我们的服务" class="active">Our Services</a>
+            <a href="form.html" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+            <a href="projects.html" class="active" data-en="Our Services" data-zh="我们的服务">Our Services</a>
             <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
         </div>
     </nav>
 
-    <!-- 项目/服务展示区域 -->
     <section class="projects-section">
-        <h2 data-en="One-on-One Customized Language Learning" data-zh="一对一定制语言学习服务">One-on-One Customized Language Learning</h2>
+        <h2 data-en="One-on-One Customized Language Learning"
+            data-zh="一对一定制语言学习服务">
+            One-on-One Customized Language Learning
+        </h2>
+
         <div class="projects-grid">
-            <!-- 核心服务卡片（单卡片聚焦核心业务） -->
-            <div class="project-card" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto;">
+            <div class="project-card">
                 <div class="project-img">
-                    <img src="projects/language-learning.jpg" alt="Customized Language Learning" data-en="Customized Language Learning" data-zh="定制语言学习">
+                    <img src="projects/language-learning.jpg"
+                        alt="Customized Language Learning" />
                 </div>
+
                 <div class="project-info">
-                    <h3 data-en="Personalized Language Services" data-zh="个性化语言服务">Personalized Language Services</h3>
-                    <p data-en="We also offer one-on-one customized language learning services — whatever you can imagine, we’ll do our best to make it happen. Pricing is based on the specific content, and we strive to deliver exceptional service every time." data-zh="我们提供一对一定制语言学习服务——无论你有何种需求，我们都会全力以赴实现。价格根据具体服务内容而定，我们始终致力于提供卓越的服务体验。">
-                        We also offer one-on-one customized language learning services — whatever you can imagine, we’ll do our best to make it happen. Pricing is based on the specific content, and we strive to deliver exceptional service every time.
+                    <h3 data-en="Personalized Language Services"
+                        data-zh="个性化语言服务">
+                        Personalized Language Services
+                    </h3>
+
+                    <p data-en="We provide one-on-one customized language learning services — whatever you imagine, we will try our best to make it happen. Pricing depends on the specific content. We always aim to offer high-quality, effective services."
+                       data-zh="我们提供一对一定制语言学习服务——无论你有什么样的想法，我们都会尽全力实现。价格取决于具体需求内容，我们始终致力于提供高质量、有效的服务体验。">
+                        We provide one-on-one customized language learning services — whatever you imagine, we will try our best to make it happen. Pricing depends on the specific content. We always aim to offer high-quality, effective services.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 页脚 -->
     <footer>
+        © 2025 Service Platform. All rights reserved.
     </footer>
 
     <script>
-        // 语言切换逻辑（自动同步中英文内容）
         document.querySelectorAll('.lang-switch-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const lang = btn.getAttribute('data-target-lang');
                 document.documentElement.setAttribute('data-lang', lang);
-                
-                // 更新页面所有中英文切换元素
+
                 document.querySelectorAll('[data-en], [data-zh]').forEach(el => {
                     el.textContent = el.getAttribute(`data-${lang}`);
                 });
             });
         });
     </script>
+
 </body>
 </html>
