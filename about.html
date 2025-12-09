@@ -7,31 +7,116 @@
     <link rel="stylesheet" href="/styles.css" />
     <link rel="preload" href="./Creepster-Regular.ttf" as="font" type="font/truetype" crossorigin>
     <style>
-        /* 核心修改：调整黑框位置，不挡文字 */
+        /* 强制重置所有默认样式，彻底消除黑框 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: none !important; /* 强制去掉所有边框 */
+            background-color: transparent !important; /* 强制透明背景，无黑框 */
+        }
+        body {
+            padding-top: 90px; /* 导航栏下方留足空间，避免顶栏遮挡 */
+            background-color: #fff !important; /* 页面背景纯白 */
+        }
+        /* 导航栏样式固定，不影响下方内容 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #000 !important;
+            padding: 1rem;
+            z-index: 9999;
+        }
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .nav-links a.active {
+            color: #ccc;
+            font-weight: bold;
+        }
+        /* 核心：文字整体往下移30px，彻底避开黑框 */
         .about-section {
-            padding-top: 20px; /* 增加顶部间距，让黑框整体上移 */
+            width: 100%;
+            padding: 30px 1rem 2rem !important; /* 顶部内边距30px，文字整体下移 */
         }
         .about-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1rem;
         }
-        /* 调整"关于我们"标题上方间距，避免黑框遮挡 */
-        .about-container h2:first-of-type {
-            margin-top: -10px; /* 往上移10px，避开黑框遮挡 */
+        /* 标题样式，间距充足 */
+        .about-container h2 {
+            margin: 0 0 1.2rem 0 !important;
+            font-size: 1.5rem;
+            color: #2c3e50;
             position: relative;
-            z-index: 1; /* 确保文字在黑框上方显示 */
+            z-index: 10;
         }
-        /* 调整"联系我们"区域黑框上移 */
-        .contact-info {
-            margin-top: 20px;
-            padding: 1rem;
-            position: relative;
-            z-index: 1;
+        /* 段落样式，行高适中，不拥挤 */
+        .about-container p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem !important;
+            color: #333;
+            font-size: 1rem;
         }
-        /* 确保团队展示区域不被影响 */
+        /* 团队展示区域，无黑框，间距清晰 */
         .team-grid {
-            margin: 1rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0 3rem !important;
+        }
+        .team-member {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 浅阴影替代黑框，更美观 */
+        }
+        .team-img img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+        }
+        .team-member h3 {
+            margin-bottom: 0.3rem;
+            color: #2c3e50;
+        }
+        .team-member p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        /* 联系信息区域，无黑框，独立间距 */
+        .contact-info {
+            margin: 2rem 0 3rem !important;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .contact-info h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            color: #666;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -54,12 +139,10 @@
     <section class="about-section">
         <div class="about-container">
             <h2 data-en="About Us" data-zh="关于我们">About Us</h2>
-            <!-- 替换为你的专属内容（英文）+ 对应中文翻译 -->
             <p data-en="Our services are primarily based in China, and we’re looking to expand overseas this time. We have quite a few successful cases, but we can’t share details to protect our clients’ privacy. For more information, please fill out the form above—we’ll reach out to you shortly. Stay safe from scams, thank you! Wishing you a great day, every day." data-zh="我们的服务主要立足中国，此次计划拓展海外市场。我们拥有多个成功案例，但为保护客户隐私，暂无法分享具体细节。如需了解更多信息，请填写上方表单，我们将尽快与您取得联系。谨防诈骗，感谢您的理解！祝您日日顺心，万事顺意。">
                 Our services are primarily based in China, and we’re looking to expand overseas this time. We have quite a few successful cases, but we can’t share details to protect our clients’ privacy. For more information, please fill out the form above—we’ll reach out to you shortly. Stay safe from scams, thank you! Wishing you a great day, every day.
             </p>
 
-            <!-- 保留团队展示模块（可按需删除或替换图片） -->
             <h2 data-en="Our Team" data-zh="我们的团队">Our Team</h2>
             <div class="team-grid">
                 <div class="team-member">
@@ -96,6 +179,7 @@
 
     <!-- 页脚 -->
     <footer>
+        © 2025 Language Learning Service. All rights reserved.
     </footer>
 
     <script>
