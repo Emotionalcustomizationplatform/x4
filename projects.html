@@ -1,97 +1,94 @@
 <!DOCTYPE html>
 <html lang="en" data-lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Our Services | Customized Chat</title>
-    <link rel="stylesheet" href="/styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Services | Language Learning</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  body { background-color:#111; color:#fff; font-family: "DM Sans", sans-serif; padding-top: 70px;}
+  nav { position: fixed; top:0; left:0; width:100%; display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:rgba(0,0,0,0.8); backdrop-filter:blur(5px); z-index:100;}
+  nav .logo a { color:#fff; font-weight:bold; text-decoration:none;}
+  nav .nav-links { display:flex; gap:1.5rem; }
+  nav .nav-links a { color:#fff; text-decoration:none; text-transform:uppercase; }
+  nav .nav-links a.active { color:#ffd700; }
+  .services-section { max-width:1200px; margin:0 auto; padding:4rem 2rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; }
+  .service-card { background:#222; border-radius:10px; overflow:hidden; transition: transform 0.3s, box-shadow 0.3s; }
+  .service-card:hover { transform: translateY(-8px); box-shadow:0 10px 30px rgba(255,255,255,0.1); }
+  .service-img { width:100%; height:180px; object-fit:cover; }
+  .service-info { padding:1rem; text-align:center; }
+  .service-info h3 { font-size:1.4rem; margin-bottom:0.5rem; text-transform:uppercase; }
+  .service-info p { font-size:1rem; color:#ccc; line-height:1.6; margin-bottom:0.8rem; }
+  .service-info a { color:#ffd700; text-decoration:none; font-weight:500; }
+  footer { text-align:center; padding:1.5rem; font-size:0.9rem; color:#666; }
+  @media(max-width:768px){ .services-section{ grid-template-columns: 1fr 1fr; } }
+  @media(max-width:480px){ .services-section{ grid-template-columns:1fr; } }
+</style>
 </head>
-
 <body>
-    <!-- NAV -->
-    <nav>
-        <div class="logo">
-            <a href="index.html" data-en="Home" data-zh="首页">Home</a>
-        </div>
-        <div class="nav-links">
-            <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
-            <a href="#" class="lang-switch-btn" data-target-lang="en">EN</a>
-            <a href="form.html" class="cta" data-en="Enroll" data-zh="报名">Enroll</a>
-            <a href="projects.html" data-en="Services" data-zh="服务">Services</a>
-            <a href="about.html" data-en="About" data-zh="关于">About</a>
-        </div>
-    </nav>
 
-    <div class="page">
-        <h1 data-en="Our Services" data-zh="我们的服务">Our Services</h1>
-        <p style="color: var(--text-muted); max-width: 700px; margin-bottom: 2rem;"
-           data-en="We provide fully customized one-on-one sessions designed for international students, professionals, and anyone who needs reliable emotional support or personalized communication."
-           data-zh="我们提供完全定制化的一对一服务，专为留学生、职场人士，以及所有需要可靠情感支持或专属沟通的人而打造。">
-           We provide fully customized one-on-one sessions designed for international students, professionals, and anyone who needs reliable emotional support or personalized communication.
-        </p>
+<nav>
+  <div class="logo">
+    <a href="index.html" data-en="Language Learning" data-zh="语言学习服务">Language Learning</a>
+  </div>
+  <div class="nav-links">
+    <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
+    <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
+    <a href="form.html" class="cta-btn" style="padding:0.5rem 1rem;" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+    <a href="projects.html" class="active" data-en="Our Services" data-zh="我们的服务">Our Services</a>
+    <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
+  </div>
+</nav>
 
-        <!-- Service Cards -->
-        <div class="grid-2">
-
-            <!-- 1 -->
-            <div class="card">
-                <h2 data-en="Customized Chat Companion" data-zh="定制陪聊服务">Customized Chat Companion</h2>
-                <p data-en="A fully tailored 1-on-1 chatting experience. Tell us your preferred personality type, tone, nationality, and communication style — we match you with the perfect companion."
-                   data-zh="完全定制的一对一陪聊体验。你可以选择喜欢的性格、语气、国家、沟通方式，我们为你匹配适合你的陪聊师。">
-                   A fully tailored 1-on-1 chatting experience.
-                </p>
-                <a href="form.html" class="btn primary" data-en="Get Started" data-zh="立即开始">Get Started</a>
-            </div>
-
-            <!-- 2 -->
-            <div class="card">
-                <h2 data-en="Listening & Emotional Support" data-zh="倾听与情绪支持">Listening & Emotional Support</h2>
-                <p data-en="For stress, loneliness, or simply needing someone who listens without judgment. Confidential, gentle, and human-centered."
-                   data-zh="无论是压力、孤独，还是需要一个愿意倾听的人，我们提供无压力、不评判、保密的人性化陪伴。">
-                   For stress or loneliness.
-                </p>
-                <a href="form.html" class="btn primary" data-en="Get Support" data-zh="获取支持">Get Support</a>
-            </div>
-
-            <!-- 3 -->
-            <div class="card">
-                <h2 data-en="Language Conversation Practice" data-zh="语言口语练习">Language Conversation Practice</h2>
-                <p data-en="Improve your English or Chinese through real conversation. Flexible scheduling and realistic speaking scenarios."
-                   data-zh="通过真实对话提升英语或中文口语。可灵活预约，提供真实场景模拟。">
-                   Improve through conversation.
-                </p>
-                <a href="form.html" class="btn primary" data-en="Join Now" data-zh="立即加入">Join Now</a>
-            </div>
-
-            <!-- 4 -->
-            <div class="card">
-                <h2 data-en="Role-playing & Scenario Simulation" data-zh="角色扮演与场景模拟">Role-playing & Scenario Simulation</h2>
-                <p data-en="Practice job interviews, dating conversations, presentations, negotiations, or any real-life situation you want to master."
-                   data-zh="模拟求职面试、情感对话、演讲、谈判，或任何你想练习的真实场景。">
-                   Practice real situations.
-                </p>
-                <a href="form.html" class="btn primary" data-en="Start Training" data-zh="开始训练">Start Training</a>
-            </div>
-
-        </div>
+<section class="services-section">
+  <div class="service-card">
+    <img src="projects/language-learning.jpg" alt="Customized Language" class="service-img" data-en="Customized Language" data-zh="定制语言">
+    <div class="service-info">
+      <h3 data-en="Customized Language" data-zh="定制语言">Customized Language</h3>
+      <p data-en="Personalized courses based on your goals and level" data-zh="根据你的目标和水平定制专属课程">Personalized courses based on your goals and level</p>
+      <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
     </div>
+  </div>
 
-    <footer>
-        © 2025 Customized Chat Service. All rights reserved.
-    </footer>
+  <div class="service-card">
+    <img src="projects/listening-chatting.jpg" alt="Listening & Chatting" class="service-img" data-en="Listening & Chatting" data-zh="倾听陪聊">
+    <div class="service-info">
+      <h3 data-en="Listening & Chatting" data-zh="倾听陪聊">Listening & Chatting</h3>
+      <p data-en="Improve your oral English with real conversations" data-zh="通过真实对话提升口语表达能力">Improve your oral English with real conversations</p>
+      <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
+    </div>
+  </div>
 
-    <!-- Language Switcher -->
-    <script>
-        document.querySelectorAll('.lang-switch-btn').forEach(btn => {
-            btn.addEventListener('click', e => {
-                e.preventDefault();
-                const lang = btn.getAttribute('data-target-lang');
-                document.documentElement.setAttribute('data-lang', lang);
-                document.querySelectorAll('[data-en],[data-zh]').forEach(el => {
-                    el.textContent = el.getAttribute(`data-${lang}`);
-                });
-            });
-        });
-    </script>
+  <div class="service-card">
+    <img src="projects/role-playing.jpg" alt="Role-Playing" class="service-img" data-en="Role-Playing" data-zh="角色扮演">
+    <div class="service-info">
+      <h3 data-en="Role-Playing" data-zh="角色扮演">Role-Playing</h3>
+      <p data-en="Practical scenarios to enhance your language skills" data-zh="实用场景模拟，强化语言应用能力">Practical scenarios to enhance your language skills</p>
+      <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p data-en="© 2025 Language Learning Service. All rights reserved." data-zh="© 2025 语言学习服务 保留所有权利。">© 2025 Language Learning Service. All rights reserved.</p>
+</footer>
+
+<script>
+document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
+  btn.addEventListener('click', e=>{
+    e.preventDefault();
+    const lang = btn.getAttribute('data-target-lang');
+    document.documentElement.setAttribute('data-lang', lang);
+    document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
+      if(el.tagName==='IMG'){
+        el.alt=el.getAttribute(`data-${lang}`);
+      }else{
+        el.textContent=el.getAttribute(`data-${lang}`);
+      }
+    });
+  });
+});
+</script>
+
 </body>
 </html>
