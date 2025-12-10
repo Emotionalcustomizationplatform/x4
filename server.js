@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./'));
 
-// 5. 表单提交接口
+// 5. 表单提交接口（完全保留你的逻辑：program1=定制专属伴侣，program2=学习中文）
 app.post('/api/submit-form', async (req, res) => {
   try {
     const { name, email, phone, program, startDate, source } = req.body;
@@ -81,7 +81,7 @@ app.post('/api/submit-form', async (req, res) => {
   }
 });
 
-// 6. 测试邮件接口
+// 6. 测试邮件接口（完全保留）
 app.get('/test-email', async (req, res) => {
   try {
     const { data, error } = await resend.emails.send({
@@ -98,7 +98,7 @@ app.get('/test-email', async (req, res) => {
   }
 });
 
-// 7. 启动服务
+// 7. 启动服务（完全保留）
 app.listen(PORT, () => {
   console.log(`🚀 服务启动成功！端口：${PORT}`);
   console.log(`📧 新报名邮件将发送至：${YOUR_RECEIVE_EMAIL}`);
