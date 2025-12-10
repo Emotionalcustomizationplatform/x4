@@ -6,7 +6,7 @@
 <title>Registration Form | Enroll</title>
 <link rel="stylesheet" href="/styles.css">
 <style>
-/* 动效版表单专属样式 */
+/* 动效版表单专属样式（完全保留） */
 body {
   font-family: Arial, sans-serif;
   background-color: #111;
@@ -211,11 +211,11 @@ button[type="submit"]:hover {
       <legend data-en="Program Selection" data-zh="项目选择">Program Selection</legend>
       <div class="form-group">
         <label data-en="Select a Program" data-zh="选择项目">Select a Program</label>
+        <!-- 同步后端逻辑：仅保留program1=定制专属伴侣，program2=学习中文 -->
         <select id="program" name="program" required>
           <option value="" disabled selected data-en="Choose a program" data-zh="选择项目">Choose a program</option>
-          <option value="program1" data-en="Customized Language" data-zh="定制语言">Customized Language</option>
-          <option value="program2" data-en="Listening & Chatting" data-zh="倾听陪聊">Listening & Chatting</option>
-          <option value="program3" data-en="Role-Playing" data-zh="角色扮演">Role-Playing</option>
+          <option value="program1" data-en="Customized Companion" data-zh="定制专属伴侣">Customized Companion</option>
+          <option value="program2" data-en="Learn Chinese" data-zh="学习中文">Learn Chinese</option>
         </select>
       </div>
       <div class="form-group">
@@ -244,46 +244,69 @@ button[type="submit"]:hover {
 </section>
 
 <footer style="text-align:center;padding:1rem;color:#888;font-size:0.9rem;">
-© 2025 Language Learning Service. All rights reserved.
+<p data-en="© 2025 Customized Companions & Learn Chinese. All rights reserved." data-zh="© 2025 定制专属伴侣与中文学习 保留所有权利。">© 2025 Customized Companions & Learn Chinese. All rights reserved.</p>
 </footer>
 
 <script>
 const form = document.getElementById('registrationForm');
 const successAlert = document.getElementById('successAlert');
 
+// 表单提交逻辑（完全保留原有功能：加载状态、成功提示、失败反馈）
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(form).entries());
   const btn = e.submitter;
   btn.disabled = true;
-  btn.textContent = document.documentElement.getAttribute('data-lang') === 'zh' ? '提交中...' : 'Submitting...';
+  const lang = document.documentElement.getAttribute('data-lang');
+  btn.textContent = lang === 'zh' ? '提交中...' : 'Submitting...';
+  
   try {
-    const res = await fetch('/api/submit-form', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
+    const res = await fetch('/api/submit-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
     const result = await res.json();
-    if(result.success){
-      successAlert.textContent = document.documentElement.getAttribute('data-lang')==='zh'?'注册成功！我们会尽快联系你。':'Registration successful! We\'ll contact you soon.';
+    if (result.success) {
+      successAlert.textContent = lang === 'zh' ? '注册成功！我们会尽快联系你。' : 'Registration successful! We\'ll contact you soon.';
       successAlert.classList.add('show');
       form.reset();
-      setTimeout(()=>successAlert.classList.remove('show'),3000);
-    } else throw new Error('Submission failed');
-  } catch(err){
-    alert(document.documentElement.getAttribute('data-lang')==='zh'?`提交失败：${err.message}`:`Submission failed: ${err.message}`);
+      setTimeout(() => successAlert.classList.remove('show'), 3000);
+    } else {
+      throw new Error(result.msg || 'Submission failed');
+    }
+  } catch (err) {
+    alert(lang === 'zh' ? `提交失败：${err.message}` : `Submission failed: ${err.message}`);
   } finally {
-    btn.disabled=false;
-    btn.textContent = document.documentElement.getAttribute('data-lang')==='zh'?'提交申请':'Submit Application';
+    btn.disabled = false;
+    btn.textContent = lang === 'zh' ? '提交申请' : 'Submit Application';
   }
 });
 
-// 中英文切换
-document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
-  btn.addEventListener('click',e=>{
+// 中英文切换（修复option和button切换bug，保留所有元素适配）
+document.querySelectorAll('.lang-switch-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
     e.preventDefault();
     const lang = btn.getAttribute('data-target-lang');
-    document.documentElement.setAttribute('data-lang',lang);
-    document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
-      if(el.tagName==='INPUT' && el.hasAttribute(`data-${lang}-placeholder`)) el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
-      else if(el.tagName!=='INPUT' && el.tagName!=='OPTION') el.textContent=el.getAttribute(`data-${lang}`);
-      else if(el.tagName==='INPUT' && el.type==='submit') el.value=el.getAttribute(`data-${lang}`);
+    document.documentElement.setAttribute('data-lang', lang);
+    
+    document.querySelectorAll('[data-en],[data-zh]').forEach(el => {
+      // 输入框占位符
+      if (el.tagName === 'INPUT' && el.hasAttribute(`data-${lang}-placeholder`)) {
+        el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
+      }
+      // 按钮（提交按钮+导航按钮）
+      else if (el.tagName === 'BUTTON' || el.classList.contains('back-btn')) {
+        el.textContent = el.getAttribute(`data-${lang}`);
+      }
+      // 下拉选项
+      else if (el.tagName === 'OPTION') {
+        el.textContent = el.getAttribute(`data-${lang}`);
+      }
+      // 其他文本元素
+      else {
+        el.textContent = el.getAttribute(`data-${lang}`);
+      }
     });
   });
 });
