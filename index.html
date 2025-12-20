@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home | Customized Companion & Chinese Learning</title>
+<title>Real Human Connection & Learn Chinese</title>
 <link rel="stylesheet" href="styles.css">
+
 <style>
-  /* 首页专属样式 */
   .hero-section {
     width: 100%;
     height: 100vh;
@@ -19,88 +19,98 @@
     color: #fff;
     padding: 2rem;
     position: relative;
-    overflow: hidden;
   }
 
   .hero-section::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.45);
     z-index: 0;
   }
 
   .hero-content {
     position: relative;
     z-index: 1;
+    max-width: 820px;
     animation: fadeIn 1s ease forwards;
   }
 
   .hero-section h1 {
-    font-size: clamp(2rem,5vw,3rem);
+    font-size: clamp(2.2rem,5vw,3.2rem);
     margin-bottom: 1rem;
+    line-height: 1.2;
   }
 
   .hero-section p {
-    font-size: clamp(1rem,2.5vw,1.3rem);
-    margin-bottom: 1.5rem;
+    font-size: clamp(1.05rem,2.5vw,1.35rem);
+    margin-bottom: 2rem;
+    opacity: 0.95;
   }
 
   .cta-btn {
-    display: inline-block;
-    padding: 1rem 2rem;
+    padding: 1rem 2.2rem;
     background-color: #ffd700;
     color: #000;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: bold;
     transition: all 0.3s;
+    font-size: 1.05rem;
   }
 
   .cta-btn:hover {
     background-color: #fff;
+    transform: translateY(-2px);
   }
 
   @keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(20px);}
-    100% { opacity: 1; transform: translateY(0);}
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* 服务预览 */
   .services-preview {
-    max-width: 1000px;
-    margin: 3rem auto;
-    padding: 0 1rem;
+    max-width: 1100px;
+    margin: 4rem auto;
+    padding: 0 1.2rem;
   }
 
   .services-preview h2 {
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
   }
 
   .preview-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .preview-card {
-    background-color: #222;
+    background-color: #1f1f1f;
     color: #fff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    transition: transform 0.3s;
+    padding: 2rem;
+    border-radius: 14px;
+    text-align: left;
+    transition: all 0.3s;
   }
 
   .preview-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
   }
 
   .preview-card h3 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+    color: #ffd700;
+  }
+
+  .preview-card p {
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    opacity: 0.95;
   }
 
   .preview-card a {
@@ -108,11 +118,19 @@
     text-decoration: none;
     font-weight: bold;
   }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    color: #aaa;
+    background: #0f0f0f;
+  }
 </style>
 </head>
+
 <body>
 
-<!-- 导航栏 -->
 <nav>
   <div class="logo">
     <a href="index.html" data-en="Customized Companion" data-zh="定制专属伴侣">Customized Companion</a>
@@ -120,44 +138,82 @@
   <div class="nav-links">
     <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
     <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-    <a href="form.html" class="cta-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
     <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
     <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
+    <a href="form.html" class="cta-btn" data-en="Get Started" data-zh="开始体验">Get Started</a>
   </div>
 </nav>
 
-<!-- 首页横幅 -->
 <section class="hero-section">
   <div class="hero-content">
-    <h1 data-en="Customized Companion & Chinese Learning" data-zh="定制专属伴侣 & 中文学习">Customized Companion & Chinese Learning</h1>
-    <p data-en="Personalized companion services and effective Chinese learning for everyone." data-zh="为每个人提供个性化陪伴服务和高效中文学习。">Personalized companion services and effective Chinese learning for everyone.</p>
-    <a href="form.html" class="cta-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+    <h1
+      data-en="Real Human Connection, When You Need It Most"
+      data-zh="当你需要的时候，真实的人类陪伴">
+      Real Human Connection, When You Need It Most
+    </h1>
+
+    <p
+      data-en="Private one-on-one conversations and Chinese learning through real interaction — safe, respectful, and human."
+      data-zh="通过真实互动的一对一陪伴与中文学习，安全、尊重、真实。">
+      Private one-on-one conversations and Chinese learning through real interaction — safe, respectful, and human.
+    </p>
+
+    <a href="form.html" class="cta-btn"
+       data-en="Get Started"
+       data-zh="开始体验">
+       Get Started
+    </a>
   </div>
 </section>
 
-<!-- 核心服务预览 -->
 <section class="services-preview">
-  <h2 data-en="Our Core Services" data-zh="核心服务">Our Core Services</h2>
+  <h2 data-en="What We Offer" data-zh="我们提供什么">What We Offer</h2>
+
   <div class="preview-grid">
+
     <div class="preview-card">
-      <h3 data-en="Customized Companion" data-zh="定制专属伴侣">Customized Companion</h3>
-      <p data-en="Connect with your personal companion for chatting and support." data-zh="与您的专属陪伴师聊天和互动，获得贴心支持。">Connect with your personal companion for chatting and support.</p>
-      <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
+      <h3 data-en="Personal Conversation Companion" data-zh="专属陪伴对话">
+        Personal Conversation Companion
+      </h3>
+      <p
+        data-en="A safe and private space to talk, share thoughts, and feel heard. Designed for people who want genuine conversation without pressure."
+        data-zh="一个安全私密的空间，倾诉、交流、被倾听。为渴望真实对话的人而设计。">
+        A safe and private space to talk, share thoughts, and feel heard.
+      </p>
+      <a href="projects.html"
+         data-en="Explore this service →"
+         data-zh="了解该服务 →">
+         Explore this service →
+      </a>
     </div>
+
     <div class="preview-card">
-      <h3 data-en="Chinese Learning" data-zh="学习中文">Chinese Learning</h3>
-      <p data-en="Learn Chinese effectively with one-on-one guidance." data-zh="一对一指导，高效学习中文。">Learn Chinese effectively with one-on-one guidance.</p>
-      <a href="projects.html" data-en="Learn More →" data-zh="了解更多 →">Learn More →</a>
+      <h3 data-en="Learn Chinese Through Conversation" data-zh="通过对话学习中文">
+        Learn Chinese Through Conversation
+      </h3>
+      <p
+        data-en="Improve your Chinese naturally through one-on-one conversations focused on real-life situations."
+        data-zh="通过一对一真实场景对话，自然提升中文能力。">
+        Improve your Chinese naturally through one-on-one conversations.
+      </p>
+      <a href="projects.html"
+         data-en="Explore this service →"
+         data-zh="了解该服务 →">
+         Explore this service →
+      </a>
     </div>
+
   </div>
 </section>
 
-<!-- 页脚 -->
 <footer>
-  <p data-en="© 2025 Customized Companion. All rights reserved." data-zh="© 2025 定制专属伴侣. 保留所有权利。">© 2025 Customized Companion. All rights reserved.</p>
+  <p
+    data-en="© 2025 Customized Companion. All rights reserved."
+    data-zh="© 2025 定制专属伴侣 · 保留所有权利">
+    © 2025 Customized Companion. All rights reserved.
+  </p>
 </footer>
 
-<!-- 中英文切换脚本 -->
 <script>
 document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
   btn.addEventListener('click',e=>{
