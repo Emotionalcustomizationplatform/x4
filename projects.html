@@ -3,99 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Services | Customized Companions & Learn Chinese</title>
+<title>Our Services | Personalized Companionship & Chinese Learning</title>
 <link rel="stylesheet" href="/styles.css">
+
 <style>
-/* 服务页专属样式 + 动效优化 */
 body { margin:0; font-family: Arial, sans-serif; background:#111; color:#fff;}
 nav {display:flex; justify-content:space-between; padding:1rem 2rem; background:#000; position:fixed; width:100%; z-index:999;}
 nav a {color:#fff; text-decoration:none; margin-left:1rem;}
 nav .logo a {font-weight:bold;}
-.services-section {padding:8rem 2rem 4rem; min-height:100vh;}
-.services-section h2 {text-align:center; font-size:clamp(1.8rem,4vw,2.5rem); color:#ffd700; margin-bottom:3rem; text-transform:uppercase;}
-.services-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; max-width:1200px; margin:0 auto;}
-.service-card {background:#222; border-radius:12px; overflow:hidden; transform:translateY(30px); opacity:0; transition:all 0.6s ease-out; cursor:pointer;}
-.service-card.visible {transform:translateY(0); opacity:1;}
-.service-img {width:100%; height:200px; object-fit:cover;}
-.service-info {padding:1.5rem;}
-.service-info h3 {font-size:1.4rem;color:#ffd700;margin-bottom:0.8rem;text-transform:uppercase;}
-.service-info p {font-size:1rem; line-height:1.6; margin-bottom:1rem;}
-.learn-more-btn {display:inline-block; padding:0.6rem 1.2rem; background:#ffd700; color:#000; font-weight:bold; border-radius:5px; text-decoration:none; transition:all 0.3s;}
-.learn-more-btn:hover {background:#fff;color:#000;}
 
-/* FAQ模块 */
-.faq-section {max-width:900px;margin:3rem auto;padding:1rem;}
-.faq-section h3 {color:#ffd700;margin-bottom:1rem;}
-.faq-item {margin-bottom:1rem;}
-.faq-question {cursor:pointer; padding:0.5rem 1rem; background:#222; border-radius:6px;}
-.faq-answer {display:none;padding:0.5rem 1rem; background:#333;border-radius:6px;margin-top:0.3rem;}
+.services-section {padding:8rem 2rem 4rem; max-width:1200px; margin:0 auto;}
+.section-title {text-align:center; margin-bottom:3rem;}
+.section-title h2 {color:#ffd700; font-size:clamp(2rem,4vw,2.6rem); margin-bottom:1rem;}
+.section-title p {max-width:700px; margin:0 auto; line-height:1.6; color:#ccc;}
 
-/* 浮动报名按钮 */
-.floating-cta {position:fixed; bottom:2rem; right:2rem; background:#ffd700; color:#000; padding:1rem 1.5rem; border-radius:50px; font-weight:bold; text-decoration:none; z-index:999; box-shadow:0 4px 8px rgba(0,0,0,0.3);}
-.floating-cta:hover {background:#fff;}
+.services-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+}
+
+.service-card {
+  background:#1e1e1e;
+  border-radius:14px;
+  overflow:hidden;
+  transform:translateY(30px);
+  opacity:0;
+  transition:all 0.6s ease-out;
+}
+
+.service-card.visible {
+  transform:translateY(0);
+  opacity:1;
+}
+
+.service-img {
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+
+.service-info {
+  padding:1.6rem;
+}
+
+.service-info h3 {
+  color:#ffd700;
+  font-size:1.4rem;
+  margin-bottom:0.8rem;
+}
+
+.service-info ul {
+  padding-left:1.2rem;
+  margin-bottom:1.2rem;
+  color:#ddd;
+}
+
+.service-info li {
+  margin-bottom:0.5rem;
+}
+
+.cta-soft {
+  display:inline-block;
+  padding:0.7rem 1.4rem;
+  background:#ffd700;
+  color:#000;
+  font-weight:bold;
+  border-radius:6px;
+  text-decoration:none;
+}
+
+.cta-soft:hover { background:#fff; }
+
+.trust-section {
+  margin-top:4rem;
+  background:#181818;
+  padding:2.5rem;
+  border-radius:14px;
+}
+
+.trust-section h3 {
+  color:#ffd700;
+  margin-bottom:1rem;
+}
+
+.trust-section p {
+  color:#ccc;
+  line-height:1.7;
+}
+
+footer {
+  text-align:center;
+  padding:1.5rem;
+  color:#666;
+  font-size:0.9rem;
+}
 </style>
 </head>
+
 <body>
 
-<!-- 导航栏 -->
 <nav>
-  <div class="logo"><a href="index.html" data-en="Home" data-zh="首页">Home</a></div>
-  <div class="nav-links">
+  <div class="logo">
+    <a href="index.html" data-en="Home" data-zh="首页">Home</a>
+  </div>
+  <div>
     <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
     <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-    <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-    <a href="projects.html" class="active" data-en="Our Services" data-zh="我们的服务">Our Services</a>
+    <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
     <a href="about.html" data-en="About Us" data-zh="关于我们">About Us</a>
+    <a href="form.html" data-en="Get Started" data-zh="开始了解">Get Started</a>
   </div>
 </nav>
 
-<!-- 服务展示 -->
 <section class="services-section">
-  <h2 data-en="Our Services" data-zh="我们的服务">Our Services</h2>
+
+  <!-- 顶部价值说明 -->
+  <div class="section-title">
+    <h2 data-en="Personalized Support for Real Life" data-zh="为真实生活提供的个性化支持">
+      Personalized Support for Real Life
+    </h2>
+    <p data-en="This platform is designed for people who want real conversation, emotional support, or practical Chinese speaking practice — with real humans, not bots."
+       data-zh="我们为需要真实交流、情感支持，或实用中文对话练习的人提供服务——不是机器人，而是真实的人。">
+      This platform is designed for people who want real conversation, emotional support, or practical Chinese speaking practice — with real humans, not bots.
+    </p>
+  </div>
+
+  <!-- 服务卡片 -->
   <div class="services-grid">
+
+    <!-- 陪伴服务 -->
     <div class="service-card">
-      <img src="projects/companion.jpg" alt="Customized Companions" class="service-img">
+      <img src="projects/companion.jpg" class="service-img" alt="Personalized Companion">
       <div class="service-info">
-        <h3 data-en="Customized Companions" data-zh="定制专属伴侣">Customized Companions</h3>
-        <p data-en="Enjoy a personal companion experience tailored to your needs." data-zh="享受专属伴侣体验，完全按照你的需求定制。">Enjoy a personal companion experience tailored to your needs.</p>
-        <a href="form.html" class="learn-more-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+        <h3 data-en="Personalized Companion" data-zh="定制专属陪伴">
+          Personalized Companion
+        </h3>
+        <ul>
+          <li data-en="Someone to talk to regularly" data-zh="稳定、持续的交流陪伴">Someone to talk to regularly</li>
+          <li data-en="Emotional support without judgment" data-zh="不评判、不施压的情感支持">Emotional support without judgment</li>
+          <li data-en="Safe, respectful, private communication" data-zh="安全、尊重、注重隐私的交流">Safe, respectful, private communication</li>
+          <li data-en="Not AI. Not random chat." data-zh="不是 AI，也不是随机陪聊">Not AI. Not random chat.</li>
+        </ul>
+        <a href="form.html" class="cta-soft" data-en="Tell Us What You Need" data-zh="告诉我们你的需求">
+          Tell Us What You Need
+        </a>
       </div>
     </div>
+
+    <!-- 中文学习 -->
     <div class="service-card">
-      <img src="projects/learn-chinese.jpg" alt="Learn Chinese" class="service-img">
+      <img src="projects/learn-chinese.jpg" class="service-img" alt="Learn Chinese">
       <div class="service-info">
-        <h3 data-en="Learn Chinese" data-zh="学习中文">Learn Chinese</h3>
-        <p data-en="Learn Mandarin one-on-one with professional instructors." data-zh="通过专业教师一对一互动课程，学习中文。">Learn Mandarin one-on-one with professional instructors.</p>
-        <a href="form.html" class="learn-more-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+        <h3 data-en="Conversational Chinese Learning" data-zh="实用中文对话学习">
+          Conversational Chinese Learning
+        </h3>
+        <ul>
+          <li data-en="Learn by speaking, not memorizing" data-zh="通过交流学习，而不是死记硬背">Learn by speaking, not memorizing</li>
+          <li data-en="One-on-one real conversation" data-zh="一对一真实对话">One-on-one real conversation</li>
+          <li data-en="Daily-life topics you actually use" data-zh="真正能用到的生活话题">Daily-life topics you actually use</li>
+          <li data-en="Beginner friendly" data-zh="对零基础友好">Beginner friendly</li>
+        </ul>
+        <a href="form.html" class="cta-soft" data-en="Start with a Simple Form" data-zh="从一个简单表单开始">
+          Start with a Simple Form
+        </a>
       </div>
     </div>
+
   </div>
+
+  <!-- 信任模块 -->
+  <div class="trust-section">
+    <h3 data-en="About Trust & Privacy" data-zh="关于信任与隐私">
+      About Trust & Privacy
+    </h3>
+    <p data-en="We are a small team providing real, one-on-one human services. We do not sell data, do not use AI chatbots, and do not provide adult or explicit content. Respect and safety come first."
+       data-zh="我们是提供一对一真人服务的小团队。不出售数据、不使用 AI 聊天、不提供成人或不当内容。尊重与安全永远第一。">
+      We are a small team providing real, one-on-one human services. We do not sell data, do not use AI chatbots, and do not provide adult or explicit content. Respect and safety come first.
+    </p>
+  </div>
+
 </section>
 
-<!-- FAQ模块 -->
-<section class="faq-section">
-  <h2 data-en="FAQ" data-zh="常见问题">FAQ</h2>
-  <div class="faq-item">
-    <div class="faq-question" data-en="How do I enroll?" data-zh="如何报名？">How do I enroll?</div>
-    <div class="faq-answer" data-en="Click the 'Enroll Now' button and fill out the form." data-zh="点击“立即报名”按钮并填写表单即可。">Click the 'Enroll Now' button and fill out the form.</div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-question" data-en="Can I choose my companion?" data-zh="可以选择伴侣吗？">Can I choose my companion?</div>
-    <div class="faq-answer" data-en="Yes, preferences are collected in the form." data-zh="是的，您可以在表单中填写偏好。">Yes, preferences are collected in the form.</div>
-  </div>
-</section>
-
-<!-- 浮动报名按钮 -->
-<a href="form.html" class="floating-cta" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-
-<footer style="text-align:center; padding:1rem; color:#666; font-size:0.9rem;">
-  © 2025 Customized Companions & Learn Chinese. All rights reserved.
+<footer>
+  © 2025 Customized Companion. All rights reserved.
 </footer>
 
 <script>
-// 动效卡片显示
+/* 卡片动效 */
 const cards = document.querySelectorAll('.service-card');
-const observer = new IntersectionObserver(entries => {
+const observer = new IntersectionObserver(entries=>{
   entries.forEach(entry=>{
     if(entry.isIntersecting){
       entry.target.classList.add('visible');
@@ -104,24 +201,14 @@ const observer = new IntersectionObserver(entries => {
 },{threshold:0.3});
 cards.forEach(card=>observer.observe(card));
 
-// FAQ折叠
-document.querySelectorAll('.faq-question').forEach(q=>{
-  q.addEventListener('click', ()=>{
-    const ans = q.nextElementSibling;
-    ans.style.display = ans.style.display==='block'?'none':'block';
-  });
-});
-
-// 中英文切换
+/* 语言切换 */
 document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
   btn.addEventListener('click',e=>{
     e.preventDefault();
     const lang = btn.getAttribute('data-target-lang');
     document.documentElement.setAttribute('data-lang', lang);
     document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
-      if(el.tagName==='INPUT' && el.hasAttribute(`data-${lang}-placeholder`)){
-        el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
-      } else { el.textContent = el.getAttribute(`data-${lang}`); }
+      el.textContent = el.getAttribute(`data-${lang}`);
     });
   });
 });
