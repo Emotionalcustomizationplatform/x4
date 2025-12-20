@@ -3,97 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registration Form | Enroll</title>
+<title>Get Started | Tell Us About You</title>
 <link rel="stylesheet" href="/styles.css">
 <style>
-/* 动效版表单专属样式（完全保留） */
 body {
   font-family: Arial, sans-serif;
   background-color: #111;
   color: #fff;
   padding-top: 60px;
-  overflow-x: hidden;
 }
 nav {
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
-  background-color: #000;
+  background: #000;
   z-index: 999;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 }
-.back-btn {
+nav a {
   color: #fff;
   text-decoration: none;
-  font-size: 1.1rem;
 }
-.nav-links {
-  display: flex;
-  gap: 1rem;
-}
-.lang-switch-btn {
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-.lang-switch-btn:hover {
-  transform: scale(1.1);
-}
+.lang-switch-btn { cursor: pointer; }
 
 .registration-form-section {
-  max-width: 800px;
+  max-width: 820px;
   margin: 5rem auto 4rem;
-  padding: 1rem 2rem;
-  background-color: #222;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(255,255,255,0.1);
-  animation: slideIn 0.5s ease forwards;
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(30px);}
-  to { opacity: 1; transform: translateY(0);}
+  padding: 2rem;
+  background: #1c1c1c;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 1rem;
-  font-size: 1.8rem;
   color: #ffd700;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
-p {
+.intro-text {
   text-align: center;
-  margin-bottom: 2rem;
   color: #ccc;
+  font-size: 1.05rem;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
 }
 
 fieldset {
   border: none;
-  margin-bottom: 1.5rem;
-  padding: 0;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.5s ease forwards;
-  animation-delay: 0.2s;
-}
-
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0);}
+  margin-bottom: 2rem;
 }
 
 legend {
-  font-weight: bold;
-  margin-bottom: 0.8rem;
-  color: #ffd700;
   font-size: 1.2rem;
-}
-
-.form-group {
+  font-weight: bold;
+  color: #ffd700;
   margin-bottom: 1rem;
 }
 
@@ -102,214 +69,193 @@ label {
   margin-bottom: 0.3rem;
 }
 
+small {
+  color: #aaa;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
 input, select {
   width: 100%;
-  padding: 0.6rem;
+  padding: 0.7rem;
   border-radius: 6px;
-  border: 1px solid #555;
-  background-color: #333;
+  border: 1px solid #444;
+  background: #2a2a2a;
   color: #fff;
-  font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 input:focus, select:focus {
   outline: none;
   border-color: #ffd700;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-.radio-group {
-  display: flex;
-  gap: 1rem;
-  flex-direction: column;
-}
-
-.radio-group input {
-  width: auto;
-  margin-right: 0.5rem;
 }
 
 .radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
 }
 
-button[type="submit"] {
-  display: block;
+button {
   width: 100%;
-  padding: 0.8rem;
-  margin-top: 1rem;
-  background-color: #ffd700;
+  padding: 0.9rem;
+  background: #ffd700;
   color: #000;
-  font-weight: bold;
   font-size: 1.1rem;
+  font-weight: bold;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
 }
 
-button[type="submit"]:hover {
-  transform: scale(1.05);
-  background-color: #ffec7f;
+button:hover {
+  background: #ffec7f;
 }
 
 .success-alert {
   display: none;
   position: fixed;
-  top: 2rem;
+  top: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
+  background: #28a745;
   padding: 1rem 2rem;
-  background-color: #28a745;
-  color: #fff;
   border-radius: 6px;
-  z-index: 9999;
   font-size: 1rem;
-  opacity: 0;
-  transition: opacity 0.3s;
+  z-index: 9999;
 }
-.success-alert.show {
-  display: block;
-  opacity: 1;
-}
+.success-alert.show { display: block; }
 </style>
 </head>
+
 <body>
+
 <nav>
-  <div class="logo"><a href="index.html" class="back-btn" data-en="Back" data-zh="返回">← 返回</a></div>
-  <div class="nav-links">
-    <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
-    <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-    <a href="form.html" class="back-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
+  <a href="index.html" data-en="← Back" data-zh="← 返回">← Back</a>
+  <div>
+    <span class="lang-switch-btn" data-target-lang="en">English</span> |
+    <span class="lang-switch-btn" data-target-lang="zh">中文</span>
   </div>
 </nav>
 
-<div class="success-alert" id="successAlert" data-en="Registration successful! We'll contact you soon." data-zh="注册成功！我们会尽快联系你。"></div>
+<div class="success-alert" id="successAlert"></div>
 
 <section class="registration-form-section">
-  <h2 data-en="Registration Form" data-zh="报名表单">Registration Form</h2>
-  <p data-en="Fill in the form below to enroll in our program" data-zh="填写以下表单报名参与我们的项目">Fill in the form below to enroll in our program</p>
+  <h2 data-en="Tell Us What You’re Looking For" data-zh="告诉我们你的需求">
+    Tell Us What You’re Looking For
+  </h2>
+
+  <p class="intro-text"
+     data-en="This is a short, no-pressure form. There is no payment and no obligation. We simply use this to understand your needs and see if we’re a good fit."
+     data-zh="这是一个无压力的简短表单，不涉及付款，也不构成任何承诺，仅用于了解你的需求。">
+    This is a short, no-pressure form. There is no payment and no obligation.
+  </p>
+
   <form id="registrationForm">
+
     <fieldset>
-      <legend data-en="Personal Information" data-zh="个人信息">Personal Information</legend>
-      <div class="form-group">
-        <label for="name" data-en="Full Name" data-zh="姓名">Full Name</label>
-        <input type="text" id="name" name="name" required data-en-placeholder="Enter your full name" data-zh-placeholder="输入您的姓名" placeholder="Enter your full name">
-      </div>
-      <div class="form-group">
-        <label for="email" data-en="Email Address" data-zh="电子邮箱">Email Address</label>
-        <input type="email" id="email" name="email" required data-en-placeholder="Enter your email" data-zh-placeholder="输入您的电子邮箱" placeholder="Enter your email">
-      </div>
-      <div class="form-group">
-        <label for="phone" data-en="Phone Number" data-zh="手机号码">Phone Number</label>
-        <input type="number" id="phone" name="phone" required data-en-placeholder="Enter your phone number" data-zh-placeholder="输入您的手机号码" placeholder="Enter your phone number">
-      </div>
+      <legend data-en="Basic Information" data-zh="基本信息">Basic Information</legend>
+
+      <label data-en="Your Name" data-zh="你的称呼">Your Name</label>
+      <input name="name" required placeholder="How should we call you">
+
+      <label data-en="Email Address" data-zh="电子邮箱">Email Address</label>
+      <input type="email" name="email" required placeholder="you@example.com">
+
+      <label data-en="Phone Number (Optional but helpful)" data-zh="手机号码（可选，但有助于联系）">
+        Phone Number (Optional but helpful)
+      </label>
+      <small data-en="Only if you’re comfortable. We respect your privacy."
+             data-zh="仅在你愿意的情况下填写，我们尊重你的隐私。">
+        Only if you’re comfortable. We respect your privacy.
+      </small>
+      <input name="phone">
     </fieldset>
 
     <fieldset>
-      <legend data-en="Program Selection" data-zh="项目选择">Program Selection</legend>
-      <div class="form-group">
-        <label data-en="Select a Program" data-zh="选择项目">Select a Program</label>
-        <!-- 同步后端逻辑：仅保留program1=定制专属伴侣，program2=学习中文 -->
-        <select id="program" name="program" required>
-          <option value="" disabled selected data-en="Choose a program" data-zh="选择项目">Choose a program</option>
-          <option value="program1" data-en="Customized Companion" data-zh="定制专属伴侣">Customized Companion</option>
-          <option value="program2" data-en="Learn Chinese" data-zh="学习中文">Learn Chinese</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label data-en="Preferred Start Date" data-zh="预计开始时间">Preferred Start Date</label>
-        <input type="text" id="startDate" name="startDate" required data-en-placeholder="MM/DD/YYYY" data-zh-placeholder="年/月/日" placeholder="MM/DD/YYYY">
-      </div>
+      <legend data-en="What are you interested in?" data-zh="你对哪项服务感兴趣？">
+        What are you interested in?
+      </legend>
+
+      <select name="program" required>
+        <option value="" disabled selected data-en="Please select" data-zh="请选择">
+          Please select
+        </option>
+        <option value="program1" data-en="Customized Companion" data-zh="定制专属伴侣">
+          Customized Companion
+        </option>
+        <option value="program2" data-en="Learn Chinese" data-zh="学习中文">
+          Learn Chinese
+        </option>
+      </select>
     </fieldset>
 
     <fieldset>
-      <legend data-en="Additional Information" data-zh="补充信息">Additional Information</legend>
-      <div class="form-group">
-        <label data-en="How did you hear about us?" data-zh="您如何了解到我们？">How did you hear about us?</label>
-        <div class="radio-group">
-          <input type="radio" id="source1" name="source" value="socialMedia" required>
-          <label for="source1" data-en="Social Media" data-zh="社交媒体">Social Media</label>
-          <input type="radio" id="source2" name="source" value="friend" required>
-          <label for="source2" data-en="Friend/Referral" data-zh="朋友推荐">Friend/Referral</label>
-          <input type="radio" id="source3" name="source" value="other" required>
-          <label for="source3" data-en="Other" data-zh="其他">Other</label>
-        </div>
+      <legend data-en="How did you hear about us?" data-zh="你是如何了解我们的？">
+        How did you hear about us?
+      </legend>
+
+      <div class="radio-group">
+        <label><input type="radio" name="source" value="socialMedia" required> Social Media</label>
+        <label><input type="radio" name="source" value="friend"> Friend / Referral</label>
+        <label><input type="radio" name="source" value="other"> Other</label>
       </div>
     </fieldset>
 
-    <button type="submit" data-en="Submit Application" data-zh="提交申请">Submit Application</button>
+    <button type="submit"
+      data-en="Send & Let’s Talk"
+      data-zh="提交并沟通">
+      Send & Let’s Talk
+    </button>
+
   </form>
 </section>
 
-<footer style="text-align:center;padding:1rem;color:#888;font-size:0.9rem;">
-<p data-en="© 2025 Customized Companions & Learn Chinese. All rights reserved." data-zh="© 2025 定制专属伴侣与中文学习 保留所有权利。">© 2025 Customized Companions & Learn Chinese. All rights reserved.</p>
+<footer style="text-align:center;color:#777;font-size:0.9rem;">
+© 2025 Customized Companion. All rights reserved.
 </footer>
 
 <script>
 const form = document.getElementById('registrationForm');
-const successAlert = document.getElementById('successAlert');
+const alertBox = document.getElementById('successAlert');
 
-// 表单提交逻辑（完全保留原有功能：加载状态、成功提示、失败反馈）
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async e => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(form).entries());
-  const btn = e.submitter;
-  btn.disabled = true;
   const lang = document.documentElement.getAttribute('data-lang');
-  btn.textContent = lang === 'zh' ? '提交中...' : 'Submitting...';
-  
+
   try {
-    const res = await fetch('/api/submit-form', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+    const res = await fetch('/api/submit-form',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(data)
     });
     const result = await res.json();
-    if (result.success) {
-      successAlert.textContent = lang === 'zh' ? '注册成功！我们会尽快联系你。' : 'Registration successful! We\'ll contact you soon.';
-      successAlert.classList.add('show');
+
+    if(result.success){
+      alertBox.textContent = lang==='zh'
+        ? '已收到，我们会通过你留下的方式联系你。'
+        : 'We’ve received your message. We’ll reach out shortly.';
+      alertBox.classList.add('show');
       form.reset();
-      setTimeout(() => successAlert.classList.remove('show'), 3000);
-    } else {
-      throw new Error(result.msg || 'Submission failed');
+      setTimeout(()=>alertBox.classList.remove('show'),3000);
     }
-  } catch (err) {
-    alert(lang === 'zh' ? `提交失败：${err.message}` : `Submission failed: ${err.message}`);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = lang === 'zh' ? '提交申请' : 'Submit Application';
+  } catch {
+    alert(lang==='zh'?'提交失败，请稍后再试':'Submission failed, please try again.');
   }
 });
 
-// 中英文切换（修复option和button切换bug，保留所有元素适配）
-document.querySelectorAll('.lang-switch-btn').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const lang = btn.getAttribute('data-target-lang');
-    document.documentElement.setAttribute('data-lang', lang);
-    
-    document.querySelectorAll('[data-en],[data-zh]').forEach(el => {
-      // 输入框占位符
-      if (el.tagName === 'INPUT' && el.hasAttribute(`data-${lang}-placeholder`)) {
-        el.placeholder = el.getAttribute(`data-${lang}-placeholder`);
-      }
-      // 按钮（提交按钮+导航按钮）
-      else if (el.tagName === 'BUTTON' || el.classList.contains('back-btn')) {
-        el.textContent = el.getAttribute(`data-${lang}`);
-      }
-      // 下拉选项
-      else if (el.tagName === 'OPTION') {
-        el.textContent = el.getAttribute(`data-${lang}`);
-      }
-      // 其他文本元素
-      else {
-        el.textContent = el.getAttribute(`data-${lang}`);
-      }
+// 语言切换
+document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    const lang=btn.dataset.targetLang;
+    document.documentElement.setAttribute('data-lang',lang);
+    document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
+      el.textContent=el.getAttribute(`data-${lang}`);
     });
-  });
+  };
 });
 </script>
+
 </body>
 </html>
