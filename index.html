@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real Human Connection & Learn Chinese</title>
+<title>Talk to a Real Person | Private 1-on-1 Conversations</title>
 <link rel="stylesheet" href="styles.css">
 
 <style>
@@ -11,7 +11,6 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -25,31 +24,32 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.55);
     z-index: 0;
   }
 
   .hero-content {
     position: relative;
     z-index: 1;
-    max-width: 820px;
+    max-width: 860px;
     animation: fadeIn 1s ease forwards;
   }
 
   .hero-section h1 {
-    font-size: clamp(2.2rem,5vw,3.2rem);
-    margin-bottom: 1rem;
+    font-size: clamp(2.4rem,5vw,3.4rem);
+    margin-bottom: 1.2rem;
     line-height: 1.2;
   }
 
   .hero-section p {
-    font-size: clamp(1.05rem,2.5vw,1.35rem);
-    margin-bottom: 2rem;
+    font-size: clamp(1.1rem,2.6vw,1.35rem);
+    margin-bottom: 2.2rem;
     opacity: 0.95;
+    line-height: 1.7;
   }
 
   .cta-btn {
-    padding: 1rem 2.2rem;
+    padding: 1rem 2.4rem;
     background-color: #ffd700;
     color: #000;
     text-decoration: none;
@@ -97,7 +97,7 @@
   }
 
   .preview-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     box-shadow: 0 12px 25px rgba(0,0,0,0.35);
   }
 
@@ -109,7 +109,6 @@
 
   .preview-card p {
     line-height: 1.6;
-    margin-bottom: 1.2rem;
     opacity: 0.95;
   }
 
@@ -130,72 +129,78 @@
     <a href="index.html">Customized Companion</a>
   </div>
   <div class="nav-links">
-    <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
-    <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-    <a href="projects.html">Our Services</a>
-    <a href="about.html">About Us</a>
-    <a href="form.html" class="cta-btn">Get Started</a>
+    <a href="projects.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="form.html" class="cta-btn">Start Free</a>
   </div>
 </nav>
 
 <section class="hero-section">
   <div class="hero-content">
-    <h1>Real Human Connection, When You Need It Most</h1>
+    <h1>
+      Talk to a real person.<br>
+      Feel heard. No pressure.
+    </h1>
+
     <p>
-      Private one-on-one conversations and Chinese learning through real interaction — safe, respectful, and human.
+      Feeling lonely, overwhelmed, or just need someone to listen?<br>
+      This is a private one-on-one conversation with a real human being.<br>
+      Not therapy. Not AI. Just a safe place to talk.
     </p>
-    <a href="form.html" class="cta-btn">Get Started</a>
+
+    <a href="form.html" class="cta-btn">
+      Start a Free Conversation
+    </a>
   </div>
 </section>
 
 <section class="services-preview">
-  <h2>What We Offer</h2>
+  <h2>What You Can Use This For</h2>
 
   <div class="preview-grid">
     <div class="preview-card">
       <h3>Personal Conversation Companion</h3>
       <p>
-        A safe and private space to talk, share thoughts, and feel heard.
-        Designed for people who want genuine conversation without pressure.
+        A calm, private space to talk about your day, stress, loneliness,
+        or anything on your mind. No advice unless you ask.
       </p>
     </div>
 
     <div class="preview-card">
       <h3>Learn Chinese Through Conversation</h3>
       <p>
-        Improve your Chinese naturally through one-on-one conversations
-        focused on real-life situations.
+        Practice real Chinese through relaxed one-on-one conversations.
+        No textbooks. No judgment. Just natural speaking.
       </p>
     </div>
   </div>
 </section>
 
-<!-- ✅ 新增：信任区块（美国用户最关键） -->
 <section class="services-preview">
-  <h2>Why People Trust Us</h2>
+  <h2>Why People Trust This</h2>
 
   <div class="preview-grid">
     <div class="preview-card">
-      <h3>Real Humans, Not AI</h3>
+      <h3>100% Real Humans</h3>
       <p>
         Every conversation is with a real person.
-        No bots, no scripts, no automation.
+        No bots. No scripts. No automation.
       </p>
     </div>
 
     <div class="preview-card">
-      <h3>Private & Respectful</h3>
+      <h3>Private & Confidential</h3>
       <p>
-        Your information stays private.
-        No spam. No selling data. No pressure.
+        Your messages are private.
+        We don’t sell data or send spam.
       </p>
     </div>
 
     <div class="preview-card">
-      <h3>No Payment Required</h3>
+      <h3>No Commitment Upfront</h3>
       <p>
-        Submitting the form is completely free.
-        We only reach out if you want to continue.
+        Submitting the form is free.
+        You decide later if you want to continue.
       </p>
     </div>
   </div>
@@ -204,16 +209,6 @@
 <footer>
   © 2025 Customized Companion. All rights reserved.
 </footer>
-
-<script>
-document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
-  btn.addEventListener('click',e=>{
-    e.preventDefault();
-    const lang=btn.getAttribute('data-target-lang');
-    document.documentElement.setAttribute('data-lang',lang);
-  });
-});
-</script>
 
 </body>
 </html>
