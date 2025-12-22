@@ -5,9 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Talk to a Real Person | Private 1-on-1 Conversations</title>
 
-<link rel="stylesheet" href="styles.css" />
-
 <style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1.2rem;
+}
+
+.cta-btn {
+  background: #ffd700;
+  color: #000;
+  padding: 0.8rem 2rem;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 .hero {
   height: 100vh;
   background: url('carousel/slide-img-1.jpeg') center/cover no-repeat;
@@ -17,21 +50,25 @@
   justify-content: center;
   text-align: center;
 }
+
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.6);
 }
+
 .hero-content {
   position: relative;
   max-width: 860px;
   padding: 2rem;
 }
+
 .hero h1 {
   font-size: clamp(2.4rem, 5vw, 3.4rem);
   margin-bottom: 1.2rem;
 }
+
 .hero p {
   font-size: 1.2rem;
   line-height: 1.7;
@@ -40,57 +77,52 @@
 }
 
 .section {
-  max-width: 1100px;
+  max-width: 960px;
   margin: 4rem auto;
   padding: 0 1.2rem;
 }
+
 .section h2 {
   text-align: center;
   font-size: 2.2rem;
-  margin-bottom: 2.5rem;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .card {
-  background: #1f1f1f;
-  border-radius: 14px;
-  padding: 2rem;
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
 }
-.card h3 {
-  color: #ffd700;
-  margin-bottom: 0.6rem;
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
 }
-.card p {
-  line-height: 1.6;
+
+.card li {
+  margin: 0.6rem 0;
   color: #ddd;
 }
 
-.cta-btn {
-  display: inline-block;
-  padding: 0.9rem 2.2rem;
-  background: #ffd700;
-  color: #000;
-  border-radius: 10px;
+.price {
+  font-size: 2.4rem;
+  color: #ffd700;
   font-weight: bold;
-  text-decoration: none;
+  margin: 1rem 0;
 }
 
-.price {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ffd700;
-  margin: 0.6rem 0;
+.note {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
 footer {
   text-align: center;
   padding: 2rem 1rem;
-  color: #aaa;
+  color: #777;
   background: #0f0f0f;
 }
 </style>
@@ -102,8 +134,7 @@ footer {
   <div class="logo">
     <a href="index.html">Customized Companion</a>
   </div>
-  <div class="nav-links">
-    <a href="projects.html">Services</a>
+  <div>
     <a href="about.html">About</a>
     <a href="form.html" class="cta-btn">Start Free</a>
   </div>
@@ -121,60 +152,20 @@ footer {
 </section>
 
 <section class="section">
-  <h2>What You Can Use This For</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Conversation Companion</h3>
-      <p>Talk about stress, loneliness, or daily life. Calm and respectful.</p>
-    </div>
-    <div class="card">
-      <h3>Learn Chinese Naturally</h3>
-      <p>Practice real Chinese through relaxed one-on-one conversations.</p>
-    </div>
-  </div>
-</section>
+  <h2>Simple, transparent pricing</h2>
 
-<section class="section">
-  <h2>Pricing (Decide Later)</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>First Session Trial</h3>
-      <div class="price">$9.9</div>
-      <p>First conversation · No commitment</p>
-      <a href="form.html" class="cta-btn">Start</a>
-    </div>
+  <div class="card">
+    <div class="price">$99 / month</div>
+    <ul>
+      <li>Two personalized matching sessions</li>
+      <li>Unlimited chat during the month</li>
+      <li>Real humans, not AI</li>
+      <li>Private & confidential</li>
+      <li>Cancel anytime</li>
+    </ul>
 
-    <div class="card" style="border:2px solid #ffd700;">
-      <h3>Weekly</h3>
-      <div class="price">$19.9</div>
-      <p>7 days unlimited chat · Cancel anytime</p>
-      <a href="form.html" class="cta-btn">Continue</a>
-    </div>
-
-    <div class="card">
-      <h3>Monthly</h3>
-      <div class="price">$59.9</div>
-      <p>Best value · Priority support</p>
-      <a href="form.html" class="cta-btn">Continue</a>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <h2>Meet Our Companions</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Anna · Companion</h3>
-      <p>Calm · Patient · Good listener</p>
-    </div>
-    <div class="card">
-      <h3>Lily · Chinese Tutor</h3>
-      <p>Friendly · Supportive · Real practice</p>
-    </div>
-    <div class="card">
-      <h3>Not sure?</h3>
-      <p>We can match someone for you based on your needs.</p>
-    </div>
+    <a href="form.html" class="cta-btn">Start Free</a>
+    <div class="note">No payment required to get started</div>
   </div>
 </section>
 
