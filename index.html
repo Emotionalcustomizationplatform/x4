@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="styles.css" />
 
 <style>
-/* ---------- HERO ---------- */
 .hero {
   height: 100vh;
   background: url('carousel/slide-img-1.jpeg') center/cover no-repeat;
@@ -18,25 +17,21 @@
   justify-content: center;
   text-align: center;
 }
-
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.55);
 }
-
 .hero-content {
   position: relative;
   max-width: 860px;
   padding: 2rem;
 }
-
 .hero h1 {
   font-size: clamp(2.4rem, 5vw, 3.4rem);
   margin-bottom: 1.2rem;
 }
-
 .hero p {
   font-size: 1.2rem;
   line-height: 1.7;
@@ -44,20 +39,17 @@
   color: #ddd;
 }
 
-/* ---------- SECTIONS ---------- */
 .section {
   max-width: 1100px;
   margin: 4rem auto;
   padding: 0 1.2rem;
 }
-
 .section h2 {
   text-align: center;
   font-size: 2.2rem;
   margin-bottom: 2.5rem;
 }
 
-/* ---------- GRID & CARD ---------- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -68,49 +60,33 @@
   background: #1f1f1f;
   border-radius: 14px;
   padding: 2rem;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
-}
-
 .card h3 {
   color: #ffd700;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.6rem;
 }
-
 .card p {
   line-height: 1.6;
   color: #ddd;
 }
 
-/* ---------- CTA ---------- */
 .cta-btn {
   display: inline-block;
-  padding: 1rem 2.4rem;
+  padding: 0.9rem 2.2rem;
   background: #ffd700;
   color: #000;
   border-radius: 10px;
   font-weight: bold;
   text-decoration: none;
-  transition: 0.3s;
 }
 
-.cta-btn:hover {
-  background: #fff;
-}
-
-/* ---------- PRICE ---------- */
 .price {
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #ffd700;
   margin: 0.6rem 0;
 }
 
-/* ---------- FOOTER ---------- */
 footer {
   text-align: center;
   padding: 2rem 1rem;
@@ -122,7 +98,6 @@ footer {
 
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="logo">
     <a href="index.html">Customized Companion</a>
@@ -134,100 +109,71 @@ footer {
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-content">
     <h1>Talk to a real person.<br>Feel heard. No pressure.</h1>
     <p>
-      Private one-on-one conversations with a real human.<br>
-      Not therapy. Not AI. Just a safe place to talk.
+      Private one-on-one conversations with real humans.<br>
+      Not therapy. Not AI. Just someone who listens.
     </p>
-    <a href="form.html" class="cta-btn">Start a Free Conversation</a>
+    <a href="form.html" class="cta-btn">Start Free</a>
   </div>
 </section>
 
-<!-- USE CASES -->
 <section class="section">
   <h2>What You Can Use This For</h2>
   <div class="grid">
     <div class="card">
-      <h3>Personal Conversation Companion</h3>
-      <p>
-        Talk about stress, loneliness, or daily life.
-        No judgment. No pressure. Just listening.
-      </p>
+      <h3>Conversation Companion</h3>
+      <p>Talk about stress, loneliness, or daily life. Calm and respectful.</p>
     </div>
     <div class="card">
-      <h3>Learn Chinese Through Conversation</h3>
-      <p>
-        Practice real Chinese naturally through relaxed
-        one-on-one conversations.
-      </p>
+      <h3>Learn Chinese Naturally</h3>
+      <p>Practice real Chinese through relaxed one-on-one conversations.</p>
     </div>
   </div>
 </section>
 
-<!-- TRUST -->
 <section class="section">
-  <h2>Why People Trust This</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>100% Real Humans</h3>
-      <p>No bots. No scripts. No automation.</p>
-    </div>
-    <div class="card">
-      <h3>Private & Respectful</h3>
-      <p>Your information stays private. No spam.</p>
-    </div>
-    <div class="card">
-      <h3>No Commitment</h3>
-      <p>Free to start. Continue only if it feels right.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="section">
-  <h2>Pricing</h2>
+  <h2>Pricing (Decide Later)</h2>
   <div class="grid">
     <div class="card">
       <h3>First Session Trial</h3>
-      <div class="price">$19</div>
-      <p>30-minute private conversation<br>No commitment</p>
-      <a href="form.html" class="cta-btn">Start Trial</a>
+      <div class="price">$9.9</div>
+      <p>First conversation · No commitment</p>
+      <a href="form.html" class="cta-btn">Start</a>
     </div>
 
     <div class="card" style="border:2px solid #ffd700;">
-      <h3>Weekly Membership</h3>
-      <div class="price">$79 / week</div>
-      <p>3 sessions · Same companion · Cancel anytime</p>
-      <a href="form.html" class="cta-btn">Join Weekly</a>
+      <h3>Weekly</h3>
+      <div class="price">$19.9</div>
+      <p>7 days unlimited chat · Cancel anytime</p>
+      <a href="form.html" class="cta-btn">Continue</a>
     </div>
 
     <div class="card">
-      <h3>Monthly Membership</h3>
-      <div class="price">$249 / month</div>
-      <p>12 sessions · Best value · Priority matching</p>
-      <a href="form.html" class="cta-btn">Join Monthly</a>
+      <h3>Monthly</h3>
+      <div class="price">$59.9</div>
+      <p>Best value · Priority support</p>
+      <a href="form.html" class="cta-btn">Continue</a>
     </div>
   </div>
 </section>
 
-<!-- COMPANIONS -->
 <section class="section">
   <h2>Meet Our Companions</h2>
   <div class="grid">
     <div class="card">
-      <h3>Anna · Conversation Companion</h3>
-      <p>Calm, patient, and a good listener.</p>
+      <h3>Anna · Companion</h3>
+      <p>Calm · Patient · Good listener</p>
     </div>
     <div class="card">
       <h3>Lily · Chinese Tutor</h3>
-      <p>Friendly and supportive for real Chinese practice.</p>
+      <p>Friendly · Supportive · Real practice</p>
     </div>
     <div class="card">
-      <h3>Matched For You</h3>
-      <p>We match based on your needs and personality.</p>
+      <h3>Not sure?</h3>
+      <p>We can match someone for you based on your needs.</p>
     </div>
   </div>
 </section>
