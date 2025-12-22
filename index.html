@@ -3,236 +3,217 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Customized Companion | Private 1-on-1 Human Connection</title>
+<title>Customized Companion | The Art of Human Connection</title>
 
 <style>
 :root {
-  --gold: #D4AF37; 
-  --bg: #0A0A0A;
-  --card-bg: #141414;
-  --text-main: #FFFFFF;
-  --text-dim: #A0A0A0;
+  --gold: #C5A059; 
+  --bg: #050505;
+  --card-bg: #0F0F0F;
+  --text-main: #F5F5F5;
+  --text-dim: #888888;
+  --accent: rgba(197, 160, 89, 0.1);
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Cormorant Garamond', serif, -apple-system; /* 高级衬线体感 */
   background: var(--bg);
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-/* Navigation */
+/* 动态背景背景 */
+.bg-glow {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 50%);
+  z-index: -1;
+}
+
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 8%;
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-.logo { font-size: 1.1rem; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
-.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.85rem; margin-left: 2rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-.nav-links a:hover { color: var(--gold); }
-
-/* Hero Section */
-.hero {
-  height: 85vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
-  padding: 0 5%;
-}
-.hero-content { max-width: 850px; }
-.hero h1 { 
-  font-size: clamp(2.5rem, 6vw, 4rem); 
-  line-height: 1.1; 
-  margin-bottom: 2rem;
-  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero p { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 3rem; font-weight: 300; max-width: 650px; margin-left: auto; margin-right: auto; }
-
-/* Features */
-.section { padding: 8rem 8%; }
-.section-title { text-align: center; margin-bottom: 5rem; }
-.section-title h2 { font-size: 2.5rem; letter-spacing: 1px; }
-.section-title p { color: var(--gold); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 4px; margin-bottom: 10px; }
-
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
-}
-.f-card {
-  padding: 3rem;
-  background: var(--card-bg);
-  border-radius: 4px;
-  border: 1px solid #1f1f1f;
-  transition: 0.4s;
-}
-.f-card:hover { border-color: var(--gold); transform: translateY(-5px); }
-.f-card h3 { font-size: 1.4rem; margin-bottom: 1.2rem; color: var(--gold); }
-.f-card p { color: var(--text-dim); font-size: 1rem; line-height: 1.7; }
-
-/* Pricing */
-.pricing-container {
-  display: flex;
-  justify-content: center;
-  padding: 4rem 0;
-}
-.premium-card {
-  width: 100%;
-  max-width: 550px;
-  background: linear-gradient(145deg, #181818, #111);
-  padding: 4rem 3rem;
-  border: 1px solid #222;
-  text-align: center;
-  position: relative;
-}
-.premium-card::before {
-  content: "";
+  padding: 2rem 8%;
+  background: transparent;
   position: absolute;
-  top: 0; left: 0; width: 100%; height: 4px;
-  background: var(--gold);
-}
-.price-tag { font-size: 4.5rem; font-weight: 700; margin: 1.5rem 0; color: var(--gold); }
-.price-tag span { font-size: 1.1rem; color: var(--text-dim); font-weight: 300; }
-
-.benefits-list {
-  text-align: left;
-  margin: 2.5rem auto;
-  max-width: 400px;
-  list-style: none;
-  padding: 0;
-}
-.benefits-list li {
-  margin-bottom: 1.2rem;
-  display: flex;
-  align-items: center;
-  color: var(--text-main);
-  font-size: 1.05rem;
-}
-.benefits-list li::before {
-  content: "✦";
-  color: var(--gold);
-  margin-right: 15px;
-  font-size: 0.8rem;
-}
-
-/* Call to Action */
-.cta-main {
-  display: inline-block;
-  padding: 1.2rem 3rem;
-  background: var(--gold);
-  color: #000;
-  text-decoration: none;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: 0.3s;
   width: 100%;
   box-sizing: border-box;
 }
-.cta-main:hover { background: #fff; transform: translateY(-2px); }
+.logo { font-size: 1rem; font-weight: 300; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 5%;
+}
+.hero-content { max-width: 900px; }
+.hero h1 { 
+  font-size: clamp(2.8rem, 8vw, 5rem); 
+  font-weight: 200;
+  line-height: 1.05; 
+  margin-bottom: 2.5rem;
+  letter-spacing: -1px;
+}
+.hero p { font-size: 1.3rem; color: var(--text-dim); margin-bottom: 3.5rem; font-weight: 300; font-style: italic; }
+
+/* 核心差异化 */
+.section { padding: 10rem 10%; }
+.section-header { text-align: left; margin-bottom: 6rem; max-width: 700px; }
+.section-header p { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 5px; margin-bottom: 1.5rem; }
+.section-header h2 { font-size: 3rem; font-weight: 300; line-height: 1.2; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1px; /* 线条感设计 */
+  background: #222; /* 网格线颜色 */
+}
+.grid-item {
+  background: var(--bg);
+  padding: 4rem 2rem;
+  transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.grid-item:hover { background: var(--accent); }
+.grid-item h3 { font-size: 1.6rem; font-weight: 300; margin-bottom: 1.5rem; color: var(--gold); }
+.grid-item p { color: var(--text-dim); line-height: 1.8; font-size: 1.05rem; }
+
+/* 定价：像一件艺术品 */
+.offer-box {
+  background: var(--card-bg);
+  border: 1px solid #1a1a1a;
+  padding: 6rem 4rem;
+  text-align: center;
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.badge {
+  position: absolute;
+  top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--gold);
+  color: #000;
+  font-size: 0.7rem;
+  padding: 4px 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+.price { font-size: 5.5rem; font-weight: 200; color: #fff; margin: 2rem 0; }
+.price span { font-size: 1rem; color: var(--text-dim); vertical-align: middle; }
+
+.perks {
+  list-style: none; padding: 0; margin: 3rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: left;
+  gap: 1.5rem;
+}
+.perks li { font-size: 0.95rem; color: var(--text-main); font-weight: 300; display: flex; align-items: center; }
+.perks li::before { content: ""; width: 6px; height: 6px; background: var(--gold); margin-right: 12px; border-radius: 50%; }
+
+/* 按钮：极致优雅 */
+.btn {
+  display: inline-block;
+  padding: 1.5rem 4rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: 0.4s;
+}
+.btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(197, 160, 89, 0.2); }
 
 footer {
-  padding: 6rem 8%;
-  background: #000;
+  padding: 8rem 5%;
   text-align: center;
-  border-top: 1px solid #111;
+  opacity: 0.5;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
 }
-.footer-text { color: #444; font-size: 0.75rem; letter-spacing: 1px; line-height: 2; }
 
 @media (max-width: 768px) {
-  .hero h1 { font-size: 2.5rem; }
-  .section { padding: 5rem 5%; }
-  .premium-card { padding: 3rem 1.5rem; }
+  .perks { grid-template-columns: 1fr; }
+  .offer-box { padding: 4rem 1.5rem; }
+  .hero h1 { font-size: 3.5rem; }
 }
 </style>
+<!-- 引入高级感字体 -->
+<link href="fonts.googleapis.com" rel="stylesheet">
 </head>
 <body>
+
+<div class="bg-glow"></div>
 
 <nav>
   <div class="logo">Customized Companion</div>
   <div class="nav-links">
-    <a href="#about">Philosophy</a>
-    <a href="#pricing">Membership</a>
-    <a href="form.html" style="color:var(--gold)">Apply Now</a>
+    <a href="form.html" class="btn" style="padding: 0.8rem 1.5rem; font-size: 0.7rem;">Inquiry</a>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-content">
-    <h1>Feel Heard. <br>Without Judgment.</h1>
-    <p>Premium 1-on-1 human companionship for the modern era. No AI, no scripts—just genuine conversations tailored to you.</p>
-    <a href="form.html" class="cta-main">Begin Your Journey</a>
+    <h1>An Unscripted Sanctuary <br>for Your Soul.</h1>
+    <p>Beyond algorithms. Beyond AI. <br>Authentic human connection, tailored for the discerning individual.</p>
+    <a href="form.html" class="btn">Apply for Membership</a>
   </div>
 </section>
 
-<section class="section" id="about">
-  <div class="section-title">
-    <p>The Experience</p>
-    <h2>Why Customized Companionship?</h2>
+<section class="section">
+  <div class="section-header">
+    <p>Philosophy</p>
+    <h2>In a digital world, <br>Presence is the ultimate luxury.</h2>
   </div>
-  <div class="features">
-    <div class="f-card">
-      <h3>Personalized Matching</h3>
-      <p>We don't just assign a person; we curate a connection. Based on your personality and needs, we match you with a companion who truly resonates with your worldview.</p>
+  <div class="grid">
+    <div class="grid-item">
+      <h3>Curation, Not Selection</h3>
+      <p>We don't just match profiles. We understand your resonance—matching you with a companion who speaks your emotional language.</p>
     </div>
-    <div class="f-card">
-      <h3>Zero-Pressure Space</h3>
-      <p>A safe haven to vent, share, or just sit in silence. You don't have to perform or follow social etiquettes. We are here to listen and respond at your pace.</p>
+    <div class="grid-item">
+      <h3>The Human Edge</h3>
+      <p>AI can mimic, but it cannot care. Our companions offer genuine empathy, lived experience, and the nuance of a real beating heart.</p>
     </div>
-    <div class="f-card">
-      <h3>Holistic Support</h3>
-      <p>Whether you're navigating career stress, seeking language practice, or craving deep intellectual debate, your companion adapts to your lifestyle.</p>
+    <div class="grid-item">
+      <h3>Absolute Discretion</h3>
+      <p>Your privacy is our baseline. Every conversation is a vault, protected by 2025's highest standards of digital and ethical encryption.</p>
     </div>
   </div>
 </section>
 
-<section class="section" id="pricing" style="background: #0f0f0f;">
-  <div class="section-title">
-    <p>Exclusive Membership</p>
-    <h2>The Platinum Plan</h2>
-  </div>
-  
-  <div class="pricing-container">
-    <div class="premium-card">
-      <div style="letter-spacing: 5px; color: #666; font-size: 0.75rem; margin-bottom: 1rem; text-transform: uppercase;">Limited Intake 2025</div>
-      <h3>Bespoke Companionship</h3>
-      
-      <div class="price-tag">$99 <span>/ MONTH</span></div>
-      
-      <ul class="benefits-list">
-        <li><b>2 Deep-Dive Sessions</b> (Video/Voice calls)</li>
-        <li><b>Unlimited Texting</b> (24/7 Priority access)</li>
-        <li><b>Bespoke Matching</b> (Based on EQ & Interests)</li>
-        <li><b>Total Privacy</b> (End-to-end encryption)</li>
-        <li><b>Cancel Anytime</b> (No long-term contracts)</li>
-      </ul>
+<section class="section" style="padding-top: 0;">
+  <div class="offer-box">
+    <div class="badge">Limited Membership</div>
+    <p style="color:var(--gold); letter-spacing: 3px;">THE BESPOKE COLLECTION</p>
+    <div class="price">$99<span>/month</span></div>
+    
+    <ul class="perks">
+      <li>Two 1-on-1 Deep Dives</li>
+      <li>Unlimited Private Texting</li>
+      <li>Priority Human Response</li>
+      <li>Bespoke Personality Match</li>
+      <li>Global Access 24/7</li>
+      <li>No-Questions-Asked Cancellation</li>
+    </ul>
 
-      <a href="form.html" class="cta-main">Apply for Access</a>
-      
-      <p style="margin-top: 2rem; color: #444; font-size: 0.8rem; font-style: italic;">
-        To maintain service quality, we only accept 50 new members per month.
-      </p>
-    </div>
+    <a href="form.html" class="btn">Initiate Membership</a>
+    <p style="margin-top: 3rem; color: #444; font-size: 0.8rem; font-style: italic;">
+      Strictly limited to 50 active members to ensure exceptional presence.
+    </p>
   </div>
 </section>
 
 <footer>
-  <div class="footer-text">
-    <p>© 2025 CUSTOMIZED COMPANION. ALL RIGHTS RESERVED.</p>
-    <p>Empowering Human Connection in a Digital World.</p>
-    <p style="margin-top: 10px; text-decoration: underline; cursor: pointer;">Privacy Policy | Terms of Service</p>
-  </div>
+  <p>© 2025 CUSTOMIZED COMPANION | THE ART OF LISTENING</p>
+  <p style="margin-top: 20px;">NEW YORK • LONDON • SINGAPORE</p>
 </footer>
 
 </body>
