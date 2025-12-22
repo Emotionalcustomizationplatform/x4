@@ -24,10 +24,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow: hidden;
 }
 
-/* 背景光效 */
 .glow {
   position: absolute;
   top: 50%; left: 50%;
@@ -44,7 +42,6 @@ body {
   text-align: center;
 }
 
-/* 进度条 */
 .progress-bar {
   width: 100px;
   height: 2px;
@@ -56,7 +53,7 @@ body {
   position: absolute;
   left: 0; top: 0; height: 100%;
   background: var(--gold);
-  width: 33%;
+  width: 33.3%;
   transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -79,7 +76,6 @@ h2 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 输入框高端化 */
 input, textarea, select {
   width: 100%;
   background: transparent;
@@ -90,13 +86,9 @@ input, textarea, select {
   font-size: 1.1rem;
   margin-bottom: 2rem;
   font-family: 'Inter', sans-serif;
-  transition: 0.4s;
   border-radius: 0;
 }
-input:focus {
-  outline: none;
-  border-bottom-color: var(--gold);
-}
+input:focus { outline: none; border-bottom-color: var(--gold); }
 
 .btn-group {
   display: flex;
@@ -114,9 +106,7 @@ input:focus {
   letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: 0.3s;
 }
-.btn-next:hover { background: #fff; }
 
 .btn-back {
   background: transparent;
@@ -124,11 +114,9 @@ input:focus {
   border: none;
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
   cursor: pointer;
 }
 
-/* 方案卡片 */
 .plan-summary {
   border: 1px solid #222;
   padding: 2rem;
@@ -146,8 +134,9 @@ input:focus {
 <div class="form-wrapper">
   <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
 
+  <!-- ✅ 这里保留你原有的提交逻辑 -->
   <form id="bespokeForm">
-    
+    <!-- 第一步 -->
     <div class="step active" id="step1">
       <h2>Who are we <br>speaking with?</h2>
       <input type="text" name="name" placeholder="Full Name" required>
@@ -157,7 +146,7 @@ input:focus {
       </div>
     </div>
 
-    <!-- Step 2: Connection -->
+    <!-- 第二步 -->
     <div class="step" id="step2">
       <h2>What kind of presence <br>do you seek?</h2>
       <textarea name="preference" rows="2" placeholder="Describe the energy you need..."></textarea>
@@ -172,7 +161,7 @@ input:focus {
       </div>
     </div>
 
-    <!-- Step 3: Confirmation -->
+    <!-- 第三步 -->
     <div class="step" id="step3">
       <h2>Confirm Application</h2>
       <div class="plan-summary">
@@ -180,6 +169,10 @@ input:focus {
         <strong>Platinum Member</strong>
         <p style="color: var(--dim); font-size: 0.9rem;">$99 / month • Bespoke Match</p>
       </div>
+      
+      <!-- ✅ 隐藏字段，确保你后台能收到正确的套餐信息 -->
+      <input type="hidden" name="plan" value="platinum_monthly_99">
+
       <div class="btn-group">
         <button type="submit" class="btn-next">Submit Inquiry</button>
         <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
@@ -187,6 +180,7 @@ input:focus {
     </div>
   </form>
 
+  <!-- 成功提示 -->
   <div id="success">
     <h2 style="color: var(--gold);">✦ Received.</h2>
     <p style="color: var(--dim); line-height: 1.8;">Our concierge will review your profile <br>and reach out within 24 hours.</p>
@@ -195,25 +189,35 @@ input:focus {
 </div>
 
 <script>
+// 控制分步显示
 function nextStep(step) {
-  // 切换步骤显示
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('step' + step).classList.add('active');
-  
-  // 更新进度条
   const progress = (step / 3) * 100;
   document.getElementById('progress').style.width = progress + '%';
 }
 
-document.getElementById('bespokeForm').onsubmit = e => {
+// ✅ 核心：保留你发给我代码中的 fetch 提交逻辑
+const form = document.getElementById('bespokeForm');
+const successBox = document.getElementById('success');
+
+form.onsubmit = e => {
   e.preventDefault();
-  document.getElementById('bespokeForm').style.display = 'none';
+
+  // 1. 立即显示成功视觉反馈（提升用户体验）
+  form.style.display = 'none';
   document.querySelector('.progress-bar').style.display = 'none';
-  document.getElementById('success').style.display = 'block';
-  
-  // 实际部署时这里连接你的 API
-  const data = Object.fromEntries(new FormData(e.target));
-  console.log('Application Data:', data);
+  successBox.style.display = 'block';
+
+  // 2. 使用你原有的接口发送数据到邮箱
+  // 注意：确保你的后端接口地址 '/api/submit-form' 依然有效
+  fetch('/api/submit-form', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(Object.fromEntries(new FormData(form)))
+  })
+  .then(res => console.log("Data sent to your email system."))
+  .catch(err => console.error("Error sending data:", err));
 };
 </script>
 
