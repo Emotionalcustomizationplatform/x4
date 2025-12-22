@@ -1,129 +1,128 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Talk to a Real Person | Private 1-on-1 Conversations</title>
-<link rel="stylesheet" href="styles.css">
+
+<link rel="stylesheet" href="styles.css" />
 
 <style>
-  .hero-section {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: url('carousel/slide-img-1.jpeg') center/cover no-repeat;
-    color: #fff;
-    padding: 2rem;
-    position: relative;
-  }
+/* ---------- HERO ---------- */
+.hero {
+  height: 100vh;
+  background: url('carousel/slide-img-1.jpeg') center/cover no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
-  .hero-section::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 0;
-  }
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
 
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 860px;
-    animation: fadeIn 1s ease forwards;
-  }
+.hero-content {
+  position: relative;
+  max-width: 860px;
+  padding: 2rem;
+}
 
-  .hero-section h1 {
-    font-size: clamp(2.4rem,5vw,3.4rem);
-    margin-bottom: 1.2rem;
-    line-height: 1.2;
-  }
+.hero h1 {
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  margin-bottom: 1.2rem;
+}
 
-  .hero-section p {
-    font-size: clamp(1.1rem,2.6vw,1.35rem);
-    margin-bottom: 2.2rem;
-    opacity: 0.95;
-    line-height: 1.7;
-  }
+.hero p {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  margin-bottom: 2.2rem;
+  color: #ddd;
+}
 
-  .cta-btn {
-    padding: 1rem 2.4rem;
-    background-color: #ffd700;
-    color: #000;
-    text-decoration: none;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: all 0.3s;
-    font-size: 1.05rem;
-  }
+/* ---------- SECTIONS ---------- */
+.section {
+  max-width: 1100px;
+  margin: 4rem auto;
+  padding: 0 1.2rem;
+}
 
-  .cta-btn:hover {
-    background-color: #fff;
-    transform: translateY(-2px);
-  }
+.section h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 2.5rem;
+}
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* ---------- GRID & CARD ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
 
-  .services-preview {
-    max-width: 1100px;
-    margin: 4rem auto;
-    padding: 0 1.2rem;
-  }
+.card {
+  background: #1f1f1f;
+  border-radius: 14px;
+  padding: 2rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
 
-  .services-preview h2 {
-    text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 2.5rem;
-  }
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.35);
+}
 
-  .preview-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-    gap: 2rem;
-  }
+.card h3 {
+  color: #ffd700;
+  margin-bottom: 0.8rem;
+}
 
-  .preview-card {
-    background-color: #1f1f1f;
-    color: #fff;
-    padding: 2rem;
-    border-radius: 14px;
-    text-align: left;
-    transition: all 0.3s;
-  }
+.card p {
+  line-height: 1.6;
+  color: #ddd;
+}
 
-  .preview-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
-  }
+/* ---------- CTA ---------- */
+.cta-btn {
+  display: inline-block;
+  padding: 1rem 2.4rem;
+  background: #ffd700;
+  color: #000;
+  border-radius: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
 
-  .preview-card h3 {
-    margin-bottom: 0.8rem;
-    font-size: 1.4rem;
-    color: #ffd700;
-  }
+.cta-btn:hover {
+  background: #fff;
+}
 
-  .preview-card p {
-    line-height: 1.6;
-    opacity: 0.95;
-  }
+/* ---------- PRICE ---------- */
+.price {
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: #ffd700;
+  margin: 0.6rem 0;
+}
 
-  footer {
-    text-align: center;
-    padding: 2rem 1rem;
-    font-size: 0.9rem;
-    color: #aaa;
-    background: #0f0f0f;
-  }
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #aaa;
+  background: #0f0f0f;
+}
 </style>
 </head>
 
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="logo">
     <a href="index.html">Customized Companion</a>
@@ -135,79 +134,106 @@
   </div>
 </nav>
 
-<section class="hero-section">
+<!-- HERO -->
+<section class="hero">
   <div class="hero-content">
-    <h1>
-      Talk to a real person.<br>
-      Feel heard. No pressure.
-    </h1>
-
+    <h1>Talk to a real person.<br>Feel heard. No pressure.</h1>
     <p>
-      Feeling lonely, overwhelmed, or just need someone to listen?<br>
-      This is a private one-on-one conversation with a real human being.<br>
+      Private one-on-one conversations with a real human.<br>
       Not therapy. Not AI. Just a safe place to talk.
     </p>
-
-    <a href="form.html" class="cta-btn">
-      Start a Free Conversation
-    </a>
+    <a href="form.html" class="cta-btn">Start a Free Conversation</a>
   </div>
 </section>
 
-<section class="services-preview">
+<!-- USE CASES -->
+<section class="section">
   <h2>What You Can Use This For</h2>
-
-  <div class="preview-grid">
-    <div class="preview-card">
+  <div class="grid">
+    <div class="card">
       <h3>Personal Conversation Companion</h3>
       <p>
-        A calm, private space to talk about your day, stress, loneliness,
-        or anything on your mind. No advice unless you ask.
+        Talk about stress, loneliness, or daily life.
+        No judgment. No pressure. Just listening.
       </p>
     </div>
-
-    <div class="preview-card">
+    <div class="card">
       <h3>Learn Chinese Through Conversation</h3>
       <p>
-        Practice real Chinese through relaxed one-on-one conversations.
-        No textbooks. No judgment. Just natural speaking.
+        Practice real Chinese naturally through relaxed
+        one-on-one conversations.
       </p>
     </div>
   </div>
 </section>
 
-<section class="services-preview">
+<!-- TRUST -->
+<section class="section">
   <h2>Why People Trust This</h2>
-
-  <div class="preview-grid">
-    <div class="preview-card">
+  <div class="grid">
+    <div class="card">
       <h3>100% Real Humans</h3>
-      <p>
-        Every conversation is with a real person.
-        No bots. No scripts. No automation.
-      </p>
+      <p>No bots. No scripts. No automation.</p>
+    </div>
+    <div class="card">
+      <h3>Private & Respectful</h3>
+      <p>Your information stays private. No spam.</p>
+    </div>
+    <div class="card">
+      <h3>No Commitment</h3>
+      <p>Free to start. Continue only if it feels right.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section">
+  <h2>Pricing</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>First Session Trial</h3>
+      <div class="price">$19</div>
+      <p>30-minute private conversation<br>No commitment</p>
+      <a href="form.html" class="cta-btn">Start Trial</a>
     </div>
 
-    <div class="preview-card">
-      <h3>Private & Confidential</h3>
-      <p>
-        Your messages are private.
-        We don’t sell data or send spam.
-      </p>
+    <div class="card" style="border:2px solid #ffd700;">
+      <h3>Weekly Membership</h3>
+      <div class="price">$79 / week</div>
+      <p>3 sessions · Same companion · Cancel anytime</p>
+      <a href="form.html" class="cta-btn">Join Weekly</a>
     </div>
 
-    <div class="preview-card">
-      <h3>No Commitment Upfront</h3>
-      <p>
-        Submitting the form is free.
-        You decide later if you want to continue.
-      </p>
+    <div class="card">
+      <h3>Monthly Membership</h3>
+      <div class="price">$249 / month</div>
+      <p>12 sessions · Best value · Priority matching</p>
+      <a href="form.html" class="cta-btn">Join Monthly</a>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANIONS -->
+<section class="section">
+  <h2>Meet Our Companions</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Anna · Conversation Companion</h3>
+      <p>Calm, patient, and a good listener.</p>
+    </div>
+    <div class="card">
+      <h3>Lily · Chinese Tutor</h3>
+      <p>Friendly and supportive for real Chinese practice.</p>
+    </div>
+    <div class="card">
+      <h3>Matched For You</h3>
+      <p>We match based on your needs and personality.</p>
     </div>
   </div>
 </section>
 
 <footer>
-  © 2025 Customized Companion. All rights reserved.
+© 2025 Customized Companion. All rights reserved.
 </footer>
 
 </body>
