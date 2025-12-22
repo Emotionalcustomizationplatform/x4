@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Get Started | Tell Us About You</title>
-<link rel="stylesheet" href="/styles.css">
+
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -12,6 +12,7 @@ body {
   color: #fff;
   padding-top: 60px;
 }
+
 nav {
   position: fixed;
   top: 0;
@@ -22,239 +23,186 @@ nav {
   display: flex;
   justify-content: space-between;
 }
-nav a {
-  color: #fff;
-  text-decoration: none;
-}
-.lang-switch-btn { cursor: pointer; }
+
+nav a { color:#fff; text-decoration:none; }
+.lang-switch-btn { cursor:pointer; }
 
 .registration-form-section {
   max-width: 820px;
   margin: 5rem auto 4rem;
-  padding: 2rem;
+  padding: 2.2rem;
   background: #1c1c1c;
   border-radius: 14px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
 
 h2 {
   text-align: center;
   color: #ffd700;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
 }
 
 .intro-text {
   text-align: center;
   color: #ccc;
-  font-size: 1.05rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   line-height: 1.7;
 }
 
-fieldset {
-  border: none;
-  margin-bottom: 2rem;
-}
+fieldset { border:none; margin-bottom:2rem; }
 
 legend {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #ffd700;
-  margin-bottom: 1rem;
+  color:#ffd700;
+  font-weight:bold;
+  margin-bottom:1rem;
 }
 
-label {
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-small {
-  color: #aaa;
-  display: block;
-  margin-bottom: 0.6rem;
-}
+label { display:block; margin-bottom:.3rem; }
+small { color:#aaa; margin-bottom:.5rem; display:block; }
 
 input, select {
-  width: 100%;
-  padding: 0.7rem;
-  border-radius: 6px;
-  border: 1px solid #444;
-  background: #2a2a2a;
-  color: #fff;
+  width:100%;
+  padding:.7rem;
+  border-radius:6px;
+  border:1px solid #444;
+  background:#2a2a2a;
+  color:#fff;
 }
 
-input:focus, select:focus {
-  outline: none;
-  border-color: #ffd700;
+.plan-box {
+  background:#151515;
+  border:1px solid #333;
+  border-radius:10px;
+  padding:1rem;
+  margin-bottom:.8rem;
+  cursor:pointer;
 }
 
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
+.plan-box.selected {
+  border-color:#ffd700;
+  background:#202020;
 }
 
 button {
-  width: 100%;
-  padding: 0.9rem;
-  background: #ffd700;
-  color: #000;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #ffec7f;
+  width:100%;
+  padding:1rem;
+  background:#ffd700;
+  color:#000;
+  font-weight:bold;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
 }
 
 .success-alert {
-  display: none;
-  position: fixed;
-  top: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #28a745;
-  padding: 1rem 2rem;
-  border-radius: 6px;
-  font-size: 1rem;
-  z-index: 9999;
+  display:none;
+  background:#1f7a3f;
+  padding:1rem;
+  border-radius:8px;
+  text-align:center;
+  margin-bottom:1.5rem;
 }
-.success-alert.show { display: block; }
 </style>
 </head>
 
 <body>
 
 <nav>
-  <a href="index.html" data-en="← Back" data-zh="← 返回">← Back</a>
+  <a href="index.html">← Back</a>
   <div>
     <span class="lang-switch-btn" data-target-lang="en">English</span> |
     <span class="lang-switch-btn" data-target-lang="zh">中文</span>
   </div>
 </nav>
 
-<div class="success-alert" id="successAlert"></div>
-
 <section class="registration-form-section">
-  <h2 data-en="Tell Us What You’re Looking For" data-zh="告诉我们你的需求">
-    Tell Us What You’re Looking For
-  </h2>
 
-  <p class="intro-text"
-     data-en="This is a short, no-pressure form. There is no payment and no obligation. We simply use this to understand your needs and see if we’re a good fit."
-     data-zh="这是一个无压力的简短表单，不涉及付款，也不构成任何承诺，仅用于了解你的需求。">
-    This is a short, no-pressure form. There is no payment and no obligation.
+  <div class="success-alert" id="successAlert">
+    ✅ Submitted successfully. We’ll contact you shortly.
+  </div>
+
+  <h2>Tell Us What You’re Looking For</h2>
+  <p class="intro-text">
+    No payment now. No obligation.<br>
+    Just tell us what you want — you decide later.
   </p>
 
   <form id="registrationForm">
 
     <fieldset>
-      <legend data-en="Basic Information" data-zh="基本信息">Basic Information</legend>
+      <legend>Basic Information</legend>
 
-      <label data-en="Your Name" data-zh="你的称呼">Your Name</label>
-      <input name="name" required placeholder="How should we call you">
+      <label>Your Name</label>
+      <input name="name" required>
 
-      <label data-en="Email Address" data-zh="电子邮箱">Email Address</label>
-      <input type="email" name="email" required placeholder="you@example.com">
+      <label>Email</label>
+      <input type="email" name="email" required>
 
-      <label data-en="Phone Number (Optional but helpful)" data-zh="手机号码（可选，但有助于联系）">
-        Phone Number (Optional but helpful)
-      </label>
-      <small data-en="Only if you’re comfortable. We respect your privacy."
-             data-zh="仅在你愿意的情况下填写，我们尊重你的隐私。">
-        Only if you’re comfortable. We respect your privacy.
-      </small>
+      <label>Phone (Optional)</label>
       <input name="phone">
     </fieldset>
 
     <fieldset>
-      <legend data-en="What are you interested in?" data-zh="你对哪项服务感兴趣？">
-        What are you interested in?
-      </legend>
-
+      <legend>Service Type</legend>
       <select name="program" required>
-        <option value="" disabled selected data-en="Please select" data-zh="请选择">
-          Please select
-        </option>
-        <option value="program1" data-en="Customized Companion" data-zh="定制专属伴侣">
-          Customized Companion
-        </option>
-        <option value="program2" data-en="Learn Chinese" data-zh="学习中文">
-          Learn Chinese
-        </option>
+        <option disabled selected>Please select</option>
+        <option value="companion">Customized Companion</option>
+        <option value="chinese">Learn Chinese</option>
       </select>
     </fieldset>
 
+    <!-- ✅ 新增：价格选择 -->
     <fieldset>
-      <legend data-en="How did you hear about us?" data-zh="你是如何了解我们的？">
-        How did you hear about us?
-      </legend>
+      <legend>Choose a Plan (not charged now)</legend>
 
-      <div class="radio-group">
-        <label><input type="radio" name="source" value="socialMedia" required> Social Media</label>
-        <label><input type="radio" name="source" value="friend"> Friend / Referral</label>
-        <label><input type="radio" name="source" value="other"> Other</label>
+      <div class="plan-box selected" data-plan="trial">
+        <strong>Trial · $9.9</strong><br>
+        First conversation, no commitment
       </div>
+
+      <div class="plan-box" data-plan="weekly">
+        <strong>Weekly · $19.9</strong><br>
+        Unlimited chats for 7 days
+      </div>
+
+      <div class="plan-box" data-plan="monthly">
+        <strong>Monthly · $59.9</strong><br>
+        Best value · Priority support
+      </div>
+
+      <input type="hidden" name="plan" id="planInput" value="trial">
     </fieldset>
 
-    <button type="submit"
-      data-en="Send & Let’s Talk"
-      data-zh="提交并沟通">
-      Send & Let’s Talk
-    </button>
-
+    <button type="submit">Send & Continue</button>
   </form>
 </section>
-
-<footer style="text-align:center;color:#777;font-size:0.9rem;">
-© 2025 Customized Companion. All rights reserved.
-</footer>
 
 <script>
 const form = document.getElementById('registrationForm');
 const alertBox = document.getElementById('successAlert');
+const planInput = document.getElementById('planInput');
 
-form.addEventListener('submit', async e => {
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(form).entries());
-  const lang = document.documentElement.getAttribute('data-lang');
-
-  try {
-    const res = await fetch('/api/submit-form',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(data)
-    });
-    const result = await res.json();
-
-    if(result.success){
-      alertBox.textContent = lang==='zh'
-        ? '已收到，我们会通过你留下的方式联系你。'
-        : 'We’ve received your message. We’ll reach out shortly.';
-      alertBox.classList.add('show');
-      form.reset();
-      setTimeout(()=>alertBox.classList.remove('show'),3000);
-    }
-  } catch {
-    alert(lang==='zh'?'提交失败，请稍后再试':'Submission failed, please try again.');
-  }
-});
-
-// 语言切换
-document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
-  btn.onclick=()=>{
-    const lang=btn.dataset.targetLang;
-    document.documentElement.setAttribute('data-lang',lang);
-    document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
-      el.textContent=el.getAttribute(`data-${lang}`);
-    });
+// 价格选择
+document.querySelectorAll('.plan-box').forEach(box=>{
+  box.onclick=()=>{
+    document.querySelectorAll('.plan-box').forEach(b=>b.classList.remove('selected'));
+    box.classList.add('selected');
+    planInput.value = box.dataset.plan;
   };
 });
+
+// 提交（立即反馈，不等后端）
+form.onsubmit = e => {
+  e.preventDefault();
+  alertBox.style.display = 'block';
+
+  fetch('/api/submit-form',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(Object.fromEntries(new FormData(form)))
+  });
+
+  form.reset();
+};
 </script>
 
 </body>
