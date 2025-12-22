@@ -1,148 +1,215 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | Customized Companions & Learn Chinese</title>
-    <link rel="stylesheet" href="/styles.css">
-    <style>
-        .about-section {
-            padding: 8rem 2rem 4rem;
-            min-height: 100vh;
-            background-color: #111;
-            color: #fff;
-        }
-        .about-section h2 {
-            text-align: center;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            color: #ffd700;
-            margin-bottom: 2.5rem;
-            text-transform: uppercase;
-            font-family: "De Fonte Plus", sans-serif;
-        }
-        .about-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            line-height: 1.7;
-            font-size: 1rem;
-        }
-        .about-container p {
-            margin-bottom: 1.5rem;
-        }
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        .team-member {
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-        .team-member.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .team-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-            margin-bottom: 1rem;
-        }
-        .contact-info {
-            text-align: center;
-            background-color: #222;
-            padding: 2rem;
-            border-radius: 10px;
-        }
-        .contact-info h3 {
-            margin-bottom: 1rem;
-            color: #ffd700;
-        }
-        .contact-info p {
-            color: #fff;
-            font-size: 1rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Philosophy | Customized Companion</title>
+
+<!-- 保持与主页一致的高级字体 -->
+<link href="fonts.googleapis.com" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #C5A059;
+  --bg: #050505;
+  --text: #F5F5F5;
+  --dim: #888;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 导航 */
+nav {
+  padding: 2rem 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(5,5,5,0.9);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo { font-size: 1rem; font-weight: 300; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
+.nav-links a { color: var(--dim); text-decoration: none; font-size: 0.8rem; margin-left: 2rem; letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+
+/* About Hero */
+.about-hero {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 10%;
+  border-bottom: 1px solid #1a1a1a;
+}
+.hero-content h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+}
+.gold-line {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  margin: 2rem auto;
+}
+
+/* 核心内容区 */
+.philosophy-section {
+  max-width: 900px;
+  margin: 8rem auto;
+  padding: 0 2rem;
+}
+.story-block {
+  margin-bottom: 8rem;
+}
+.story-block p {
+  color: var(--gold);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+}
+.story-block h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+}
+.story-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  color: var(--dim);
+  font-size: 1.05rem;
+}
+
+/* 价值声明 */
+.values {
+  background: #0a0a0a;
+  padding: 8rem 10%;
+  text-align: center;
+}
+.value-item {
+  margin-bottom: 4rem;
+}
+.value-item h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: var(--gold);
+  font-weight: 300;
+}
+
+/* 底部引导 */
+.final-cta {
+  padding: 10rem 10%;
+  text-align: center;
+}
+.btn {
+  display: inline-block;
+  padding: 1.5rem 4rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: 0.4s;
+}
+.btn:hover { background: var(--gold); color: #000; }
+
+footer {
+  padding: 4rem;
+  text-align: center;
+  font-size: 0.7rem;
+  color: #444;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 768px) {
+  .story-content { grid-template-columns: 1fr; gap: 2rem; }
+  .story-block h2 { font-size: 2rem; }
+}
+</style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <nav>
-        <div class="logo">
-            <a href="index.html" data-en="Home" data-zh="首页">Home</a>
-        </div>
-        <div class="nav-links">
-            <a href="#" class="lang-switch-btn" data-target-lang="zh">中文</a>
-            <a href="#" class="lang-switch-btn" data-target-lang="en">English</a>
-            <a href="form.html" class="to-form-btn" data-en="Enroll Now" data-zh="立即报名">Enroll Now</a>
-            <a href="projects.html" data-en="Our Services" data-zh="我们的服务">Our Services</a>
-            <a href="about.html" class="active" data-en="About Us" data-zh="关于我们">About Us</a>
-        </div>
-    </nav>
 
-    <!-- 关于我们内容 -->
-    <section class="about-section">
-        <h2 data-en="About Us" data-zh="关于我们">About Us</h2>
-        <div class="about-container">
-            <p data-en="We provide personalized companionship and Chinese language learning services, tailored for each individual. Our mission is to make every interaction meaningful and enjoyable." data-zh="我们提供定制专属伴侣和中文学习服务，针对每个人量身定制。我们的使命是让每一次互动都充满意义和乐趣。">
-                We provide personalized companionship and Chinese language learning services, tailored for each individual. Our mission is to make every interaction meaningful and enjoyable.
-            </p>
-            <p data-en="Our team consists of experienced companions and professional Mandarin instructors, dedicated to providing a premium service for our clients worldwide." data-zh="我们的团队由经验丰富的伴侣和专业中文教师组成，致力于为全球客户提供优质服务。">
-                Our team consists of experienced companions and professional Mandarin instructors, dedicated to providing a premium service for our clients worldwide.
-            </p>
+<nav>
+  <a href="index.html" class="logo">Customized Companion</a>
+  <div class="nav-links">
+    <a href="index.html#pricing">Membership</a>
+    <a href="form.html" style="color: var(--gold);">Apply Now</a>
+  </div>
+</nav>
 
-            <!-- 团队展示 -->
-            <div class="team-grid">
-                <div class="team-member">
-                    <img src="team/member1.jpg" alt="Team Member" class="team-img">
-                    <p data-en="John Doe - Lead Companion" data-zh="约翰·多伊 - 首席伴侣">John Doe - Lead Companion</p>
-                </div>
-                <div class="team-member">
-                    <img src="team/member2.jpg" alt="Team Member" class="team-img">
-                    <p data-en="Li Mei - Chinese Instructor" data-zh="李美 - 中文教师">Li Mei - Chinese Instructor</p>
-                </div>
-            </div>
+<section class="about-hero">
+  <div class="hero-content">
+    <p style="letter-spacing: 5px; color: var(--gold); font-size: 0.8rem; margin-bottom: 2rem;">OUR PHILOSOPHY</p>
+    <h1>The Art of Truly <br>Being Seen.</h1>
+    <div class="gold-line"></div>
+    <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem; color: var(--dim);">"In an age of artificiality, authenticity is the only luxury."</p>
+  </div>
+</section>
 
-            <!-- 联系方式 -->
-            <div class="contact-info">
-                <h3 data-en="Contact Us" data-zh="联系我们">Contact Us</h3>
-                <p data-en="Email: xinc2529@gmail.com" data-zh="邮箱: xinc2529@gmail.com">Email: xinc2529@gmail.com</p>
-            </div>
-        </div>
-    </section>
+<section class="philosophy-section">
+  <div class="story-block">
+    <p>The Context</p>
+    <h2>Algorithms don't have souls.</h2>
+    <div class="story-content">
+      <div>
+        Modern connection is a paradox. We are more "connected" than ever, yet the depth of our conversations has withered. AI chatbots offer a mirror, but they lack the warmth of a window into another person's lived experience.
+      </div>
+      <div>
+        We believe that emotional well-being isn't found in a pre-programmed response. It's found in the pauses, the shared laughter, and the unscripted moments that only happen between two human beings.
+      </div>
+    </div>
+  </div>
 
-    <footer style="text-align:center; padding:1rem; color:#666; font-size:0.9rem;">
-        © 2025 Customized Companions & Learn Chinese. All rights reserved.
-    </footer>
+  <div class="story-block">
+    <p>The Mission</p>
+    <h2>A sanctuary for the mind.</h2>
+    <div class="story-content">
+      <div>
+        Customized Companion was born as a response to digital isolation. Our mission is to provide a safe, non-judgmental space where you can shed your public persona and simply exist.
+      </div>
+      <div>
+        Whether you are seeking an intellectual sparring partner, an emotional anchor, or a bridge to a new culture, our companions are chosen for one quality above all: the capacity for presence.
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- 动效和中英文切换 -->
-    <script>
-        // 团队卡片滚动动效
-        const members = document.querySelectorAll('.team-member');
-        const observer = new IntersectionObserver(entries=>{
-            entries.forEach(entry=>{
-                if(entry.isIntersecting){
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, {threshold:0.3});
-        members.forEach(member => observer.observe(member));
+<section class="values">
+  <div class="value-item">
+    <h3>Absolute Discretion</h3>
+    <p style="max-width: 600px; margin: 0 auto; color: var(--dim);">Your privacy is our baseline. Every dialogue is a vault, protected by 2025's highest ethical and digital standards.</p>
+  </div>
+  <div class="value-item">
+    <h3>Radical Empathy</h3>
+    <p style="max-width: 600px; margin: 0 auto; color: var(--dim);">We don't fix. We listen. Our companions are trained to hold space for your complexity, your silence, and your truth.</p>
+  </div>
+</section>
 
-        // 中英文切换
-        document.querySelectorAll('.lang-switch-btn').forEach(btn=>{
-            btn.addEventListener('click', (e)=>{
-                e.preventDefault();
-                const lang = btn.getAttribute('data-target-lang');
-                document.documentElement.setAttribute('data-lang', lang);
-                document.querySelectorAll('[data-en],[data-zh]').forEach(el=>{
-                    el.textContent = el.getAttribute(`data-${lang}`);
-                });
-            });
-        });
-    </script>
+<section class="final-cta">
+  <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; margin-bottom: 3rem; font-weight: 300;">Ready to be heard?</h2>
+  <a href="form.html" class="btn">Initiate Membership Inquiry</a>
+</section>
+
+<footer>
+  © 2025 CUSTOMIZED COMPANION | NEW YORK · LONDON · SINGAPORE
+</footer>
+
 </body>
 </html>
