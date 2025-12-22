@@ -1,185 +1,235 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Talk to a Real Person | Private 1-on-1 Conversations</title>
-
-<link rel="stylesheet" href="styles.css" />
+<title>Customized Companion | 2025 专属私人陪伴定制</title>
 
 <style>
+:root {
+  --gold: #D4AF37; /* 更有质感的香槟金 */
+  --bg: #0A0A0A;
+  --card-bg: #141414;
+  --text-main: #FFFFFF;
+  --text-dim: #A0A0A0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'PingFang SC', sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 导航：悬浮半透明感 */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 8%;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.logo { font-size: 1.2rem; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; margin-left: 2rem; transition: 0.3s; }
+.nav-links a:hover { color: var(--gold); }
+
+/* Hero Section: 氛围感 */
 .hero {
-  height: 100vh;
-  background: url('carousel/slide-img-1.jpeg') center/cover no-repeat;
-  position: relative;
+  height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+  padding: 0 5%;
 }
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
+.hero-content { max-width: 900px; }
+.hero h1 { 
+  font-size: clamp(2.5rem, 6vw, 4.5rem); 
+  line-height: 1.1; 
+  margin-bottom: 2rem;
+  background: linear-gradient(180deg, #fff 0%, #888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.hero-content {
-  position: relative;
-  max-width: 860px;
-  padding: 2rem;
-}
-.hero h1 {
-  font-size: clamp(2.4rem, 5vw, 3.4rem);
-  margin-bottom: 1.2rem;
-}
-.hero p {
-  font-size: 1.2rem;
-  line-height: 1.7;
-  margin-bottom: 2.2rem;
-  color: #ddd;
-}
+.hero p { font-size: 1.25rem; color: var(--text-dim); margin-bottom: 3rem; font-weight: 300; }
 
-.section {
-  max-width: 1100px;
-  margin: 4rem auto;
-  padding: 0 1.2rem;
-}
-.section h2 {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 2.5rem;
-}
+/* 核心优势：卡片化 */
+.section { padding: 8rem 8%; }
+.section-title { text-align: center; margin-bottom: 5rem; }
+.section-title h2 { font-size: 2.5rem; letter-spacing: 1px; }
+.section-title p { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 4px; }
 
-.grid {
+.features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+}
+.f-card {
+  padding: 3rem;
+  background: var(--card-bg);
+  border-radius: 2px; /* 方正设计更具高端建筑感 */
+  border-left: 1px solid #222;
+  transition: 0.4s;
+}
+.f-card:hover { border-left: 1px solid var(--gold); background: #1a1a1a; }
+.f-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--gold); }
+.f-card p { color: var(--text-dim); font-size: 1rem; line-height: 1.8; }
+
+/* 定价部分：极致聚焦 */
+.pricing-container {
+  display: flex;
+  justify-content: center;
+  padding: 6rem 0;
+}
+.premium-card {
+  width: 100%;
+  max-width: 600px;
+  background: linear-gradient(145deg, #181818, #111);
+  padding: 4rem;
+  border: 1px solid #333;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.premium-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 4px;
+  background: var(--gold);
+}
+.price-tag { font-size: 4rem; font-weight: 700; margin: 2rem 0; color: var(--gold); }
+.price-tag span { font-size: 1rem; color: var(--text-dim); font-weight: 300; }
+
+.benefits-list {
+  text-align: left;
+  margin: 3rem auto;
+  max-width: 400px;
+  list-style: none;
+  padding: 0;
+}
+.benefits-list li {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  color: var(--text-main);
+  font-size: 1.1rem;
+}
+.benefits-list li::before {
+  content: "✦";
+  color: var(--gold);
+  margin-right: 15px;
 }
 
-.card {
-  background: #1f1f1f;
-  border-radius: 14px;
-  padding: 2rem;
-}
-.card h3 {
-  color: #ffd700;
-  margin-bottom: 0.6rem;
-}
-.card p {
-  line-height: 1.6;
-  color: #ddd;
-}
-
-.cta-btn {
+/* 按钮：流光效果 */
+.cta-main {
   display: inline-block;
-  padding: 0.9rem 2.2rem;
-  background: #ffd700;
+  padding: 1.2rem 3.5rem;
+  background: var(--gold);
   color: #000;
-  border-radius: 10px;
-  font-weight: bold;
   text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: 0.3s;
+  border-radius: 0;
 }
-
-.price {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ffd700;
-  margin: 0.6rem 0;
-}
+.cta-main:hover { background: #fff; transform: scale(1.05); }
 
 footer {
+  padding: 5rem 8%;
+  background: #000;
   text-align: center;
-  padding: 2rem 1rem;
-  color: #aaa;
-  background: #0f0f0f;
+  border-top: 1px solid #111;
+}
+.footer-text { color: #444; font-size: 0.8rem; letter-spacing: 1px; }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.8rem; }
+  .premium-card { padding: 2rem; }
 }
 </style>
 </head>
-
 <body>
 
 <nav>
-  <div class="logo">
-    <a href="index.html">Customized Companion</a>
-  </div>
+  <div class="logo">Customized Companion</div>
   <div class="nav-links">
-    <a href="projects.html">Services</a>
-    <a href="about.html">About</a>
-    <a href="form.html" class="cta-btn">Start Free</a>
+    <a href="#concept">理念</a>
+    <a href="#service">方案</a>
+    <a href="form.html" style="color:var(--gold)">申请定制</a>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-content">
-    <h1>Talk to a real person.<br>Feel heard. No pressure.</h1>
-    <p>
-      Private one-on-one conversations with real humans.<br>
-      Not therapy. Not AI. Just someone who listens.
-    </p>
-    <a href="form.html" class="cta-btn">Start Free</a>
+    <h1>让对话回归本质</h1>
+    <p>在这个喧嚣的世界，为你预留一处精神的自留地。<br>拒绝工业化模板，提供真正触及灵魂的深度陪伴。</p>
+    <a href="form.html" class="cta-main">立即获取名额</a>
   </div>
 </section>
 
-<section class="section">
-  <h2>What You Can Use This For</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Conversation Companion</h3>
-      <p>Talk about stress, loneliness, or daily life. Calm and respectful.</p>
-    </div>
-    <div class="card">
-      <h3>Learn Chinese Naturally</h3>
-      <p>Practice real Chinese through relaxed one-on-one conversations.</p>
-    </div>
+<section class="section" id="concept">
+  <div class="section-title">
+    <p>Why Us</p>
+    <h2>为什么选择定制陪伴</h2>
   </div>
-</section>
-
-<section class="section">
-  <h2>Pricing (Decide Later)</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>First Session Trial</h3>
-      <div class="price">$9.9</div>
-      <p>First conversation · No commitment</p>
-      <a href="form.html" class="cta-btn">Start</a>
+  <div class="features">
+    <div class="f-card">
+      <h3>绝对私人定制</h3>
+      <p>我们会根据您的性格测试、生活经历和倾诉习惯，从全球库中筛选出最契合的陪伴者。这不是匹配，是寻找“世界上的另一个你”。</p>
     </div>
-
-    <div class="card" style="border:2px solid #ffd700;">
-      <h3>Weekly</h3>
-      <div class="price">$19.9</div>
-      <p>7 days unlimited chat · Cancel anytime</p>
-      <a href="form.html" class="cta-btn">Continue</a>
+    <div class="f-card">
+      <h3>零压力社交</h3>
+      <p>在这里，您不需要保持人设，不需要社交礼仪。您可以脆弱、可以沉默、可以反复。我们只负责倾听与共鸣。</p>
     </div>
-
-    <div class="card">
-      <h3>Monthly</h3>
-      <div class="price">$59.9</div>
-      <p>Best value · Priority support</p>
-      <a href="form.html" class="cta-btn">Continue</a>
+    <div class="f-card">
+      <h3>多维成长陪伴</h3>
+      <p>无论是职场焦虑、情感困惑，还是单纯的语言练习，陪伴者将以朋友、智库或导师的多重身份，提供全方位的支持。</p>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <h2>Meet Our Companions</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Anna · Companion</h3>
-      <p>Calm · Patient · Good listener</p>
-    </div>
-    <div class="card">
-      <h3>Lily · Chinese Tutor</h3>
-      <p>Friendly · Supportive · Real practice</p>
-    </div>
-    <div class="card">
-      <h3>Not sure?</h3>
-      <p>We can match someone for you based on your needs.</p>
+<section class="section" id="service" style="background: #0f0f0f;">
+  <div class="section-title">
+    <p>Exclusive Membership</p>
+    <h2>2025 年度至臻方案</h2>
+  </div>
+  
+  <div class="pricing-container">
+    <div class="premium-card">
+      <div style="letter-spacing: 5px; color: #666; font-size: 0.8rem; margin-bottom: 1rem;">THE PRESET COLLECTION</div>
+      <h3>全时段专属陪伴</h3>
+      
+      <div class="price-tag">$99 <span>/ MONTHLY</span></div>
+      
+      <ul class="benefits-list">
+        <li><b>2 次</b> 深度 1-on-1 定制语音通话</li>
+        <li><b>Unlimited</b> 全月无限次文字陪伴</li>
+        <li><b>Priority</b> 7x24 小时情绪响应中心</li>
+        <li><b>Matching</b> 顶级人工配对服务 (不限次)</li>
+        <li><b>Privacy</b> 银行级隐私对话加密技术</li>
+      </ul>
+
+      <a href="form.html" class="cta-main">申请加入会员</a>
+      
+      <p style="margin-top: 2rem; color: #444; font-size: 0.8rem;">
+        * 为保证服务质量，每月仅限开放 50 位定制名额
+      </p>
     </div>
   </div>
 </section>
 
 <footer>
-© 2025 Customized Companion. All rights reserved.
+  <div class="footer-text">
+    <p>© 2025 CUSTOMIZED COMPANION. ALL RIGHTS RESERVED.</p>
+    <p style="margin-top: 1rem;">LUXURY COMPANIONSHIP & EMOTIONAL INTELLIGENCE</p>
+  </div>
 </footer>
 
 </body>
