@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Customized Companion | 2025 专属私人陪伴定制</title>
+<title>Customized Companion | Private 1-on-1 Human Connection</title>
 
 <style>
 :root {
-  --gold: #D4AF37; /* 更有质感的香槟金 */
+  --gold: #D4AF37; 
   --bg: #0A0A0A;
   --card-bg: #141414;
   --text-main: #FFFFFF;
@@ -16,13 +16,13 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', 'PingFang SC', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
 }
 
-/* 导航：悬浮半透明感 */
+/* Navigation */
 nav {
   display: flex;
   justify-content: space-between;
@@ -34,13 +34,13 @@ nav {
   top: 0;
   z-index: 1000;
 }
-.logo { font-size: 1.2rem; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
-.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; margin-left: 2rem; transition: 0.3s; }
+.logo { font-size: 1.1rem; font-weight: 800; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.85rem; margin-left: 2rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
 .nav-links a:hover { color: var(--gold); }
 
-/* Hero Section: 氛围感 */
+/* Hero Section */
 .hero {
-  height: 90vh;
+  height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,54 +48,53 @@ nav {
   background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
   padding: 0 5%;
 }
-.hero-content { max-width: 900px; }
+.hero-content { max-width: 850px; }
 .hero h1 { 
-  font-size: clamp(2.5rem, 6vw, 4.5rem); 
+  font-size: clamp(2.5rem, 6vw, 4rem); 
   line-height: 1.1; 
   margin-bottom: 2rem;
-  background: linear-gradient(180deg, #fff 0%, #888 100%);
+  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.hero p { font-size: 1.25rem; color: var(--text-dim); margin-bottom: 3rem; font-weight: 300; }
+.hero p { font-size: 1.2rem; color: var(--text-dim); margin-bottom: 3rem; font-weight: 300; max-width: 650px; margin-left: auto; margin-right: auto; }
 
-/* 核心优势：卡片化 */
+/* Features */
 .section { padding: 8rem 8%; }
 .section-title { text-align: center; margin-bottom: 5rem; }
 .section-title h2 { font-size: 2.5rem; letter-spacing: 1px; }
-.section-title p { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 4px; }
+.section-title p { color: var(--gold); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 4px; margin-bottom: 10px; }
 
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 3rem;
+  gap: 2.5rem;
 }
 .f-card {
   padding: 3rem;
   background: var(--card-bg);
-  border-radius: 2px; /* 方正设计更具高端建筑感 */
-  border-left: 1px solid #222;
+  border-radius: 4px;
+  border: 1px solid #1f1f1f;
   transition: 0.4s;
 }
-.f-card:hover { border-left: 1px solid var(--gold); background: #1a1a1a; }
-.f-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--gold); }
-.f-card p { color: var(--text-dim); font-size: 1rem; line-height: 1.8; }
+.f-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+.f-card h3 { font-size: 1.4rem; margin-bottom: 1.2rem; color: var(--gold); }
+.f-card p { color: var(--text-dim); font-size: 1rem; line-height: 1.7; }
 
-/* 定价部分：极致聚焦 */
+/* Pricing */
 .pricing-container {
   display: flex;
   justify-content: center;
-  padding: 6rem 0;
+  padding: 4rem 0;
 }
 .premium-card {
   width: 100%;
-  max-width: 600px;
+  max-width: 550px;
   background: linear-gradient(145deg, #181818, #111);
-  padding: 4rem;
-  border: 1px solid #333;
+  padding: 4rem 3rem;
+  border: 1px solid #222;
   text-align: center;
   position: relative;
-  overflow: hidden;
 }
 .premium-card::before {
   content: "";
@@ -103,12 +102,12 @@ nav {
   top: 0; left: 0; width: 100%; height: 4px;
   background: var(--gold);
 }
-.price-tag { font-size: 4rem; font-weight: 700; margin: 2rem 0; color: var(--gold); }
-.price-tag span { font-size: 1rem; color: var(--text-dim); font-weight: 300; }
+.price-tag { font-size: 4.5rem; font-weight: 700; margin: 1.5rem 0; color: var(--gold); }
+.price-tag span { font-size: 1.1rem; color: var(--text-dim); font-weight: 300; }
 
 .benefits-list {
   text-align: left;
-  margin: 3rem auto;
+  margin: 2.5rem auto;
   max-width: 400px;
   list-style: none;
   padding: 0;
@@ -118,18 +117,19 @@ nav {
   display: flex;
   align-items: center;
   color: var(--text-main);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 .benefits-list li::before {
   content: "✦";
   color: var(--gold);
   margin-right: 15px;
+  font-size: 0.8rem;
 }
 
-/* 按钮：流光效果 */
+/* Call to Action */
 .cta-main {
   display: inline-block;
-  padding: 1.2rem 3.5rem;
+  padding: 1.2rem 3rem;
   background: var(--gold);
   color: #000;
   text-decoration: none;
@@ -137,21 +137,23 @@ nav {
   letter-spacing: 2px;
   text-transform: uppercase;
   transition: 0.3s;
-  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
-.cta-main:hover { background: #fff; transform: scale(1.05); }
+.cta-main:hover { background: #fff; transform: translateY(-2px); }
 
 footer {
-  padding: 5rem 8%;
+  padding: 6rem 8%;
   background: #000;
   text-align: center;
   border-top: 1px solid #111;
 }
-.footer-text { color: #444; font-size: 0.8rem; letter-spacing: 1px; }
+.footer-text { color: #444; font-size: 0.75rem; letter-spacing: 1px; line-height: 2; }
 
 @media (max-width: 768px) {
-  .hero h1 { font-size: 2.8rem; }
-  .premium-card { padding: 2rem; }
+  .hero h1 { font-size: 2.5rem; }
+  .section { padding: 5rem 5%; }
+  .premium-card { padding: 3rem 1.5rem; }
 }
 </style>
 </head>
@@ -160,66 +162,66 @@ footer {
 <nav>
   <div class="logo">Customized Companion</div>
   <div class="nav-links">
-    <a href="#concept">理念</a>
-    <a href="#service">方案</a>
-    <a href="form.html" style="color:var(--gold)">申请定制</a>
+    <a href="#about">Philosophy</a>
+    <a href="#pricing">Membership</a>
+    <a href="form.html" style="color:var(--gold)">Apply Now</a>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-content">
-    <h1>让对话回归本质</h1>
-    <p>在这个喧嚣的世界，为你预留一处精神的自留地。<br>拒绝工业化模板，提供真正触及灵魂的深度陪伴。</p>
-    <a href="form.html" class="cta-main">立即获取名额</a>
+    <h1>Feel Heard. <br>Without Judgment.</h1>
+    <p>Premium 1-on-1 human companionship for the modern era. No AI, no scripts—just genuine conversations tailored to you.</p>
+    <a href="form.html" class="cta-main">Begin Your Journey</a>
   </div>
 </section>
 
-<section class="section" id="concept">
+<section class="section" id="about">
   <div class="section-title">
-    <p>Why Us</p>
-    <h2>为什么选择定制陪伴</h2>
+    <p>The Experience</p>
+    <h2>Why Customized Companionship?</h2>
   </div>
   <div class="features">
     <div class="f-card">
-      <h3>绝对私人定制</h3>
-      <p>我们会根据您的性格测试、生活经历和倾诉习惯，从全球库中筛选出最契合的陪伴者。这不是匹配，是寻找“世界上的另一个你”。</p>
+      <h3>Personalized Matching</h3>
+      <p>We don't just assign a person; we curate a connection. Based on your personality and needs, we match you with a companion who truly resonates with your worldview.</p>
     </div>
     <div class="f-card">
-      <h3>零压力社交</h3>
-      <p>在这里，您不需要保持人设，不需要社交礼仪。您可以脆弱、可以沉默、可以反复。我们只负责倾听与共鸣。</p>
+      <h3>Zero-Pressure Space</h3>
+      <p>A safe haven to vent, share, or just sit in silence. You don't have to perform or follow social etiquettes. We are here to listen and respond at your pace.</p>
     </div>
     <div class="f-card">
-      <h3>多维成长陪伴</h3>
-      <p>无论是职场焦虑、情感困惑，还是单纯的语言练习，陪伴者将以朋友、智库或导师的多重身份，提供全方位的支持。</p>
+      <h3>Holistic Support</h3>
+      <p>Whether you're navigating career stress, seeking language practice, or craving deep intellectual debate, your companion adapts to your lifestyle.</p>
     </div>
   </div>
 </section>
 
-<section class="section" id="service" style="background: #0f0f0f;">
+<section class="section" id="pricing" style="background: #0f0f0f;">
   <div class="section-title">
     <p>Exclusive Membership</p>
-    <h2>2025 年度至臻方案</h2>
+    <h2>The Platinum Plan</h2>
   </div>
   
   <div class="pricing-container">
     <div class="premium-card">
-      <div style="letter-spacing: 5px; color: #666; font-size: 0.8rem; margin-bottom: 1rem;">THE PRESET COLLECTION</div>
-      <h3>全时段专属陪伴</h3>
+      <div style="letter-spacing: 5px; color: #666; font-size: 0.75rem; margin-bottom: 1rem; text-transform: uppercase;">Limited Intake 2025</div>
+      <h3>Bespoke Companionship</h3>
       
-      <div class="price-tag">$99 <span>/ MONTHLY</span></div>
+      <div class="price-tag">$99 <span>/ MONTH</span></div>
       
       <ul class="benefits-list">
-        <li><b>2 次</b> 深度 1-on-1 定制语音通话</li>
-        <li><b>Unlimited</b> 全月无限次文字陪伴</li>
-        <li><b>Priority</b> 7x24 小时情绪响应中心</li>
-        <li><b>Matching</b> 顶级人工配对服务 (不限次)</li>
-        <li><b>Privacy</b> 银行级隐私对话加密技术</li>
+        <li><b>2 Deep-Dive Sessions</b> (Video/Voice calls)</li>
+        <li><b>Unlimited Texting</b> (24/7 Priority access)</li>
+        <li><b>Bespoke Matching</b> (Based on EQ & Interests)</li>
+        <li><b>Total Privacy</b> (End-to-end encryption)</li>
+        <li><b>Cancel Anytime</b> (No long-term contracts)</li>
       </ul>
 
-      <a href="form.html" class="cta-main">申请加入会员</a>
+      <a href="form.html" class="cta-main">Apply for Access</a>
       
-      <p style="margin-top: 2rem; color: #444; font-size: 0.8rem;">
-        * 为保证服务质量，每月仅限开放 50 位定制名额
+      <p style="margin-top: 2rem; color: #444; font-size: 0.8rem; font-style: italic;">
+        To maintain service quality, we only accept 50 new members per month.
       </p>
     </div>
   </div>
@@ -228,7 +230,8 @@ footer {
 <footer>
   <div class="footer-text">
     <p>© 2025 CUSTOMIZED COMPANION. ALL RIGHTS RESERVED.</p>
-    <p style="margin-top: 1rem;">LUXURY COMPANIONSHIP & EMOTIONAL INTELLIGENCE</p>
+    <p>Empowering Human Connection in a Digital World.</p>
+    <p style="margin-top: 10px; text-decoration: underline; cursor: pointer;">Privacy Policy | Terms of Service</p>
   </div>
 </footer>
 
