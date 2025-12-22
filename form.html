@@ -1,207 +1,219 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Get Started | Tell Us About You</title>
+<title>Application | Customized Companion</title>
+
+<link href="fonts.googleapis.com" rel="stylesheet">
 
 <style>
+:root {
+  --gold: #C5A059;
+  --bg: #050505;
+  --text: #F5F5F5;
+  --dim: #666;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #111;
-  color: #fff;
-  padding-top: 60px;
-}
-
-nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #000;
-  z-index: 999;
-  padding: 1rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
-nav a { color:#fff; text-decoration:none; }
-.lang-switch-btn { cursor:pointer; }
+/* 背景光效 */
+.glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 60vw; height: 60vh;
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
 
-.registration-form-section {
-  max-width: 820px;
-  margin: 5rem auto 4rem;
-  padding: 2.2rem;
-  background: #1c1c1c;
-  border-radius: 14px;
+.form-wrapper {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* 进度条 */
+.progress-bar {
+  width: 100px;
+  height: 2px;
+  background: #222;
+  margin: 0 auto 3rem;
+  position: relative;
+}
+.progress-inner {
+  position: absolute;
+  left: 0; top: 0; height: 100%;
+  background: var(--gold);
+  width: 33%;
+  transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 h2 {
-  text-align: center;
-  color: #ffd700;
-  margin-bottom: .5rem;
-}
-
-.intro-text {
-  text-align: center;
-  color: #ccc;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
   margin-bottom: 2rem;
-  line-height: 1.7;
+  letter-spacing: 1px;
 }
 
-fieldset { border:none; margin-bottom:2rem; }
+.step {
+  display: none;
+  animation: fadeIn 0.8s ease forwards;
+}
+.step.active { display: block; }
 
-legend {
-  color:#ffd700;
-  font-weight:bold;
-  margin-bottom:1rem;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-label { display:block; margin-bottom:.3rem; }
-small { color:#aaa; margin-bottom:.5rem; display:block; }
-
-input, select {
-  width:100%;
-  padding:.7rem;
-  border-radius:6px;
-  border:1px solid #444;
-  background:#2a2a2a;
-  color:#fff;
+/* 输入框高端化 */
+input, textarea, select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  color: #fff;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-family: 'Inter', sans-serif;
+  transition: 0.4s;
+  border-radius: 0;
+}
+input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
 }
 
-.plan-box {
-  background:#151515;
-  border:1px solid #333;
-  border-radius:10px;
-  padding:1rem;
-  margin-bottom:.8rem;
-  cursor:pointer;
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.plan-box.selected {
-  border-color:#ffd700;
-  background:#202020;
+.btn-next {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  padding: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-next:hover { background: #fff; }
+
+.btn-back {
+  background: transparent;
+  color: var(--dim);
+  border: none;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
 }
 
-button {
-  width:100%;
-  padding:1rem;
-  background:#ffd700;
-  color:#000;
-  font-weight:bold;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
+/* 方案卡片 */
+.plan-summary {
+  border: 1px solid #222;
+  padding: 2rem;
+  margin-bottom: 2rem;
 }
+.plan-summary strong { color: var(--gold); font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
 
-.success-alert {
-  display:none;
-  background:#1f7a3f;
-  padding:1rem;
-  border-radius:8px;
-  text-align:center;
-  margin-bottom:1.5rem;
-}
+#success { display: none; }
 </style>
 </head>
-
 <body>
 
-<nav>
-  <a href="index.html">← Back</a>
-  <div>
-    <span class="lang-switch-btn" data-target-lang="en">English</span> |
-    <span class="lang-switch-btn" data-target-lang="zh">中文</span>
-  </div>
-</nav>
+<div class="glow"></div>
 
-<section class="registration-form-section">
+<div class="form-wrapper">
+  <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
 
-  <div class="success-alert" id="successAlert">
-    ✅ Submitted successfully. We’ll contact you shortly.
-  </div>
+  <form id="bespokeForm">
+    
+    <div class="step active" id="step1">
+      <h2>Who are we <br>speaking with?</h2>
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <div class="btn-group">
+        <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
+      </div>
+    </div>
 
-  <h2>Tell Us What You’re Looking For</h2>
-  <p class="intro-text">
-    No payment now. No obligation.<br>
-    Just tell us what you want — you decide later.
-  </p>
-
-  <form id="registrationForm">
-
-    <fieldset>
-      <legend>Basic Information</legend>
-
-      <label>Your Name</label>
-      <input name="name" required>
-
-      <label>Email</label>
-      <input type="email" name="email" required>
-
-      <label>Phone (Optional)</label>
-      <input name="phone">
-    </fieldset>
-
-    <fieldset>
-      <legend>Service Type</legend>
-      <select name="program" required>
-        <option disabled selected>Please select</option>
-        <option value="companion">Customized Companion</option>
-        <option value="chinese">Learn Chinese</option>
+    <!-- Step 2: Connection -->
+    <div class="step" id="step2">
+      <h2>What kind of presence <br>do you seek?</h2>
+      <textarea name="preference" rows="2" placeholder="Describe the energy you need..."></textarea>
+      <select name="program">
+        <option value="companion">Emotional Sanctuary</option>
+        <option value="intellectual">Intellectual Sparring</option>
+        <option value="culture">Cultural Immersion</option>
       </select>
-    </fieldset>
-
-    <!-- ✅ 新增：价格选择 -->
-    <fieldset>
-      <legend>Choose a Plan (not charged now)</legend>
-
-      <div class="plan-box selected" data-plan="trial">
-        <strong>Trial · $9.9</strong><br>
-        First conversation, no commitment
+      <div class="btn-group">
+        <button type="button" class="btn-next" onclick="nextStep(3)">Review Plan</button>
+        <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
       </div>
+    </div>
 
-      <div class="plan-box" data-plan="weekly">
-        <strong>Weekly · $19.9</strong><br>
-        Unlimited chats for 7 days
+    <!-- Step 3: Confirmation -->
+    <div class="step" id="step3">
+      <h2>Confirm Application</h2>
+      <div class="plan-summary">
+        <p style="font-size: 0.7rem; color: var(--gold); letter-spacing: 2px;">EXCLUSIVE ACCESS</p>
+        <strong>Platinum Member</strong>
+        <p style="color: var(--dim); font-size: 0.9rem;">$99 / month • Bespoke Match</p>
       </div>
-
-      <div class="plan-box" data-plan="monthly">
-        <strong>Monthly · $59.9</strong><br>
-        Best value · Priority support
+      <div class="btn-group">
+        <button type="submit" class="btn-next">Submit Inquiry</button>
+        <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
       </div>
-
-      <input type="hidden" name="plan" id="planInput" value="trial">
-    </fieldset>
-
-    <button type="submit">Send & Continue</button>
+    </div>
   </form>
-</section>
+
+  <div id="success">
+    <h2 style="color: var(--gold);">✦ Received.</h2>
+    <p style="color: var(--dim); line-height: 1.8;">Our concierge will review your profile <br>and reach out within 24 hours.</p>
+    <a href="index.html" class="btn-back" style="display: block; margin-top: 3rem; text-decoration: none;">Return Home</a>
+  </div>
+</div>
 
 <script>
-const form = document.getElementById('registrationForm');
-const alertBox = document.getElementById('successAlert');
-const planInput = document.getElementById('planInput');
+function nextStep(step) {
+  // 切换步骤显示
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
+  
+  // 更新进度条
+  const progress = (step / 3) * 100;
+  document.getElementById('progress').style.width = progress + '%';
+}
 
-// 价格选择
-document.querySelectorAll('.plan-box').forEach(box=>{
-  box.onclick=()=>{
-    document.querySelectorAll('.plan-box').forEach(b=>b.classList.remove('selected'));
-    box.classList.add('selected');
-    planInput.value = box.dataset.plan;
-  };
-});
-
-// 提交（立即反馈，不等后端）
-form.onsubmit = e => {
+document.getElementById('bespokeForm').onsubmit = e => {
   e.preventDefault();
-  alertBox.style.display = 'block';
-
-  fetch('/api/submit-form',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(Object.fromEntries(new FormData(form)))
-  });
-
-  form.reset();
+  document.getElementById('bespokeForm').style.display = 'none';
+  document.querySelector('.progress-bar').style.display = 'none';
+  document.getElementById('success').style.display = 'block';
+  
+  // 实际部署时这里连接你的 API
+  const data = Object.fromEntries(new FormData(e.target));
+  console.log('Application Data:', data);
 };
 </script>
 
