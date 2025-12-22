@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Customized Companion | The Art of Human Connection</title>
+<title>Customized Companion | Private 1-on-1 Human Sanctuary</title>
+
+<!-- 引入 2025 顶奢字体组合 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="fonts.googleapis.com" rel="stylesheet">
 
 <style>
 :root {
@@ -11,40 +16,56 @@
   --bg: #050505;
   --card-bg: #0F0F0F;
   --text-main: #F5F5F5;
-  --text-dim: #888888;
-  --accent: rgba(197, 160, 89, 0.1);
+  --text-dim: #808080;
+  --accent: rgba(197, 160, 89, 0.12);
 }
 
 body {
   margin: 0;
-  font-family: 'Cormorant Garamond', serif, -apple-system; /* 高级衬线体感 */
+  font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* 动态背景背景 */
+h1, h2, h3, .logo, .hero p {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* 1. 动态光影层：增加空间的深度感 */
 .bg-glow {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 50%);
+  background: radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 60%);
   z-index: -1;
+  animation: pulseGlow 10s infinite alternate ease-in-out;
+}
+@keyframes pulseGlow {
+  from { opacity: 0.6; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.1); }
 }
 
+/* 2. 极简导航：悬浮毛玻璃感 */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 2rem 8%;
-  background: transparent;
-  position: absolute;
-  width: 100%;
-  box-sizing: border-box;
+  background: rgba(5,5,5,0.6);
+  backdrop-filter: blur(15px);
+  position: fixed;
+  top: 0; width: 100%; box-sizing: border-box;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.logo { font-size: 1rem; font-weight: 300; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
+.logo { font-size: 1.1rem; font-weight: 300; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
 
-/* Hero Section */
+.nav-links { display: flex; align-items: center; gap: 3rem; }
+.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s; font-weight: 400; }
+.nav-links a:hover { color: var(--gold); text-shadow: 0 0 10px rgba(197, 160, 89, 0.4); }
+
+/* 3. Hero Section：文字渐现交互 */
 .hero {
   height: 100vh;
   display: flex;
@@ -53,167 +74,164 @@ nav {
   text-align: center;
   padding: 0 5%;
 }
-.hero-content { max-width: 900px; }
 .hero h1 { 
-  font-size: clamp(2.8rem, 8vw, 5rem); 
-  font-weight: 200;
+  font-size: clamp(3rem, 8vw, 5.5rem); 
+  font-weight: 300;
   line-height: 1.05; 
   margin-bottom: 2.5rem;
   letter-spacing: -1px;
+  background: linear-gradient(180deg, #fff 0%, #888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.hero p { font-size: 1.3rem; color: var(--text-dim); margin-bottom: 3.5rem; font-weight: 300; font-style: italic; }
+.hero p { font-size: 1.5rem; color: var(--text-dim); margin-bottom: 3.5rem; font-weight: 300; font-style: italic; }
 
-/* 核心差异化 */
-.section { padding: 10rem 10%; }
-.section-header { text-align: left; margin-bottom: 6rem; max-width: 700px; }
-.section-header p { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 5px; margin-bottom: 1.5rem; }
-.section-header h2 { font-size: 3rem; font-weight: 300; line-height: 1.2; }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1px; /* 线条感设计 */
-  background: #222; /* 网格线颜色 */
-}
+/* 4. 栅格系统：细线主义设计 */
+.section { padding: 12rem 8%; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: rgba(255,255,255,0.1); }
 .grid-item {
   background: var(--bg);
-  padding: 4rem 2rem;
-  transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  padding: 6rem 3rem;
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .grid-item:hover { background: var(--accent); }
-.grid-item h3 { font-size: 1.6rem; font-weight: 300; margin-bottom: 1.5rem; color: var(--gold); }
-.grid-item p { color: var(--text-dim); line-height: 1.8; font-size: 1.05rem; }
+.grid-item h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 1.5rem; color: var(--gold); }
+.grid-item p { color: var(--text-dim); line-height: 1.9; font-size: 1.05rem; }
 
-/* 定价：像一件艺术品 */
+/* 5. 核心定价：会员卡片感 */
 .offer-box {
-  background: var(--card-bg);
-  border: 1px solid #1a1a1a;
-  padding: 6rem 4rem;
+  background: linear-gradient(145deg, #0f0f0f 0%, #050505 100%);
+  border: 1px solid rgba(197, 160, 89, 0.2);
+  padding: 8rem 4rem;
   text-align: center;
   position: relative;
-  max-width: 700px;
+  max-width: 750px;
   margin: 0 auto;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
 }
 .badge {
   position: absolute;
-  top: -12px; left: 50%; transform: translateX(-50%);
+  top: -1px; left: 50%; transform: translateX(-50%);
   background: var(--gold);
   color: #000;
-  font-size: 0.7rem;
-  padding: 4px 20px;
-  letter-spacing: 2px;
+  font-size: 0.65rem;
+  padding: 6px 30px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  font-weight: 900;
+  font-weight: 700;
 }
-.price { font-size: 5.5rem; font-weight: 200; color: #fff; margin: 2rem 0; }
-.price span { font-size: 1rem; color: var(--text-dim); vertical-align: middle; }
+.price { font-size: 6.5rem; font-weight: 200; color: #fff; margin: 2rem 0; font-family: 'Inter', sans-serif; }
+.price span { font-size: 1.1rem; color: var(--text-dim); letter-spacing: 2px; }
 
 .perks {
-  list-style: none; padding: 0; margin: 3rem 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  text-align: left;
-  gap: 1.5rem;
+  list-style: none; padding: 0; margin: 4rem auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  text-align: left; gap: 2rem; max-width: 500px;
 }
-.perks li { font-size: 0.95rem; color: var(--text-main); font-weight: 300; display: flex; align-items: center; }
-.perks li::before { content: ""; width: 6px; height: 6px; background: var(--gold); margin-right: 12px; border-radius: 50%; }
+.perks li { font-size: 0.95rem; color: var(--text-main); font-weight: 300; display: flex; align-items: center; letter-spacing: 0.5px; }
+.perks li::before { content: "✦"; color: var(--gold); margin-right: 15px; font-size: 0.8rem; }
 
-/* 按钮：极致优雅 */
+/* 6. 高级按钮：光泽流转效果 */
 .btn {
   display: inline-block;
-  padding: 1.5rem 4rem;
+  padding: 1.4rem 4.5rem;
+  background: transparent;
   border: 1px solid var(--gold);
   color: var(--gold);
   text-decoration: none;
-  font-size: 0.9rem;
-  letter-spacing: 3px;
+  font-size: 0.85rem;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  transition: 0.4s;
+  transition: 0.5s;
+  position: relative;
+  overflow: hidden;
 }
-.btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 30px rgba(197, 160, 89, 0.2); }
+.btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 50px rgba(197, 160, 89, 0.25); }
 
 footer {
-  padding: 8rem 5%;
+  padding: 10rem 5% 5rem;
   text-align: center;
-  opacity: 0.5;
-  font-size: 0.8rem;
-  letter-spacing: 2px;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 2rem; }
+.footer-info { color: #444; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
 
 @media (max-width: 768px) {
   .perks { grid-template-columns: 1fr; }
-  .offer-box { padding: 4rem 1.5rem; }
-  .hero h1 { font-size: 3.5rem; }
+  .hero h1 { font-size: 3rem; }
+  .nav-links a:not(.btn-nav) { display: none; }
 }
 </style>
-<!-- 引入高级感字体 -->
-<link href="fonts.googleapis.com" rel="stylesheet">
 </head>
 <body>
 
 <div class="bg-glow"></div>
 
 <nav>
-  <div class="logo">Customized Companion</div>
+  <a href="index.html" class="logo">Customized Companion</a>
   <div class="nav-links">
-    <a href="form.html" class="btn" style="padding: 0.8rem 1.5rem; font-size: 0.7rem;">Inquiry</a>
+    <a href="about.html">Philosophy</a>
+    <a href="form.html" class="btn" style="padding: 0.7rem 1.8rem; font-size: 0.65rem;">Inquiry</a>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-content">
-    <h1>An Unscripted Sanctuary <br>for Your Soul.</h1>
-    <p>Beyond algorithms. Beyond AI. <br>Authentic human connection, tailored for the discerning individual.</p>
+    <h1>The Luxury of <br>Truly Being Heard.</h1>
+    <p>"Algorithms can mimic empathy, but they cannot share a soul."</p>
     <a href="form.html" class="btn">Apply for Membership</a>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-header">
-    <p>Philosophy</p>
-    <h2>In a digital world, <br>Presence is the ultimate luxury.</h2>
+  <div style="margin-bottom: 8rem;">
+    <p style="color: var(--gold); text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; margin-bottom: 1.5rem;">The Benchmark</p>
+    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300;">Authenticity is the <br>only currency that lasts.</h2>
   </div>
   <div class="grid">
     <div class="grid-item">
-      <h3>Curation, Not Selection</h3>
-      <p>We don't just match profiles. We understand your resonance—matching you with a companion who speaks your emotional language.</p>
+      <h3>Hand-Picked Curation</h3>
+      <p>We do not use databases. We use human intuition to match you with a companion who resonates with your unique frequency.</p>
     </div>
     <div class="grid-item">
-      <h3>The Human Edge</h3>
-      <p>AI can mimic, but it cannot care. Our companions offer genuine empathy, lived experience, and the nuance of a real beating heart.</p>
+      <h3>Radical Presence</h3>
+      <p>Our companions are trained in the art of listening. No scripts, no distractions—just pure, unadulterated human connection.</p>
     </div>
     <div class="grid-item">
-      <h3>Absolute Discretion</h3>
-      <p>Your privacy is our baseline. Every conversation is a vault, protected by 2025's highest standards of digital and ethical encryption.</p>
+      <h3>Absolute Privacy</h3>
+      <p>Your narratives are sacred. We uphold the highest 2025 standards of digital discretion and ethical silence.</p>
     </div>
   </div>
 </section>
 
 <section class="section" style="padding-top: 0;">
   <div class="offer-box">
-    <div class="badge">Limited Membership</div>
-    <p style="color:var(--gold); letter-spacing: 3px;">THE BESPOKE COLLECTION</p>
-    <div class="price">$99<span>/month</span></div>
+    <div class="badge">Limited Intake 2025</div>
+    <p style="color:var(--gold); letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 1rem;">THE BESPOKE COLLECTION</p>
+    <div class="price">$99<span>/mo</span></div>
     
     <ul class="perks">
-      <li>Two 1-on-1 Deep Dives</li>
-      <li>Unlimited Private Texting</li>
-      <li>Priority Human Response</li>
-      <li>Bespoke Personality Match</li>
-      <li>Global Access 24/7</li>
-      <li>No-Questions-Asked Cancellation</li>
+      <li>2 Monthly Deep-Dive Sessions</li>
+      <li>Unlimited Texting Concierge</li>
+      <li>Bespoke Human Matching</li>
+      <li>24/7 Priority Response</li>
+      <li>Sacred Privacy Protection</li>
+      <li>Global Access Anytime</li>
     </ul>
 
-    <a href="form.html" class="btn">Initiate Membership</a>
-    <p style="margin-top: 3rem; color: #444; font-size: 0.8rem; font-style: italic;">
-      Strictly limited to 50 active members to ensure exceptional presence.
+    <a href="form.html" class="btn" style="width: 100%; box-sizing: border-box;">Initiate Inquiry</a>
+    <p style="margin-top: 3.5rem; color: #444; font-size: 0.8rem; font-style: italic; letter-spacing: 1px;">
+      Exclusively limited to 50 members to ensure absolute focus.
     </p>
   </div>
 </section>
 
 <footer>
-  <p>© 2025 CUSTOMIZED COMPANION | THE ART OF LISTENING</p>
-  <p style="margin-top: 20px;">NEW YORK • LONDON • SINGAPORE</p>
+  <div class="footer-logo">Customized Companion</div>
+  <div class="footer-info">
+    <p>© 2025 | NEW YORK • LONDON • SINGAPORE</p>
+    <p style="margin-top: 15px; opacity: 0.5;">Where human intelligence meets emotional resonance.</p>
+  </div>
 </footer>
 
 </body>
