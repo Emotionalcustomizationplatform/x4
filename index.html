@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Customized Companion | Private 1-on-1 Human Sanctuary</title>
 
-<!-- 引入 2025 顶奢字体组合 -->
+<!-- 修复：2025 顶奢字体导入 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="fonts.googleapis.com" rel="stylesheet">
@@ -17,7 +17,6 @@
   --card-bg: #0F0F0F;
   --text-main: #F5F5F5;
   --text-dim: #808080;
-  --accent: rgba(197, 160, 89, 0.12);
 }
 
 body {
@@ -29,11 +28,11 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, .logo, .hero p {
+h1, h2, h3, .logo, .hero p, .plan-title {
   font-family: 'Cormorant Garamond', serif;
 }
 
-/* 1. 动态光影层：增加空间的深度感 */
+/* 动态背景 */
 .bg-glow {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -46,26 +45,34 @@ h1, h2, h3, .logo, .hero p {
   to { opacity: 1; transform: scale(1.1); }
 }
 
-/* 2. 极简导航：悬浮毛玻璃感 */
+/* 导航栏修复：增加背景深度和点击交互 */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 8%;
-  background: rgba(5,5,5,0.6);
-  backdrop-filter: blur(15px);
+  padding: 1.5rem 8%;
+  background: rgba(5,5,5,0.85);
+  backdrop-filter: blur(20px);
   position: fixed;
   top: 0; width: 100%; box-sizing: border-box;
-  z-index: 1000;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  z-index: 2000;
+  border-bottom: 1px solid rgba(197, 160, 89, 0.1);
 }
-.logo { font-size: 1.1rem; font-weight: 300; letter-spacing: 5px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
+.logo { font-size: 1.1rem; font-weight: 300; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
 
 .nav-links { display: flex; align-items: center; gap: 3rem; }
-.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: 0.4s; font-weight: 400; }
-.nav-links a:hover { color: var(--gold); text-shadow: 0 0 10px rgba(197, 160, 89, 0.4); }
+.nav-links a { 
+  color: #fff; 
+  text-decoration: none; 
+  font-size: 0.8rem; 
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
+  transition: 0.3s;
+  position: relative;
+}
+.nav-links a:hover { color: var(--gold); }
 
-/* 3. Hero Section：文字渐现交互 */
+/* Hero Section */
 .hero {
   height: 100vh;
   display: flex;
@@ -86,79 +93,92 @@ nav {
 }
 .hero p { font-size: 1.5rem; color: var(--text-dim); margin-bottom: 3.5rem; font-weight: 300; font-style: italic; }
 
-/* 4. 栅格系统：细线主义设计 */
-.section { padding: 12rem 8%; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: rgba(255,255,255,0.1); }
+/* 栅格系统：细线主义 */
+.section { padding: 10rem 8%; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: rgba(197, 160, 89, 0.15); }
 .grid-item {
   background: var(--bg);
   padding: 6rem 3rem;
-  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: 0.5s;
 }
-.grid-item:hover { background: var(--accent); }
+.grid-item:hover { background: rgba(197, 160, 89, 0.05); }
 .grid-item h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 1.5rem; color: var(--gold); }
 .grid-item p { color: var(--text-dim); line-height: 1.9; font-size: 1.05rem; }
 
-/* 5. 核心定价：会员卡片感 */
+/* 定价矩阵优化：双卡片对比 */
+.pricing-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
 .offer-box {
-  background: linear-gradient(145deg, #0f0f0f 0%, #050505 100%);
-  border: 1px solid rgba(197, 160, 89, 0.2);
-  padding: 8rem 4rem;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 5rem 3rem;
   text-align: center;
   position: relative;
-  max-width: 750px;
-  margin: 0 auto;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+  transition: 0.4s;
 }
+
+.offer-box.featured {
+  border: 1px solid var(--gold);
+  background: linear-gradient(145deg, #121212 0%, #050505 100%);
+  transform: scale(1.03);
+}
+
 .badge {
   position: absolute;
   top: -1px; left: 50%; transform: translateX(-50%);
   background: var(--gold);
   color: #000;
-  font-size: 0.65rem;
-  padding: 6px 30px;
-  letter-spacing: 4px;
+  font-size: 0.6rem;
+  padding: 5px 25px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   font-weight: 700;
 }
-.price { font-size: 6.5rem; font-weight: 200; color: #fff; margin: 2rem 0; font-family: 'Inter', sans-serif; }
-.price span { font-size: 1.1rem; color: var(--text-dim); letter-spacing: 2px; }
+
+.price { font-size: 4.5rem; font-weight: 200; color: #fff; margin: 1.5rem 0; font-family: 'Inter', sans-serif; }
+.price span { font-size: 1rem; color: var(--text-dim); letter-spacing: 2px; }
 
 .perks {
-  list-style: none; padding: 0; margin: 4rem auto;
-  display: grid; grid-template-columns: 1fr 1fr;
-  text-align: left; gap: 2rem; max-width: 500px;
+  list-style: none; padding: 0; margin: 3rem auto;
+  text-align: left; gap: 1rem; max-width: 280px;
 }
-.perks li { font-size: 0.95rem; color: var(--text-main); font-weight: 300; display: flex; align-items: center; letter-spacing: 0.5px; }
-.perks li::before { content: "✦"; color: var(--gold); margin-right: 15px; font-size: 0.8rem; }
+.perks li { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem; display: flex; align-items: center; }
+.perks li::before { content: "✦"; color: var(--gold); margin-right: 12px; font-size: 0.8rem; }
 
-/* 6. 高级按钮：光泽流转效果 */
 .btn {
   display: inline-block;
-  padding: 1.4rem 4.5rem;
-  background: transparent;
+  padding: 1.2rem 3rem;
   border: 1px solid var(--gold);
   color: var(--gold);
   text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 4px;
+  font-size: 0.8rem;
+  letter-spacing: 3px;
   text-transform: uppercase;
   transition: 0.5s;
-  position: relative;
-  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
-.btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 50px rgba(197, 160, 89, 0.25); }
+.btn.solid { background: var(--gold); color: #000; }
+.btn:hover { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); }
 
 footer {
-  padding: 10rem 5% 5rem;
+  padding: 8rem 5% 4rem;
   text-align: center;
   border-top: 1px solid rgba(255,255,255,0.05);
 }
-.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 2rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 3px; }
 .footer-info { color: #444; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
 
 @media (max-width: 768px) {
-  .perks { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 3rem; }
+  .hero h1 { font-size: 2.8rem; }
+  .pricing-container { padding: 0 5%; gap: 3rem; }
+  .offer-box.featured { transform: scale(1); }
   .nav-links a:not(.btn-nav) { display: none; }
 }
 </style>
@@ -170,8 +190,9 @@ footer {
 <nav>
   <a href="index.html" class="logo">Customized Companion</a>
   <div class="nav-links">
+    <!-- 链接修复：确保指向 about.html -->
     <a href="about.html">Philosophy</a>
-    <a href="form.html" class="btn" style="padding: 0.7rem 1.8rem; font-size: 0.65rem;">Inquiry</a>
+    <a href="form.html" class="btn btn-nav" style="padding: 0.6rem 1.5rem; font-size: 0.65rem; width: auto;">Inquiry</a>
   </div>
 </nav>
 
@@ -179,14 +200,15 @@ footer {
   <div class="hero-content">
     <h1>The Luxury of <br>Truly Being Heard.</h1>
     <p>"Algorithms can mimic empathy, but they cannot share a soul."</p>
-    <a href="form.html" class="btn">Apply for Membership</a>
+    <a href="form.html" class="btn" style="width: auto; padding: 1.2rem 4rem;">Start Your Journey</a>
   </div>
 </section>
 
+<!-- 核心差异化：增加背景微光感 -->
 <section class="section">
   <div style="margin-bottom: 8rem;">
     <p style="color: var(--gold); text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; margin-bottom: 1.5rem;">The Benchmark</p>
-    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300;">Authenticity is the <br>only currency that lasts.</h2>
+    <h2 style="font-size: 3.5rem; font-weight: 300;">Authenticity is the <br>only currency that lasts.</h2>
   </div>
   <div class="grid">
     <div class="grid-item">
@@ -204,33 +226,55 @@ footer {
   </div>
 </section>
 
+<!-- 定价区域：双档产品策略 -->
 <section class="section" style="padding-top: 0;">
-  <div class="offer-box">
-    <div class="badge">Limited Intake 2025</div>
-    <p style="color:var(--gold); letter-spacing: 5px; font-size: 0.75rem; margin-bottom: 1rem;">THE BESPOKE COLLECTION</p>
-    <div class="price">$99<span>/mo</span></div>
-    
-    <ul class="perks">
-      <li>2 Monthly Deep-Dive Sessions</li>
-      <li>Unlimited Texting Concierge</li>
-      <li>Bespoke Human Matching</li>
-      <li>24/7 Priority Response</li>
-      <li>Sacred Privacy Protection</li>
-      <li>Global Access Anytime</li>
-    </ul>
-
-    <a href="form.html" class="btn" style="width: 100%; box-sizing: border-box;">Initiate Inquiry</a>
-    <p style="margin-top: 3.5rem; color: #444; font-size: 0.8rem; font-style: italic; letter-spacing: 1px;">
-      Exclusively limited to 50 members to ensure absolute focus.
-    </p>
+  <div style="text-align: center; margin-bottom: 6rem;">
+    <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase;">Membership Options</p>
+    <h2 style="font-size: 2.5rem; font-weight: 300;">Experience Pure Connection.</h2>
   </div>
+
+  <div class="pricing-container">
+    
+    <!-- $9.9 试用方案 -->
+    <div class="offer-box">
+      <p style="color: #666; letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">The First Step</p>
+      <h3 class="plan-title" style="font-size: 1.8rem; margin: 1rem 0;">Trial Session</h3>
+      <div class="price">$9.9<span>/ONCE</span></div>
+      <ul class="perks">
+        <li>30-Min Deep Connect Call</li>
+        <li>Personality Resonance Check</li>
+        <li>No Commitment Required</li>
+        <li>Bespoke Introduction</li>
+      </ul>
+      <a href="form.html" class="btn">Book Trial</a>
+    </div>
+
+    <!-- $99 旗舰方案 -->
+    <div class="offer-box featured">
+      <div class="badge">Most Immersive</div>
+      <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">Bespoke Collection</p>
+      <h3 class="plan-title" style="font-size: 1.8rem; margin: 1rem 0;">Platinum Membership</h3>
+      <div class="price">$99<span>/MO</span></div>
+      <ul class="perks" style="color: #fff;">
+        <li style="color: #fff;">2 Monthly Deep-Dive Calls</li>
+        <li style="color: #fff;">Unlimited Texting Concierge</li>
+        <li style="color: #fff;">Sacred Privacy Protection</li>
+        <li style="color: #fff;">Global 24/7 Priority Access</li>
+      </ul>
+      <a href="form.html" class="btn solid">Apply for Access</a>
+    </div>
+
+  </div>
+  
+  <p style="text-align: center; margin-top: 4rem; color: #444; font-size: 0.8rem; font-style: italic;">
+    All sessions are end-to-end encrypted. Limited member intake per month.
+  </p>
 </section>
 
 <footer>
   <div class="footer-logo">Customized Companion</div>
   <div class="footer-info">
     <p>© 2025 | NEW YORK • LONDON • SINGAPORE</p>
-    <p style="margin-top: 15px; opacity: 0.5;">Where human intelligence meets emotional resonance.</p>
   </div>
 </footer>
 
