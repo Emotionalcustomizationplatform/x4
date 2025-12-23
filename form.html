@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Application | Customized Companion</title>
+<title>Inquiry | Customized Companion</title>
 
-<!-- 引入主页同款高级感字体 -->
+<!-- 引入 2025 款高级字体组合 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="fonts.googleapis.com" rel="stylesheet">
 
 <style>
@@ -28,7 +30,6 @@ body {
   overflow: hidden;
 }
 
-/* 呼吸光效背景 */
 .glow {
   position: absolute;
   top: 50%; left: 50%;
@@ -45,7 +46,6 @@ body {
   text-align: center;
 }
 
-/* 优雅进度条 */
 .progress-bar {
   width: 100px;
   height: 2px;
@@ -80,7 +80,6 @@ h2 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 输入框高端化：对接 server.js 字段 */
 input, textarea, select {
   width: 100%;
   background: transparent;
@@ -99,7 +98,6 @@ input:focus, select:focus {
   border-bottom-color: var(--gold);
 }
 
-/* 按钮组 */
 .btn-group {
   display: flex;
   flex-direction: column;
@@ -118,7 +116,7 @@ input:focus, select:focus {
   cursor: pointer;
   transition: 0.3s;
 }
-.btn-next:hover { background: #fff; transform: scale(1.02); }
+.btn-next:hover { background: #fff; }
 
 .btn-back {
   background: transparent;
@@ -131,19 +129,39 @@ input:focus, select:focus {
   margin-top: 10px;
 }
 
-/* 确认卡片 */
-.plan-summary {
-  border: 1px solid #222;
-  padding: 2rem;
+/* 方案选择样式 */
+.plan-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
   margin-bottom: 2rem;
-  background: rgba(255,255,255,0.02);
 }
-.plan-summary strong { color: var(--gold); font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
+
+.plan-card {
+  border: 1px solid #333;
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.plan-card.active {
+  border-color: var(--gold);
+  background: rgba(197, 160, 89, 0.05);
+}
+
+.plan-card strong {
+  display: block;
+  color: var(--gold);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.plan-card span {
+  font-size: 0.8rem;
+  color: var(--dim);
+}
 
 #success { display: none; }
-
-/* 隐藏 source 字段以兼容后端校验 */
-.hidden { display: none; }
 </style>
 </head>
 <body>
@@ -154,7 +172,7 @@ input:focus, select:focus {
   <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
 
   <form id="bespokeForm">
-    <!-- Step 1: Basic Info (对应后端 name, email, phone) -->
+    <!-- Step 1: Basic Info -->
     <div class="step active" id="step1">
       <h2>Who are we <br>speaking with?</h2>
       <input type="text" name="name" placeholder="Full Name" required>
@@ -165,49 +183,66 @@ input:focus, select:focus {
       </div>
     </div>
 
-    <!-- Step 2: Preference (对应后端 program, source) -->
+    <!-- Step 2: Connection Type -->
     <div class="step" id="step2">
       <h2>What kind of presence <br>do you seek?</h2>
-      <select name="program" required>
+      <select name="program" id="programSelect" required>
         <option value="program1" selected>Bespoke Companionship</option>
         <option value="program2">Language & Culture</option>
       </select>
-      <!-- 增加 source 字段以满足后端 if(!source) 校验 -->
       <select name="source" required>
         <option value="other" selected>How did you hear about us?</option>
         <option value="socialMedia">Social Media</option>
         <option value="friend">Friend Recommendation</option>
       </select>
       <div class="btn-group">
-        <button type="button" class="btn-next" onclick="nextStep(3)">Review Application</button>
+        <button type="button" class="btn-next" onclick="nextStep(3)">Select Your Plan</button>
         <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
       </div>
     </div>
 
-    <!-- Step 3: Confirmation -->
+    <!-- Step 3: Plan Selection -->
     <div class="step" id="step3">
-      <h2>Finalizing Membership</h2>
-      <div class="plan-summary">
-        <p style="font-size: 0.7rem; color: var(--gold); letter-spacing: 2px;">2025 ACCESS</p>
-        <strong>Platinum Member</strong>
-        <p style="color: var(--dim); font-size: 0.9rem;">$99 / month • Deep Connection</p>
+      <h2>Confirm Your Inquiry</h2>
+      
+      <div class="plan-selector">
+        <div class="plan-card active" onclick="selectPlan('Trial', '9.9', this)">
+          <p style="font-size: 0.6rem; letter-spacing: 1px; margin:0;">INTRO</p>
+          <strong>$9.9</strong>
+          <span>30-Min Trial</span>
+        </div>
+        <div class="plan-card" onclick="selectPlan('Platinum', '99', this)">
+          <p style="font-size: 0.6rem; letter-spacing: 1px; margin:0;">PREMIUM</p>
+          <strong>$99</strong>
+          <span>Full Monthly</span>
+        </div>
       </div>
+
+      <!-- 隐藏字段，用于传回给 server.js -->
+      <input type="hidden" name="selected_plan" id="selected_plan" value="Trial ($9.9)">
+
       <div class="btn-group">
-        <button type="submit" class="btn-next" id="submitBtn">Submit Inquiry</button>
+        <button type="submit" class="btn-next" id="submitBtn">Submit Application</button>
         <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
       </div>
     </div>
   </form>
 
-  <!-- 成功界面 -->
   <div id="success">
-    <h2 style="color: var(--gold);">✦ Received.</h2>
-    <p style="color: var(--dim); line-height: 2;">Our concierge will review your application <br>and reach out via email within 24 hours.</p>
+    <h2 style="color: var(--gold);">✦ Inquiry Received.</h2>
+    <p style="color: var(--dim); line-height: 2;">Our concierge will review your preference <br>and reach out within 24 hours.</p>
     <a href="index.html" class="btn-back" style="display: block; margin-top: 3rem; text-decoration: none;">Return Home</a>
   </div>
 </div>
 
 <script>
+// 选择方案逻辑
+function selectPlan(name, price, element) {
+  document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('active'));
+  element.classList.add('active');
+  document.getElementById('selected_plan').value = name + ' ($' + price + ')';
+}
+
 // 分步逻辑
 function nextStep(step) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -216,7 +251,6 @@ function nextStep(step) {
   document.getElementById('progress').style.width = progress + '%';
 }
 
-// 提交逻辑：精准对接 server.js
 const form = document.getElementById('bespokeForm');
 const submitBtn = document.getElementById('submitBtn');
 
@@ -226,9 +260,11 @@ form.onsubmit = async (e) => {
   submitBtn.disabled = true;
 
   const formData = Object.fromEntries(new FormData(form));
+  
+  // 在 program 字段后拼上选择的方案，方便你的后端邮件显示
+  formData.program = formData.program + " - Plan: " + formData.selected_plan;
 
   try {
-    // 这里的 /api/submit-form 必须对应你 server.js 运行的地址
     const response = await fetch('/api/submit-form', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -242,13 +278,13 @@ form.onsubmit = async (e) => {
       document.querySelector('.progress-bar').style.display = 'none';
       document.getElementById('success').style.display = 'block';
     } else {
-      alert("System message: " + result.msg);
+      alert("System: " + result.msg);
       submitBtn.innerText = "Submit Inquiry";
       submitBtn.disabled = false;
     }
   } catch (error) {
-    console.error("Submission error:", error);
-    alert("Connection lost. Please check if the server is active.");
+    console.error("Error:", error);
+    alert("Connection lost. Please ensure the server is active.");
     submitBtn.innerText = "Submit Inquiry";
     submitBtn.disabled = false;
   }
