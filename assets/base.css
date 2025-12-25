@@ -1,0 +1,19 @@
+/* 字体 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap');
+
+/* 全站底层 */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #050505;
+  color: #F5F5F5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* nav 行为统一 */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2000;
+}
