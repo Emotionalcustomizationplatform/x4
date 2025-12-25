@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Customized Companion | Private 1-on-1 Human Sanctuary</title>
 
-<!-- 修复：2025 顶奢字体导入 -->
+<!-- 全站基础字体 & 稳定性 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="fonts.googleapis.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -26,26 +26,28 @@ body {
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  padding-top: 100px; /* 给 fixed nav 留位 */
 }
 
-h1, h2, h3, .logo, .hero p, .plan-title {
+/* 字体层次保持 */
+h1,h2,h3,.logo,.hero p,.plan-title {
   font-family: 'Cormorant Garamond', serif;
 }
 
 /* 动态背景 */
 .bg-glow {
   position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
+  top:0; left:0; width:100%; height:100%;
   background: radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 60%);
-  z-index: -1;
+  z-index:-1;
   animation: pulseGlow 10s infinite alternate ease-in-out;
 }
 @keyframes pulseGlow {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.1); }
+  from {opacity:0.6; transform:scale(1);}
+  to {opacity:1; transform:scale(1.1);}
 }
 
-/* 导航栏修复：增加背景深度和点击交互 */
+/* 导航 */
 nav {
   display: flex;
   justify-content: space-between;
@@ -54,135 +56,146 @@ nav {
   background: rgba(5,5,5,0.85);
   backdrop-filter: blur(20px);
   position: fixed;
-  top: 0; width: 100%; box-sizing: border-box;
-  z-index: 2000;
-  border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+  top:0; width:100%;
+  box-sizing: border-box;
+  z-index:2000;
+  border-bottom: 1px solid rgba(197,160,89,0.1);
 }
-.logo { font-size: 1.1rem; font-weight: 300; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
-
-.nav-links { display: flex; align-items: center; gap: 3rem; }
-.nav-links a { 
-  color: #fff; 
-  text-decoration: none; 
-  font-size: 0.8rem; 
-  letter-spacing: 2px; 
-  text-transform: uppercase; 
-  transition: 0.3s;
-  position: relative;
+.logo {
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.nav-links { display:flex; align-items:center; gap:3rem; }
+.nav-links a {
+  color:#fff;
+  text-decoration:none;
+  font-size:0.8rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  transition:0.3s;
+  position:relative;
 }
 .nav-links a:hover { color: var(--gold); }
 
-/* Hero Section */
+/* Hero */
 .hero {
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 5%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 5%;
 }
-.hero h1 { 
-  font-size: clamp(3rem, 8vw, 5.5rem); 
-  font-weight: 300;
-  line-height: 1.05; 
-  margin-bottom: 2.5rem;
-  letter-spacing: -1px;
-  background: linear-gradient(180deg, #fff 0%, #888 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.hero h1 {
+  font-size: clamp(3rem,8vw,5.5rem);
+  font-weight:300;
+  line-height:1.05;
+  margin-bottom:2.5rem;
+  letter-spacing:-1px;
+  background: linear-gradient(180deg,#fff 0%,#888 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
-.hero p { font-size: 1.5rem; color: var(--text-dim); margin-bottom: 3.5rem; font-weight: 300; font-style: italic; }
+.hero p {
+  font-size:1.5rem;
+  color:var(--text-dim);
+  margin-bottom:3.5rem;
+  font-weight:300;
+  font-style:italic;
+}
 
-/* 栅格系统：细线主义 */
-.section { padding: 10rem 8%; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: rgba(197, 160, 89, 0.15); }
+/* 栅格系统 */
+.section { padding:10rem 8%; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1px; background: rgba(197,160,89,0.15); }
 .grid-item {
   background: var(--bg);
   padding: 6rem 3rem;
-  transition: 0.5s;
+  transition:0.5s;
 }
-.grid-item:hover { background: rgba(197, 160, 89, 0.05); }
-.grid-item h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 1.5rem; color: var(--gold); }
-.grid-item p { color: var(--text-dim); line-height: 1.9; font-size: 1.05rem; }
+.grid-item:hover { background: rgba(197,160,89,0.05); }
+.grid-item h3 { font-size:1.8rem; font-weight:400; margin-bottom:1.5rem; color: var(--gold); }
+.grid-item p { color: var(--text-dim); line-height:1.9; font-size:1.05rem; }
 
-/* 定价矩阵优化：双卡片对比 */
+/* 定价 */
 .pricing-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+  max-width:1100px;
+  margin:0 auto;
 }
-
 .offer-box {
-  background: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 5rem 3rem;
-  text-align: center;
-  position: relative;
-  transition: 0.4s;
+  background:#0a0a0a;
+  border:1px solid rgba(255,255,255,0.1);
+  padding:5rem 3rem;
+  text-align:center;
+  position:relative;
+  transition:0.4s;
 }
-
 .offer-box.featured {
-  border: 1px solid var(--gold);
-  background: linear-gradient(145deg, #121212 0%, #050505 100%);
+  border:1px solid var(--gold);
+  background: linear-gradient(145deg,#121212 0%,#050505 100%);
   transform: scale(1.03);
 }
-
 .badge {
-  position: absolute;
-  top: -1px; left: 50%; transform: translateX(-50%);
+  position:absolute;
+  top:-1px; left:50%; transform:translateX(-50%);
   background: var(--gold);
-  color: #000;
-  font-size: 0.6rem;
-  padding: 5px 25px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 700;
+  color:#000;
+  font-size:0.6rem;
+  padding:5px 25px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-weight:700;
 }
-
-.price { font-size: 4.5rem; font-weight: 200; color: #fff; margin: 1.5rem 0; font-family: 'Inter', sans-serif; }
-.price span { font-size: 1rem; color: var(--text-dim); letter-spacing: 2px; }
-
-.perks {
-  list-style: none; padding: 0; margin: 3rem auto;
-  text-align: left; gap: 1rem; max-width: 280px;
+.price {
+  font-size:4.5rem;
+  font-weight:200;
+  color:#fff;
+  margin:1.5rem 0;
+  font-family:'Inter',sans-serif;
 }
-.perks li { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem; display: flex; align-items: center; }
-.perks li::before { content: "✦"; color: var(--gold); margin-right: 12px; font-size: 0.8rem; }
-
+.price span { font-size:1rem; color:var(--text-dim); letter-spacing:2px; }
+.perks { list-style:none; padding:0; margin:3rem auto; text-align:left; gap:1rem; max-width:280px; }
+.perks li { font-size:0.9rem; color:var(--text-dim); margin-bottom:1rem; display:flex; align-items:center; }
+.perks li::before { content:"✦"; color:var(--gold); margin-right:12px; font-size:0.8rem; }
 .btn {
-  display: inline-block;
-  padding: 1.2rem 3rem;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  transition: 0.5s;
-  width: 100%;
-  box-sizing: border-box;
+  display:inline-block;
+  padding:1.2rem 3rem;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  text-decoration:none;
+  font-size:0.8rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  transition:0.5s;
+  width:100%;
+  box-sizing:border-box;
 }
-.btn.solid { background: var(--gold); color: #000; }
-.btn:hover { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); }
+.btn.solid { background: var(--gold); color:#000; }
+.btn:hover { background:#fff; color:#000; border-color:#fff; box-shadow:0 0 30px rgba(255,255,255,0.1); }
 
 footer {
-  padding: 8rem 5% 4rem;
-  text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  padding:8rem 5% 4rem;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,0.05);
 }
-.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 3px; }
-.footer-info { color: #444; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+.footer-logo { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--gold); margin-bottom:1.5rem; letter-spacing:3px; }
+.footer-info { color:#444; font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; }
 
-@media (max-width: 768px) {
-  .hero h1 { font-size: 2.8rem; }
-  .pricing-container { padding: 0 5%; gap: 3rem; }
-  .offer-box.featured { transform: scale(1); }
-  .nav-links a:not(.btn-nav) { display: none; }
+@media (max-width:768px){
+  .hero h1 { font-size:2.8rem; }
+  .pricing-container { padding:0 5%; gap:3rem; }
+  .offer-box.featured { transform:scale(1); }
+  .nav-links a:not(.btn-nav){ display:none; }
 }
 </style>
 </head>
+
 <body>
 
 <div class="bg-glow"></div>
@@ -190,55 +203,50 @@ footer {
 <nav>
   <a href="index.html" class="logo">Customized Companion</a>
   <div class="nav-links">
-    <!-- 链接修复：确保指向 about.html -->
     <a href="about.html">Philosophy</a>
-    <a href="form.html" class="btn btn-nav" style="padding: 0.6rem 1.5rem; font-size: 0.65rem; width: auto;">Inquiry</a>
+    <a href="form.html" class="btn btn-nav" style="padding:0.6rem 1.5rem;font-size:0.65rem;width:auto;">Inquiry</a>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-content">
-    <h1>The Luxury of <br>Truly Being Heard.</h1>
+    <h1>Private, human 1-on-1 companionship —<br>designed for those who value real conversation.</h1>
     <p>"Algorithms can mimic empathy, but they cannot share a soul."</p>
-    <a href="form.html" class="btn" style="width: auto; padding: 1.2rem 4rem;">Start Your Journey</a>
+    <a href="form.html" class="btn" style="width:auto; padding:1.2rem 4rem;">Start Your Journey</a>
   </div>
 </section>
 
-<!-- 核心差异化：增加背景微光感 -->
 <section class="section">
-  <div style="margin-bottom: 8rem;">
-    <p style="color: var(--gold); text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; margin-bottom: 1.5rem;">The Benchmark</p>
-    <h2 style="font-size: 3.5rem; font-weight: 300;">Authenticity is the <br>only currency that lasts.</h2>
+  <div style="margin-bottom:8rem;">
+    <p style="color:var(--gold);text-transform:uppercase;letter-spacing:6px;font-size:0.7rem;margin-bottom:1.5rem;">The Benchmark</p>
+    <h2 style="font-size:3.5rem;font-weight:300;">Authenticity is the <br>only currency that lasts.</h2>
   </div>
   <div class="grid">
     <div class="grid-item">
       <h3>Hand-Picked Curation</h3>
-      <p>We do not use databases. We use human intuition to match you with a companion who resonates with your unique frequency.</p>
+      <p>We do not use databases. Human intuition selects your companion.</p>
     </div>
     <div class="grid-item">
       <h3>Radical Presence</h3>
-      <p>Our companions are trained in the art of listening. No scripts, no distractions—just pure, unadulterated human connection.</p>
+      <p>Our companions are trained to listen fully, with no scripts or distractions.</p>
     </div>
     <div class="grid-item">
       <h3>Absolute Privacy</h3>
-      <p>Your narratives are sacred. We uphold the highest 2025 standards of digital discretion and ethical silence.</p>
+      <p>We uphold the highest standards of digital discretion and ethical silence.</p>
     </div>
   </div>
 </section>
 
-<!-- 定价区域：双档产品策略 -->
-<section class="section" style="padding-top: 0;">
-  <div style="text-align: center; margin-bottom: 6rem;">
-    <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase;">Membership Options</p>
-    <h2 style="font-size: 2.5rem; font-weight: 300;">Experience Pure Connection.</h2>
+<section class="section" style="padding-top:0;">
+  <div style="text-align:center;margin-bottom:6rem;">
+    <p style="color:var(--gold);letter-spacing:5px;font-size:0.7rem;text-transform:uppercase;">Membership Options</p>
+    <h2 style="font-size:2.5rem;font-weight:300;">Experience Pure Connection.</h2>
   </div>
 
   <div class="pricing-container">
-    
-    <!-- $9.9 试用方案 -->
     <div class="offer-box">
-      <p style="color: #666; letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">The First Step</p>
-      <h3 class="plan-title" style="font-size: 1.8rem; margin: 1rem 0;">Trial Session</h3>
+      <p style="color:#666;letter-spacing:3px;font-size:0.7rem;text-transform:uppercase;">The First Step</p>
+      <h3 class="plan-title" style="font-size:1.8rem;margin:1rem 0;">Trial Session</h3>
       <div class="price">$9.9<span>/ONCE</span></div>
       <ul class="perks">
         <li>30-Min Deep Connect Call</li>
@@ -249,24 +257,22 @@ footer {
       <a href="form.html" class="btn">Book Trial</a>
     </div>
 
-    <!-- $99 旗舰方案 -->
     <div class="offer-box featured">
       <div class="badge">Most Immersive</div>
-      <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">Bespoke Collection</p>
-      <h3 class="plan-title" style="font-size: 1.8rem; margin: 1rem 0;">Platinum Membership</h3>
+      <p style="color:var(--gold);letter-spacing:3px;font-size:0.7rem;text-transform:uppercase;">Bespoke Collection</p>
+      <h3 class="plan-title" style="font-size:1.8rem;margin:1rem 0;">Platinum Membership</h3>
       <div class="price">$520<span>/MO</span></div>
-      <ul class="perks" style="color: #fff;">
-        <li style="color: #fff;">2 Monthly Deep-Dive Calls</li>
-        <li style="color: #fff;">Unlimited Texting Concierge</li>
-        <li style="color: #fff;">Sacred Privacy Protection</li>
-        <li style="color: #fff;">Global 24/7 Priority Access</li>
+      <ul class="perks" style="color:#fff;">
+        <li>2 Monthly Deep-Dive Calls</li>
+        <li>Unlimited Texting Concierge</li>
+        <li>Sacred Privacy Protection</li>
+        <li>Global 24/7 Priority Access</li>
       </ul>
       <a href="form.html" class="btn solid">Apply for Access</a>
     </div>
-
   </div>
-  
-  <p style="text-align: center; margin-top: 4rem; color: #444; font-size: 0.8rem; font-style: italic;">
+
+  <p style="text-align:center;margin-top:4rem;color:#444;font-size:0.8rem;font-style:italic;">
     All sessions are end-to-end encrypted. Limited member intake per month.
   </p>
 </section>
