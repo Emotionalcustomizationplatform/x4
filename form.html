@@ -3,189 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Application | Customized Companion</title>
+<title>Application | Private Counsel</title> <!-- ✅ 标题已修正 -->
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold: #D4AF37;
-  --bg: #030303;
-  --card-bg: #0A0A0A;
-  --text: #F0F0F0;
-  --dim: #888;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
-}
-
-/* Background Animation */
-.bg-glow {
-  position: fixed; inset: 0;
-  background: 
-    radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.form-wrapper {
-  width: 100%;
-  max-width: 520px;
-  padding: 2rem;
-  text-align: center;
-  position: relative;
-  z-index: 10;
-}
-
-/* Progress Bar */
-.progress-bar {
-  width: 120px;
-  height: 2px;
-  background: rgba(255,255,255,0.1);
-  margin: 0 auto 3.5rem;
-  position: relative;
-  border-radius: 2px;
-}
-.progress-inner {
-  position: absolute;
-  left: 0; top: 0;
-  height: 100%;
-  background: var(--gold);
-  width: 33%;
-  transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
-h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem;
-  font-weight: 300;
-  margin-bottom: 2.5rem;
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-  color: #fff;
-}
-
-/* Steps Animation */
+/* ... (保留原有 CSS) ... */
+:root { --gold: #D4AF37; --bg: #030303; --card-bg: #0A0A0A; --text: #F0F0F0; --dim: #888; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+.bg-glow { position: fixed; inset: 0; background: radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%), radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%); z-index: -1; pointer-events: none; }
+.form-wrapper { width: 100%; max-width: 520px; padding: 2rem; text-align: center; position: relative; z-index: 10; }
+.progress-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.1); margin: 0 auto 3.5rem; position: relative; border-radius: 2px; }
+.progress-inner { position: absolute; left: 0; top: 0; height: 100%; background: var(--gold); width: 33%; transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 2.5rem; letter-spacing: 0.5px; line-height: 1.2; color: #fff; }
 .step { display: none; opacity: 0; transform: translateY(15px); transition: 0.5s ease; }
 .step.active { display: block; opacity: 1; transform: translateY(0); }
-
-/* Inputs & Selects */
-input, select {
-  box-sizing: border-box;
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  color: #fff;
-  padding: 1.2rem 0;
-  font-size: 1.1rem;
-  margin-bottom: 2.5rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  transition: 0.4s;
-  border-radius: 0;
-}
-input:focus, select:focus {
-  outline: none;
-  border-bottom-color: var(--gold);
-}
-/* Custom Placeholder color */
+input, select { box-sizing: border-box; width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 1.2rem 0; font-size: 1.1rem; margin-bottom: 2.5rem; font-family: 'Inter', sans-serif; font-weight: 300; transition: 0.4s; border-radius: 0; }
+input:focus, select:focus { outline: none; border-bottom-color: var(--gold); }
 ::placeholder { color: #444; }
-
-/* Buttons */
-.btn-group {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  margin-top: 1rem;
-}
-.btn-next {
-  background: var(--gold);
-  color: #000;
-  border: 1px solid var(--gold);
-  padding: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  transition: 0.3s;
-}
-.btn-next:hover {
-  background: #fff;
-  border-color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
-}
-.btn-back {
-  background: transparent;
-  color: var(--dim);
-  border: none;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: 0.3s;
-}
+.btn-group { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1rem; }
+.btn-next { background: var(--gold); color: #000; border: 1px solid var(--gold); padding: 1.2rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.8rem; transition: 0.3s; }
+.btn-next:hover { background: #fff; border-color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+.btn-back { background: transparent; color: var(--dim); border: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; font-family: 'Inter', sans-serif; transition: 0.3s; }
 .btn-back:hover { color: #fff; }
-
-/* Plan Selection Cards */
-.plan-selector {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.2rem;
-  margin-bottom: 2.5rem;
-}
-.plan-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 1.5rem 2rem;
-  cursor: pointer;
-  transition: 0.3s;
-  text-align: left;
-  position: relative;
-}
+.plan-selector { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin-bottom: 2.5rem; }
+.plan-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 2rem; cursor: pointer; transition: 0.3s; text-align: left; position: relative; }
 .plan-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
-.plan-card.active {
-  border-color: var(--gold);
-  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), rgba(0,0,0,0));
-}
-.plan-card strong {
-  display: block;
-  color: #fff;
-  font-size: 1.1rem;
-  margin-bottom: 0.2rem;
-  font-weight: 500;
-}
-.plan-card .price {
-  position: absolute; top: 1.5rem; right: 2rem;
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: var(--gold);
-  font-family: 'Cormorant Garamond', serif;
-}
-.plan-card .desc {
-  font-size: 0.85rem;
-  color: var(--dim);
-  line-height: 1.5;
-  margin-top: 0.5rem;
-  padding-right: 3rem;
-}
-
+.plan-card.active { border-color: var(--gold); background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), rgba(0,0,0,0)); }
+.plan-card strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 0.2rem; font-weight: 500; }
+.plan-card .price { position: absolute; top: 1.5rem; right: 2rem; font-size: 1.2rem; font-weight: 400; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
+.plan-card .desc { font-size: 0.85rem; color: var(--dim); line-height: 1.5; margin-top: 0.5rem; padding-right: 3rem; }
 #success { display: none; }
 </style>
 </head>
@@ -194,13 +42,10 @@ input:focus, select:focus {
 <div class="bg-glow"></div>
 
 <div class="form-wrapper">
-  <div class="progress-bar">
-    <div class="progress-inner" id="progress"></div>
-  </div>
+  <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
 
   <form id="bespokeForm">
-    
-    <!-- STEP 1: Select Plan -->
+    <!-- STEP 1 -->
     <div class="step active" id="step1">
       <h2>Select Your<br>Access Tier</h2>
       <div class="plan-selector">
@@ -224,7 +69,7 @@ input:focus, select:focus {
       </p>
     </div>
 
-    <!-- STEP 2: Define Needs -->
+    <!-- STEP 2 -->
     <div class="step" id="step2">
       <h2>How can we<br>support you?</h2>
       <select name="support_type" required>
@@ -248,10 +93,11 @@ input:focus, select:focus {
       </div>
     </div>
 
-    <!-- STEP 3: Confidential Details -->
+    <!-- ✅ STEP 3: 确认这里有 Email 字段！ -->
     <div class="step" id="step3">
       <h2>Confidential<br>Contact Info</h2>
       <input type="text" name="name" placeholder="Full Name (or Preferred Alias)" required>
+      <!-- 👇 客户邮箱就是在这个框里填的 👇 -->
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="text" name="phone" placeholder="Phone Number (Optional)">
       
@@ -266,7 +112,6 @@ input:focus, select:focus {
     </div>
   </form>
 
-  <!-- Success Message -->
   <div id="success">
     <h2 style="color:var(--gold); margin-bottom:1rem;">Application Received</h2>
     <p style="color:var(--dim); line-height:1.8; font-size:1.1rem;">
@@ -280,49 +125,30 @@ input:focus, select:focus {
 </div>
 
 <script>
-// State Management
 let currentStep = 1;
-
 function selectPlan(name, price, el) {
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  const planValue = name + ' ($' + price + ')';
-  document.getElementById('selected_plan').value = planValue;
+  document.getElementById('selected_plan').value = name + ' ($' + price + ')';
 }
 
 function nextStep(step) {
-  // Validate Step 2 before proceeding
   if (step === 3) {
     const s2 = document.getElementById('step2');
     const selects = s2.querySelectorAll('select');
     let valid = true;
-    selects.forEach(s => {
-      if (!s.value) valid = false;
-    });
-    if (!valid) {
-      alert("Please select an option to continue.");
-      return;
-    }
+    selects.forEach(s => { if (!s.value) valid = false; });
+    if (!valid) { alert("Please select an option to continue."); return; }
   }
-
-  document.querySelectorAll('.step').forEach(s => {
-    s.classList.remove('active');
-    s.style.display = 'none'; // Ensure display is toggled for animation reset
-  });
-  
+  document.querySelectorAll('.step').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
   const nextEl = document.getElementById('step' + step);
   nextEl.style.display = 'block';
-  // Small timeout to allow display:block to render before adding opacity class
-  setTimeout(() => {
-    nextEl.classList.add('active');
-  }, 10);
-
+  setTimeout(() => { nextEl.classList.add('active'); }, 10);
   const progressMap = {1: 33, 2: 66, 3: 100};
   document.getElementById('progress').style.width = progressMap[step] + '%';
   currentStep = step;
 }
 
-// Form Submission Logic
 const form = document.getElementById('bespokeForm');
 const submitBtn = document.getElementById('submitBtn');
 
@@ -333,53 +159,32 @@ form.onsubmit = async (e) => {
 
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
-  
-  // Construct a clean payload for your backend
-  const payload = {
-    ...data,
-    submittedAt: new Date().toISOString(),
-    source: 'web_form_v2'
-  };
+  const payload = { ...data, submittedAt: new Date().toISOString(), source: 'web_form_v2' };
 
   try {
-    // ---------------------------------------------------------
-    // IMPORTANT: Make sure this URL matches your actual backend endpoint
-    // ---------------------------------------------------------
     const res = await fetch('/api/submit-form', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-
     const result = await res.json();
-
     if (res.ok && result.success) {
-      // Success State
       form.style.display = 'none';
       document.querySelector('.progress-bar').style.display = 'none';
       const successEl = document.getElementById('success');
       successEl.style.display = 'block';
-      // Simple fade in for success message
       setTimeout(() => { successEl.style.opacity = 1; }, 10);
     } else {
-      // Error State
-      console.error('Server Error:', result);
-      alert(result.msg || 'There was an issue submitting your application. Please try again.');
+      alert(result.msg || 'Submission error.');
       submitBtn.innerText = "Submit Application";
       submitBtn.disabled = false;
     }
   } catch(err) {
-    // Network Error State
-    console.error('Network Error:', err);
-    alert("Unable to connect to the server. Please check your connection.");
+    alert("Connection error.");
     submitBtn.innerText = "Submit Application";
     submitBtn.disabled = false;
   }
 };
 </script>
-
 </body>
 </html>
