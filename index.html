@@ -33,6 +33,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
+/* CSS 保持不变 (Mobile Optimized) */
 :root {
   --gold: #D4AF37;
   --gold-dim: #8a7020;
@@ -50,7 +51,7 @@ body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* 关键：禁止横向滚动 */
+  overflow-x: hidden;
   line-height: 1.6;
 }
 
@@ -112,7 +113,7 @@ nav {
   background: linear-gradient(180deg, #fff 20%, #999 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  padding: 0 10px; /* 防止手机端文字贴边 */
+  padding: 0 10px;
 }
 .hero h1 i { font-style: italic; font-weight: 300; color: var(--gold); -webkit-text-fill-color: var(--gold); }
 .hero p { font-size: 1.2rem; color: #bbb; margin-bottom: 3rem; max-width: 650px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
@@ -165,66 +166,20 @@ nav {
 footer { padding: 5rem 5%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 5rem; box-sizing: border-box; }
 footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
 
-/* =================================================================
-   MOBILE RESPONSIVE FIXES (移动端终极适配)
-   ================================================================= */
+/* Mobile CSS */
 @media screen and (max-width: 768px) {
-  
-  /* 导航栏：收紧间距，防止Logo和按钮挤压 */
-  nav {
-    padding: 1rem 5%;
-    background: rgba(3, 3, 3, 0.95); /* 手机端背景更深，防止看不清 */
-  }
-  .logo {
-    font-size: 0.8rem; /* 稍微缩小Logo */
-  }
-  .btn {
-    padding: 0.7rem 1.2rem; /* 缩小按钮内边距 */
-    font-size: 0.65rem;     /* 缩小按钮字号 */
-    letter-spacing: 1px;
-  }
-
-  /* 首屏：防止文字过大 */
-  .hero {
-    padding: 0 1.5rem;
-    min-height: 90vh; /* 避免手机端高度问题 */
-  }
-  .hero h1 {
-    font-size: 2.6rem; /* 强制锁定最大字号 */
-    line-height: 1.1;
-    margin-bottom: 1.2rem;
-  }
-  .hero p {
-    font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-  
-  /* 全局版块：缩小间距 */
-  .section {
-    padding: 5rem 6%;
-  }
-  .section-header h2 {
-    font-size: 2rem;
-  }
-  
-  /* 卡片布局：缩小内边距 */
-  .grid, .pricing-grid {
-    gap: 1.5rem;
-  }
-  .feature-card, .price-card, .quote-card {
-    padding: 2.5rem 1.5rem; /* 手机端卡片不需要那么大空隙 */
-  }
-  
-  /* 价格字体 */
-  .price-tag {
-    font-size: 3rem;
-  }
-  
-  /* 弹窗适配 */
-  #legal-modal > div {
-    width: 90%;
-    padding: 2rem 1.5rem;
-  }
+  nav { padding: 1rem 5%; background: rgba(3, 3, 3, 0.95); }
+  .logo { font-size: 0.8rem; }
+  .btn { padding: 0.7rem 1.2rem; font-size: 0.65rem; letter-spacing: 1px; }
+  .hero { padding: 0 1.5rem; min-height: 90vh; }
+  .hero h1 { font-size: 2.6rem; line-height: 1.1; margin-bottom: 1.2rem; }
+  .hero p { font-size: 1rem; margin-bottom: 2rem; }
+  .section { padding: 5rem 6%; }
+  .section-header h2 { font-size: 2rem; }
+  .grid, .pricing-grid { gap: 1.5rem; }
+  .feature-card, .price-card, .quote-card { padding: 2.5rem 1.5rem; }
+  .price-tag { font-size: 3rem; }
+  #legal-modal > div { width: 90%; padding: 2rem 1.5rem; }
 }
 </style>
 </head>
@@ -248,12 +203,14 @@ footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
       <a href="form.html" class="btn btn-primary">Begin Application</a>
       <a href="#philosophy" class="btn">Our Philosophy</a>
     </div>
+    <!-- ✅ 修改处：去掉了 Waitlist，改为更积极的“Limited Availability” -->
     <p style="margin-top:2rem; font-size:0.75rem; letter-spacing:2px; opacity:0.5; text-transform:uppercase;">
-      Waitlist Active for January 2025
+      Limited Availability for New Clients
     </p>
   </div>
 </section>
 
+<!-- 后面的内容保持不变，确保没有破坏您的布局 -->
 <section class="section" id="philosophy">
   <div class="section-header fade-in-up">
     <h2>Why High-Performers Choose Us</h2>
@@ -298,7 +255,6 @@ footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
   </div>
   
   <div class="pricing-grid">
-    <!-- Tier 1 -->
     <div class="price-card fade-in-up">
       <p style="letter-spacing:2px; font-size:0.7rem; color:var(--dim); text-transform:uppercase;">Introduction</p>
       <h3>Discovery Session</h3>
@@ -312,7 +268,6 @@ footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
       <a href="form.html" class="btn" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Book Session</a>
     </div>
 
-    <!-- Tier 2 -->
     <div class="price-card featured fade-in-up" style="transition-delay: 0.1s;">
       <div style="position:absolute; top:0; right:0; background:var(--gold); color:#000; padding:0.4rem 1rem; font-size:0.6rem; font-weight:600; letter-spacing:1px;">MOST SELECTED</div>
       <p style="letter-spacing:2px; font-size:0.7rem; color:var(--gold); text-transform:uppercase;">Membership</p>
@@ -374,7 +329,6 @@ footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
 </div>
 
 <script>
-// Simple Intersection Observer for Fade-in Animation
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -382,7 +336,6 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
 </script>
 
