@@ -2,39 +2,173 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Application | Private Counsel</title> <!-- ✅ 标题已修正 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Application | Private Counsel</title>
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ... (保留原有 CSS) ... */
-:root { --gold: #D4AF37; --bg: #030303; --card-bg: #0A0A0A; --text: #F0F0F0; --dim: #888; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-.bg-glow { position: fixed; inset: 0; background: radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%), radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%); z-index: -1; pointer-events: none; }
-.form-wrapper { width: 100%; max-width: 520px; padding: 2rem; text-align: center; position: relative; z-index: 10; }
-.progress-bar { width: 120px; height: 2px; background: rgba(255,255,255,0.1); margin: 0 auto 3.5rem; position: relative; border-radius: 2px; }
-.progress-inner { position: absolute; left: 0; top: 0; height: 100%; background: var(--gold); width: 33%; transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
-h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 2.5rem; letter-spacing: 0.5px; line-height: 1.2; color: #fff; }
-.step { display: none; opacity: 0; transform: translateY(15px); transition: 0.5s ease; }
+:root {
+  --gold: #D4AF37;
+  --bg: #030303;
+  --card-bg: #0A0A0A;
+  --text: #F0F0F0;
+  --dim: #888;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background */
+.bg-glow {
+  position: fixed; inset: 0;
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  padding-bottom: 5rem; /* 为底部留足空间 */
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 120px;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 auto 3rem;
+  position: relative;
+  border-radius: 2px;
+}
+.progress-inner {
+  position: absolute; left: 0; top: 0; height: 100%;
+  background: var(--gold); width: 33%;
+  transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.step { display: none; opacity: 0; transform: translateY(15px); transition: 0.4s ease; }
 .step.active { display: block; opacity: 1; transform: translateY(0); }
-input, select { box-sizing: border-box; width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 1.2rem 0; font-size: 1.1rem; margin-bottom: 2.5rem; font-family: 'Inter', sans-serif; font-weight: 300; transition: 0.4s; border-radius: 0; }
-input:focus, select:focus { outline: none; border-bottom-color: var(--gold); }
-::placeholder { color: #444; }
-.btn-group { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1rem; }
-.btn-next { background: var(--gold); color: #000; border: 1px solid var(--gold); padding: 1.2rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.8rem; transition: 0.3s; }
-.btn-next:hover { background: #fff; border-color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
-.btn-back { background: transparent; color: var(--dim); border: none; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; font-family: 'Inter', sans-serif; transition: 0.3s; }
-.btn-back:hover { color: #fff; }
-.plan-selector { display: grid; grid-template-columns: 1fr; gap: 1.2rem; margin-bottom: 2.5rem; }
-.plan-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 2rem; cursor: pointer; transition: 0.3s; text-align: left; position: relative; }
-.plan-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
-.plan-card.active { border-color: var(--gold); background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), rgba(0,0,0,0)); }
-.plan-card strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 0.2rem; font-weight: 500; }
-.plan-card .price { position: absolute; top: 1.5rem; right: 2rem; font-size: 1.2rem; font-weight: 400; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
-.plan-card .desc { font-size: 0.85rem; color: var(--dim); line-height: 1.5; margin-top: 0.5rem; padding-right: 3rem; }
+
+/* --- NEW: Selection Cards (替代难用的下拉框) --- */
+.selection-group {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+.group-label {
+  font-size: 0.85rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+}
+.option-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 0.95rem;
+  color: #ccc;
+  border-radius: 4px; /* 轻微圆角 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.option-card:hover { border-color: rgba(212, 175, 55, 0.3); }
+.option-card.active {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.08);
+  color: #fff;
+}
+/* 选中时的金色小勾 */
+.option-card.active::after {
+  content: '✓';
+  color: var(--gold);
+  font-weight: bold;
+}
+
+/* Plan Cards (Step 1) */
+.plan-selector { display: grid; gap: 1rem; margin-bottom: 2rem; }
+.plan-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1.5rem;
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  transition: 0.2s;
+}
+.plan-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
+.plan-card strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem; }
+.plan-card .price { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
+.plan-card .desc { font-size: 0.85rem; color: var(--dim); line-height: 1.4; padding-right: 3rem; }
+
+/* Input Fields (Step 3) */
+input {
+  box-sizing: border-box; width: 100%;
+  background: transparent; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  color: #fff; padding: 1rem 0; font-size: 1.1rem;
+  margin-bottom: 2rem; font-family: 'Inter', sans-serif;
+  border-radius: 0;
+}
+input:focus { outline: none; border-bottom-color: var(--gold); }
+
+/* Buttons */
+.btn-next {
+  width: 100%;
+  background: var(--gold); color: #000;
+  border: none; padding: 1.1rem;
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; margin-top: 1rem;
+  font-size: 0.8rem;
+}
+.btn-back {
+  background: transparent; color: var(--dim);
+  border: none; font-size: 0.75rem; letter-spacing: 1px;
+  cursor: pointer; margin-top: 1.5rem; text-decoration: underline;
+}
+
+/* Success */
 #success { display: none; }
+
+/* Mobile Tweaks */
+@media screen and (max-width: 768px) {
+  .form-wrapper { padding: 1.5rem; padding-top: 4rem; }
+  h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+  .option-card { padding: 1.2rem 1rem; font-size: 0.9rem; } /* 增大点击区域 */
+}
 </style>
 </head>
 <body>
@@ -45,116 +179,141 @@ input:focus, select:focus { outline: none; border-bottom-color: var(--gold); }
   <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
 
   <form id="bespokeForm">
-    <!-- STEP 1 -->
+    
+    <!-- STEP 1: Plan -->
     <div class="step active" id="step1">
-      <h2>Select Your<br>Access Tier</h2>
+      <h2>Select Your Tier</h2>
       <div class="plan-selector">
         <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
           <strong>Discovery Session</strong>
           <div class="price">$49</div>
-          <p class="desc">One-time 60min session. Ideal for immediate clarity and chemistry check.</p>
+          <p class="desc">One-time 60min clarity call.</p>
         </div>
         <div class="plan-card" onclick="selectPlan('Monthly Membership', '249', this)">
-          <strong>Private Client Membership</strong>
+          <strong>Private Membership</strong>
           <div class="price">$249</div>
-          <p class="desc">Weekly sessions (4x/mo) + Priority Support. For consistent growth.</p>
+          <p class="desc">Weekly sessions + Priority support.</p>
         </div>
       </div>
-       <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
-      <div class="btn-group">
-        <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
-      </div>
-       <p style="font-size:0.7rem; color:#444; line-height:1.6; margin-top:2.5rem;">
-        Confidential Application. <br>We reserve the right to decline requests that are not a good fit.
-      </p>
+      <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
+      <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
+      <p style="font-size:0.65rem; color:#444; margin-top:2rem;">Confidential Application.</p>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- STEP 2: Needs (彻底告别下拉框，改为高级选项卡) -->
     <div class="step" id="step2">
-      <h2>How can we<br>support you?</h2>
-      <select name="support_type" required>
-        <option value="" disabled selected>Select your primary focus...</option>
-        <option value="Navigating High-Pressure Stress">Navigating High-Pressure Stress</option>
-        <option value="Career & Leadership Clarity">Career & Leadership Clarity</option>
-        <option value="Relationship Dynamics">Relationship Dynamics</option>
-        <option value="General Emotional Decompression">General Emotional Decompression</option>
-        <option value="Just need a private space to talk">Just need a private space to talk</option>
-      </select>
-      <select name="current_situation" required>
-        <option value="" disabled selected>Describe your current state...</option>
-        <option value="Overwhelmed / Burnout nearby">Overwhelmed / Burnout nearby</option>
-        <option value="Feeling isolated at the top">Feeling isolated at the top</option>
-        <option value="Stuck / Needing a breakthrough">Stuck / Needing a breakthrough</option>
-        <option value="Curious about the service">Curious about the service</option>
-      </select>
-      <div class="btn-group">
-        <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
-        <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
+      <h2>Your Needs</h2>
+      
+      <!-- Hidden inputs to store the values -->
+      <input type="hidden" name="support_type" id="support_type">
+      <input type="hidden" name="current_situation" id="current_situation">
+
+      <!-- Question 1 -->
+      <div class="selection-group">
+        <span class="group-label">Primary Focus</span>
+        <div class="option-card" onclick="selectOption('support_type', 'Navigating Stress', this)">Navigating High-Pressure Stress</div>
+        <div class="option-card" onclick="selectOption('support_type', 'Career Clarity', this)">Career & Leadership Clarity</div>
+        <div class="option-card" onclick="selectOption('support_type', 'Relationships', this)">Relationship Dynamics</div>
+        <div class="option-card" onclick="selectOption('support_type', 'Just Talking', this)">Just need a private space to talk</div>
       </div>
+
+      <!-- Question 2 -->
+      <div class="selection-group">
+        <span class="group-label">Current State</span>
+        <div class="option-card" onclick="selectOption('current_situation', 'Overwhelmed', this)">Overwhelmed / Burnout nearby</div>
+        <div class="option-card" onclick="selectOption('current_situation', 'Isolated', this)">Feeling isolated at the top</div>
+        <div class="option-card" onclick="selectOption('current_situation', 'Stuck', this)">Stuck / Needing a breakthrough</div>
+        <div class="option-card" onclick="selectOption('current_situation', 'Curious', this)">Curious about the service</div>
+      </div>
+
+      <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
+      <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
     </div>
 
-    <!-- ✅ STEP 3: 确认这里有 Email 字段！ -->
+    <!-- STEP 3: Info -->
     <div class="step" id="step3">
-      <h2>Confidential<br>Contact Info</h2>
-      <input type="text" name="name" placeholder="Full Name (or Preferred Alias)" required>
-      <!-- 👇 客户邮箱就是在这个框里填的 👇 -->
+      <h2>Contact Details</h2>
+      <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
-      <input type="text" name="phone" placeholder="Phone Number (Optional)">
+      <input type="text" name="phone" placeholder="Phone (Optional)">
       
-      <p style="font-size:0.7rem; color:#444; line-height:1.6; text-align:left; margin-top:-1rem; margin-bottom: 2.5rem;">
-        <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Your data is encrypted and never shared.
+      <p style="font-size:0.7rem; color:#444; margin-bottom: 2rem; text-align: left;">
+        <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Data is encrypted.
       </p>
 
-      <div class="btn-group">
-        <button type="submit" class="btn-next" id="submitBtn">Submit Application</button>
-        <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
-      </div>
+      <button type="submit" class="btn-next" id="submitBtn">Submit Application</button>
+      <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
     </div>
   </form>
 
   <div id="success">
-    <h2 style="color:var(--gold); margin-bottom:1rem;">Application Received</h2>
-    <p style="color:var(--dim); line-height:1.8; font-size:1.1rem;">
-      Your request is being processed securely.<br>
-      Our concierge will contact you via email shortly.
+    <h2 style="color:var(--gold);">Received</h2>
+    <p style="color:var(--dim); line-height:1.6;">
+      Check your email shortly.<br>Our concierge will be in touch.
     </p>
-    <a href="index.html" class="btn-back" style="display:block; margin-top:4rem; text-decoration:none; opacity:0.6;">
-      Return to Homepage
-    </a>
+    <a href="index.html" class="btn-back" style="display:block; margin-top:3rem; text-decoration:none;">Return Home</a>
   </div>
 </div>
 
 <script>
-let currentStep = 1;
+// --- 核心逻辑 ---
+
+// 1. 选套餐逻辑
 function selectPlan(name, price, el) {
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('selected_plan').value = name + ' ($' + price + ')';
 }
 
-function nextStep(step) {
-  if (step === 3) {
-    const s2 = document.getElementById('step2');
-    const selects = s2.querySelectorAll('select');
-    let valid = true;
-    selects.forEach(s => { if (!s.value) valid = false; });
-    if (!valid) { alert("Please select an option to continue."); return; }
-  }
-  document.querySelectorAll('.step').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
-  const nextEl = document.getElementById('step' + step);
-  nextEl.style.display = 'block';
-  setTimeout(() => { nextEl.classList.add('active'); }, 10);
-  const progressMap = {1: 33, 2: 66, 3: 100};
-  document.getElementById('progress').style.width = progressMap[step] + '%';
-  currentStep = step;
+// 2. 选痛点逻辑 (新)
+function selectOption(fieldId, value, el) {
+  // 找到同组的所有选项，移除激活状态
+  const group = el.parentElement;
+  group.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
+  
+  // 激活当前点击的
+  el.classList.add('active');
+  
+  // 赋值给隐藏的input
+  document.getElementById(fieldId).value = value;
 }
 
+// 3. 步骤切换逻辑
+function nextStep(step) {
+  // 验证第2步：必须选完两个问题
+  if (step === 3) {
+    const v1 = document.getElementById('support_type').value;
+    const v2 = document.getElementById('current_situation').value;
+    if (!v1 || !v2) {
+      alert("Please select an option for both questions.");
+      return;
+    }
+  }
+
+  document.querySelectorAll('.step').forEach(s => { 
+    s.classList.remove('active'); 
+    setTimeout(() => { if(!s.classList.contains('active')) s.style.display='none'; }, 400); 
+  });
+  
+  const nextEl = document.getElementById('step' + step);
+  nextEl.style.display = 'block';
+  // 延时一点点加active，为了触发淡入动画
+  setTimeout(() => { nextEl.classList.add('active'); }, 10);
+
+  const progressMap = {1: 33, 2: 66, 3: 100};
+  document.getElementById('progress').style.width = progressMap[step] + '%';
+  
+  // 自动滚回到顶部 (防止手机上切步骤后位置不对)
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 4. 提交逻辑
 const form = document.getElementById('bespokeForm');
 const submitBtn = document.getElementById('submitBtn');
 
 form.onsubmit = async (e) => {
   e.preventDefault();
-  submitBtn.innerText = "Encrypting & Sending...";
+  submitBtn.innerText = "Encrypting...";
   submitBtn.disabled = true;
 
   const formData = new FormData(form);
@@ -173,18 +332,18 @@ form.onsubmit = async (e) => {
       document.querySelector('.progress-bar').style.display = 'none';
       const successEl = document.getElementById('success');
       successEl.style.display = 'block';
-      setTimeout(() => { successEl.style.opacity = 1; }, 10);
     } else {
-      alert(result.msg || 'Submission error.');
+      alert('Error: ' + (result.msg || 'Submission failed'));
       submitBtn.innerText = "Submit Application";
       submitBtn.disabled = false;
     }
   } catch(err) {
-    alert("Connection error.");
+    alert("Network error. Please try again.");
     submitBtn.innerText = "Submit Application";
     submitBtn.disabled = false;
   }
 };
 </script>
+
 </body>
 </html>
