@@ -25,30 +25,33 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('./')); 
 
-// --- 翻译字典 (配置英文到中文的映射) ---
+// --- 核心修改：适配新表单的翻译字典 ---
 const TRANSLATIONS = {
     // 套餐翻译
     "Discovery Session": "单次体验咨询",
     "Monthly Membership": "包月私教会员",
+    "Private Membership": "包月私教会员", // 适配新表单可能的简写
     
-    // 客户需求翻译 (Support Type)
-    "Navigating High-Pressure Stress": "应对高压与焦虑",
-    "Career & Leadership Clarity": "职业发展与领导力迷茫",
-    "Relationship Dynamics": "人际/亲密关系困扰",
-    "General Emotional Decompression": "一般情绪疏导/解压",
-    "Just need a private space to talk": "纯倾诉/寻找树洞",
+    // 客户需求翻译 (Support Type) - 这里的键值已更新，匹配新表单的短代码
+    "Navigating Stress": "应对高压与焦虑",
+    "Career Clarity": "职业发展与领导力迷茫",
+    "Relationships": "人际/亲密关系困扰",
+    "Just Talking": "纯倾诉/寻找树洞",
     
-    // 客户现状翻译 (Situation)
-    "Overwhelmed / Burnout nearby": "压力过大/濒临崩溃",
-    "Feeling isolated at the top": "高处不胜寒/感到孤独",
-    "Stuck / Needing a breakthrough": "卡住了/急需突破",
-    "Curious about the service": "好奇/仅想体验",
+    // 客户现状翻译 (Current Situation)
+    "Overwhelmed": "压力过大/濒临崩溃",
+    "Isolated": "高处不胜寒/感到孤独",
+    "Stuck": "卡住了/急需突破",
+    "Curious": "好奇/仅想体验",
 };
 
-// 辅助函数：进行翻译，如果找不到对应中文，就显示原文
+// 辅助函数：翻译
 function translate(text) {
     if (!text) return "未填写";
-    // 简单的模糊匹配，只要包含关键词就翻译
+    // 优先精确匹配
+    if (TRANSLATIONS[text]) return `${TRANSLATIONS[text]} <span style="color:#999;">(${text})</span>`;
+    
+    // 如果没有精确匹配，尝试模糊匹配
     for (const [key, value] of Object.entries(TRANSLATIONS)) {
         if (text.includes(key)) {
             return `${value} <span style="color:#999; font-size:12px;">(${key})</span>`;
@@ -66,22 +69,23 @@ app.post('/api/submit-form', async (req, res) => {
     } = req.body;
 
     const clientIP = req.ip;
-    console.log(`✅ 新客户: ${name} | 套餐: ${selected_plan}`);
+    // 在后台打印出邮箱，方便您核对
+    console.log(`✅ 新订单: ${name} | 邮箱: ${email} | 套餐: ${selected_plan}`);
 
     if (!name || !email || !selected_plan) {
       return res.status(400).json({ success: false, msg: '信息不完整' });
     }
 
-    // --- 在这里进行翻译 ---
+    // --- 翻译 ---
     const cn_plan = translate(selected_plan);
     const cn_support = translate(support_type);
     const cn_situation = translate(current_situation);
 
     // 发送中文邮件
     const { data, error } = await resend.emails.send({
-      from: `客户报名提醒 <${RESEND_FROM}>`,
+      from: `Private Counsel 提醒 <${RESEND_FROM}>`,
       to: YOUR_RECEIVE_EMAIL,
-      subject: `💰 新订单: ${name} [${cn_plan.split('<')[0]}]`, // 标题只显示中文套餐名
+      subject: `💰 新订单: ${name} [${cn_plan.split('<')[0]}]`,
       html: `
         <div style="font-family: 'Microsoft YaHei', sans-serif; max-width: 600px; color: #333; border: 1px solid #ddd; padding: 20px;">
           
@@ -128,7 +132,7 @@ app.post('/api/submit-form', async (req, res) => {
 
           <div style="margin-top: 20px; font-size: 12px; color: #aaa; text-align: right;">
             提交时间: ${new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'})} (北京时间)<br>
-            来源: 官网表单
+            来源: 官网表单 (Mobile Optimized)
           </div>
 
         </div>
@@ -149,14 +153,6 @@ app.post('/api/submit-form', async (req, res) => {
   }
 });
 
-// 6. 测试接口
-app.get('/test-email', async (req, res) => {
-  // ... 保持不变 ...
-  res.send('后端正常运行中...');
-});
-
-// 7. 启动
 app.listen(PORT, () => {
   console.log(`🚀 服务已启动: http://localhost:${PORT}`);
-  console.log(`📧 接收邮箱: ${YOUR_RECEIVE_EMAIL}`);
 });
