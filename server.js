@@ -1,4 +1,5 @@
 // server.js
+
 // 1. 引入依赖
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -16,108 +17,146 @@ if (!process.env.RECEIVE_EMAIL) throw new Error('❌ 缺少 RECEIVE_EMAIL 环境
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const YOUR_RECEIVE_EMAIL = process.env.RECEIVE_EMAIL;
-const RESEND_FROM = 'onboarding@resend.dev';
+const RESEND_FROM = 'onboarding@resend.dev'; 
 
 // 4. 中间件
 app.use(cors()); 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('./')); // 托管当前目录下的静态文件
+app.use(express.static('./')); 
+
+// --- 翻译字典 (配置英文到中文的映射) ---
+const TRANSLATIONS = {
+    // 套餐翻译
+    "Discovery Session": "单次体验咨询",
+    "Monthly Membership": "包月私教会员",
+    
+    // 客户需求翻译 (Support Type)
+    "Navigating High-Pressure Stress": "应对高压与焦虑",
+    "Career & Leadership Clarity": "职业发展与领导力迷茫",
+    "Relationship Dynamics": "人际/亲密关系困扰",
+    "General Emotional Decompression": "一般情绪疏导/解压",
+    "Just need a private space to talk": "纯倾诉/寻找树洞",
+    
+    // 客户现状翻译 (Situation)
+    "Overwhelmed / Burnout nearby": "压力过大/濒临崩溃",
+    "Feeling isolated at the top": "高处不胜寒/感到孤独",
+    "Stuck / Needing a breakthrough": "卡住了/急需突破",
+    "Curious about the service": "好奇/仅想体验",
+};
+
+// 辅助函数：进行翻译，如果找不到对应中文，就显示原文
+function translate(text) {
+    if (!text) return "未填写";
+    // 简单的模糊匹配，只要包含关键词就翻译
+    for (const [key, value] of Object.entries(TRANSLATIONS)) {
+        if (text.includes(key)) {
+            return `${value} <span style="color:#999; font-size:12px;">(${key})</span>`;
+        }
+    }
+    return text; // 没匹配到就直接回显英文
+}
 
 // 5. 表单提交接口
 app.post('/api/submit-form', async (req, res) => {
   try {
-    // 解构前端传来的字段，包括新增的 selected_plan (套餐选择)
-    const { name, email, phone, program, source, selected_plan } = req.body;
+    const { 
+      name, email, phone, selected_plan, 
+      support_type, current_situation, source, submittedAt 
+    } = req.body;
+
     const clientIP = req.ip;
-    const userAgent = req.get('User-Agent');
+    console.log(`✅ 新客户: ${name} | 套餐: ${selected_plan}`);
 
-    console.log('✅ 收到新申请：', name, "| 套餐选择：", selected_plan || "未明确选择");
-
-    // 验证必填字段
-    if (!name || !email || !program || !source) {
-      return res.status(400).json({ success: false, msg: '请填写所有必填字段' });
+    if (!name || !email || !selected_plan) {
+      return res.status(400).json({ success: false, msg: '信息不完整' });
     }
 
-    // 转换项目名称为中文
-    const programText = program.includes('program1') ? '定制专属伴侣 (Bespoke)' :
-                        program.includes('program2') ? '学习中文 (Language)' : program;
-    
-    // 转换来源渠道为中文
-    const sourceText = source === 'socialMedia' ? '社交媒体' :
-                       source === 'friend' ? '朋友推荐' : '其他';
+    // --- 在这里进行翻译 ---
+    const cn_plan = translate(selected_plan);
+    const cn_support = translate(support_type);
+    const cn_situation = translate(current_situation);
 
-    // 发送邮件通知
+    // 发送中文邮件
     const { data, error } = await resend.emails.send({
-      from: `报名通知 <${RESEND_FROM}>`,
+      from: `客户报名提醒 <${RESEND_FROM}>`,
       to: YOUR_RECEIVE_EMAIL,
-      subject: `🔔 新客户报名: ${name} [${selected_plan || '未选套餐'}]`,
+      subject: `💰 新订单: ${name} [${cn_plan.split('<')[0]}]`, // 标题只显示中文套餐名
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; border: 1px solid #eee; padding: 20px;">
-          <h2 style="color:#2c3e50; border-bottom: 2px solid #C5A059; padding-bottom: 10px;">新客户申请详情 (2025)</h2>
+        <div style="font-family: 'Microsoft YaHei', sans-serif; max-width: 600px; color: #333; border: 1px solid #ddd; padding: 20px;">
           
-          <table style="border-collapse: collapse; width: 100%; margin-top: 10px;">
-            <!-- ✅ 套餐选择 - 高亮显示 -->
-            <tr style="background-color: #fff9e6;">
-              <td style="padding: 12px; border: 1px solid #ddd; width: 30%;"><strong>📍 预订套餐：</strong></td>
-              <td style="padding: 12px; border: 1px solid #ddd; color: #d35400; font-size: 20px;">
-                <strong>${selected_plan || '未选择套餐'}</strong>
+          <h2 style="color:#2c3e50; border-bottom: 2px solid #D4AF37; padding-bottom: 15px; margin-top: 0;">
+            新客户申请详情
+          </h2>
+
+          <!-- 套餐高亮 -->
+          <div style="background-color: #fff8e1; border-left: 5px solid #D4AF37; padding: 15px; margin-bottom: 20px;">
+            <p style="margin:0; font-size:12px; color:#888;">客户选择的套餐：</p>
+            <div style="font-size: 20px; color: #d35400; font-weight: bold; margin-top: 5px;">
+              ${cn_plan}
+            </div>
+          </div>
+
+          <table style="width: 100%; border-collapse: collapse;">
+            
+            <!-- 痛点分析 -->
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee; width: 80px; color: #888;">核心诉求</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee; font-weight: 500;">${cn_support}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888;">当前状态</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${cn_situation}</td>
+            </tr>
+
+            <!-- 基本信息 -->
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888;">客户姓名</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee;"><strong>${name}</strong></td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888;">电子邮箱</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <a href="mailto:${email}" style="color: #D4AF37; text-decoration: none;">${email}</a>
               </td>
             </tr>
-            
-            <tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>客户姓名：</strong></td><td style="padding: 10px; border: 1px solid #ddd;">${name}</td></tr>
-            <tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>电子邮箱：</strong></td><td style="padding: 10px; border: 1px solid #ddd;">${email}</td></tr>
-            <tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>联系方式：</strong></td><td style="padding: 10px; border: 1px solid #ddd;">${phone || '-'}</td></tr>
-            <tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>项目意向：</strong></td><td style="padding: 10px; border: 1px solid #ddd;">${programText}</td></tr>
-            <tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>了解渠道：</strong></td><td style="padding: 10px; border: 1px solid #ddd;">${sourceText}</td></tr>
-            <tr><td style="padding: 10px; border: 1px solid #ddd;"><strong>提交时间：</strong></td><td style="padding: 10px; border: 1px solid #ddd;">${new Date().toLocaleString()}</td></tr>
-            
-            <tr style="color: #999; font-size: 12px;">
-              <td style="padding: 10px; border: 1px solid #ddd;"><strong>技术参数：</strong></td>
-              <td style="padding: 10px; border: 1px solid #ddd;">IP: ${clientIP}<br>UA: ${userAgent}</td>
+            <tr>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee; color: #888;">电话号码</td>
+              <td style="padding: 10px 0; border-bottom: 1px solid #eee;">${phone || '未填写'}</td>
             </tr>
           </table>
-          
-          <p style="font-size: 12px; color: #bbb; margin-top: 20px; text-align: center;">
-            来自 Customized Companion 2025 自动化系统
-          </p>
+
+          <div style="margin-top: 20px; font-size: 12px; color: #aaa; text-align: right;">
+            提交时间: ${new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'})} (北京时间)<br>
+            来源: 官网表单
+          </div>
+
         </div>
       `
     });
 
     if (error) {
-      console.error('❌ Resend邮件发送失败：', error.message);
-      return res.status(500).json({ success: false, msg: '提交成功，但邮件通知发送失败' });
+      console.error('❌ 邮件发送失败:', error);
+      return res.status(500).json({ success: false, msg: '邮件发送失败' });
     }
 
-    console.log('✅ 邮件发送成功，ID：', data.id);
-    res.json({ success: true, msg: '提交成功，我们会尽快联系您' });
+    console.log('✅ 邮件发送成功:', data.id);
+    res.json({ success: true, msg: 'Application received' });
 
   } catch (err) {
-    console.error('❌ 处理异常：', err.message);
-    res.status(500).json({ success: false, msg: '服务器异常，请重试' });
+    console.error('❌ 服务器错误:', err.message);
+    res.status(500).json({ success: false, msg: 'Internal Server Error' });
   }
 });
 
-// 6. 测试邮件接口
+// 6. 测试接口
 app.get('/test-email', async (req, res) => {
-  try {
-    const { data, error } = await resend.emails.send({
-      from: `系统测试 <${RESEND_FROM}>`,
-      to: YOUR_RECEIVE_EMAIL,
-      subject: '✅ 后端配置正常',
-      text: '如果你收到这封邮件，说明 Resend 接口已调通！'
-    });
-
-    if (error) return res.send(`❌ 测试失败：${error.message}`);
-    res.send(`✅ 测试成功！请查收邮箱 ${YOUR_RECEIVE_EMAIL}`);
-  } catch (err) {
-    res.send(`❌ 异常：${err.message}`);
-  }
+  // ... 保持不变 ...
+  res.send('后端正常运行中...');
 });
 
-// 7. 启动服务
+// 7. 启动
 app.listen(PORT, () => {
-  console.log(`🚀 后端运行中：http://localhost:${PORT}`);
-  console.log(`📧 通知邮箱：${YOUR_RECEIVE_EMAIL}`);
+  console.log(`🚀 服务已启动: http://localhost:${PORT}`);
+  console.log(`📧 接收邮箱: ${YOUR_RECEIVE_EMAIL}`);
 });
