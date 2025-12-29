@@ -3,195 +3,282 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Customized Companion | Emotional Support</title>
-
+<title>Customized Companion | Elite Emotional Support</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold:#C5A059;
-  --bg:#050505;
-  --card:#0F0F0F;
-  --text:#F5F5F5;
-  --dim:#777;
+  --gold: #D4AF37; /* 更纯正的香槟金 */
+  --gold-dim: #8a7020;
+  --bg: #030303;
+  --card-bg: #0A0A0A;
+  --text: #F0F0F0;
+  --dim: #888;
 }
+
+html { scroll-behavior: smooth; }
 
 body {
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-h1,h2,h3,.logo { font-family:'Cormorant Garamond',serif; font-weight:300; }
+h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
+a { color: inherit; text-decoration: none; transition: 0.3s; }
 
-a { color:inherit; text-decoration:none; }
-
+/* Cinematic Background */
 .bg-glow {
-  position:fixed; inset:0;
-  background:radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 60%);
-  z-index:-1;
+  position: fixed; inset: 0;
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  z-index: -1;
+  pointer-events: none;
 }
 
+/* Navigation */
 nav {
-  position:fixed; top:0; width:100%;
-  padding:1.5rem 8%;
-  display:flex; justify-content:space-between; align-items:center;
-  background:rgba(5,5,5,0.85); backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(197,160,89,.1); z-index:1000;
+  position: fixed; top: 0; width: 100%;
+  padding: 1.5rem 6%;
+  box-sizing: border-box;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 1000;
+  transition: 0.3s;
 }
-
-.logo { letter-spacing:4px; text-transform:uppercase; font-size:.9rem; color:var(--gold); }
-
-.nav-links { display:flex; gap:2.5rem; align-items:center; }
-
-.nav-links a { font-size:.7rem; letter-spacing:2px; text-transform:uppercase; }
-
+.logo { letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; color: #fff; font-weight: 500; }
+.logo span { color: var(--gold); }
 .btn {
-  padding:.8rem 2rem; border:1px solid var(--gold); color:var(--gold);
-  font-size:.7rem; letter-spacing:3px; text-transform:uppercase; transition:.3s;
+  padding: 0.9rem 2.2rem; 
+  border: 1px solid rgba(255,255,255,0.2); 
+  color: #fff;
+  font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; 
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+  background: transparent;
+  cursor: pointer;
 }
+.btn:hover { border-color: var(--gold); color: var(--gold); }
+.btn-primary { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
+.btn-primary:hover { background: #fff; border-color: #fff; color: #000; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
 
-.btn:hover { background:#fff; color:#000; border-color:#fff; }
+/* Animation Classes */
+.fade-in-up { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.visible { opacity: 1; transform: translateY(0); }
 
-.hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 8%; }
-
+/* Hero Section */
+.hero { 
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+  text-align: center; padding: 0 1rem; position: relative;
+}
 .hero h1 {
-  font-size:clamp(2.8rem,7vw,5.2rem); line-height:1.05; margin-bottom:2.2rem;
-  background:linear-gradient(180deg,#fff 0%,#888 100%);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  font-size: clamp(3.2rem, 8vw, 6rem); line-height: 1.05; margin-bottom: 1.5rem; font-weight: 300;
+  background: linear-gradient(180deg, #fff 20%, #888 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
+.hero h1 i { font-style: italic; font-weight: 300; color: var(--gold); -webkit-text-fill-color: var(--gold); }
+.hero p { font-size: 1.2rem; color: var(--dim); margin-bottom: 3rem; max-width: 650px; font-weight: 300; }
 
-.hero p { font-size:1.25rem; color:var(--dim); margin-bottom:3.5rem; }
+/* Sections General */
+.section { padding: 8rem 8%; max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 5rem; }
+.section-header h2 { font-size: 2.8rem; margin-bottom: 1rem; color: #fff; font-weight: 300; }
+.section-header p { color: var(--dim); max-width: 500px; margin: 0 auto; font-size: 0.95rem; }
 
-.section { padding:9rem 8%; }
+/* Grid Cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.feature-card { 
+  padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.1); 
+  transition: 0.5s; position: relative;
+}
+.feature-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 1px; background: var(--gold); transition: 0.5s;
+}
+.feature-card:hover::before { width: 100%; }
+.feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
+.feature-card p { color: var(--dim); font-size: 0.95rem; line-height: 1.8; }
 
-.section h2 { font-size:3rem; margin-bottom:3rem; }
+/* Testimonials (New) */
+.testimonials { background: rgba(255,255,255,0.02); }
+.quote-card { text-align: left; padding: 2rem; }
+.quote-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: #ddd; font-style: italic; margin-bottom: 1.5rem; }
+.quote-author { font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); }
 
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:rgba(197,160,89,.15); }
+/* Pricing */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: center; }
+.price-card { 
+  background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); padding: 4rem 2.5rem; 
+  position: relative; transition: 0.3s;
+}
+.price-card:hover { border-color: rgba(212, 175, 55, 0.3); transform: translateY(-5px); }
+.price-card.featured { border: 1px solid var(--gold); background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), #0A0A0A); }
+.price-tag { font-size: 3.5rem; font-family: 'Cormorant Garamond', serif; color: #fff; margin: 1.5rem 0; }
+.price-tag span { font-size: 1rem; font-family: 'Inter', sans-serif; color: var(--dim); margin-left: 5px; }
+.check-list li { margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; display: flex; align-items: center; }
+.check-list li::before { content: "•"; color: var(--gold); margin-right: 10px; font-size: 1.2rem; }
 
-.grid-item { background:var(--bg); padding:5rem 3rem; }
+/* FAQ (New) */
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; }
+.faq-question { font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem; font-weight: 500; }
+.faq-answer { color: var(--dim); font-size: 0.9rem; max-width: 800px; }
 
-.grid-item h3 { color:var(--gold); font-size:1.6rem; margin-bottom:1.5rem; }
+/* Footer */
+footer { padding: 5rem 5%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 5rem; }
+footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
 
-.grid-item p { color:var(--dim); line-height:1.9; }
-
-.pricing { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
-
-.price-card { background:#0a0a0a; border:1px solid rgba(255,255,255,.1); padding:4.5rem 3rem; text-align:center; }
-
-.price-card.featured { border-color:var(--gold); background:linear-gradient(145deg,#121212,#050505); }
-
-.price { font-size:4rem; font-weight:200; margin:1.5rem 0; }
-
-.price span { font-size:.9rem; color:var(--dim); letter-spacing:2px; }
-
-ul { list-style:none; padding:0; margin:3rem 0; text-align:left; }
-
-ul li { font-size:.9rem; color:var(--dim); margin-bottom:1rem; }
-
-ul li::before { content:"✦"; color:var(--gold); margin-right:10px; }
-
-footer { padding:6rem 5% 3rem; text-align:center; border-top:1px solid rgba(255,255,255,.05); }
-
-footer p { font-size:.7rem; letter-spacing:2px; color:#444; }
-
-@media(max-width:768px){ .hero p { font-size:1.1rem; } .nav-links a:not(.btn){ display:none; } }
+@media(max-width:768px){ 
+  .hero h1 { font-size: 3rem; }
+  .section { padding: 5rem 5%; }
+  .price-card { padding: 3rem 1.5rem; }
+}
 </style>
 </head>
-
 <body>
 
 <div class="bg-glow"></div>
 
 <nav>
-  <div class="logo">Customized Companion</div>
-  <div class="nav-links">
-    <a href="#about">Philosophy</a>
-    <a href="form.html" class="btn">Apply</a>
-  </div>
+  <div class="logo">Customized<span>Companion</span></div>
+  <a href="form.html" class="btn">Client Application</a>
 </nav>
 
 <section class="hero">
-  <div>
-    <h1>Real Human Support.</h1>
+  <div class="fade-in-up">
+    <h1>Calm in the <i>Chaos</i>.</h1>
     <p>
-      Confidential emotional support to process stress, anxiety, and personal pressure — without therapy labels.
+      The private emotional sanctuary for founders, executives, and high-performers. 
+      <br>Radically confidential. Strictly non-clinical.
     </p>
-    <a href="form.html" class="btn" style="padding:1.2rem 3.5rem;">
-      Start Your Application
-    </a>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+      <a href="form.html" class="btn btn-primary">Begin Application</a>
+      <a href="#philosophy" class="btn">Our Philosophy</a>
+    </div>
+    <p style="margin-top:2rem; font-size:0.75rem; letter-spacing:2px; opacity:0.5; text-transform:uppercase;">
+      Waitlist Active for January 2025
+    </p>
   </div>
 </section>
 
-<section class="section" id="about">
-  <h2>Why We Exist</h2>
+<section class="section" id="philosophy">
+  <div class="section-header fade-in-up">
+    <h2>Why High-Performers Choose Us</h2>
+    <p>Success can be isolating. We provide the missing infrastructure for your emotional well-being.</p>
+  </div>
   <div class="grid">
-    <div class="grid-item">
-      <h3>Emotional Support</h3>
-      <p>
-        A private, judgment-free space to talk through stress, emotional challenges, or just life itself — with a real human presence.
-      </p>
+    <div class="feature-card fade-in-up" style="transition-delay: 0.1s;">
+      <h3>The "Zero-Record" Policy</h3>
+      <p>Therapy creates medical records. We do not. No insurance trails, no diagnoses, no digital footprints. Your reputation and privacy remain pristine.</p>
     </div>
-    <div class="grid-item">
-      <h3>Non-Clinical Guidance</h3>
-      <p>
-        Thoughtful conversations to help you process emotions, gain clarity, and regulate your feelings — without therapy.
-      </p>
+    <div class="feature-card fade-in-up" style="transition-delay: 0.2s;">
+      <h3>Intellectual Alignment</h3>
+      <p>We don't just "listen." We engage. Our companions are trained to understand the complex pressures of leadership, ambition, and modern success.</p>
     </div>
-    <div class="grid-item">
-      <h3>Absolute Privacy</h3>
-      <p>
-        No recordings. No AI. No data resale. Your conversations remain fully confidential.
-      </p>
+    <div class="feature-card fade-in-up" style="transition-delay: 0.3s;">
+      <h3>On-Demand Clarity</h3>
+      <p>When you're at the top, you can't always vent to your team or family. We are your dedicated, unbiased sounding board.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section testimonials">
+  <div class="section-header fade-in-up">
+    <h2>Client Perspectives</h2>
+  </div>
+  <div class="grid">
+    <div class="quote-card fade-in-up">
+      <div class="quote-text">"I didn't need a therapist. I needed a smart, empathetic human to help me decompress after 80-hour weeks. This is exactly that."</div>
+      <div class="quote-author">— FinTech Founder, New York</div>
+    </div>
+    <div class="quote-card fade-in-up" style="transition-delay: 0.2s;">
+      <div class="quote-text">"The privacy aspect is non-negotiable for me. Knowing nothing is recorded allows me to finally be honest with myself."</div>
+      <div class="quote-author">— Venture Capitalist, San Francisco</div>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <h2 style="text-align:center;">Membership Options</h2>
-  <p style="text-align:center;color:#555;margin-bottom:4rem;">
-    This service is not therapy. Membership gives you access to real human support in a private, confidential environment.
-  </p>
-
-  <div class="pricing">
-    <div class="price-card">
-      <p style="letter-spacing:3px;font-size:.7rem;color:#666;">INTRODUCTION</p>
-      <h3>Trial Session</h3>
-      <div class="price">$9.9<span>/once</span></div>
-      <ul>
-        <li>30-minute private session</li>
-        <li>Experience our support approach</li>
-        <li>No commitment</li>
+  <div class="section-header fade-in-up">
+    <h2>Membership Tiers</h2>
+    <p>Designed for impact, clarity, and consistency.</p>
+  </div>
+  
+  <div class="pricing-grid">
+    <!-- Tier 1 -->
+    <div class="price-card fade-in-up">
+      <p style="letter-spacing:2px; font-size:0.7rem; color:var(--dim); text-transform:uppercase;">Introduction</p>
+      <h3>Discovery Session</h3>
+      <div class="price-tag">$49<span>/single</span></div>
+      <ul class="check-list">
+        <li>60-Minute Private Call</li>
+        <li>Immediate Stress Relief</li>
+        <li>Chemistry Assessment</li>
+        <li>100% Confidential</li>
       </ul>
-      <a href="form.html" class="btn" style="width:100%;display:inline-block;">Apply</a>
+      <a href="form.html" class="btn" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Book Session</a>
     </div>
 
-    <div class="price-card featured">
-      <p style="letter-spacing:3px;font-size:.7rem;color:var(--gold);">MONTHLY</p>
-      <h3>Membership</h3>
-      <div class="price">$99<span>/month</span></div>
-      <ul>
-        <li>Unlimited access to emotional support</li>
-        <li>Judgment-free conversations</li>
-        <li>Priority scheduling</li>
-        <li>Strict privacy protection</li>
+    <!-- Tier 2 -->
+    <div class="price-card featured fade-in-up" style="transition-delay: 0.1s;">
+      <div style="position:absolute; top:0; right:0; background:var(--gold); color:#000; padding:0.4rem 1rem; font-size:0.6rem; font-weight:600; letter-spacing:1px;">MOST SELECTED</div>
+      <p style="letter-spacing:2px; font-size:0.7rem; color:var(--gold); text-transform:uppercase;">Membership</p>
+      <h3>Private Client</h3>
+      <div class="price-tag">$249<span>/month</span></div>
+      <ul class="check-list">
+        <li><strong>4 Sessions / Month (Weekly)</strong></li>
+        <li>Priority Scheduling Access</li>
+        <li>Unlimited Text Support (Mon-Fri)</li>
+        <li>Quarterly Growth Review</li>
       </ul>
-      <a href="form.html" class="btn" style="width:100%;display:inline-block;">Apply for Membership</a>
+      <a href="form.html" class="btn btn-primary" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Apply for Access</a>
     </div>
   </div>
+</section>
 
-  <p style="text-align:center;margin-top:4rem;font-size:.75rem;color:#444;">
-    This service is not medical or mental health treatment. Applications are reviewed individually.
-  </p>
+<section class="section" style="padding-top:0;">
+  <div class="section-header fade-in-up">
+    <h2>Common Questions</h2>
+  </div>
+  <div style="max-width:800px; margin:0 auto;">
+    <div class="faq-item fade-in-up">
+      <div class="faq-question">Is this therapy?</div>
+      <div class="faq-answer">No. We provide emotional support and coaching-style guidance. We do not diagnose or treat mental illness. We are for high-functioning individuals navigating stress and life complexities.</div>
+    </div>
+    <div class="faq-item fade-in-up">
+      <div class="faq-question">Is it truly confidential?</div>
+      <div class="faq-answer">Yes. We are a private pay service. We do not interface with insurance companies, meaning no diagnosis codes are ever entered into your permanent health record.</div>
+    </div>
+    <div class="faq-item fade-in-up">
+      <div class="faq-question">Who are the companions?</div>
+      <div class="faq-answer">Our team consists of EQ-intelligent individuals with backgrounds in executive coaching, psychology, and communications, vetted for empathy and professional maturity.</div>
+    </div>
+  </div>
 </section>
 
 <footer>
-  <p>© 2025 Customized Companion • New York • London • Singapore</p>
+  <div class="logo" style="margin-bottom:1rem; opacity:0.5;">Customized<span>Companion</span></div>
+  <p>© 2025 Customized Companion • Global Private Service</p>
+  <p style="opacity: 0.3;">New York • London • Dubai • Singapore</p>
 </footer>
+
+<script>
+// Simple Intersection Observer for Fade-in Animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+</script>
 
 </body>
 </html>
