@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inquiry | Customized Companion</title>
-
-<!-- Google Fonts – FIXED -->
+<title>Application | Customized Companion</title>
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold: #C5A059;
-  --bg: #050505;
-  --text: #F5F5F5;
-  --dim: #666;
+  --gold: #D4AF37;
+  --bg: #030303;
+  --card-bg: #0A0A0A;
+  --text: #F0F0F0;
+  --dim: #888;
 }
 
 body {
@@ -30,90 +29,107 @@ body {
   overflow: hidden;
 }
 
-.glow {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 60vw; height: 60vh;
-  background: radial-gradient(circle, rgba(197,160,89,0.05) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
+/* Background Animation */
+.bg-glow {
+  position: fixed; inset: 0;
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
   z-index: -1;
+  pointer-events: none;
 }
 
 .form-wrapper {
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
   padding: 2rem;
   text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
+/* Progress Bar */
 .progress-bar {
-  width: 100px;
+  width: 120px;
   height: 2px;
-  background: #222;
-  margin: 0 auto 3rem;
+  background: rgba(255,255,255,0.1);
+  margin: 0 auto 3.5rem;
   position: relative;
+  border-radius: 2px;
 }
 .progress-inner {
   position: absolute;
   left: 0; top: 0;
   height: 100%;
   background: var(--gold);
-  width: 20%;
-  transition: 0.8s cubic-bezier(0.19,1,0.22,1);
+  width: 33%;
+  transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 h2 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   font-weight: 300;
-  margin-bottom: 2rem;
-  letter-spacing: 1px;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  color: #fff;
 }
 
-.step { display: none; animation: fadeIn 0.8s ease forwards; }
-.step.active { display: block; }
+/* Steps Animation */
+.step { display: none; opacity: 0; transform: translateY(15px); transition: 0.5s ease; }
+.step.active { display: block; opacity: 1; transform: translateY(0); }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* Inputs & Selects */
 input, select {
+  box-sizing: border-box;
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
   color: #fff;
-  padding: 1rem 0;
-  font-size: 1.05rem;
-  margin-bottom: 2rem;
+  padding: 1.2rem 0;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
   font-family: 'Inter', sans-serif;
+  font-weight: 300;
   transition: 0.4s;
+  border-radius: 0;
 }
 input:focus, select:focus {
   outline: none;
   border-bottom-color: var(--gold);
 }
+/* Custom Placeholder color */
+::placeholder { color: #444; }
 
+/* Buttons */
 .btn-group {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.2rem;
+  margin-top: 1rem;
 }
-
 .btn-next {
   background: var(--gold);
   color: #000;
-  border: none;
+  border: 1px solid var(--gold);
   padding: 1.2rem;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  transition: 0.3s;
 }
-.btn-next:hover { background: #fff; }
-
+.btn-next:hover {
+  background: #fff;
+  border-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+}
 .btn-back {
   background: transparent;
   color: var(--dim);
@@ -122,44 +138,60 @@ input:focus, select:focus {
   text-transform: uppercase;
   letter-spacing: 2px;
   cursor: pointer;
-}
-
-/* Plan selection */
-.plan-selector {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.plan-card {
-  border: 1px solid #333;
-  padding: 1.5rem 1rem;
-  cursor: pointer;
+  font-family: 'Inter', sans-serif;
   transition: 0.3s;
 }
+.btn-back:hover { color: #fff; }
+
+/* Plan Selection Cards */
+.plan-selector {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem;
+}
+.plan-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: 0.3s;
+  text-align: left;
+  position: relative;
+}
+.plan-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
 .plan-card.active {
   border-color: var(--gold);
-  background: rgba(197,160,89,0.05);
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), rgba(0,0,0,0));
 }
 .plan-card strong {
   display: block;
-  color: var(--gold);
-  font-size: 1.2rem;
-  margin-bottom: 0.4rem;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+  font-weight: 500;
 }
-.plan-card span {
-  font-size: 0.75rem;
+.plan-card .price {
+  position: absolute; top: 1.5rem; right: 2rem;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--gold);
+  font-family: 'Cormorant Garamond', serif;
+}
+.plan-card .desc {
+  font-size: 0.85rem;
   color: var(--dim);
+  line-height: 1.5;
+  margin-top: 0.5rem;
+  padding-right: 3rem;
 }
 
 #success { display: none; }
 </style>
 </head>
-
 <body>
 
-<div class="glow"></div>
+<div class="bg-glow"></div>
 
 <div class="form-wrapper">
   <div class="progress-bar">
@@ -167,80 +199,64 @@ input:focus, select:focus {
   </div>
 
   <form id="bespokeForm">
-
-    <!-- STEP 1 -->
+    
+    <!-- STEP 1: Select Plan -->
     <div class="step active" id="step1">
-      <h2>Who are we<br>speaking with?</h2>
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="email" name="email" placeholder="Email Address" required>
-      <input type="text" name="phone" placeholder="Phone / WhatsApp (Optional)">
+      <h2>Select Your<br>Access Tier</h2>
+      <div class="plan-selector">
+        <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
+          <strong>Discovery Session</strong>
+          <div class="price">$49</div>
+          <p class="desc">One-time 60min session. Ideal for immediate clarity and chemistry check.</p>
+        </div>
+        <div class="plan-card" onclick="selectPlan('Monthly Membership', '249', this)">
+          <strong>Private Client Membership</strong>
+          <div class="price">$249</div>
+          <p class="desc">Weekly sessions (4x/mo) + Priority Support. For consistent growth.</p>
+        </div>
+      </div>
+       <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
       <div class="btn-group">
         <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
       </div>
+       <p style="font-size:0.7rem; color:#444; line-height:1.6; margin-top:2.5rem;">
+        Confidential Application. <br>We reserve the right to decline requests that are not a good fit.
+      </p>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- STEP 2: Define Needs -->
     <div class="step" id="step2">
-      <h2>What kind of<br>support are you seeking?</h2>
-
-      <select name="program" required>
-        <option value="" disabled selected>
-          Select the option that best reflects your need
-        </option>
-        <option value="Emotional Support & Stress Relief">
-          Emotional Support & Stress Relief
-        </option>
-        <option value="Non-Clinical Psychological Guidance">
-          Psychological Guidance (Non-Clinical)
-        </option>
-        <option value="Private Space">
-          A Private, Judgment-Free Space to Talk
-        </option>
+      <h2>How can we<br>support you?</h2>
+      <select name="support_type" required>
+        <option value="" disabled selected>Select your primary focus...</option>
+        <option value="Navigating High-Pressure Stress">Navigating High-Pressure Stress</option>
+        <option value="Career & Leadership Clarity">Career & Leadership Clarity</option>
+        <option value="Relationship Dynamics">Relationship Dynamics</option>
+        <option value="General Emotional Decompression">General Emotional Decompression</option>
+        <option value="Just need a private space to talk">Just need a private space to talk</option>
       </select>
-
-      <select name="intent" required>
-        <option value="" disabled selected>
-          What best describes your current situation?
-        </option>
-        <option value="High pressure life">
-          High pressure life, limited emotional outlet
-        </option>
-        <option value="Feeling isolated">
-          Feeling isolated despite external success
-        </option>
-        <option value="Curiosity">
-          Curiosity — I want to experience this
-        </option>
+      <select name="current_situation" required>
+        <option value="" disabled selected>Describe your current state...</option>
+        <option value="Overwhelmed / Burnout nearby">Overwhelmed / Burnout nearby</option>
+        <option value="Feeling isolated at the top">Feeling isolated at the top</option>
+        <option value="Stuck / Needing a breakthrough">Stuck / Needing a breakthrough</option>
+        <option value="Curious about the service">Curious about the service</option>
       </select>
-
       <div class="btn-group">
-        <button type="button" class="btn-next" onclick="nextStep(3)">Select Plan</button>
+        <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
         <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
       </div>
     </div>
 
-    <!-- STEP 3 -->
+    <!-- STEP 3: Confidential Details -->
     <div class="step" id="step3">
-      <h2>Confirm Your<br>Application</h2>
-
-      <div class="plan-selector">
-        <div class="plan-card active" onclick="selectPlan('Trial Session', '9.9', this)">
-          <p style="font-size:0.6rem;letter-spacing:1px;margin:0;">INTRO</p>
-          <strong>$9.9</strong>
-          <span>30-Minute Trial Session</span>
-        </div>
-        <div class="plan-card" onclick="selectPlan('Monthly Membership', '99', this)">
-          <p style="font-size:0.6rem;letter-spacing:1px;margin:0;">MONTHLY</p>
-          <strong>$99</strong>
-          <span>Ongoing Emotional Support</span>
-        </div>
-      </div>
-
-      <input type="hidden" name="selected_plan" id="selected_plan" value="Trial Session ($9.9)">
-
-      <p style="font-size:0.7rem;color:#444;line-height:1.6;">
-        Membership is intentionally limited.<br>
-        Not all applications are accepted.
+      <h2>Confidential<br>Contact Info</h2>
+      <input type="text" name="name" placeholder="Full Name (or Preferred Alias)" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="phone" placeholder="Phone Number (Optional)">
+      
+      <p style="font-size:0.7rem; color:#444; line-height:1.6; text-align:left; margin-top:-1rem; margin-bottom: 2.5rem;">
+        <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Your data is encrypted and never shared.
       </p>
 
       <div class="btn-group">
@@ -248,65 +264,117 @@ input:focus, select:focus {
         <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
       </div>
     </div>
-
   </form>
 
+  <!-- Success Message -->
   <div id="success">
-    <h2 style="color:var(--gold);">✦ Application Received</h2>
-    <p style="color:var(--dim);line-height:2;">
-      Our concierge team will review your application<br>
-      and contact you within 24 hours.
+    <h2 style="color:var(--gold); margin-bottom:1rem;">Application Received</h2>
+    <p style="color:var(--dim); line-height:1.8; font-size:1.1rem;">
+      Your request is being processed securely.<br>
+      Our concierge will contact you via email shortly.
     </p>
-    <a href="index.html" class="btn-back" style="display:block;margin-top:3rem;text-decoration:none;">
-      Return Home
+    <a href="index.html" class="btn-back" style="display:block; margin-top:4rem; text-decoration:none; opacity:0.6;">
+      Return to Homepage
     </a>
   </div>
-
 </div>
 
 <script>
+// State Management
+let currentStep = 1;
+
 function selectPlan(name, price, el) {
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('selected_plan').value = name + ' ($' + price + ')';
+  const planValue = name + ' ($' + price + ')';
+  document.getElementById('selected_plan').value = planValue;
 }
 
 function nextStep(step) {
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step'+step).classList.add('active');
-  const progressMap = {1:20, 2:60, 3:100};
+  // Validate Step 2 before proceeding
+  if (step === 3) {
+    const s2 = document.getElementById('step2');
+    const selects = s2.querySelectorAll('select');
+    let valid = true;
+    selects.forEach(s => {
+      if (!s.value) valid = false;
+    });
+    if (!valid) {
+      alert("Please select an option to continue.");
+      return;
+    }
+  }
+
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none'; // Ensure display is toggled for animation reset
+  });
+  
+  const nextEl = document.getElementById('step' + step);
+  nextEl.style.display = 'block';
+  // Small timeout to allow display:block to render before adding opacity class
+  setTimeout(() => {
+    nextEl.classList.add('active');
+  }, 10);
+
+  const progressMap = {1: 33, 2: 66, 3: 100};
   document.getElementById('progress').style.width = progressMap[step] + '%';
+  currentStep = step;
 }
 
+// Form Submission Logic
 const form = document.getElementById('bespokeForm');
 const submitBtn = document.getElementById('submitBtn');
 
 form.onsubmit = async (e) => {
   e.preventDefault();
-  submitBtn.innerText = "Processing...";
+  submitBtn.innerText = "Encrypting & Sending...";
   submitBtn.disabled = true;
 
-  const data = Object.fromEntries(new FormData(form));
-  data.program = data.program + " | Plan: " + data.selected_plan;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
+  
+  // Construct a clean payload for your backend
+  const payload = {
+    ...data,
+    submittedAt: new Date().toISOString(),
+    source: 'web_form_v2'
+  };
 
   try {
+    // ---------------------------------------------------------
+    // IMPORTANT: Make sure this URL matches your actual backend endpoint
+    // ---------------------------------------------------------
     const res = await fetch('/api/submit-form', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(data)
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
     });
+
     const result = await res.json();
-    if (result.success) {
+
+    if (res.ok && result.success) {
+      // Success State
       form.style.display = 'none';
       document.querySelector('.progress-bar').style.display = 'none';
-      document.getElementById('success').style.display = 'block';
+      const successEl = document.getElementById('success');
+      successEl.style.display = 'block';
+      // Simple fade in for success message
+      setTimeout(() => { successEl.style.opacity = 1; }, 10);
     } else {
-      alert(result.msg || 'Submission failed.');
+      // Error State
+      console.error('Server Error:', result);
+      alert(result.msg || 'There was an issue submitting your application. Please try again.');
       submitBtn.innerText = "Submit Application";
       submitBtn.disabled = false;
     }
-  } catch {
-    alert("Connection error. Please try again later.");
+  } catch(err) {
+    // Network Error State
+    console.error('Network Error:', err);
+    alert("Unable to connect to the server. Please check your connection.");
     submitBtn.innerText = "Submit Application";
     submitBtn.disabled = false;
   }
