@@ -4,73 +4,176 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Private Counsel | Elite Emotional Support</title>
-<!-- 保持原有的 CSS 样式不变，这里省略部分 CSS 以节省空间，只展示核心改动 -->
+
+<!-- SEO & Social Sharing Tags (New) -->
+<meta name="description" content="Private, confidential emotional support for founders and executives. Strictly non-clinical. Zero records.">
+<meta property="og:title" content="Private Counsel | Elite Emotional Support">
+<meta property="og:description" content="The sanctuary for high-performers. No records. No judgment. Just clarity.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop">
+<meta property="og:type" content="website">
+
+<!-- Google Structured Data (New) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Private Counsel",
+  "description": "Elite emotional support and private counseling for executives and founders.",
+  "priceRange": "$49-$249",
+  "image": "https://images.unsplash.com/photo-1497366216548-37526070297c",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "US"
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+
 <style>
-/* ... (保留您原本的 CSS 样式) ... */
 :root {
   --gold: #D4AF37;
+  --gold-dim: #8a7020;
   --bg: #030303;
   --card-bg: #0A0A0A;
   --text: #F0F0F0;
   --dim: #888;
 }
+
 html { scroll-behavior: smooth; }
-body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
 h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
 a { color: inherit; text-decoration: none; transition: 0.3s; }
-.bg-glow { position: fixed; inset: 0; background: radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%), radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%); z-index: -1; pointer-events: none; }
-nav { position: fixed; top: 0; width: 100%; padding: 1.5rem 6%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; background: rgba(3, 3, 3, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); z-index: 1000; transition: 0.3s; }
+
+/* Cinematic Background */
+.bg-glow {
+  position: fixed; inset: 0;
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Navigation */
+nav {
+  position: fixed; top: 0; width: 100%;
+  padding: 1.5rem 6%;
+  box-sizing: border-box;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(3, 3, 3, 0.85); backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 1000;
+  transition: 0.3s;
+}
 .logo { letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; color: #fff; font-weight: 500; }
 .logo span { color: var(--gold); }
-.btn { padding: 0.9rem 2.2rem; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.4s ease; position: relative; overflow: hidden; background: transparent; cursor: pointer; }
+.btn {
+  padding: 0.9rem 2.2rem; 
+  border: 1px solid rgba(255,255,255,0.2); 
+  color: #fff;
+  font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; 
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+  background: transparent;
+  cursor: pointer;
+}
 .btn:hover { border-color: var(--gold); color: var(--gold); }
 .btn-primary { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
 .btn-primary:hover { background: #fff; border-color: #fff; color: #000; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 1rem; position: relative; }
-.hero h1 { font-size: clamp(3.2rem, 8vw, 6rem); line-height: 1.05; margin-bottom: 1.5rem; font-weight: 300; background: linear-gradient(180deg, #fff 20%, #888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* Animation Classes */
+.fade-in-up { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.visible { opacity: 1; transform: translateY(0); }
+
+/* Hero Section (Updated with Background) */
+.hero { 
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+  text-align: center; padding: 0 1rem; position: relative;
+  /* NEW: High-end office background with dark overlay */
+  background-image: linear-gradient(to bottom, rgba(3,3,3,0.85), rgba(3,3,3,1)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+}
+.hero h1 {
+  font-size: clamp(3.2rem, 8vw, 6rem); line-height: 1.05; margin-bottom: 1.5rem; font-weight: 300;
+  background: linear-gradient(180deg, #fff 20%, #999 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
 .hero h1 i { font-style: italic; font-weight: 300; color: var(--gold); -webkit-text-fill-color: var(--gold); }
-.hero p { font-size: 1.2rem; color: var(--dim); margin-bottom: 3rem; max-width: 650px; font-weight: 300; }
+.hero p { font-size: 1.2rem; color: #bbb; margin-bottom: 3rem; max-width: 650px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+
+/* Sections General */
 .section { padding: 8rem 8%; max-width: 1200px; margin: 0 auto; }
 .section-header { text-align: center; margin-bottom: 5rem; }
 .section-header h2 { font-size: 2.8rem; margin-bottom: 1rem; color: #fff; font-weight: 300; }
 .section-header p { color: var(--dim); max-width: 500px; margin: 0 auto; font-size: 0.95rem; }
+
+/* Grid Cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-.feature-card { padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.1); transition: 0.5s; position: relative; }
-.feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 1px; background: var(--gold); transition: 0.5s; }
+.feature-card { 
+  padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.1); 
+  transition: 0.5s; position: relative;
+}
+.feature-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 1px; background: var(--gold); transition: 0.5s;
+}
 .feature-card:hover::before { width: 100%; }
 .feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
 .feature-card p { color: var(--dim); font-size: 0.95rem; line-height: 1.8; }
+
+/* Testimonials */
 .testimonials { background: rgba(255,255,255,0.02); }
 .quote-card { text-align: left; padding: 2rem; }
 .quote-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: #ddd; font-style: italic; margin-bottom: 1.5rem; }
 .quote-author { font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); }
+
+/* Pricing */
 .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: center; }
-.price-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); padding: 4rem 2.5rem; position: relative; transition: 0.3s; }
+.price-card { 
+  background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); padding: 4rem 2.5rem; 
+  position: relative; transition: 0.3s;
+}
 .price-card:hover { border-color: rgba(212, 175, 55, 0.3); transform: translateY(-5px); }
 .price-card.featured { border: 1px solid var(--gold); background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), #0A0A0A); }
 .price-tag { font-size: 3.5rem; font-family: 'Cormorant Garamond', serif; color: #fff; margin: 1.5rem 0; }
 .price-tag span { font-size: 1rem; font-family: 'Inter', sans-serif; color: var(--dim); margin-left: 5px; }
-.check-list { list-style: none; padding: 0; }
 .check-list li { margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; display: flex; align-items: center; }
 .check-list li::before { content: "•"; color: var(--gold); margin-right: 10px; font-size: 1.2rem; }
+
+/* FAQ */
 .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; }
 .faq-question { font-size: 1.1rem; color: #fff; margin-bottom: 0.5rem; font-weight: 500; }
 .faq-answer { color: var(--dim); font-size: 0.9rem; max-width: 800px; }
+
+/* Footer */
 footer { padding: 5rem 5%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 5rem; }
 footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
-.fade-in-up { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-.visible { opacity: 1; transform: translateY(0); }
-@media(max-width:768px){ .hero h1 { font-size: 3rem; } .section { padding: 5rem 5%; } .price-card { padding: 3rem 1.5rem; } }
+
+@media(max-width:768px){ 
+  .hero h1 { font-size: 3rem; }
+  .section { padding: 5rem 5%; }
+  .price-card { padding: 3rem 1.5rem; }
+}
 </style>
 </head>
 <body>
 
 <div class="bg-glow"></div>
 
-<!-- ✅ 修正：Logo 已更改为 Private Counsel -->
 <nav>
   <div class="logo">Private<span>Counsel</span></div>
   <a href="form.html" class="btn">Client Application</a>
@@ -188,14 +291,33 @@ footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
   </div>
 </section>
 
-<!-- ✅ 修正：页脚 Logo 已更改 -->
 <footer>
   <div class="logo" style="margin-bottom:1rem; opacity:0.5;">Private<span>Counsel</span></div>
   <p>© 2025 Private Counsel • Global Private Service</p>
-  <p style="opacity: 0.3;">New York • London • Dubai • Singapore</p>
+  
+  <!-- NEW: Privacy Policy Trigger -->
+  <div style="margin-top:1.5rem; font-size:0.65rem; opacity:0.4;">
+    <a href="javascript:void(0)" onclick="document.getElementById('legal-modal').style.display='block'" style="text-decoration:underline; cursor:pointer;">Privacy Policy & Disclaimer</a>
+  </div>
+  <p style="opacity: 0.3; margin-top:0.5rem;">New York • London • Dubai • Singapore</p>
 </footer>
 
+<!-- NEW: Legal Modal -->
+<div id="legal-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:2000; padding:2rem; overflow-y:auto; align-items:center; justify-content:center;">
+  <div style="max-width:600px; margin:auto; background:#111; padding:3rem 2rem; border:1px solid #333; position:relative; top:50%; transform:translateY(-50%);">
+    <h3 style="color:var(--gold); font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin-top:0;">Legal & Privacy</h3>
+    <div style="color:#999; font-size:0.85rem; line-height:1.8; text-align:left;">
+      <p><strong>1. Non-Clinical Service:</strong> Private Counsel is an emotional support and consulting service. We are not licensed psychologists or psychiatrists. We do not provide medical diagnoses or prescriptions.</p>
+      <p><strong>2. Emergency Protocol:</strong> If you are experiencing a life-threatening emergency or suicidal thoughts, please contact your local emergency services (911 in the US) immediately. We are not an emergency response service.</p>
+      <p><strong>3. Data Privacy:</strong> We adhere to a strict "Zero-Record" policy for session content. We do not record video or audio calls. Your contact information is encrypted and used solely for scheduling and billing purposes.</p>
+      <p><strong>4. Payments:</strong> All services are private-pay. We do not accept insurance. Refunds are processed on a case-by-case basis within 24 hours of booking.</p>
+    </div>
+    <button onclick="document.getElementById('legal-modal').style.display='none'" class="btn" style="margin-top:2rem; width:100%;">Close Window</button>
+  </div>
+</div>
+
 <script>
+// Simple Intersection Observer for Fade-in Animation
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -203,6 +325,7 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
+
 document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
 </script>
 
