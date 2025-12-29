@@ -3,279 +3,313 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Customized Companion | Private 1-on-1 Human Sanctuary</title>
+<title>Customized Companion | Private Emotional Support</title>
 
-<!-- 修复：2025 顶奢字体导入 -->
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="fonts.googleapis.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --gold: #C5A059; 
-  --bg: #050505;
-  --card-bg: #0F0F0F;
-  --text-main: #F5F5F5;
-  --text-dim: #808080;
+  --gold:#C5A059;
+  --bg:#050505;
+  --card:#0F0F0F;
+  --text:#F5F5F5;
+  --dim:#777;
 }
+
+* { box-sizing:border-box; }
 
 body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text-main);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
 }
 
-h1, h2, h3, .logo, .hero p, .plan-title {
-  font-family: 'Cormorant Garamond', serif;
+h1,h2,h3,.logo {
+  font-family:'Cormorant Garamond',serif;
+  font-weight:300;
 }
 
-/* 动态背景 */
+a { color:inherit; text-decoration:none; }
+
+/* background glow */
 .bg-glow {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 60%);
-  z-index: -1;
-  animation: pulseGlow 10s infinite alternate ease-in-out;
-}
-@keyframes pulseGlow {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.1); }
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 60%);
+  z-index:-1;
 }
 
-/* 导航栏修复：增加背景深度和点击交互 */
+/* nav */
 nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 8%;
-  background: rgba(5,5,5,0.85);
-  backdrop-filter: blur(20px);
-  position: fixed;
-  top: 0; width: 100%; box-sizing: border-box;
-  z-index: 2000;
-  border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-}
-.logo { font-size: 1.1rem; font-weight: 300; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; text-decoration: none; }
-
-.nav-links { display: flex; align-items: center; gap: 3rem; }
-.nav-links a { 
-  color: #fff; 
-  text-decoration: none; 
-  font-size: 0.8rem; 
-  letter-spacing: 2px; 
-  text-transform: uppercase; 
-  transition: 0.3s;
-  position: relative;
-}
-.nav-links a:hover { color: var(--gold); }
-
-/* Hero Section */
-.hero {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0 5%;
-}
-.hero h1 { 
-  font-size: clamp(3rem, 8vw, 5.5rem); 
-  font-weight: 300;
-  line-height: 1.05; 
-  margin-bottom: 2.5rem;
-  letter-spacing: -1px;
-  background: linear-gradient(180deg, #fff 0%, #888 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.hero p { font-size: 1.5rem; color: var(--text-dim); margin-bottom: 3.5rem; font-weight: 300; font-style: italic; }
-
-/* 栅格系统：细线主义 */
-.section { padding: 10rem 8%; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: rgba(197, 160, 89, 0.15); }
-.grid-item {
-  background: var(--bg);
-  padding: 6rem 3rem;
-  transition: 0.5s;
-}
-.grid-item:hover { background: rgba(197, 160, 89, 0.05); }
-.grid-item h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 1.5rem; color: var(--gold); }
-.grid-item p { color: var(--text-dim); line-height: 1.9; font-size: 1.05rem; }
-
-/* 定价矩阵优化：双卡片对比 */
-.pricing-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
+  position:fixed;
+  top:0; width:100%;
+  padding:1.5rem 8%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(5,5,5,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(197,160,89,.1);
+  z-index:1000;
 }
 
-.offer-box {
-  background: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 5rem 3rem;
-  text-align: center;
-  position: relative;
-  transition: 0.4s;
+.logo {
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font-size:.9rem;
+  color:var(--gold);
 }
 
-.offer-box.featured {
-  border: 1px solid var(--gold);
-  background: linear-gradient(145deg, #121212 0%, #050505 100%);
-  transform: scale(1.03);
+.nav-links {
+  display:flex;
+  gap:2.5rem;
+  align-items:center;
 }
 
-.badge {
-  position: absolute;
-  top: -1px; left: 50%; transform: translateX(-50%);
-  background: var(--gold);
-  color: #000;
-  font-size: 0.6rem;
-  padding: 5px 25px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 700;
+.nav-links a {
+  font-size:.7rem;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#fff;
 }
-
-.price { font-size: 4.5rem; font-weight: 200; color: #fff; margin: 1.5rem 0; font-family: 'Inter', sans-serif; }
-.price span { font-size: 1rem; color: var(--text-dim); letter-spacing: 2px; }
-
-.perks {
-  list-style: none; padding: 0; margin: 3rem auto;
-  text-align: left; gap: 1rem; max-width: 280px;
-}
-.perks li { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1rem; display: flex; align-items: center; }
-.perks li::before { content: "✦"; color: var(--gold); margin-right: 12px; font-size: 0.8rem; }
 
 .btn {
-  display: inline-block;
-  padding: 1.2rem 3rem;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  transition: 0.5s;
-  width: 100%;
-  box-sizing: border-box;
+  padding:.8rem 2rem;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-size:.7rem;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  transition:.3s;
 }
-.btn.solid { background: var(--gold); color: #000; }
-.btn:hover { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); }
 
+.btn:hover {
+  background:#fff;
+  color:#000;
+  border-color:#fff;
+}
+
+/* hero */
+.hero {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 8%;
+}
+
+.hero h1 {
+  font-size:clamp(2.8rem,7vw,5.2rem);
+  line-height:1.05;
+  margin-bottom:2.5rem;
+  background:linear-gradient(180deg,#fff 0%,#888 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.hero p {
+  font-size:1.3rem;
+  color:var(--dim);
+  font-style:italic;
+  margin-bottom:3.5rem;
+}
+
+/* sections */
+.section {
+  padding:9rem 8%;
+}
+
+.section h2 {
+  font-size:3rem;
+  margin-bottom:3rem;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1px;
+  background:rgba(197,160,89,.15);
+}
+
+.grid-item {
+  background:var(--bg);
+  padding:5rem 3rem;
+}
+
+.grid-item h3 {
+  color:var(--gold);
+  font-size:1.6rem;
+  margin-bottom:1.5rem;
+}
+
+.grid-item p {
+  color:var(--dim);
+  line-height:1.9;
+}
+
+/* pricing */
+.pricing {
+  max-width:1000px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:2rem;
+}
+
+.price-card {
+  background:#0a0a0a;
+  border:1px solid rgba(255,255,255,.1);
+  padding:4.5rem 3rem;
+  text-align:center;
+}
+
+.price-card.featured {
+  border-color:var(--gold);
+  background:linear-gradient(145deg,#121212,#050505);
+}
+
+.price {
+  font-size:4rem;
+  font-weight:200;
+  margin:1.5rem 0;
+}
+
+.price span {
+  font-size:.9rem;
+  color:var(--dim);
+  letter-spacing:2px;
+}
+
+ul {
+  list-style:none;
+  padding:0;
+  margin:3rem 0;
+  text-align:left;
+}
+
+ul li {
+  font-size:.9rem;
+  color:var(--dim);
+  margin-bottom:1rem;
+}
+
+ul li::before {
+  content:"✦";
+  color:var(--gold);
+  margin-right:10px;
+}
+
+/* footer */
 footer {
-  padding: 8rem 5% 4rem;
-  text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.05);
+  padding:6rem 5% 3rem;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,.05);
 }
-.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 1.5rem; letter-spacing: 3px; }
-.footer-info { color: #444; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
 
-@media (max-width: 768px) {
-  .hero h1 { font-size: 2.8rem; }
-  .pricing-container { padding: 0 5%; gap: 3rem; }
-  .offer-box.featured { transform: scale(1); }
-  .nav-links a:not(.btn-nav) { display: none; }
+footer p {
+  font-size:.7rem;
+  letter-spacing:2px;
+  color:#444;
+}
+
+@media(max-width:768px){
+  .hero p { font-size:1.1rem; }
+  .nav-links a:not(.btn){ display:none; }
 }
 </style>
 </head>
+
 <body>
 
 <div class="bg-glow"></div>
 
 <nav>
-  <a href="index.html" class="logo">Customized Companion</a>
+  <div class="logo">Customized Companion</div>
   <div class="nav-links">
-    <!-- 链接修复：确保指向 about.html -->
-    <a href="about.html">Philosophy</a>
-    <a href="form.html" class="btn btn-nav" style="padding: 0.6rem 1.5rem; font-size: 0.65rem; width: auto;">Inquiry</a>
+    <a href="#about">Philosophy</a>
+    <a href="form.html" class="btn">Apply</a>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-content">
-    <h1>The Luxury of <br>Truly Being Heard.</h1>
-    <p>"Algorithms can mimic empathy, but they cannot share a soul."</p>
-    <a href="form.html" class="btn" style="width: auto; padding: 1.2rem 4rem;">Start Your Journey</a>
+  <div>
+    <h1>The Luxury of<br>Being Heard.</h1>
+    <p>Private emotional support for those who don’t want therapy,<br>but need a space that is truly human.</p>
+    <a href="form.html" class="btn" style="padding:1.2rem 3.5rem;">Start Your Application</a>
   </div>
 </section>
 
-<!-- 核心差异化：增加背景微光感 -->
-<section class="section">
-  <div style="margin-bottom: 8rem;">
-    <p style="color: var(--gold); text-transform: uppercase; letter-spacing: 6px; font-size: 0.7rem; margin-bottom: 1.5rem;">The Benchmark</p>
-    <h2 style="font-size: 3.5rem; font-weight: 300;">Authenticity is the <br>only currency that lasts.</h2>
-  </div>
+<section class="section" id="about">
+  <h2>Why This Exists</h2>
   <div class="grid">
     <div class="grid-item">
-      <h3>Hand-Picked Curation</h3>
-      <p>We do not use databases. We use human intuition to match you with a companion who resonates with your unique frequency.</p>
+      <h3>Emotional Support</h3>
+      <p>
+        A confidential space to process stress, loneliness, and emotional pressure
+        with a real human presence — not automation.
+      </p>
     </div>
     <div class="grid-item">
-      <h3>Radical Presence</h3>
-      <p>Our companions are trained in the art of listening. No scripts, no distractions—just pure, unadulterated human connection.</p>
+      <h3>Non-Clinical Guidance</h3>
+      <p>
+        Thoughtful, grounded conversations designed to help you reflect,
+        regulate, and regain clarity — without therapy labels.
+      </p>
     </div>
     <div class="grid-item">
-      <h3>Absolute Privacy</h3>
-      <p>Your narratives are sacred. We uphold the highest 2025 standards of digital discretion and ethical silence.</p>
+      <h3>Absolute Discretion</h3>
+      <p>
+        No recordings. No data resale. No judgment.
+        Your words remain private, always.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- 定价区域：双档产品策略 -->
-<section class="section" style="padding-top: 0;">
-  <div style="text-align: center; margin-bottom: 6rem;">
-    <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; text-transform: uppercase;">Membership Options</p>
-    <h2 style="font-size: 2.5rem; font-weight: 300;">Experience Pure Connection.</h2>
-  </div>
+<section class="section">
+  <h2 style="text-align:center;">Membership Options</h2>
 
-  <div class="pricing-container">
-    
-    <!-- $9.9 试用方案 -->
-    <div class="offer-box">
-      <p style="color: #666; letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">The First Step</p>
-      <h3 class="plan-title" style="font-size: 1.8rem; margin: 1rem 0;">Trial Session</h3>
-      <div class="price">$9.9<span>/ONCE</span></div>
-      <ul class="perks">
-        <li>30-Min Deep Connect Call</li>
-        <li>Personality Resonance Check</li>
-        <li>No Commitment Required</li>
-        <li>Bespoke Introduction</li>
+  <div class="pricing">
+    <div class="price-card">
+      <p style="letter-spacing:3px;font-size:.7rem;color:#666;">INTRODUCTION</p>
+      <h3>Trial Session</h3>
+      <div class="price">$9.9<span>/once</span></div>
+      <ul>
+        <li>30-minute private conversation</li>
+        <li>Experience our support approach</li>
+        <li>No commitment</li>
       </ul>
-      <a href="form.html" class="btn">Book Trial</a>
+      <a href="form.html" class="btn" style="width:100%;display:inline-block;">Apply</a>
     </div>
 
-    <!-- $99 旗舰方案 -->
-    <div class="offer-box featured">
-      <div class="badge">Most Immersive</div>
-      <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.7rem; text-transform: uppercase;">Bespoke Collection</p>
-      <h3 class="plan-title" style="font-size: 1.8rem; margin: 1rem 0;">Platinum Membership</h3>
-      <div class="price">$520<span>/MO</span></div>
-      <ul class="perks" style="color: #fff;">
-        <li style="color: #fff;">2 Monthly Deep-Dive Calls</li>
-        <li style="color: #fff;">Unlimited Texting Concierge</li>
-        <li style="color: #fff;">Sacred Privacy Protection</li>
-        <li style="color: #fff;">Global 24/7 Priority Access</li>
+    <div class="price-card featured">
+      <p style="letter-spacing:3px;font-size:.7rem;color:var(--gold);">MONTHLY</p>
+      <h3>Membership</h3>
+      <div class="price">$99<span>/month</span></div>
+      <ul>
+        <li>Ongoing emotional support access</li>
+        <li>Judgment-free conversations</li>
+        <li>Priority scheduling</li>
+        <li>Strict privacy protection</li>
       </ul>
-      <a href="form.html" class="btn solid">Apply for Access</a>
+      <a href="form.html" class="btn" style="width:100%;display:inline-block;">Apply for Membership</a>
     </div>
-
   </div>
-  
-  <p style="text-align: center; margin-top: 4rem; color: #444; font-size: 0.8rem; font-style: italic;">
-    All sessions are end-to-end encrypted. Limited member intake per month.
+
+  <p style="text-align:center;margin-top:4rem;font-size:.75rem;color:#444;">
+    This service is not therapy and does not replace licensed mental health care.<br>
+    Membership is limited. Applications are reviewed manually.
   </p>
 </section>
 
 <footer>
-  <div class="footer-logo">Customized Companion</div>
-  <div class="footer-info">
-    <p>© 2025 | NEW YORK • LONDON • SINGAPORE</p>
-  </div>
+  <p>© 2025 Customized Companion • New York • London • Singapore</p>
 </footer>
 
 </body>
