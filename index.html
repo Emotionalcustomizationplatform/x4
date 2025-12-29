@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Customized Companion | Private Emotional Support</title>
+<title>Customized Companion | Emotional Support</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,192 +26,80 @@ body {
   -webkit-font-smoothing:antialiased;
 }
 
-h1,h2,h3,.logo {
-  font-family:'Cormorant Garamond',serif;
-  font-weight:300;
-}
+h1,h2,h3,.logo { font-family:'Cormorant Garamond',serif; font-weight:300; }
 
 a { color:inherit; text-decoration:none; }
 
 .bg-glow {
-  position:fixed;
-  inset:0;
+  position:fixed; inset:0;
   background:radial-gradient(circle at 50% -20%, #1a1510 0%, transparent 60%);
   z-index:-1;
 }
 
 nav {
-  position:fixed;
-  top:0;
-  width:100%;
+  position:fixed; top:0; width:100%;
   padding:1.5rem 8%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:rgba(5,5,5,0.85);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(197,160,89,.1);
-  z-index:1000;
+  display:flex; justify-content:space-between; align-items:center;
+  background:rgba(5,5,5,0.85); backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(197,160,89,.1); z-index:1000;
 }
 
-.logo {
-  letter-spacing:4px;
-  text-transform:uppercase;
-  font-size:.9rem;
-  color:var(--gold);
-}
+.logo { letter-spacing:4px; text-transform:uppercase; font-size:.9rem; color:var(--gold); }
 
-.nav-links {
-  display:flex;
-  gap:2.5rem;
-  align-items:center;
-}
+.nav-links { display:flex; gap:2.5rem; align-items:center; }
 
-.nav-links a {
-  font-size:.7rem;
-  letter-spacing:2px;
-  text-transform:uppercase;
-}
+.nav-links a { font-size:.7rem; letter-spacing:2px; text-transform:uppercase; }
 
 .btn {
-  padding:.8rem 2rem;
-  border:1px solid var(--gold);
-  color:var(--gold);
-  font-size:.7rem;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  transition:.3s;
+  padding:.8rem 2rem; border:1px solid var(--gold); color:var(--gold);
+  font-size:.7rem; letter-spacing:3px; text-transform:uppercase; transition:.3s;
 }
 
-.btn:hover {
-  background:#fff;
-  color:#000;
-  border-color:#fff;
-}
+.btn:hover { background:#fff; color:#000; border-color:#fff; }
 
-.hero {
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:0 8%;
-}
+.hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 8%; }
 
 .hero h1 {
-  font-size:clamp(2.8rem,7vw,5.2rem);
-  line-height:1.05;
-  margin-bottom:2.2rem;
+  font-size:clamp(2.8rem,7vw,5.2rem); line-height:1.05; margin-bottom:2.2rem;
   background:linear-gradient(180deg,#fff 0%,#888 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
 }
 
-.hero p {
-  font-size:1.25rem;
-  color:var(--dim);
-  margin-bottom:3.5rem;
-}
+.hero p { font-size:1.25rem; color:var(--dim); margin-bottom:3.5rem; }
 
-.section {
-  padding:9rem 8%;
-}
+.section { padding:9rem 8%; }
 
-.section h2 {
-  font-size:3rem;
-  margin-bottom:3rem;
-}
+.section h2 { font-size:3rem; margin-bottom:3rem; }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:1px;
-  background:rgba(197,160,89,.15);
-}
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:rgba(197,160,89,.15); }
 
-.grid-item {
-  background:var(--bg);
-  padding:5rem 3rem;
-}
+.grid-item { background:var(--bg); padding:5rem 3rem; }
 
-.grid-item h3 {
-  color:var(--gold);
-  font-size:1.6rem;
-  margin-bottom:1.5rem;
-}
+.grid-item h3 { color:var(--gold); font-size:1.6rem; margin-bottom:1.5rem; }
 
-.grid-item p {
-  color:var(--dim);
-  line-height:1.9;
-}
+.grid-item p { color:var(--dim); line-height:1.9; }
 
-.pricing {
-  max-width:1000px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:2rem;
-}
+.pricing { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
 
-.price-card {
-  background:#0a0a0a;
-  border:1px solid rgba(255,255,255,.1);
-  padding:4.5rem 3rem;
-  text-align:center;
-}
+.price-card { background:#0a0a0a; border:1px solid rgba(255,255,255,.1); padding:4.5rem 3rem; text-align:center; }
 
-.price-card.featured {
-  border-color:var(--gold);
-  background:linear-gradient(145deg,#121212,#050505);
-}
+.price-card.featured { border-color:var(--gold); background:linear-gradient(145deg,#121212,#050505); }
 
-.price {
-  font-size:4rem;
-  font-weight:200;
-  margin:1.5rem 0;
-}
+.price { font-size:4rem; font-weight:200; margin:1.5rem 0; }
 
-.price span {
-  font-size:.9rem;
-  color:var(--dim);
-  letter-spacing:2px;
-}
+.price span { font-size:.9rem; color:var(--dim); letter-spacing:2px; }
 
-ul {
-  list-style:none;
-  padding:0;
-  margin:3rem 0;
-  text-align:left;
-}
+ul { list-style:none; padding:0; margin:3rem 0; text-align:left; }
 
-ul li {
-  font-size:.9rem;
-  color:var(--dim);
-  margin-bottom:1rem;
-}
+ul li { font-size:.9rem; color:var(--dim); margin-bottom:1rem; }
 
-ul li::before {
-  content:"✦";
-  color:var(--gold);
-  margin-right:10px;
-}
+ul li::before { content:"✦"; color:var(--gold); margin-right:10px; }
 
-footer {
-  padding:6rem 5% 3rem;
-  text-align:center;
-  border-top:1px solid rgba(255,255,255,.05);
-}
+footer { padding:6rem 5% 3rem; text-align:center; border-top:1px solid rgba(255,255,255,.05); }
 
-footer p {
-  font-size:.7rem;
-  letter-spacing:2px;
-  color:#444;
-}
+footer p { font-size:.7rem; letter-spacing:2px; color:#444; }
 
-@media(max-width:768px){
-  .hero p { font-size:1.1rem; }
-  .nav-links a:not(.btn){ display:none; }
-}
+@media(max-width:768px){ .hero p { font-size:1.1rem; } .nav-links a:not(.btn){ display:none; } }
 </style>
 </head>
 
@@ -229,10 +117,9 @@ footer p {
 
 <section class="hero">
   <div>
-    <h1>The Luxury of<br>Being Heard.</h1>
+    <h1>Real Human Support.</h1>
     <p>
-      Private emotional support for those who don’t want therapy,<br>
-      but need a confidential space to process life honestly.
+      Confidential emotional support to process stress, anxiety, and personal pressure — without therapy labels.
     </p>
     <a href="form.html" class="btn" style="padding:1.2rem 3.5rem;">
       Start Your Application
@@ -241,27 +128,24 @@ footer p {
 </section>
 
 <section class="section" id="about">
-  <h2>Why This Exists</h2>
+  <h2>Why We Exist</h2>
   <div class="grid">
     <div class="grid-item">
       <h3>Emotional Support</h3>
       <p>
-        A private space to talk through stress, loneliness,
-        and emotional pressure with a real human presence.
+        A private, judgment-free space to talk through stress, emotional challenges, or just life itself — with a real human presence.
       </p>
     </div>
     <div class="grid-item">
       <h3>Non-Clinical Guidance</h3>
       <p>
-        Thoughtful conversations designed to help you reflect,
-        regulate emotions, and regain clarity without entering therapy.
+        Thoughtful conversations to help you process emotions, gain clarity, and regulate your feelings — without therapy.
       </p>
     </div>
     <div class="grid-item">
-      <h3>Absolute Discretion</h3>
+      <h3>Absolute Privacy</h3>
       <p>
-        No recordings. No analysis. No data resale.
-        Your words remain private.
+        No recordings. No AI. No data resale. Your conversations remain fully confidential.
       </p>
     </div>
   </div>
@@ -270,8 +154,7 @@ footer p {
 <section class="section">
   <h2 style="text-align:center;">Membership Options</h2>
   <p style="text-align:center;color:#555;margin-bottom:4rem;">
-    This is not therapy. This is guided emotional support
-    built around privacy and human presence.
+    This service is not therapy. Membership gives you access to real human support in a private, confidential environment.
   </p>
 
   <div class="pricing">
@@ -280,8 +163,8 @@ footer p {
       <h3>Trial Session</h3>
       <div class="price">$9.9<span>/once</span></div>
       <ul>
-        <li>30-minute private conversation</li>
-        <li>Experience our approach</li>
+        <li>30-minute private session</li>
+        <li>Experience our support approach</li>
         <li>No commitment</li>
       </ul>
       <a href="form.html" class="btn" style="width:100%;display:inline-block;">Apply</a>
@@ -292,20 +175,17 @@ footer p {
       <h3>Membership</h3>
       <div class="price">$99<span>/month</span></div>
       <ul>
-        <li>Ongoing emotional support access</li>
+        <li>Unlimited access to emotional support</li>
         <li>Judgment-free conversations</li>
         <li>Priority scheduling</li>
         <li>Strict privacy protection</li>
       </ul>
-      <a href="form.html" class="btn" style="width:100%;display:inline-block;">
-        Apply for Membership
-      </a>
+      <a href="form.html" class="btn" style="width:100%;display:inline-block;">Apply for Membership</a>
     </div>
   </div>
 
   <p style="text-align:center;margin-top:4rem;font-size:.75rem;color:#444;">
-    This service does not provide medical or mental health treatment.<br>
-    Membership is limited. Applications are reviewed manually.
+    This service is not medical or mental health treatment. Applications are reviewed individually.
   </p>
 </section>
 
