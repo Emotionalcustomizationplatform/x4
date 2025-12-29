@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inquiry | Customized Companion</title>
 
-<!-- 引入 2025 款高级字体组合 -->
+<!-- Google Fonts – FIXED -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="fonts.googleapis.com" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -34,7 +34,7 @@ body {
   position: absolute;
   top: 50%; left: 50%;
   width: 60vw; height: 60vh;
-  background: radial-gradient(circle, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(197,160,89,0.05) 0%, transparent 70%);
   transform: translate(-50%, -50%);
   z-index: -1;
 }
@@ -55,10 +55,11 @@ body {
 }
 .progress-inner {
   position: absolute;
-  left: 0; top: 0; height: 100%;
+  left: 0; top: 0;
+  height: 100%;
   background: var(--gold);
-  width: 33.3%;
-  transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+  width: 20%;
+  transition: 0.8s cubic-bezier(0.19,1,0.22,1);
 }
 
 h2 {
@@ -69,10 +70,7 @@ h2 {
   letter-spacing: 1px;
 }
 
-.step {
-  display: none;
-  animation: fadeIn 0.8s ease forwards;
-}
+.step { display: none; animation: fadeIn 0.8s ease forwards; }
 .step.active { display: block; }
 
 @keyframes fadeIn {
@@ -80,17 +78,16 @@ h2 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-input, textarea, select {
+input, select {
   width: 100%;
   background: transparent;
   border: none;
   border-bottom: 1px solid #333;
   color: #fff;
   padding: 1rem 0;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   margin-bottom: 2rem;
   font-family: 'Inter', sans-serif;
-  border-radius: 0;
   transition: 0.4s;
 }
 input:focus, select:focus {
@@ -114,7 +111,6 @@ input:focus, select:focus {
   letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: 0.3s;
 }
 .btn-next:hover { background: #fff; }
 
@@ -122,14 +118,13 @@ input:focus, select:focus {
   background: transparent;
   color: var(--dim);
   border: none;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   cursor: pointer;
-  margin-top: 10px;
 }
 
-/* 方案选择样式 */
+/* Plan selection */
 .plan-selector {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -143,112 +138,144 @@ input:focus, select:focus {
   cursor: pointer;
   transition: 0.3s;
 }
-
 .plan-card.active {
   border-color: var(--gold);
-  background: rgba(197, 160, 89, 0.05);
+  background: rgba(197,160,89,0.05);
 }
-
 .plan-card strong {
   display: block;
   color: var(--gold);
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
-
 .plan-card span {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--dim);
 }
 
 #success { display: none; }
 </style>
 </head>
+
 <body>
 
 <div class="glow"></div>
 
 <div class="form-wrapper">
-  <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
+  <div class="progress-bar">
+    <div class="progress-inner" id="progress"></div>
+  </div>
 
   <form id="bespokeForm">
-    <!-- Step 1: Basic Info -->
+
+    <!-- STEP 1 -->
     <div class="step active" id="step1">
-      <h2>Who are we <br>speaking with?</h2>
+      <h2>Who are we<br>speaking with?</h2>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
-      <input type="text" name="phone" placeholder="WhatsApp / Phone (Optional)">
+      <input type="text" name="phone" placeholder="Phone / WhatsApp (Optional)">
       <div class="btn-group">
         <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
       </div>
     </div>
 
-    <!-- Step 2: Connection Type -->
+    <!-- STEP 2 -->
     <div class="step" id="step2">
-      <h2>What kind of presence <br>do you seek?</h2>
-      <select name="program" id="programSelect" required>
-        <option value="program1" selected>Bespoke Companionship</option>
-        <option value="program2">Language & Culture</option>
+      <h2>What kind of<br>support are you seeking?</h2>
+
+      <select name="program" required>
+        <option value="" disabled selected>
+          Select the option that best reflects your need
+        </option>
+        <option value="Emotional Support & Stress Relief">
+          Emotional Support & Stress Relief
+        </option>
+        <option value="Non-Clinical Psychological Guidance">
+          Psychological Guidance (Non-Clinical)
+        </option>
+        <option value="Private Space">
+          A Private, Judgment-Free Space to Talk
+        </option>
       </select>
-      <select name="source" required>
-        <option value="other" selected>How did you hear about us?</option>
-        <option value="socialMedia">Social Media</option>
-        <option value="friend">Friend Recommendation</option>
+
+      <select name="intent" required>
+        <option value="" disabled selected>
+          What best describes your current situation?
+        </option>
+        <option value="High pressure life">
+          High pressure life, limited emotional outlet
+        </option>
+        <option value="Feeling isolated">
+          Feeling isolated despite external success
+        </option>
+        <option value="Curiosity">
+          Curiosity — I want to experience this
+        </option>
       </select>
+
       <div class="btn-group">
-        <button type="button" class="btn-next" onclick="nextStep(3)">Select Your Plan</button>
+        <button type="button" class="btn-next" onclick="nextStep(3)">Select Plan</button>
         <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
       </div>
     </div>
 
-    <!-- Step 3: Plan Selection -->
+    <!-- STEP 3 -->
     <div class="step" id="step3">
-      <h2>Confirm Your Inquiry</h2>
-      
+      <h2>Confirm Your<br>Application</h2>
+
       <div class="plan-selector">
-        <div class="plan-card active" onclick="selectPlan('Trial', '9.9', this)">
-          <p style="font-size: 0.6rem; letter-spacing: 1px; margin:0;">INTRO</p>
+        <div class="plan-card active" onclick="selectPlan('Trial Session', '9.9', this)">
+          <p style="font-size:0.6rem;letter-spacing:1px;margin:0;">INTRO</p>
           <strong>$9.9</strong>
-          <span>30-Min Trial</span>
+          <span>30-Minute Trial Session</span>
         </div>
-        <div class="plan-card" onclick="selectPlan('Platinum', '99', this)">
-          <p style="font-size: 0.6rem; letter-spacing: 1px; margin:0;">PREMIUM</p>
-          <strong>$520</strong>
-          <span>Full Monthly</span>
+        <div class="plan-card" onclick="selectPlan('Monthly Membership', '99', this)">
+          <p style="font-size:0.6rem;letter-spacing:1px;margin:0;">MONTHLY</p>
+          <strong>$99</strong>
+          <span>Ongoing Emotional Support</span>
         </div>
       </div>
 
-      <!-- 隐藏字段，用于传回给 server.js -->
-      <input type="hidden" name="selected_plan" id="selected_plan" value="Trial ($9.9)">
+      <input type="hidden" name="selected_plan" id="selected_plan" value="Trial Session ($9.9)">
+
+      <p style="font-size:0.7rem;color:#444;line-height:1.6;">
+        Membership is intentionally limited.<br>
+        Not all applications are accepted.
+      </p>
 
       <div class="btn-group">
         <button type="submit" class="btn-next" id="submitBtn">Submit Application</button>
         <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
       </div>
     </div>
+
   </form>
 
   <div id="success">
-    <h2 style="color: var(--gold);">✦ Inquiry Received.</h2>
-    <p style="color: var(--dim); line-height: 2;">Our concierge will review your preference <br>and reach out within 24 hours.</p>
-    <a href="index.html" class="btn-back" style="display: block; margin-top: 3rem; text-decoration: none;">Return Home</a>
+    <h2 style="color:var(--gold);">✦ Application Received</h2>
+    <p style="color:var(--dim);line-height:2;">
+      Our concierge team will review your application<br>
+      and contact you within 24 hours.
+    </p>
+    <a href="index.html" class="btn-back" style="display:block;margin-top:3rem;text-decoration:none;">
+      Return Home
+    </a>
   </div>
+
 </div>
 
 <script>
-// 选择方案逻辑
-function selectPlan(name, price, element) {
-  document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('active'));
-  element.classList.add('active');
+function selectPlan(name, price, el) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
   document.getElementById('selected_plan').value = name + ' ($' + price + ')';
 }
 
-// 分步逻辑
 function nextStep(step) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step' + step).classList.add('active');
-  const progress = (step / 3) * 100;
-  document.getElementById('progress').style.width = progress + '%';
+  document.getElementById('step'+step).classList.add('active');
+  const progressMap = {1:20, 2:60, 3:100};
+  document.getElementById('progress').style.width = progressMap[step] + '%';
 }
 
 const form = document.getElementById('bespokeForm');
@@ -259,33 +286,28 @@ form.onsubmit = async (e) => {
   submitBtn.innerText = "Processing...";
   submitBtn.disabled = true;
 
-  const formData = Object.fromEntries(new FormData(form));
-  
-  // 在 program 字段后拼上选择的方案，方便你的后端邮件显示
-  formData.program = formData.program + " - Plan: " + formData.selected_plan;
+  const data = Object.fromEntries(new FormData(form));
+  data.program = data.program + " | Plan: " + data.selected_plan;
 
   try {
-    const response = await fetch('/api/submit-form', {
+    const res = await fetch('/api/submit-form', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
     });
-
-    const result = await response.json();
-
+    const result = await res.json();
     if (result.success) {
-      document.getElementById('bespokeForm').style.display = 'none';
+      form.style.display = 'none';
       document.querySelector('.progress-bar').style.display = 'none';
       document.getElementById('success').style.display = 'block';
     } else {
-      alert("System: " + result.msg);
-      submitBtn.innerText = "Submit Inquiry";
+      alert(result.msg || 'Submission failed.');
+      submitBtn.innerText = "Submit Application";
       submitBtn.disabled = false;
     }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Connection lost. Please ensure the server is active.");
-    submitBtn.innerText = "Submit Inquiry";
+  } catch {
+    alert("Connection error. Please try again later.");
+    submitBtn.innerText = "Submit Application";
     submitBtn.disabled = false;
   }
 };
