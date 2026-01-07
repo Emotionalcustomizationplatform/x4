@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Your AI Analysis | Private Counsel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root { --gold: #D4AF37; --bg: #050505; --text: #F0F0F0; --dim: #999; }
+body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; box-sizing: border-box; }
+.container { max-width: 700px; width: 100%; text-align: center; }
+h1, h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
+h1 { font-size: 2.2rem; margin-bottom: 1rem; color: var(--gold); }
+h2 { font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; }
+
+/* 1. 加载动画：打字机效果 */
+#loader p { font-size: 1rem; color: var(--dim); display: flex; align-items: center; justify-content: center; }
+.typing-cursor {
+    width: 8px; height: 1.2rem; background: var(--gold); margin-left: 8px;
+    animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 2. 结果展示：专业报告风格 */
+#result { display: none; text-align: left; background: #0A0A0A; border: 1px solid #222; padding: 2.5rem; line-height: 1.8; font-size: 1rem; color: #ccc; border-radius: 4px; }
+#analysis-content strong { color: var(--gold); font-weight: 600; }
+#analysis-content ul { padding-left: 20px; margin-top: 0.5rem; }
+#analysis-content li { margin-bottom: 0.5rem; }
+
+/* 3. 转化按钮 */
+.btn-primary { display: inline-block; margin-top: 1rem; background: var(--gold); color: #000; padding: 1.1rem 3rem; text-decoration: none; font-weight: 600; font-size: 1rem; letter-spacing: 1px; transition: 0.3s; border-radius: 4px; }
+.btn-primary:hover { background: #fff; color: #000; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
+
+@media screen and (max-width: 768px) {
+  h1 { font-size: 1.8rem; }
+  #result { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 加载状态 -->
+    <div id="loader">
+        <h1>ATHENA™ is Analyzing...</h1>
+        <p>Processing confidential input <span class="typing-cursor"></span></p>
+    </div>
+
+    <!-- 结果状态 -->
+    <div id="result">
+        <h1>Your Confidential Report</h1>
+        <div id="analysis-content"></div>
+        
+        <h2>AI provides data. Humans provide clarity.</h2>
+        <p style="color:var(--dim); text-align: center;">If this analysis resonates, consider a deeper conversation. Your first step towards clarity is just one click away.</p>
+        <div style="text-align: center;">
+          <a href="form.html" class="btn-primary">Book a $49 Discovery Session</a>
+        </div>
+    </div>
+</div>
+
+<script>
+window.onload = async function() {
+    const loader = document.getElementById('loader');
+    const resultDiv = document.getElementById('result');
+    const contentDiv = document.getElementById('analysis-content');
+
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const userText = params.get('text');
+
+        if (!userText) {
+            throw new Error("No input text found. Please return to the homepage.");
+        }
+
+        const response = await fetch('/api/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: userText })
+        });
+
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.error || 'The server returned an error.');
+        }
+
+        const data = await response.json();
+
+        // 将AI返回的Markdown格式文本转换为HTML
+        let html = data.analysis;
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // **Bold** -> <strong>Bold</strong>
+        html = html.replace(/\* (.*?)(?=\n\*|\n\n|$)/g, '<li>$1</li>'); // * Item -> <li>Item</li>
+        html = html.replace(/<\/li><li>/g, '</li><li>'); // Fix lists
+        html = html.replace(/<li>/g, '<ul><li>'); // Start lists
+        html = html.replace(/<\/li>(?!<li>)/g, '</li></ul>'); // End lists
+        html = html.replace(/\n/g, '<br>');
+
+        contentDiv.innerHTML = html;
+        loader.style.display = 'none';
+        resultDiv.style.display = 'block';
+
+    } catch (error) {
+        console.error('Analysis failed:', error);
+        contentDiv.innerHTML = `<p>Sorry, the AI engine is currently overloaded. Please try again in a few moments.</p><p style="color:#666; font-size:0.8rem;"><i>Error: ${error.message}</i></p>`;
+        loader.style.display = 'none';
+        resultDiv.style.display = 'block';
+    }
+};
+</script>
+
+</body>
+</html>
