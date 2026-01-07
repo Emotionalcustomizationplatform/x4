@@ -1,38 +1,40 @@
-// server.js (已集成“雅典娜”AI分析引擎)
+// server.js (v3.0 - Stable & Production Ready)
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Resend } = require('resend');
-const OpenAI = require('openai'); // ✅ 引入 OpenAI
+const OpenAI = require('openai');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- 环境变量校验 ---
-if (!process.env.RESEND_API_KEY) throw new Error('❌ 缺少 RESEND_API_KEY');
-if (!process.env.RECEIVE_EMAIL) throw new Error('❌ 缺少 RECEIVE_EMAIL');
-if (!process.env.OPENAI_API_KEY) throw new Error('❌ 缺少 OPENAI_API_KEY'); // ✅ 检查 OpenAI Key
+// --- 1. 启动前，严格检查所有环境变量！---
+const requiredEnv = ['RESEND_API_KEY', 'RECEIVE_EMAIL', 'OPENAI_API_KEY'];
+for (const key of requiredEnv) {
+    if (!process.env[key]) {
+        console.error(`❌ 致命错误: 环境变量 ${key} 未设置！`);
+        process.exit(1); // 直接退出，防止带病运行
+    }
+}
 
+// --- 2. 初始化服务 ---
 const resend = new Resend(process.env.RESEND_API_KEY);
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY }); // ✅ 初始化 OpenAI
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const YOUR_RECEIVE_EMAIL = process.env.RECEIVE_EMAIL;
-const RESEND_FROM = 'onboarding@resend.dev'; 
+const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev'; // 优先用您自己的域名邮箱
 
+// --- 3. 中间件 ---
 app.use(cors()); 
 app.use(bodyParser.json());
 app.use(express.static('./')); 
 
-// ... (翻译字典和函数保持不变) ...
-const TRANSLATIONS = {"Discovery Session": "单次体验咨询", "Monthly Membership": "包月私教会员", "Private Membership": "包月私教会员", "Navigating Stress": "应对高压与焦虑", "Career Clarity": "职业发展与领导力迷茫", "Relationships": "人际/亲密关系困扰", "Just Talking": "纯倾诉/寻找树洞", "Overwhelmed": "压力过大/濒临崩溃", "Isolated": "高处不胜寒/感到孤独", "Stuck": "卡住了/急需突破", "Curious": "好奇/仅想体验",};
-function translate(text) { if (!text) return "未填写"; if (TRANSLATIONS[text]) return `${TRANSLATIONS[text]} <span style="color:#999;">(${text})</span>`; for (const [key, value] of Object.entries(TRANSLATIONS)) { if (text.includes(key)) { return `${value} <span style="color:#999; font-size:12px;">(${key})</span>`; } } return text; }
-
-// --- ✅ 新增：AI 分析接口 ---
+// --- 4. AI 分析接口 ---
 app.post('/api/analyze', async (req, res) => {
     const { text } = req.body;
     if (!text) {
-        return res.status(400).json({ error: 'No input text provided.' });
+        return res.status(400).json({ error: 'No input provided.' });
     }
 
     try {
@@ -41,27 +43,9 @@ app.post('/api/analyze', async (req, res) => {
             messages: [
                 {
                     role: "system",
-                    content: `You are 'ATHENA', the proprietary psychological analysis AI for Private Counsel, specializing in the stress patterns of founders, executives, and high-achievers. Your tone is empathetic, insightful, and highly professional. Analyze the user's input and provide a structured analysis.
-
-Your response MUST be in this exact Markdown format:
-
-**Stress Score:** [A numerical score out of 10, e.g., 8.5/10. Be critical.]
-
-**Key Stressors Identified:**
-* [Identify the main source of pressure from the user's text]
-* [Identify a second source of pressure or a consequence]
-
-**Potential Underlying Emotions:**
-* [Suggest a likely emotion, e.g., Isolation, Impostor Syndrome, Burnout]
-* [Suggest another likely emotion, e.g., Decision Fatigue, Anxiety]
-
-**Professional Insight:**
-[A concluding, empathetic paragraph (2-3 sentences). Acknowledge their struggle and validate their feelings. Subtly hint at the value of talking to a human expert without directly selling.]`
+                    content: `You are 'ATHENA', a psychological analysis AI for Private Counsel. Your tone is empathetic, insightful, and professional. Analyze the user's input and provide a structured analysis in Markdown. Your response MUST be in this exact format:\n\n**Stress Score:** [Score/10]\n\n**Key Stressors:**\n* [Stressor 1]\n* [Stressor 2]\n\n**Potential Underlying Emotions:**\n* [Emotion 1]\n* [Emotion 2]\n\n**Professional Insight:**\n[A concluding, empathetic paragraph (2-3 sentences).]`
                 },
-                {
-                    role: "user",
-                    content: text
-                }
+                { role: "user", content: text }
             ],
             temperature: 0.5,
             max_tokens: 250,
@@ -71,33 +55,47 @@ Your response MUST be in this exact Markdown format:
         res.json({ analysis });
 
     } catch (error) {
-        console.error('OpenAI API error:', error);
-        res.status(500).json({ error: 'Failed to get analysis from AI.' });
+        console.error('❌ OpenAI API Error:', error.message);
+        res.status(500).json({ error: 'AI engine is currently unavailable. Please try again later.' });
     }
 });
 
 
-// --- 原有的表单提交接口 (保持稳定) ---
+// --- 5. 表单提交接口 (已简化，只发邮件给您) ---
 app.post('/api/submit-form', async (req, res) => {
   try {
     const { name, email, phone, selected_plan, support_type, current_situation } = req.body;
-    console.log(`✅ 新订单: ${name} | 邮箱: ${email}`);
-    if (!name || !email || !selected_plan) { return res.status(400).json({ success: false, msg: 'Info missing' }); }
-    const cn_plan = translate(selected_plan);
-    const cn_support = translate(support_type);
-    const cn_situation = translate(current_situation);
+    
+    if (!name || !email || !selected_plan) { 
+      return res.status(400).json({ success: false, msg: 'Client info missing' });
+    }
+    console.log(`✅ 收到新表单: ${name} | ${email}`);
+
+    // 为了稳定，我们只发邮件给您，不再尝试给客户发自动回复
     await resend.emails.send({
-      from: `Private Counsel Admin <${RESEND_FROM}>`, to: YOUR_RECEIVE_EMAIL, subject: `💰 新订单: ${name} [${cn_plan.split('<')[0]}]`,
-      html: `<div style="font-family: 'Microsoft YaHei', sans-serif; padding: 20px; border: 1px solid #ddd; max-width:600px;"><h2 style="color:#D4AF37; margin-top:0;">新客户申请</h2><div style="background:#fff9e6; padding:10px; margin-bottom:15px; border-left:4px solid #D4AF37;"><strong>套餐:</strong> ${cn_plan}</div><p><strong>姓名:</strong> ${name}</p><p><strong>邮箱:</strong> <a href="mailto:${email}">${email}</a></p><p><strong>电话:</strong> ${phone || '未填写'}</p><hr style="border:0; border-top:1px solid #eee;"><p><strong>核心痛点:</strong> ${cn_support}</p><p><strong>当前现状:</strong> ${cn_situation}</p><div style="font-size:12px; color:#999; margin-top:20px; text-align:right;">提交时间: ${new Date().toLocaleString('zh-CN', {timeZone: 'Asia/Shanghai'})}</div></div>`
+      from: `Private Counsel Admin <${SENDER_EMAIL}>`, 
+      to: YOUR_RECEIVE_EMAIL, 
+      subject: `💰 新订单: ${name}`,
+      html: `
+        <h1>新客户申请</h1>
+        <p><strong>姓名:</strong> ${name}</p>
+        <p><strong>邮箱:</strong> <a href="mailto:${email}">${email}</a></p>
+        <p><strong>电话:</strong> ${phone || '未填写'}</p>
+        <hr>
+        <p><strong>套餐:</strong> ${selected_plan}</p>
+        <p><strong>核心诉求:</strong> ${support_type}</p>
+        <p><strong>当前现状:</strong> ${current_situation}</p>
+      `
     });
-    // 暂时注释掉自动回复，等域名验证后再开启
+
     res.json({ success: true, msg: 'Application received' });
   } catch (err) {
-    console.error('❌ Error:', err.message);
-    res.status(500).json({ success: false, msg: 'Server Error' });
+    console.error('❌ 表单提交处理错误:', err.message);
+    res.status(500).json({ success: false, msg: 'Server-side error while processing the form.' });
   }
 });
 
+// --- 6. 启动服务器 ---
 app.listen(PORT, () => {
-  console.log(`🚀 服务启动: http://localhost:${PORT}`);
+  console.log(`🚀 Private Counsel 后端已启动: http://localhost:${PORT}`);
 });
