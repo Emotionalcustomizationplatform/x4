@@ -14,55 +14,65 @@
   .container {
     background: #0a0a0a; border: 1px solid #222; padding: 3rem; max-width: 500px; width: 90%;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 8px;
   }
-  h1 { font-family: 'Cormorant Garamond', serif; color: #D4AF37; margin-bottom: 0.5rem; }
+  h1 { font-family: 'Cormorant Garamond', serif; color: #D4AF37; margin-bottom: 0.5rem; font-weight: 400; }
   p { color: #888; font-size: 0.9rem; line-height: 1.6; margin-bottom: 2rem; }
   
   input {
     width: 100%; padding: 1rem; background: #111; border: 1px solid #333; color: #fff;
     margin-bottom: 1rem; box-sizing: border-box; font-size: 1rem; text-align: center;
+    border-radius: 4px;
   }
   input:focus { outline: none; border-color: #D4AF37; }
   
   .btn {
     background: #D4AF37; color: #000; border: none; padding: 1rem 2rem;
     font-weight: 600; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1px;
+    border-radius: 4px; transition: 0.3s;
   }
-  .btn:hover { background: #fff; }
+  .btn:hover { background: #fff; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
 
   #result-area { display: none; margin-top: 2rem; border-top: 1px solid #222; padding-top: 1.5rem; }
+  .link-title { font-size: 0.8rem; color: #666; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
   .link-box {
-    background: rgba(212, 175, 55, 0.1); border: 1px dashed #D4AF37; padding: 1rem;
+    background: rgba(212, 175, 55, 0.05); border: 1px dashed #D4AF37; padding: 1rem;
     color: #D4AF37; word-break: break-all; font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem;
+    border-radius: 4px;
   }
-  .copy-btn { background: transparent; border: 1px solid #555; color: #aaa; padding: 0.5rem 1rem; font-size: 0.8rem; cursor: pointer; }
-  .copy-btn:hover { border-color: #fff; color: #fff; }
+  .copy-btn { background: transparent; border: 1px solid #555; color: #aaa; padding: 0.6rem 1.2rem; font-size: 0.8rem; cursor: pointer; border-radius: 4px; transition: 0.2s; }
+  .copy-btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.05); }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h1>Affiliate Link Generator</h1>
-  <p>Enter your name (or unique ID) below to generate your tracking link. Send this link to clients.</p>
+  <p>Enter your unique Partner Name (or ID) below to create your tracking link.</p>
   
-  <input type="text" id="affiliateName" placeholder="e.g. JohnDoe / AgencyX" />
+  <input type="text" id="affiliateName" placeholder="Enter your name (e.g. AlexSmith)" />
   <button class="btn" onclick="generateLink()">Generate Link</button>
 
   <div id="result-area">
-    <p style="margin-bottom:0.5rem">Your Exclusive Tracking Link:</p>
+    <div class="link-title">Your Exclusive Tracking Link</div>
     <div class="link-box" id="linkOutput"></div>
-    <button class="copy-btn" onclick="copyLink()">Copy Link</button>
+    <button class="copy-btn" onclick="copyLink()">Copy Link to Clipboard</button>
   </div>
 </div>
 
 <script>
   function generateLink() {
-    const name = document.getElementById('affiliateName').value.trim().replace(/\s+/g, '');
-    if (!name) { alert("Please enter your name."); return; }
+    let name = document.getElementById('affiliateName').value.trim();
+    if (!name) { alert("Please enter your name first."); return; }
     
-    // 生成带参数的链接，指向您的主页或表单页
-    // 假设您的网站是 customcompanion.xyz，链接会变成 customcompanion.xyz/form.html?ref=john
+    // 移除空格，确保URL整洁
+    name = name.replace(/\s+/g, '');
+
+    // ★★★ 请确保这里的域名是您正式上线的域名 ★★★
+    // 如果您想直接指向首页，可以改为 https://www.customcompanion.xyz/?ref=
+    // 下面是默认指向表单页 form.html
     const baseUrl = "https://www.customcompanion.xyz/form.html"; 
+    
     const finalUrl = `${baseUrl}?ref=${encodeURIComponent(name)}`;
     
     document.getElementById('linkOutput').textContent = finalUrl;
@@ -72,7 +82,16 @@
   function copyLink() {
     const linkText = document.getElementById('linkOutput').textContent;
     navigator.clipboard.writeText(linkText).then(() => {
-      alert("Link copied to clipboard!");
+      const btn = document.querySelector('.copy-btn');
+      const originalText = btn.innerText;
+      btn.innerText = "Copied!";
+      btn.style.borderColor = "#D4AF37";
+      btn.style.color = "#D4AF37";
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.borderColor = "#555";
+        btn.style.color = "#aaa";
+      }, 2000);
     });
   }
 </script>
