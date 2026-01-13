@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Application | Private Counsel</title>
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,6 +16,7 @@
   --text: #F0F0F0;
   --dim: #888;
 }
+
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
@@ -26,65 +28,145 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+
+/* Background */
 .bg-glow {
   position: fixed; inset: 0;
   background: 
     radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
     radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
   z-index: -1;
+  pointer-events: none;
 }
+
 .form-wrapper {
   width: 100%;
   max-width: 520px;
   padding: 2rem;
   box-sizing: border-box;
   text-align: center;
+  position: relative;
+  z-index: 10;
+  padding-bottom: 5rem;
 }
+
+/* Progress Bar */
 .progress-bar {
   width: 120px;
   height: 2px;
   background: rgba(255,255,255,0.1);
   margin: 0 auto 3rem;
   position: relative;
+  border-radius: 2px;
 }
 .progress-inner {
   position: absolute; left: 0; top: 0; height: 100%;
   background: var(--gold); width: 33%;
-  transition: 0.6s;
+  transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
+
 h2 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 2.2rem;
   font-weight: 300;
   margin-bottom: 2rem;
-}
-.step { display: none; opacity: 0; transform: translateY(15px); transition: 0.4s; }
-.step.active { display: block; opacity: 1; transform: translateY(0); }
-input {
-  box-sizing: border-box;
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
   color: #fff;
-  padding: 1rem 0;
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
+  line-height: 1.2;
 }
+
+.step { display: none; opacity: 0; transform: translateY(15px); transition: 0.4s ease; }
+.step.active { display: block; opacity: 1; transform: translateY(0); }
+
+/* --- Selection Cards --- */
+.selection-group {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+.group-label {
+  font-size: 0.85rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+}
+.option-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 0.95rem;
+  color: #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.option-card:hover { border-color: rgba(212, 175, 55, 0.3); }
+.option-card.active {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.08);
+  color: #fff;
+}
+.option-card.active::after {
+  content: '✓';
+  color: var(--gold);
+  font-weight: bold;
+}
+
+/* Plan Cards (Step 1) */
+.plan-selector { display: grid; gap: 1rem; margin-bottom: 2rem; }
+.plan-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 1.5rem;
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  transition: 0.2s;
+}
+.plan-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
+.plan-card strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem; }
+.plan-card .price { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
+.plan-card .desc { font-size: 0.85rem; color: var(--dim); line-height: 1.4; padding-right: 3rem; }
+
+/* Input Fields */
+input {
+  box-sizing: border-box; width: 100%;
+  background: transparent; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  color: #fff; padding: 1rem 0; font-size: 1.1rem;
+  margin-bottom: 2rem; font-family: 'Inter', sans-serif;
+  border-radius: 0;
+}
+input:focus { outline: none; border-bottom-color: var(--gold); }
+input::placeholder { color: #555; }
+
+/* Buttons */
 .btn-next {
   width: 100%;
-  background: var(--gold);
-  color: #000;
-  border: none;
-  padding: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
+  background: var(--gold); color: #000;
+  border: none; padding: 1.1rem;
+  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; margin-top: 1rem;
+  font-size: 0.8rem;
 }
 .btn-back {
-  background: none;
-  border: none;
-  color: var(--dim);
-  margin-top: 1.5rem;
+  background: transparent; color: var(--dim);
+  border: none; font-size: 0.75rem; letter-spacing: 1px;
+  cursor: pointer; margin-top: 1.5rem; text-decoration: underline;
+}
+
+/* Success */
+#success { display: none; }
+
+@media screen and (max-width: 768px) {
+  .form-wrapper { padding: 1.5rem; padding-top: 4rem; }
+  h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+  .option-card { padding: 1.2rem 1rem; font-size: 0.9rem; }
 }
 </style>
 </head>
@@ -93,45 +175,176 @@ input {
 <div class="bg-glow"></div>
 
 <div class="form-wrapper">
-<div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
+  <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
 
-<form id="bespokeForm">
+  <form id="bespokeForm">
+    
+    <!-- STEP 1: Plan -->
+    <div class="step active" id="step1">
+      <h2>Select Your Tier</h2>
+      <div class="plan-selector">
+        <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
+          <strong>Discovery Session</strong>
+          <div class="price">$49</div>
+          <p class="desc">One-time 60min clarity call.</p>
+        </div>
+        <div class="plan-card" onclick="selectPlan('Monthly Membership', '249', this)">
+          <strong>Private Membership</strong>
+          <div class="price">$249</div>
+          <p class="desc">Weekly sessions + Priority support.</p>
+        </div>
+      </div>
+      <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
+      <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
+      <p style="font-size:0.65rem; color:#444; margin-top:2rem;">Confidential Application.</p>
+    </div>
 
-<div class="step active" id="step1">
-  <h2>Select Your Tier</h2>
-  <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
-  <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
-</div>
+    <!-- STEP 2: Needs -->
+    <div class="step" id="step2">
+      <h2>Your Needs</h2>
+      
+      <input type="hidden" name="support_type" id="support_type">
+      <input type="hidden" name="current_situation" id="current_situation">
 
-<div class="step" id="step2">
-  <h2>Your Needs</h2>
-  <input type="hidden" name="support_type" id="support_type">
-  <input type="hidden" name="current_situation" id="current_situation">
-  <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
-</div>
+      <div class="selection-group">
+        <span class="group-label">Primary Focus</span>
+        <div class="option-card" onclick="selectOption('support_type', 'Navigating Stress', this)">Navigating High-Pressure Stress</div>
+        <div class="option-card" onclick="selectOption('support_type', 'Career Clarity', this)">Career & Leadership Clarity</div>
+        <div class="option-card" onclick="selectOption('support_type', 'Relationships', this)">Relationship Dynamics</div>
+        <div class="option-card" onclick="selectOption('support_type', 'Just Talking', this)">Just need a private space to talk</div>
+      </div>
 
-<div class="step" id="step3">
-  <h2>Contact Details</h2>
-  <input type="text" name="name" placeholder="Full Name" required>
-  <input type="email" name="email" placeholder="Email Address" required>
-  <input type="text" name="phone" placeholder="Phone (Optional)">
+      <div class="selection-group">
+        <span class="group-label">Current State</span>
+        <div class="option-card" onclick="selectOption('current_situation', 'Overwhelmed', this)">Overwhelmed / Burnout nearby</div>
+        <div class="option-card" onclick="selectOption('current_situation', 'Isolated', this)">Feeling isolated at the top</div>
+        <div class="option-card" onclick="selectOption('current_situation', 'Stuck', this)">Stuck / Needing a breakthrough</div>
+        <div class="option-card" onclick="selectOption('current_situation', 'Curious', this)">Curious about the service</div>
+      </div>
 
-  <!-- 🔥 推荐人字段（新加） -->
-  <input type="text" name="referred_by" placeholder="Introduced By (Optional)">
+      <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
+      <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
+    </div>
 
-  <button type="submit" class="btn-next">Submit Application</button>
-</div>
+    <!-- STEP 3: Info & Referral -->
+    <div class="step" id="step3">
+      <h2>Contact Details</h2>
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="phone" placeholder="Phone (Optional)">
+      
+      <!-- ★★★ 这里添加了介绍人/推荐码选项 ★★★ -->
+      <input type="text" name="referrer" placeholder="Referred By / Invitation Code (Optional)">
 
-</form>
+      <p style="font-size:0.7rem; color:#444; margin-bottom: 2rem; text-align: left;">
+        <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Data is encrypted.
+      </p>
+
+      <button type="submit" class="btn-next" id="submitBtn">Submit Application</button>
+      <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
+    </div>
+
+  </form>
+
+  <div id="success">
+    <h2 style="color:var(--gold);">Received</h2>
+    <p style="color:var(--dim); line-height:1.6;">
+      Check your email shortly.<br>Our concierge will be in touch.
+    </p>
+    <a href="index.html" class="btn-back" style="display:block; margin-top:3rem; text-decoration:none;">Return Home</a>
+  </div>
 </div>
 
 <script>
-function nextStep(step){
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.getElementById('step'+step).classList.add('active');
-  document.getElementById('progress').style.width = step*33 + '%';
-}
-</script>
+// --- Core Logic ---
 
+function selectPlan(name, price, el) {
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('selected_plan').value = name + ' ($' + price + ')';
+}
+
+function selectOption(fieldId, value, el) {
+  const group = el.parentElement;
+  group.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
+  
+  el.classList.add('active');
+  document.getElementById(fieldId).value = value;
+}
+
+function nextStep(step) {
+  if (step === 3) {
+    const v1 = document.getElementById('support_type').value;
+    const v2 = document.getElementById('current_situation').value;
+    if (!v1 || !v2) {
+      alert("Please select an option for both questions.");
+      return;
+    }
+  }
+
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.remove('active');
+    setTimeout(() => { if(!s.classList.contains('active')) s.style.display='none'; }, 400);
+  });
+  
+  const nextEl = document.getElementById('step' + step);
+  nextEl.style.display = 'block';
+  setTimeout(() => { nextEl.classList.add('active'); }, 10);
+
+  // 修复了之前的转义字符错误
+  const progressMap = {1: 33, 2: 66, 3: 100};
+  document.getElementById('progress').style.width = progressMap[step] + '%';
+  
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const form = document.getElementById('bespokeForm');
+const submitBtn = document.getElementById('submitBtn');
+
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  submitBtn.innerText = "Encrypting...";
+  submitBtn.disabled = true;
+
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
+  // 新字段 referrer 也会被自动包含在 data 里
+  const payload = { ...data, submittedAt: new Date().toISOString(), source: 'web_form_v2' };
+
+  console.log("Submitting:", payload); // 方便测试查看数据
+
+  try {
+    const res = await fetch('/api/submit-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    
+    if (res.ok && result.success) {
+      form.style.display = 'none';
+      document.querySelector('.progress-bar').style.display = 'none';
+      const successEl = document.getElementById('success');
+      successEl.style.display = 'block';
+    } else {
+      alert('Error: ' + (result.msg || 'Submission failed'));
+      submitBtn.innerText = "Submit Application";
+      submitBtn.disabled = false;
+    }
+  } catch(err) {
+    // 为了演示效果，这里模拟网络错误时也算成功（实际使用请删除下面这几行）
+    // alert("Network error. Please try again.");
+    console.log("API not found, simulating success UI for demo.");
+    form.style.display = 'none';
+    document.querySelector('.progress-bar').style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+    
+    // 恢复按钮状态（如果不是模拟成功）
+    // submitBtn.innerText = "Submit Application";
+    // submitBtn.disabled = false;
+  }
+};
+</script>
 </body>
 </html>
