@@ -68,13 +68,20 @@
     // 移除空格，确保URL整洁
     name = name.replace(/\s+/g, '');
 
-    // ★★★ 请确保这里的域名是您正式上线的域名 ★★★
-    // 如果您想直接指向首页，可以改为 https://www.customcompanion.xyz/?ref=
-    // 下面是默认指向表单页 form.html
-    const baseUrl = "https://www.customcompanion.xyz/form.html"; 
+    // ★★★ 智能逻辑：自动识别当前文件位置 ★★★
+    // 无论是本地 file:// 还是服务器 https:// 都能自动适配
+    let currentPath = window.location.href;
     
+    // 获取当前目录 (去掉 partner.html)
+    let folderPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
+    
+    // 假设 form.html 和 partner.html 在同一个文件夹下
+    let baseUrl = folderPath + "/form.html";
+    
+    // 拼接完整的追踪链接
     const finalUrl = `${baseUrl}?ref=${encodeURIComponent(name)}`;
     
+    // 显示结果
     document.getElementById('linkOutput').textContent = finalUrl;
     document.getElementById('result-area').style.display = 'block';
   }
