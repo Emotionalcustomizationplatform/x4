@@ -4,11 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Application | Private Counsel</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
 :root {
   --gold: #D4AF37;
@@ -39,6 +37,7 @@ body {
   width: 100%;
   max-width: 520px;
   padding: 2rem;
+  box-sizing: border-box;
   text-align: center;
 }
 .progress-bar {
@@ -59,20 +58,10 @@ h2 {
   font-weight: 300;
   margin-bottom: 2rem;
 }
-.step { display: none; opacity: 0; transition: 0.4s; }
-.step.active { display: block; opacity: 1; }
-.plan-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-}
-.plan-card.active {
-  border-color: var(--gold);
-  background: rgba(212,175,55,0.08);
-}
+.step { display: none; opacity: 0; transform: translateY(15px); transition: 0.4s; }
+.step.active { display: block; opacity: 1; transform: translateY(0); }
 input {
+  box-sizing: border-box;
   width: 100%;
   background: transparent;
   border: none;
@@ -85,8 +74,9 @@ input {
 .btn-next {
   width: 100%;
   background: var(--gold);
+  color: #000;
   border: none;
-  padding: 1rem;
+  padding: 1.1rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -94,23 +84,21 @@ input {
   background: none;
   border: none;
   color: var(--dim);
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 </style>
 </head>
-
 <body>
+
 <div class="bg-glow"></div>
 
 <div class="form-wrapper">
-  <div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
+<div class="progress-bar"><div class="progress-inner" id="progress"></div></div>
 
 <form id="bespokeForm">
 
 <div class="step active" id="step1">
   <h2>Select Your Tier</h2>
-  <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">Discovery Session $49</div>
-  <div class="plan-card" onclick="selectPlan('Private Membership', '249', this)">Private Membership $249</div>
   <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
   <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
 </div>
@@ -119,13 +107,6 @@ input {
   <h2>Your Needs</h2>
   <input type="hidden" name="support_type" id="support_type">
   <input type="hidden" name="current_situation" id="current_situation">
-
-  <div onclick="selectOption('support_type','Stress',this)">Stress</div>
-  <div onclick="selectOption('support_type','Career',this)">Career</div>
-
-  <div onclick="selectOption('current_situation','Overwhelmed',this)">Overwhelmed</div>
-  <div onclick="selectOption('current_situation','Stuck',this)">Stuck</div>
-
   <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
 </div>
 
@@ -135,22 +116,16 @@ input {
   <input type="email" name="email" placeholder="Email Address" required>
   <input type="text" name="phone" placeholder="Phone (Optional)">
 
-  <!-- 🔥 新增：推荐人字段 -->
+  <!-- 🔥 推荐人字段（新加） -->
   <input type="text" name="referred_by" placeholder="Introduced By (Optional)">
 
-  <button type="submit" class="btn-next">Submit</button>
+  <button type="submit" class="btn-next">Submit Application</button>
 </div>
 
 </form>
 </div>
 
 <script>
-function selectPlan(name, price, el){
-  document.getElementById("selected_plan").value = name + " ($" + price + ")";
-}
-function selectOption(id,val){
-  document.getElementById(id).value = val;
-}
 function nextStep(step){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step'+step).classList.add('active');
