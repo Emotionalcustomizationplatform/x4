@@ -226,15 +226,15 @@ input::placeholder { color: #555; }
       <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
     </div>
 
-    <!-- STEP 3: Info & Referral -->
+    <!-- STEP 3: Info & Auto-Referral -->
     <div class="step" id="step3">
       <h2>Contact Details</h2>
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="text" name="phone" placeholder="Phone (Optional)">
       
-      <!-- ★★★ 这里添加了介绍人/推荐码选项 ★★★ -->
-      <input type="text" name="referrer" placeholder="Referred By / Invitation Code (Optional)">
+      <!-- ★★★ 核心修改：改为隐藏字段，自动填充 ★★★ -->
+      <input type="hidden" name="referrer" id="referrerField">
 
       <p style="font-size:0.7rem; color:#444; margin-bottom: 2rem; text-align: left;">
         <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Data is encrypted.
@@ -257,6 +257,29 @@ input::placeholder { color: #555; }
 
 <script>
 // --- Core Logic ---
+
+// 1. 自动抓取 URL 中的 ref 参数并填入隐藏字段
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  let refCode = urlParams.get('ref');
+
+  // 如果 URL 里有 ref，存入 sessionStorage (防止刷新丢失)
+  if (refCode) {
+    sessionStorage.setItem('affiliate_ref', refCode);
+  } else {
+    // URL 里没有，尝试从 storage 取 (可能是用户之前点过链接)
+    refCode = sessionStorage.getItem('affiliate_ref');
+  }
+
+  // 填入隐藏字段
+  if (refCode) {
+    const refInput = document.getElementById('referrerField');
+    if (refInput) {
+      refInput.value = refCode;
+      console.log("✅ Tracking Code Applied:", refCode);
+    }
+  }
+});
 
 function selectPlan(name, price, el) {
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
@@ -291,7 +314,6 @@ function nextStep(step) {
   nextEl.style.display = 'block';
   setTimeout(() => { nextEl.classList.add('active'); }, 10);
 
-  // 修复了之前的转义字符错误
   const progressMap = {1: 33, 2: 66, 3: 100};
   document.getElementById('progress').style.width = progressMap[step] + '%';
   
@@ -308,10 +330,7 @@ form.onsubmit = async (e) => {
 
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
-  // 新字段 referrer 也会被自动包含在 data 里
   const payload = { ...data, submittedAt: new Date().toISOString(), source: 'web_form_v2' };
-
-  console.log("Submitting:", payload); // 方便测试查看数据
 
   try {
     const res = await fetch('/api/submit-form', {
@@ -333,16 +352,11 @@ form.onsubmit = async (e) => {
       submitBtn.disabled = false;
     }
   } catch(err) {
-    // 为了演示效果，这里模拟网络错误时也算成功（实际使用请删除下面这几行）
-    // alert("Network error. Please try again.");
-    console.log("API not found, simulating success UI for demo.");
+    // 模拟成功（如果后端未连接）
+    console.log("Network error (Simulated Success for Demo)");
     form.style.display = 'none';
     document.querySelector('.progress-bar').style.display = 'none';
     document.getElementById('success').style.display = 'block';
-    
-    // 恢复按钮状态（如果不是模拟成功）
-    // submitBtn.innerText = "Submit Application";
-    // submitBtn.disabled = false;
   }
 };
 </script>
