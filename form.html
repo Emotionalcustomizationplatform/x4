@@ -11,291 +11,287 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
+/* --- 核心变量 --- */
 :root {
   --gold: #D4AF37;
   --bg: #050505;
   --text: #EAEAEA;
-  --border: rgba(255, 255, 255, 0.1);
-  --glass: rgba(20, 20, 20, 0.6);
+  --glass: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.08);
 }
 
 body {
   margin: 0; padding: 0;
   font-family: 'Manrope', sans-serif;
   background: var(--bg); color: var(--text);
-  height: 100vh; overflow: hidden; /* 锁住滚动，做成应用感 */
-  display: flex;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  overflow-x: hidden;
+  /* 极简背景 */
+  background-image: radial-gradient(circle at 50% 0%, #111 0%, #050505 80%);
 }
 
-/* --- 1. 左侧视觉区 (Desktop Only) --- */
-.visual-side {
-  flex: 1; position: relative; height: 100%;
-  background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop');
-  background-size: cover; background-position: center;
-  display: flex; flex-direction: column; justify-content: space-between; padding: 4rem;
-}
-/* 遮罩层，让字看清 */
-.visual-side::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.3), #050505);
-}
-.visual-content { position: relative; z-index: 2; }
-.quote { 
-  font-family: 'Playfair Display', serif; font-size: 2.5rem; line-height: 1.2; 
-  color: #fff; max-width: 400px;
-}
-.quote span { color: var(--gold); font-style: italic; }
+h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 400; color: #fff; }
+.subtitle { color: #666; margin-bottom: 3rem; text-align: center; }
 
-/* --- 2. 右侧交互区 --- */
-.form-side {
-  width: 600px; height: 100%;
-  background: #050505;
-  display: flex; flex-direction: column;
+/* --- 容器 --- */
+.form-container {
+  width: 100%; max-width: 1000px;
+  padding: 2rem;
+  perspective: 1000px; /* 开启 3D 透视 */
+  text-align: center;
+}
+
+/* 步骤切换容器 */
+.step { display: none; opacity: 0; animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.step.active { display: block; opacity: 1; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- 🔥 核心特效：3D 倾斜卡片网格 --- */
+.tilt-grid {
+  display: flex; 
+  justify-content: center; 
+  gap: 2rem; 
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.tilt-card {
   position: relative;
-  border-left: 1px solid var(--border);
-}
-
-/* 顶部导航 */
-.form-header {
-  padding: 2rem 3rem;
-  display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 1px solid var(--border);
-}
-.back-link { font-size: 0.8rem; color: #666; text-decoration: none; transition: 0.3s; }
-.back-link:hover { color: #fff; }
-
-/* 进度条 (流动的金线) */
-.progress-container {
-  width: 100%; height: 2px; background: #111;
-}
-.progress-bar {
-  height: 100%; background: var(--gold); width: 33%;
-  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
-/* 表单容器 */
-.form-content {
-  flex: 1; padding: 3rem;
-  overflow-y: auto; /* 内容多时可滚动 */
-  display: flex; flex-direction: column; justify-content: center;
-}
-
-/* 标题 */
-h2 { 
-  font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.5rem; color: #fff; font-weight: 400; 
-}
-.subtitle { color: #666; margin-bottom: 3rem; font-size: 0.9rem; }
-
-/* --- 步骤切换动画 --- */
-.step { display: none; opacity: 0; transform: translateY(10px); transition: 0.4s ease; }
-.step.active { display: block; opacity: 1; transform: translateY(0); }
-
-/* --- Step 1: 价格卡片 (极简) --- */
-.plan-card {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 1.5rem; border: 1px solid var(--border);
-  margin-bottom: 1rem; cursor: pointer; transition: 0.3s;
-  background: rgba(255,255,255,0.02);
-}
-.plan-card:hover { border-color: rgba(255,255,255,0.3); transform: translateX(5px); }
-.plan-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
-.plan-name { font-size: 1.1rem; color: #fff; font-family: 'Playfair Display', serif; }
-.plan-price { font-weight: 600; color: var(--gold); }
-
-/* --- Step 2: 扑克牌式选项 (重点创意) --- */
-.option-grid { display: grid; gap: 1rem; }
-.option-card {
-  position: relative;
-  background: linear-gradient(145deg, #0f0f0f, #050505);
+  width: 280px; height: 380px; /* 竖着的卡片 */
+  background: var(--glass);
   border: 1px solid var(--border);
-  padding: 1.5rem; cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: hidden;
+  border-radius: 20px;
+  cursor: pointer;
+  
+  /* 3D 属性 */
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+  transition: transform 0.1s ease-out; /* 极速响应鼠标 */
+  
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 2rem; text-align: center;
 }
-.option-card:hover { 
-  border-color: rgba(212, 175, 55, 0.4); 
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-}
-.option-card.active {
-  border-color: var(--gold);
-  background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), #050505);
-}
-/* 选中时的光圈动画 */
-.option-card.active::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
-  background: var(--gold);
-}
-.opt-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; }
-.opt-desc { font-size: 0.8rem; color: #888; }
 
-/* --- Step 3: 极简输入 (横线风格) --- */
+/* 卡片内部内容 (浮起效果) */
+.card-inner {
+  transform: translateZ(30px); /* 让字浮在卡片表面上方 */
+  pointer-events: none;
+}
+
+/* 选中状态 */
+.tilt-card.active {
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), rgba(0,0,0,0));
+  border-color: var(--gold);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+}
+
+/* 图标 */
+.card-icon { font-size: 3rem; margin-bottom: 1.5rem; color: #666; transition: 0.3s; }
+.tilt-card:hover .card-icon, .tilt-card.active .card-icon { color: var(--gold); transform: scale(1.1); }
+
+.card-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff; }
+.card-desc { font-size: 0.85rem; color: #888; line-height: 1.6; }
+
+/* 光泽层 (Sheen) */
+.tilt-card::before {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: 20px;
+  background: radial-gradient(circle at var(--x) var(--y), rgba(255,255,255,0.1) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.3s;
+  pointer-events: none; mix-blend-mode: overlay;
+}
+.tilt-card:hover::before { opacity: 1; }
+
+/* --- Step 3: 输入框 (极简) --- */
+.input-box {
+  max-width: 400px; margin: 0 auto; text-align: left;
+}
 input {
   width: 100%; background: transparent; border: none;
   border-bottom: 1px solid var(--border);
-  color: #fff; padding: 1rem 0; font-size: 1.1rem;
+  padding: 1rem 0; font-size: 1.1rem; color: #fff;
   font-family: 'Manrope', sans-serif; margin-bottom: 2rem;
-  transition: 0.3s; border-radius: 0;
+  transition: 0.3s;
 }
 input:focus { outline: none; border-bottom-color: var(--gold); }
-input::placeholder { color: #444; }
 
-/* --- 底部操作栏 --- */
-.form-footer {
-  padding: 2rem 3rem;
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
-  background: #050505;
+/* --- 底部导航 --- */
+.nav-bar {
+  display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;
 }
 .btn-next {
   background: var(--gold); color: #000; border: none;
-  padding: 1rem 2.5rem; font-weight: 600; cursor: pointer;
-  transition: 0.3s; font-family: 'Manrope', sans-serif;
-  letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;
+  padding: 1rem 3rem; border-radius: 50px; font-weight: 600;
+  cursor: pointer; transition: 0.3s; font-size: 0.9rem; text-transform: uppercase;
 }
-.btn-next:hover { background: #fff; }
+.btn-next:hover { transform: scale(1.05); background: #fff; }
 .btn-back {
-  background: transparent; border: 1px solid #333; color: #fff;
-  padding: 0.8rem 2rem; cursor: pointer; transition: 0.3s;
-  text-transform: uppercase; font-size: 0.7rem; letter-spacing: 1px;
+  background: transparent; border: 1px solid #333; color: #888;
+  padding: 0.9rem 2rem; border-radius: 50px; cursor: pointer;
+  font-size: 0.8rem; transition: 0.3s;
 }
-.btn-back:hover { border-color: #fff; }
+.btn-back:hover { color: #fff; border-color: #fff; }
 
 /* --- 移动端适配 --- */
-@media (max-width: 900px) {
-  .visual-side { display: none; } /* 手机上隐藏左侧图 */
-  .form-side { width: 100%; border: none; }
-  .form-content { padding: 2rem; }
-  .form-header, .form-footer { padding: 1.5rem 2rem; }
-  h2 { font-size: 2rem; }
+@media (max-width: 768px) {
+  .tilt-grid { flex-direction: column; align-items: center; }
+  .tilt-card { width: 100%; height: auto; padding: 2rem; transform: none !important; } /* 手机禁用 3D 倾斜，防止眩晕 */
+  .card-inner { transform: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- 左侧视觉 (Desktop) -->
-<div class="visual-side">
-  <div class="visual-content">
-    <div style="font-size:0.9rem; letter-spacing:2px; margin-bottom:2rem; opacity:0.7;">PRIVATE COUNSEL</div>
-    <div class="quote">
-      "True clarity comes from<br><span>strategic silence</span>."
-    </div>
-  </div>
-</div>
-
-<!-- 右侧表单 -->
-<div class="form-side">
+<div class="form-container">
   
-  <!-- 顶部 -->
-  <div class="form-header">
-    <a href="index.html" class="back-link">← Cancel</a>
-    <div style="color:#444; font-size:0.8rem;">SECURE APPLICATION</div>
-  </div>
-  
-  <!-- 进度条 -->
-  <div class="progress-container"><div class="progress-bar" id="progress"></div></div>
+  <form id="bespokeForm">
+    
+    <!-- STEP 1: 套餐 (3D Cards) -->
+    <div class="step active" id="step1">
+      <h2>Select Your Tier</h2>
+      <p class="subtitle">No payment required today.</p>
 
-  <!-- 内容区 -->
-  <div class="form-content">
-    <form id="bespokeForm">
+      <div class="tilt-grid">
+        <!-- Card 1 -->
+        <div class="tilt-card" onclick="selectPlan('Introductory Call', 'Free', this)">
+          <div class="card-inner">
+            <div class="card-icon">01</div>
+            <div class="card-title">Intro Call</div>
+            <div class="card-desc">15-min chemistry check to ensure fit.</div>
+            <div style="margin-top:1.5rem; color:var(--gold); font-weight:600;">Free</div>
+          </div>
+        </div>
+
+        <!-- Card 2 (Default) -->
+        <div class="tilt-card active" onclick="selectPlan('Discovery Session', '49', this)">
+          <div class="card-inner">
+            <div class="card-icon">02</div>
+            <div class="card-title">Discovery</div>
+            <div class="card-desc">One-time 60min clarity session.</div>
+            <div style="margin-top:1.5rem; color:var(--gold); font-weight:600;">$49</div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="tilt-card" onclick="selectPlan('Monthly Membership', '599', this)">
+          <div class="card-inner">
+            <div class="card-icon">03</div>
+            <div class="card-title">Membership</div>
+            <div class="card-desc">Weekly sessions + Priority support.</div>
+            <div style="margin-top:1.5rem; color:var(--gold); font-weight:600;">$599</div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
       
-      <!-- STEP 1 -->
-      <div class="step active" id="step1">
-        <h2>Select Tier</h2>
-        <p class="subtitle">No payment required today.</p>
-
-        <div class="plan-card" onclick="selectPlan('Introductory Call', 'Free', this)">
-          <div>
-            <div class="plan-name">Introductory Call</div>
-            <div style="font-size:0.8rem; color:#666;">15-min chemistry check</div>
-          </div>
-          <div class="plan-price">Free</div>
-        </div>
-
-        <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
-          <div>
-            <div class="plan-name">Discovery Session</div>
-            <div style="font-size:0.8rem; color:#666;">One-time 60min clarity</div>
-          </div>
-          <div class="plan-price">$49</div>
-        </div>
-
-        <div class="plan-card" onclick="selectPlan('Monthly Membership', '599', this)">
-          <div>
-            <div class="plan-name">Membership</div>
-            <div style="font-size:0.8rem; color:#666;">Weekly priority support</div>
-          </div>
-          <div class="plan-price">$599</div>
-        </div>
-        
-        <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
+      <div class="nav-bar">
+        <button type="button" class="btn-next" onclick="nextStep(2)">Next Step</button>
       </div>
+    </div>
 
-      <!-- STEP 2 -->
-      <div class="step" id="step2">
-        <h2>Primary Focus</h2>
-        <p class="subtitle">What is your priority?</p>
-        <input type="hidden" name="support_type" id="support_type">
+    <!-- STEP 2: 需求 (3D Cards) -->
+    <div class="step" id="step2">
+      <h2>Primary Focus</h2>
+      <p class="subtitle">What is your priority?</p>
+      <input type="hidden" name="support_type" id="support_type">
 
-        <div class="option-grid">
-          <div class="option-card" onclick="selectOption('support_type', 'Psychological Counseling', this)">
-            <div class="opt-title">Psychological Counseling</div>
-            <div class="opt-desc">Burnout, High-pressure stress & Clarity.</div>
+      <div class="tilt-grid">
+        <div class="tilt-card" onclick="selectOption('support_type', 'Psychological Counseling', this)">
+          <div class="card-inner">
+            <div class="card-icon">🧠</div>
+            <div class="card-title">Psychology</div>
+            <div class="card-desc">Navigating high-pressure stress & burnout.</div>
           </div>
+        </div>
 
-          <div class="option-card" onclick="selectOption('support_type', 'Emotional Companionship', this)">
-            <div class="opt-title">Emotional Support</div>
-            <div class="opt-desc">Private, Non-judgmental companionship.</div>
+        <div class="tilt-card" onclick="selectOption('support_type', 'Emotional Companionship', this)">
+          <div class="card-inner">
+            <div class="card-icon">♥</div>
+            <div class="card-title">Support</div>
+            <div class="card-desc">Private, non-judgmental companionship.</div>
           </div>
+        </div>
 
-          <div class="option-card" onclick="selectOption('support_type', 'Chinese Learning (HSK 8)', this)">
-            <div class="opt-title" style="color:var(--gold);">Chinese Learning (HSK 8)</div>
-            <div class="opt-desc">Elite Cultural & Language Mastery.</div>
+        <div class="tilt-card" onclick="selectOption('support_type', 'Chinese Learning (HSK 8)', this)">
+          <div class="card-inner">
+            <div class="card-icon">文</div>
+            <div class="card-title" style="color:var(--gold);">HSK 8</div>
+            <div class="card-desc">Elite cultural strategy & language mastery.</div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 3 -->
-      <div class="step" id="step3">
-        <h2>Final Details</h2>
-        <p class="subtitle">Zero-Record Policy applies.</p>
-        
+      <div class="nav-bar">
+        <button type="button" class="btn-back" onclick="prevStep(1)">Back</button>
+        <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: 信息 -->
+    <div class="step" id="step3">
+      <h2>Final Details</h2>
+      <p class="subtitle">Securely encrypted. Zero-record policy.</p>
+      
+      <div class="input-box">
         <input type="text" name="name" placeholder="Full Name" required>
         <input type="email" name="email" placeholder="Email Address" required>
         <input type="text" name="phone" placeholder="Phone (Optional)">
         <input type="hidden" name="referrer" id="referrerField">
-
-        <div style="margin-top:2rem; font-size:0.75rem; color:#555; line-height:1.5;">
-          * By submitting, you acknowledge this is a non-clinical service. Payment arranged via Email/WhatsApp.
-        </div>
       </div>
 
-    </form>
-    
-    <!-- Success -->
-    <div id="success" style="display:none; text-align:center;">
-      <h2 style="color:var(--gold);">Received</h2>
-      <p style="color:#888;">We will be in touch shortly.</p>
-      <a href="index.html" class="btn-back" style="display:inline-block; margin-top:2rem; text-decoration:none;">Return Home</a>
+      <div class="nav-bar">
+        <button type="button" class="btn-back" onclick="prevStep(2)">Back</button>
+        <button type="submit" class="btn-next" id="submitBtn">Submit Request</button>
+      </div>
     </div>
-  </div>
 
-  <!-- 底部操作栏 -->
-  <div class="form-footer" id="footerControls">
-    <button type="button" class="btn-back" id="backBtn" onclick="prevStep()" style="opacity:0; pointer-events:none;">Back</button>
-    <button type="button" class="btn-next" id="nextBtn" onclick="nextStep()">Continue</button>
+  </form>
+
+  <div id="success" style="display:none;">
+    <h2 style="color:var(--gold);">Received</h2>
+    <p style="color:#888;">We will be in touch shortly.</p>
+    <a href="index.html" class="btn-back" style="display:inline-block; margin-top:2rem; text-decoration:none;">Return Home</a>
   </div>
 
 </div>
 
 <script>
-// --- Logic ---
-let currentStep = 1;
+// --- 3D 倾斜逻辑 (核心JS) ---
+const cards = document.querySelectorAll('.tilt-card');
 
+cards.forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // 计算中心点偏移
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // 倾斜角度 (除以的数字越大，倾斜越微小，越高级)
+    const rotateX = ((y - centerY) / 10) * -1; // 上下翻转
+    const rotateY = (x - centerX) / 10;        // 左右翻转
+
+    // 应用 3D 变换
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    
+    // 移动光泽层 (Follow Spotlight)
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+  });
+
+  // 鼠标移出复位
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+  });
+});
+
+// --- 常规表单逻辑 ---
 window.addEventListener('DOMContentLoaded', () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  let refCode = urlParams.get('ref') || sessionStorage.getItem('affiliate_ref');
+  const refCode = new URLSearchParams(window.location.search).get('ref') || sessionStorage.getItem('affiliate_ref');
   if (refCode) {
     sessionStorage.setItem('affiliate_ref', refCode);
     if(document.getElementById('referrerField')) document.getElementById('referrerField').value = refCode;
@@ -303,100 +299,51 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function selectPlan(name, price, el) {
-  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#step1 .tilt-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  let priceDisplay = (price === 'Free') ? 'Free' : '$' + price;
-  document.getElementById('selected_plan').value = name + ' (' + priceDisplay + ')';
+  let p = (price === 'Free') ? 'Free' : '$' + price;
+  document.getElementById('selected_plan').value = name + ' (' + p + ')';
 }
 
 function selectOption(fieldId, value, el) {
-  document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#step2 .tilt-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   document.getElementById(fieldId).value = value;
 }
 
-function updateUI() {
-  // Steps
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step' + currentStep).classList.add('active');
-  
-  // Progress
-  const progressMap = {1: 33, 2: 66, 3: 100};
-  document.getElementById('progress').style.width = progressMap[currentStep] + '%';
-
-  // Buttons
-  const backBtn = document.getElementById('backBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  
-  if (currentStep === 1) {
-    backBtn.style.opacity = '0'; backBtn.style.pointerEvents = 'none';
-  } else {
-    backBtn.style.opacity = '1'; backBtn.style.pointerEvents = 'auto';
-  }
-
-  if (currentStep === 3) {
-    nextBtn.innerText = "Submit Request";
-    nextBtn.onclick = submitForm; // Change action
-  } else {
-    nextBtn.innerText = "Continue";
-    nextBtn.onclick = () => nextStep(); // Reset action
-  }
-}
-
-function nextStep() {
-  if (currentStep === 2 && !document.getElementById('support_type').value) {
+function nextStep(step) {
+  if (step === 3 && !document.getElementById('support_type').value) {
     alert("Please select a focus."); return;
   }
-  if (currentStep < 3) {
-    currentStep++;
-    updateUI();
-  }
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
 }
 
-function prevStep() {
-  if (currentStep > 1) {
-    currentStep--;
-    updateUI();
-  }
+function prevStep(step) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
 }
 
-// Submit
-async function submitForm() {
-  const form = document.getElementById('bespokeForm');
+const form = document.getElementById('bespokeForm');
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.innerText = "Processing..."; btn.disabled = true;
   
-  // Basic validation for Step 3
-  if(!form.checkValidity()) {
-    form.reportValidity();
-    return;
-  }
-
-  const btn = document.getElementById('nextBtn');
-  btn.innerText = "Processing...";
-  btn.disabled = true;
-
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData);
-  const payload = { ...data, submittedAt: new Date().toISOString() };
-
+  const payload = { ...Object.fromEntries(new FormData(form)), submittedAt: new Date().toISOString() };
+  
   try {
-    const res = await fetch('/api/submit-form', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
-    });
-    if (res.ok) {
-      document.getElementById('footerControls').style.display = 'none';
-      document.querySelector('.form-content form').style.display = 'none';
-      document.getElementById('success').style.display = 'block';
+    const res = await fetch('/api/submit-form', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+    if(res.ok) {
+      form.style.display='none'; document.getElementById('success').style.display='block';
     } else {
-      alert('Error submitting.');
-      btn.innerText = "Submit Request"; btn.disabled = false;
+      alert('Error.'); btn.innerText="Submit"; btn.disabled=false;
     }
-  } catch(err) {
-    console.log("Simulated Success");
-    document.getElementById('footerControls').style.display = 'none';
-    document.querySelector('.form-content form').style.display = 'none';
-    document.getElementById('success').style.display = 'block';
+  } catch(e) {
+    // Demo
+    form.style.display='none'; document.getElementById('success').style.display='block';
   }
-}
+};
 </script>
 
 </body>
