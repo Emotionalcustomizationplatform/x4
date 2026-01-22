@@ -3,298 +3,241 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Private Counsel | Elite Executive Support</title>
+<title>Private Counsel Pro</title>
 
-<!-- Fonts: Playfair (奢华标题) + Manrope (现代正文) -->
+<!-- Fonts: Inter (Apple Style) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
 :root {
-  --gold: #D4AF37;
-  --bg: #050505;
-  --text: #EAEAEA;
-  --border: rgba(255, 255, 255, 0.1);
+  --bg: #000000;
+  --card-bg: #151516; 
+  --text: #F5F5F7;
+  --text-gray: #86868b;
+  --gold: #D4AF37; 
 }
 
-html, body { 
-  margin: 0; padding: 0; width: 100%; height: 100%;
-  font-family: 'Manrope', sans-serif; 
-  background: var(--bg); color: var(--text); 
+body {
+  margin: 0; padding: 0;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg); color: var(--text);
   overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
 a { text-decoration: none; color: inherit; transition: 0.3s; }
 * { box-sizing: border-box; }
 
-/* --- 1. 导航栏 --- */
-nav { 
-  position: fixed; top: 0; width: 100%; padding: 1.5rem 5%; 
-  display: flex; justify-content: space-between; align-items: center; 
-  z-index: 100; mix-blend-mode: difference; /* 让导航在任何背景下都可见 */
-  opacity: 0; /* GSAP 入场 */
+/* Nav */
+nav {
+  position: fixed; top: 0; width: 100%; height: 48px;
+  background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px);
+  z-index: 9999; display: flex; justify-content: center; align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-.logo { font-size: 0.9rem; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; color: #fff; }
-
-.btn-nav {
-  padding: 0.8rem 2rem; border: 1px solid rgba(255,255,255,0.4); 
-  font-size: 0.7rem; letter-spacing: 1px; color: #fff; text-transform: uppercase;
-  border-radius: 50px; transition: 0.3s;
-}
-.btn-nav:hover { background: #fff; color: #000; border-color: #fff; }
-
-/* --- 2. Hero (全屏电影感) --- */
-.hero { 
-  height: 100vh; width: 100%;
-  display: flex; flex-direction: column; 
-  justify-content: center; align-items: center; text-align: center; 
-  position: relative; overflow: hidden;
-}
-/* 背景图：深邃海洋/抽象纹理 */
-.hero-bg {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop');
-  background-size: cover; background-position: center;
-  filter: brightness(0.4) contrast(1.1);
-  transform: scale(1.1); /* 给 GSAP 做缩放动画 */
-  z-index: -1;
-}
-
-.hero h1 { 
-  font-size: clamp(3.5rem, 8vw, 7.5rem); 
-  line-height: 1.1; margin: 0; color: #fff; 
-  mix-blend-mode: overlay; /* 高级融合效果 */
-}
-.hero h1 i { font-style: italic; opacity: 0.8; }
-.hero p { 
-  margin-top: 2rem; font-size: clamp(1rem, 1.5vw, 1.2rem); 
-  color: rgba(255,255,255,0.8); max-width: 500px; font-weight: 300; opacity: 0;
-}
-.hero-btns { margin-top: 3rem; display: flex; gap: 1rem; opacity: 0; }
-.btn-gold { 
-  background: var(--gold); color: #000; padding: 1rem 3rem; font-weight: 600; border-radius: 4px;
-}
-.btn-gold:hover { background: #fff; }
-
-/* --- 3. 图文混排 Bento Grid (核心修改) --- */
-.section { padding: 8rem 5%; max-width: 1400px; margin: 0 auto; }
-.section-header { margin-bottom: 4rem; max-width: 600px; }
-.section-header h2 { font-size: 3rem; margin-bottom: 1rem; color: #fff; }
-.section-header p { color: #888; font-family: 'Manrope', sans-serif; font-size: 1.1rem;}
-
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 450px 400px; /* 两行高度不同，增加错落感 */
-  gap: 1.5rem;
-}
-
-.card {
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-  transition: transform 0.5s ease;
-  background: #0A0A0A;
-  border: 1px solid var(--border);
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 2.5rem;
-  opacity: 0; transform: translateY(30px); /* 初始隐藏 */
-}
-.card:hover { transform: translateY(-5px); }
-
-/* 图片卡片样式 */
-.card-img { padding: 0; border: none; }
-.card-img img {
-  position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;
-  transition: transform 0.8s ease; opacity: 0.7;
-}
-.card-img:hover img { transform: scale(1.05); opacity: 1; }
-.card-content {
-  position: relative; z-index: 2; padding: 2.5rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-  width: 100%;
-}
-
-/* 布局控制 */
-.span-2 { grid-column: span 2; } /* 占两列 */
-
-/* --- 卡片 1: 隐私 (纯文字，极简) --- */
-.card-text h3 { font-size: 2rem; color: #fff; margin-bottom: 1rem; }
-.card-text p { color: #888; line-height: 1.7; }
-.icon-gold { font-size: 1.5rem; color: var(--gold); margin-bottom: 1.5rem; }
-
-/* --- 卡片 2: HSK 8 (您的要求：金色、图片、显眼) --- */
-/* 这张卡片用一张暖色调的亚洲城市/商务图 */
-.card-hsk { 
-  border: 1px solid rgba(212, 175, 55, 0.3);
-}
-.card-hsk h3 { color: var(--gold); font-size: 2.2rem; }
-.card-hsk p { color: #e0e0e0; font-weight: 400; }
-
-/* --- 4. Pricing (极简横条) --- */
-.pricing-section { border-top: 1px solid #222; margin-top: 6rem; padding-top: 6rem; }
-.price-row {
+.nav-content {
+  width: 100%; max-width: 1000px; padding: 0 20px;
   display: flex; justify-content: space-between; align-items: center;
-  padding: 2rem; border-bottom: 1px solid #222;
-  transition: 0.3s;
+  font-size: 12px; color: #e8e8ed;
 }
-.price-row:hover { background: #0A0A0A; border-color: #333; }
-.price-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fff; }
-.price-cost { font-family: 'Manrope', sans-serif; font-size: 1.2rem; color: var(--gold); }
-.price-desc { font-size: 0.9rem; color: #666; margin-right: auto; margin-left: 2rem; }
+.logo { font-weight: 600; }
 
-/* Footer */
-footer { padding: 5rem 5%; color: #444; font-size: 0.75rem; text-align: center; }
+/* Hero */
+.hero {
+  height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding-top: 60px;
+}
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; margin: 0;
+  background: linear-gradient(180deg, #ffecd2 0%, #D4AF37 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  opacity: 0; transform: translateY(30px);
+}
+.hero h2 {
+  font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 600; margin: 10px 0 20px;
+  opacity: 0; transform: translateY(30px);
+}
+.hero p {
+  font-size: 1.2rem; color: var(--text-gray); max-width: 600px; margin: 0 auto 40px;
+  opacity: 0; transform: translateY(30px);
+}
+.cta-links {
+  display: flex; gap: 25px; font-size: 17px; font-weight: 500;
+  opacity: 0; transform: translateY(30px);
+}
+.cta-links a { color: var(--gold); }
+.cta-links a:hover { text-decoration: underline; }
+
+/* Bento Grid */
+.section-grid { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
+.grid-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; text-align: center; margin-bottom: 60px; }
+
+.bento-box {
+  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 500px 500px; gap: 20px;
+}
+.card {
+  background: var(--card-bg); border-radius: 30px; overflow: hidden; position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 40px; transition: transform 0.5s;
+}
+.card:hover { transform: scale(1.02); }
+.card-content { z-index: 2; }
+.card-title { font-size: 40px; font-weight: 700; margin: 0 0 15px; }
+.card-desc { font-size: 18px; color: var(--text-gray); max-width: 300px; margin: 0 auto; }
+.card-bg {
+  position: absolute; inset: 0; z-index: 1; background-size: cover; background-position: center;
+  opacity: 0.6; filter: grayscale(100%); transition: 0.5s;
+}
+.card:hover .card-bg { filter: grayscale(0%); opacity: 0.8; }
+
+.span-2 { grid-column: span 2; }
+.card-gold-text .card-title {
+  background: linear-gradient(90deg, #D4AF37, #F3E5AB);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* Pricing */
+.pricing-section { background: #111; padding: 100px 5%; text-align: center; }
+.pricing-cards { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
+.p-card {
+  background: #000; width: 320px; padding: 40px; border-radius: 20px; border: 1px solid #333; text-align: left;
+}
+.p-card:hover { border-color: var(--gold); }
+.p-btn {
+  display: block; width: 100%; padding: 12px; background: #fff; color: #000;
+  text-align: center; border-radius: 20px; font-weight: 600; margin-top: 30px;
+}
+
+/* Footer (Legal) */
+footer { background: #111; color: var(--text-gray); padding: 60px 5%; font-size: 12px; border-top: 1px solid #333; }
+.footer-content { max-width: 1000px; margin: 0 auto; text-align: center;}
 
 /* WhatsApp */
 .wa-float {
-  position: fixed; bottom: 30px; right: 30px;
-  width: 50px; height: 50px; background: #fff; color: #000;
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+  background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center;
   z-index: 100; transition: 0.3s;
 }
-.wa-float:hover { transform: scale(1.1); background: var(--gold); }
+.wa-float:hover { transform: scale(1.1); background: #fff; }
 
-/* Mobile */
 @media(max-width: 900px) {
-  .hero h1 { font-size: 3.2rem; }
-  .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .bento-box { grid-template-columns: 1fr; grid-template-rows: auto; }
   .span-2 { grid-column: span 1; }
-  .card { min-height: 300px; }
-  .price-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .price-desc { margin: 0; }
+  .card { min-height: 400px; }
 }
-
-/* Loading */
-.loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
-.loader-text { font-family: 'Playfair Display'; color: #fff; font-size: 1.2rem; letter-spacing: 5px; opacity: 0; }
 </style>
 </head>
 <body>
 
-<div class="loader"><div class="loader-text">PRIVATE COUNSEL</div></div>
-
 <nav>
-  <div class="logo">PRIVATE COUNSEL</div>
-  <a href="form.html" class="btn-nav">Apply Now</a>
+  <div class="nav-content">
+    <a href="#" class="logo">Private Counsel</a>
+    <div style="display:flex; gap:20px;">
+      <a href="#features">Overview</a>
+      <a href="form.html">Apply</a>
+    </div>
+  </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"></div>
-  <h1>Calm in the <i>Chaos</i>.</h1>
-  <p>The elite emotional & strategic sanctuary for founders.</p>
-  <div class="hero-btns">
-    <a href="form.html" class="btn-gold">Book Free Consult</a>
+  <h1 class="anim-hero">Private Counsel.</h1>
+  <h2 class="anim-hero">Pro. Beyond Therapy.</h2>
+  <p class="anim-hero">The ultimate emotional infrastructure for high-performance founders.</p>
+  <div class="cta-links anim-hero">
+    <a href="form.html">Book Free Consult ›</a>
+    <a href="#features">Learn more ›</a>
+  </div>
+  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" style="width:80%; max-width:1000px; margin-top:60px; border-radius:30px; opacity:0; transform:translateY(50px);" class="anim-hero-img">
+</section>
+
+<section class="section-grid" id="features">
+  <div class="grid-title">Strategy. Not just support.</div>
+  <div class="bento-box">
+    <!-- HSK 8 (Gold) -->
+    <div class="card span-2 card-gold-text">
+      <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1535139262971-c51845709a48?q=80&w=2070&auto=format&fit=crop');"></div>
+      <div class="card-content">
+        <div class="card-eyebrow">Language Mastery</div>
+        <div class="card-title">HSK 8 Strategy.</div>
+        <div class="card-desc">Elite negotiation rhetoric for Asian markets.</div>
+      </div>
+    </div>
+    <!-- Privacy -->
+    <div class="card">
+      <div class="card-content">
+        <div class="card-eyebrow">Privacy</div>
+        <div class="card-title">Zero Records.</div>
+        <div class="card-desc">Off the grid. No insurance trails.</div>
+      </div>
+    </div>
+    <!-- Async -->
+    <div class="card">
+      <div class="card-content">
+        <div class="card-eyebrow">Availability</div>
+        <div class="card-title">Async.</div>
+        <div class="card-desc">24/7 Text support.</div>
+      </div>
+    </div>
+    <!-- EQ -->
+    <div class="card span-2">
+      <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop');"></div>
+      <div class="card-content">
+        <div class="card-eyebrow">Alignment</div>
+        <div class="card-title">High EQ Partners.</div>
+        <div class="card-desc">We match your wavelength immediately.</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="section-header">
-    <h2>The Executive Standard</h2>
-    <p>Where strategy meets silence.</p>
-  </div>
-
-  <div class="bento-grid">
-    
-    <!-- 1. HSK 8 (金色C位 - 图片卡) -->
-    <!-- 图片：上海/亚洲高端夜景，暖金色调 -->
-    <div class="card card-img span-2 card-hsk">
-      <img src="https://images.unsplash.com/photo-1548600916-dc8492f8e845?q=80&w=2000&auto=format&fit=crop" alt="Asian City Gold">
-      <div class="card-content">
-        <h3>Cultural Strategy (HSK 8)</h3>
-        <p>Language is power. We provide elite linguistic partners to refine negotiation rhetoric and cultural authority for Asian markets.</p>
-      </div>
+<section class="pricing-section">
+  <div class="grid-title" style="margin-bottom:20px;">Membership</div>
+  <div class="pricing-cards">
+    <div class="p-card">
+      <span class="p-tag">Starter</span>
+      <div class="p-name">Introductory Call</div>
+      <div class="p-price">Free</div>
+      <a href="form.html" class="p-btn">Book</a>
     </div>
-
-    <!-- 2. 隐私 (文字卡) -->
-    <div class="card card-text">
-      <div class="icon-gold">✦</div>
-      <h3>Radical<br>Confidentiality</h3>
-      <p>Zero records. Zero digital footprints. Operating strictly outside the medical system.</p>
+    <div class="p-card" style="border-color:var(--gold);">
+      <span class="p-tag">Membership</span>
+      <div class="p-name">Private Client</div>
+      <div class="p-price">$599</div>
+      <a href="form.html" class="p-btn" style="background:var(--gold);">Apply</a>
     </div>
-
-    <!-- 3. 智力对齐 (图片卡 - 黑白人物剪影) -->
-    <div class="card card-img">
-      <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1000&auto=format&fit=crop" alt="Executive Silhouette">
-      <div class="card-content">
-        <h3>Intellectual Alignment</h3>
-        <p>Founders need strategic empathy. We match your wavelength.</p>
-      </div>
-    </div>
-
-    <!-- 4. Async (宽卡片 - 抽象纹理) -->
-    <div class="card card-img span-2">
-      <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop" alt="Abstract Dark">
-      <div class="card-content">
-        <h3>Async Access</h3>
-        <p>Unlimited text support between sessions. Your pocket boardroom advisor.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- 极简价格表 -->
-<section class="section pricing-section">
-  <div class="price-row">
-    <div class="price-name">Introduction</div>
-    <div class="price-desc">15-min chemistry check to ensure fit.</div>
-    <div class="price-cost">Free</div>
-    <a href="form.html" class="btn-nav" style="margin-left:2rem; border-color:#333; color:#888;">Book</a>
-  </div>
-  <div class="price-row">
-    <div class="price-name">Discovery</div>
-    <div class="price-desc">One-time 60min clarity session.</div>
-    <div class="price-cost">$49</div>
-    <a href="form.html" class="btn-nav" style="margin-left:2rem; border-color:#333; color:#888;">Book</a>
-  </div>
-  <div class="price-row">
-    <div class="price-name" style="color:var(--gold);">Membership</div>
-    <div class="price-desc">Weekly sessions + Priority support.</div>
-    <div class="price-cost">$599</div>
-    <a href="form.html" class="btn-nav" style="margin-left:2rem; background:var(--gold); color:#000; border:none;">Apply</a>
   </div>
 </section>
 
 <footer>
-  <p>© 2025 Private Counsel Global.</p>
-  <div style="max-width:600px; margin:2rem auto; font-size:0.65rem; opacity:0.5; line-height:1.6;">
-    LEGAL DISCLAIMER: Private Counsel is a consulting service. Not a licensed medical provider. Services are educational. "HSK 8" refers to proficiency level.
+  <div class="footer-content">
+    <p>Copyright © 2025 Private Counsel Inc. All rights reserved.</p>
+    <p style="margin-top:10px; opacity:0.6;">
+      LEGAL DISCLAIMER: Private Counsel is a consulting service, not a medical provider. "HSK 8" refers to linguistic proficiency. Zero-Record policy applies.
+    </p>
   </div>
 </footer>
 
-<a href="https://wa.me/16769896777" class="wa-float">
-  <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.77 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.91C20.28 16.46 16.58 20.16 12.05 20.16ZM16.61 14.9C16.36 14.78 15.14 14.18 14.91 14.1C14.68 14.01 14.51 13.97 14.34 14.22C14.17 14.47 13.69 15.03 13.54 15.2C13.39 15.37 13.24 15.39 12.99 15.26C12.74 15.14 11.94 14.88 10.99 14.03C10.25 13.37 9.75 12.56 9.61 12.31C9.47 12.06 9.6 11.93 9.72 11.81C9.83 11.7 9.97 11.52 10.09 11.38C10.21 11.24 10.25 11.14 10.33 10.97C10.41 10.8 10.37 10.66 10.31 10.53C10.25 10.41 9.77 9.22 9.56 8.74C9.36 8.27 9.16 8.33 9.01 8.33C8.87 8.33 8.7 8.33 8.53 8.33C8.36 8.33 8.08 8.4 7.83 8.67C7.58 8.94 6.87 9.6 6.87 10.95C6.87 12.3 7.85 13.61 8 13.8C8.15 14 10.04 16.91 12.93 18.16C13.62 18.46 14.15 18.63 14.57 18.77C15.25 18.98 15.86 18.96 16.34 18.89C16.88 18.81 18 18.21 18.23 17.56C18.47 16.91 18.47 16.36 18.4 16.24C18.33 16.12 18.17 16.05 17.92 15.93H16.61V14.9Z"/></svg>
+<a href="https://wa.me/16769896777" class="wa-float" target="_blank">
+  <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.77 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.91C20.28 16.46 16.58 20.16 12.05 20.16ZM16.61 14.9C16.36 14.78 15.14 14.18 14.91 14.1C14.68 14.01 14.51 13.97 14.34 14.22C14.17 14.47 13.69 15.03 13.54 15.2C13.39 15.37 13.24 15.39 12.99 15.26C12.74 15.14 11.94 14.88 10.99 14.03C10.25 13.37 9.75 12.56 9.61 12.31C9.47 12.06 9.6 11.93 9.72 11.81C9.83 11.7 9.97 11.52 10.09 11.38C10.21 11.24 10.25 11.14 10.33 10.97C10.41 10.8 10.37 10.66 10.31 10.53C10.25 10.41 9.77 9.22 9.56 8.74C9.36 8.27 9.16 8.33 9.01 8.33C8.87 8.33 8.7 8.33 8.53 8.33C8.36 8.33 8.08 8.4 7.83 8.67C7.58 8.94 6.87 9.6 6.87 10.95C6.87 12.3 7.85 13.61 8 13.8C8.15 14 10.04 16.91 12.93 18.16C13.62 18.46 14.15 18.63 14.57 18.77C15.25 18.98 15.86 18.96 16.34 18.89C16.88 18.81 18 18.21 18.23 17.56C18.47 16.91 18.47 16.36 18.4 16.24C18.33 16.12 18.17 16.05 17.92 15.93H16.61V14.9Z"/></svg>
 </a>
 
 <script>
-window.addEventListener("load", () => {
-  gsap.registerPlugin(ScrollTrigger);
-  const tl = gsap.timeline();
+gsap.registerPlugin(ScrollTrigger);
+const tl = gsap.timeline();
+tl.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" })
+  .to(".anim-hero-img", { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }, "-=0.8");
 
-  // 1. 开场动画 (GSAP)
-  tl.to(".loader-text", { opacity: 1, duration: 1 })
-    .to(".loader", { height: 0, duration: 1, ease: "power4.inOut" })
-    .from(".hero-bg", { scale: 1.2, duration: 2 }, "-=1") // 背景图缓慢缩放
-    .to("nav", { opacity: 1, duration: 1 }, "-=0.5")
-    .to(".hero h1", { opacity: 1, y: 0, duration: 1 }, "-=0.5")
-    .to(".hero p", { opacity: 1, y: 0, duration: 1 }, "-=0.8")
-    .to(".hero-btns", { opacity: 1, y: 0, duration: 1 }, "-=0.8");
-
-  // 2. 滚动卡片浮现
-  gsap.utils.toArray('.card').forEach(card => {
-    gsap.to(card, {
-      scrollTrigger: { trigger: card, start: "top 85%" },
-      opacity: 1, y: 0, duration: 1, ease: "power2.out"
-    });
+gsap.utils.toArray('.card').forEach(card => {
+  gsap.from(card, {
+    scrollTrigger: { trigger: card, start: "top 85%" },
+    y: 50, opacity: 0, duration: 1, ease: "power3.out"
   });
 });
 </script>
-
 </body>
 </html>
