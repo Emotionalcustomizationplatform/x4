@@ -3,42 +3,28 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Private Counsel | AI Burnout Test & Elite Support</title>
+<title>Private Counsel | Elite Executive Support</title>
 
 <!-- SEO & Social Sharing Tags -->
-<meta name="description" content="Take our free AI burnout test. Get confidential emotional support for founders and executives. Strictly non-clinical. Zero records.">
-<meta property="og:title" content="Private Counsel | AI Burnout Test & Elite Support">
-<meta property="og:description" content="Take the free AI assessment to understand your stress level. Then, get the support you need.">
+<meta name="description" content="Confidential emotional support and strategic clarity for founders and executives. Strictly non-clinical. Zero records.">
+<meta property="og:title" content="Private Counsel | Elite Executive Support">
+<meta property="og:description" content="The missing infrastructure for your emotional well-being.">
 <meta property="og:image" content="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?q=80&w=1200&auto=format&fit=crop">
 <meta property="og:type" content="website">
 
-<!-- Google Structured Data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Private Counsel",
-  "description": "Elite emotional support and private counseling for executives and founders, featuring a free AI burnout assessment tool.",
-  "priceRange": "Free-$599",
-  "image": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b",
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "US"
-  }
-}
-</script>
-
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
-/* --- 样式部分 --- */
+/* --- Core Aesthetic --- */
 :root {
   --gold: #D4AF37;
+  --gold-dim: #AA8C2C;
   --bg: #050505;
   --text: #F0F0F0;
-  --dim: #999;
+  --dim: #888;
 }
 
 html { scroll-behavior: smooth; }
@@ -46,100 +32,89 @@ body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color
 h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
 a { color: inherit; text-decoration: none; transition: 0.3s; }
 
+/* Navigation */
 nav { position: fixed; top: 0; width: 100%; padding: 1.2rem 6%; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 5, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); z-index: 1000; transition: 0.3s; }
 .logo { letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; color: #fff; font-weight: 500; white-space: nowrap; }
 .logo span { color: var(--gold); }
 
+/* Buttons */
 .btn { padding: 0.9rem 2.2rem; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; transition: all 0.4s ease; background: transparent; cursor: pointer; white-space: nowrap; }
 .btn:hover { border-color: var(--gold); color: var(--gold); }
 .btn-primary { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; }
-.btn-primary:hover { background: #fff; border-color: #fff; color: #000; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+.btn-primary:hover { background: #fff; border-color: #fff; color: #000; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3); }
 
+/* Animations */
 .fade-in-up { opacity: 0; transform: translateY(30px); transition: 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
 .visible { opacity: 1; transform: translateY(0); }
 
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 1rem; position: relative; background-image: linear-gradient(to bottom, rgba(5,5,5,0.6), rgba(5,5,5,1)), url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2000&q=90'); background-size: cover; background-position: center; }
-.hero h1 { font-size: clamp(2.8rem, 9vw, 6.5rem); line-height: 1.05; margin-bottom: 1.5rem; font-weight: 300; background: linear-gradient(180deg, #fff 10%, #999 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 20px 40px rgba(0,0,0,0.8); padding: 0 10px; }
-.hero h1 i { font-style: italic; font-weight: 300; color: var(--gold); -webkit-text-fill-color: var(--gold); }
+/* Hero Section */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 1rem; position: relative; background-image: linear-gradient(to bottom, rgba(5,5,5,0.5), rgba(5,5,5,1)), url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2000&q=90'); background-size: cover; background-position: center; }
+.hero h1 { font-size: clamp(3rem, 9vw, 6.5rem); line-height: 1.05; margin-bottom: 1.5rem; font-weight: 300; color: #fff; text-shadow: 0 20px 40px rgba(0,0,0,0.8); padding: 0 10px; }
+.hero h1 i { font-style: italic; font-weight: 400; color: var(--gold); }
 .hero p { font-size: 1.2rem; color: #ccc; margin-bottom: 3.5rem; max-width: 680px; font-weight: 300; text-shadow: 0 2px 10px rgba(0,0,0,0.9); letter-spacing: 0.3px; }
 
+/* AI Tool */
+#ai-tool { background: linear-gradient(180deg, #0a0a0a 0%, var(--bg) 100%); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+#ai-tool textarea { width: 100%; max-width: 600px; height: 100px; background: #0a0a0a; border: 1px solid #222; color: #ccc; padding: 1.5rem; font-size: 1rem; border-radius: 2px; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; margin-bottom: 1.5rem; }
+#ai-tool textarea:focus { outline: none; border-color: var(--gold); }
+
+/* Standard Sections */
 .section { padding: 8rem 8%; max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
 .section-header { text-align: center; margin-bottom: 5rem; }
 .section-header h2 { font-size: 2.8rem; margin-bottom: 1rem; color: #fff; font-weight: 300; }
 .section-header p { color: var(--dim); max-width: 500px; margin: 0 auto; font-size: 1rem; }
 
-/* AI Tool Styles */
-#ai-tool {
-  background: linear-gradient(180deg, #0a0a0a 0%, var(--bg) 100%);
-  border-top: 1px solid rgba(255,255,255,0.05);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  text-align: center;
-}
-#ai-tool textarea {
-  width: 100%;
-  max-width: 600px;
-  height: 100px;
-  background: #0a0a0a;
-  border: 1px solid #222;
-  color: #ccc;
-  padding: 1.5rem;
-  font-size: 1rem;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-  transition: 0.3s;
-  margin-bottom: 1.5rem;
-}
-#ai-tool textarea:focus { outline: none; border-color: var(--gold); }
-#ai-tool .btn-primary { padding: 1.2rem 3rem; font-size: 0.9rem; }
-
-/* Grid & Cards */
+/* Grid System */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-.feature-card { padding: 3.5rem 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%); transition: 0.5s; position: relative; box-sizing: border-box; }
-.feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 1px; background: var(--gold); transition: 0.5s; }
-.feature-card:hover::before { width: 100%; }
-.feature-card h3 { font-size: 1.6rem; margin-bottom: 1rem; color: #fff; font-weight: 400; }
-.feature-card p { color: var(--dim); font-size: 0.95rem; line-height: 1.8; }
+.feature-card { padding: 3.5rem 2.5rem; border: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.01); transition: 0.5s; position: relative; }
+.feature-card:hover { border-color: rgba(212, 175, 55, 0.3); transform: translateY(-5px); }
+.feature-card h3 { font-size: 1.4rem; margin-bottom: 1rem; color: #fff; font-weight: 400; font-family: 'Cormorant Garamond', serif; }
+.feature-card p { color: var(--dim); font-size: 0.9rem; line-height: 1.7; }
 
-.testimonials { background: rgba(255,255,255,0.02); }
-.quote-card { text-align: left; padding: 2rem; box-sizing: border-box; }
-.quote-text { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: #e0e0e0; font-style: italic; margin-bottom: 1.5rem; line-height: 1.4; }
-.quote-author { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); opacity: 0.8; }
-
-/* Pricing Grid - Updated for 3 columns */
+/* Pricing */
 .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; align-items: start; }
 .price-card { background: #0A0A0A; border: 1px solid rgba(255,255,255,0.08); padding: 3rem 2rem; position: relative; transition: 0.3s; box-sizing: border-box; display:flex; flex-direction:column; height:100%; }
-.price-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-.price-card.featured { border: 1px solid var(--gold); background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), #0A0A0A); }
-.price-tag { font-size: 3.5rem; font-family: 'Cormorant Garamond', serif; color: #fff; margin: 1rem 0; font-weight: 300; }
+.price-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+.price-card.featured { border: 1px solid var(--gold); background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), #0A0A0A); }
+.price-tag { font-size: 3rem; font-family: 'Cormorant Garamond', serif; color: #fff; margin: 1rem 0; font-weight: 300; }
 .price-tag span { font-size: 1rem; font-family: 'Inter', sans-serif; color: var(--dim); margin-left: 5px; letter-spacing: 0; }
 .check-list { margin-bottom: 2rem; flex-grow: 1; padding: 0; list-style: none; }
-.check-list li { margin-bottom: 1rem; color: #bbb; font-size: 0.9rem; display: flex; align-items: flex-start; }
+.check-list li { margin-bottom: 1rem; color: #bbb; font-size: 0.85rem; display: flex; align-items: flex-start; }
 .check-list li::before { content: "•"; color: var(--gold); margin-right: 10px; font-size: 1.2rem; line-height: 1.2; }
 
-.faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2.5rem 0; }
-.faq-question { font-size: 1.2rem; color: #fff; margin-bottom: 0.8rem; font-weight: 400; font-family: 'Cormorant Garamond', serif; }
-.faq-answer { color: var(--dim); font-size: 0.95rem; max-width: 800px; line-height: 1.8; }
+/* FAQ */
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; }
+.faq-question { font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; font-weight: 400; font-family: 'Cormorant Garamond', serif; }
+.faq-answer { color: var(--dim); font-size: 0.9rem; max-width: 800px; line-height: 1.6; }
 
-footer { padding: 6rem 5%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 6rem; box-sizing: border-box; }
-footer p { font-size: 0.75rem; color: #555; letter-spacing: 1px; }
+/* Custom WhatsApp Button (Gold Theme) */
+.whatsapp-float {
+  position: fixed; bottom: 30px; right: 30px;
+  width: 60px; height: 60px;
+  background: var(--gold); color: #000;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+  z-index: 9999;
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.whatsapp-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 25px rgba(212, 175, 55, 0.6);
+  background: #fff;
+}
+.whatsapp-float svg { width: 32px; height: 32px; fill: currentColor; }
 
-#legal-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; padding:1rem; overflow-y:auto; align-items:center; justify-content:center; }
-#legal-modal > div { max-width:600px; width:100%; margin:auto; background:#0a0a0a; padding:4rem 3rem; border:1px solid #222; position:relative; }
+footer { padding: 6rem 5%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 6rem; }
+footer p { font-size: 0.75rem; color: #444; letter-spacing: 1px; }
 
 @media screen and (max-width: 768px) {
-  nav { padding: 1rem 5%; background: rgba(5, 5, 5, 0.95); }
-  .logo { font-size: 0.8rem; }
-  .btn { padding: 0.7rem 1.2rem; font-size: 0.65rem; }
-  .hero { padding: 0 1.5rem; min-height: 90vh; }
-  .hero h1 { font-size: 2.6rem; line-height: 1.1; margin-bottom: 1.2rem; }
-  .hero p { font-size: 1rem; margin-bottom: 2.5rem; }
+  .hero h1 { font-size: 2.8rem; }
   .section { padding: 5rem 6%; }
-  .section-header h2 { font-size: 2.2rem; }
-  #ai-tool textarea { height: 120px; }
-  .grid, .pricing-grid { gap: 1.5rem; }
-  .price-card { padding: 2.5rem 1.5rem; }
-  #legal-modal > div { width: 90%; padding: 2rem 1.5rem; }
+  .pricing-grid { gap: 2rem; }
+  .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+  .whatsapp-float svg { width: 26px; height: 26px; }
 }
 </style>
 </head>
@@ -154,130 +129,107 @@ footer p { font-size: 0.75rem; color: #555; letter-spacing: 1px; }
   <div class="fade-in-up">
     <h1>Calm in the <i>Chaos</i>.</h1>
     <p>
-      The private emotional sanctuary for founders, executives, and high-performers. 
+      The private emotional & strategic sanctuary for founders and executives.
       <br>Radically confidential. Strictly non-clinical.
     </p>
     
-    <!-- ✨ Updated Buttons: More inviting "Free Consult" -->
     <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; align-items:center;">
-      <a href="#ai-tool" class="btn btn-primary">Free AI Stress Test</a>
+      <a href="#ai-tool" class="btn btn-primary">AI Stress Assessment</a>
       <a href="form.html" class="btn">Book Free Consult</a>
     </div>
     
-    <!-- ✨ Trust Micro-copy added here -->
-    <p style="margin-top:1rem; font-size:0.65rem; letter-spacing:1px; opacity:0.5; color:#aaa;">
-      <span style="color:var(--gold);">✦</span> No payment required today
-    </p>
-
-    <p style="margin-top:3rem; font-size:0.7rem; letter-spacing:2.5px; opacity:0.6; text-transform:uppercase; color:#999;">
-      Limited Availability for New Clients
+    <p style="margin-top:1.5rem; font-size:0.7rem; letter-spacing:1px; opacity:0.6; color:#888;">
+      <span style="color:var(--gold);">✦</span> No payment required to apply
     </p>
   </div>
 </section>
 
-<!-- AI Tool Section -->
+<!-- AI Tool -->
 <section class="section" id="ai-tool">
   <div class="section-header fade-in-up">
-    <h2 style="color:var(--gold);">Free AI Burnout Assessment</h2>
-    <p style="font-size:1rem; color:#888;">Curious about your stress level? Describe your current challenges below, and our AI will provide a confidential, instant analysis.</p>
+    <h2 style="color:var(--gold);">The Burnout Index</h2>
+    <p>Describe your current professional landscape. Our AI provides an instant, private analysis of your stress vectors.</p>
   </div>
   <form id="ai-form" class="fade-in-up" style="transition-delay: 0.2s;">
-    <textarea id="stress-input" name="stress_input" rows="4" placeholder="e.g., 'I work 80 hours a week, my team isn't performing, and I feel isolated...'"></textarea>
-    <button type="submit" class="btn btn-primary">Get My Free Analysis</button>
+    <textarea id="stress-input" name="stress_input" rows="3" placeholder="I feel like I'm carrying the weight of..."></textarea>
+    <button type="submit" class="btn btn-primary">Analyze My Situation</button>
   </form>
 </section>
 
+<!-- Features / Philosophy -->
 <section class="section" id="philosophy">
   <div class="section-header fade-in-up">
-    <h2>Why High-Performers Choose Us</h2>
-    <p>Success can be isolating. We provide the missing infrastructure for your emotional well-being.</p>
+    <h2>The Private Counsel Standard</h2>
   </div>
   <div class="grid">
+    <div class="feature-card fade-in-up">
+      <h3>Absolute Privacy</h3>
+      <p>Zero records. No insurance trails. We operate outside the medical system to protect your reputation and digital footprint completely.</p>
+    </div>
     <div class="feature-card fade-in-up" style="transition-delay: 0.1s;">
-      <h3>The "Zero-Record" Policy</h3>
-      <p>Therapy creates medical records. We do not. No insurance trails, no diagnoses, no digital footprints. Your reputation and privacy remain pristine.</p>
-    </div>
-    <div class="feature-card fade-in-up" style="transition-delay: 0.2s;">
       <h3>Intellectual Alignment</h3>
-      <p>We don't just "listen." We engage. Our companions are trained to understand the complex pressures of leadership, ambition, and modern success.</p>
+      <p>We are not traditional therapists. We are strategic companions trained to understand the high-stakes pressure of leadership.</p>
     </div>
-    <div class="feature-card fade-in-up" style="transition-delay: 0.3s;">
-      <h3>On-Demand Clarity</h3>
-      <p>When you're at the top, you can't always vent to your team or family. We are your dedicated, unbiased sounding board.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section testimonials">
-  <div class="section-header fade-in-up">
-    <h2>Client Perspectives</h2>
-  </div>
-  <div class="grid">
-    <div class="quote-card fade-in-up">
-      <div class="quote-text">"I didn't need a therapist. I needed a smart, empathetic human to help me decompress after 80-hour weeks. This is exactly that."</div>
-      <div class="quote-author">— FinTech Founder, New York</div>
-    </div>
-    <div class="quote-card fade-in-up" style="transition-delay: 0.2s;">
-      <div class="quote-text">"The privacy aspect is non-negotiable for me. Knowing nothing is recorded allows me to finally be honest with myself."</div>
-      <div class="quote-author">— Venture Capitalist, San Francisco</div>
+    <!-- ✨ HSK 8 Mention: Styled as "Cultural Strategy" ✨ -->
+    <div class="feature-card fade-in-up" style="transition-delay: 0.2s;">
+      <h3>Cultural Mastery (HSK 8)</h3>
+      <p>For leaders expanding East. We offer elite linguistic and cultural strategy sessions at the HSK 8 level for seamless negotiation capabilities.</p>
     </div>
   </div>
 </section>
 
-<!-- ✨ Updated Pricing Grid with 3 Columns including FREE option -->
+<!-- Pricing -->
 <section class="section">
   <div class="section-header fade-in-up">
-    <h2>Membership Tiers</h2>
-    <p>Flexible options to suit your current needs.</p>
+    <h2>Engagement Tiers</h2>
+    <p>Flexible options tailored to your schedule.</p>
   </div>
   
   <div class="pricing-grid">
-    
-    <!-- 1. FREE Option -->
+    <!-- FREE TIER -->
     <div class="price-card fade-in-up">
-      <p style="letter-spacing:2px; font-size:0.7rem; color:var(--dim); text-transform:uppercase;">Exploration</p>
-      <h3>Intro Call</h3>
+      <p style="letter-spacing:2px; font-size:0.65rem; color:var(--dim); text-transform:uppercase;">Introduction</p>
+      <h3>Chemistry Call</h3>
       <div class="price-tag">Free</div>
       <ul class="check-list">
         <li>15-Minute Compatibility Chat</li>
         <li>Brief Situation Assessment</li>
         <li>Zero Commitment</li>
       </ul>
-      <a href="form.html" class="btn" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Book Free Call</a>
+      <a href="form.html" class="btn" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Book Free</a>
     </div>
 
-    <!-- 2. Standard Option -->
+    <!-- STANDARD TIER -->
     <div class="price-card fade-in-up" style="transition-delay: 0.1s;">
-      <p style="letter-spacing:2px; font-size:0.7rem; color:var(--dim); text-transform:uppercase;">Clarity</p>
+      <p style="letter-spacing:2px; font-size:0.65rem; color:var(--dim); text-transform:uppercase;">Session</p>
       <h3>Discovery</h3>
       <div class="price-tag">$49<span>/single</span></div>
       <ul class="check-list">
-        <li>60-Minute Private Call</li>
-        <li>Immediate Stress Relief</li>
-        <li>Chemistry Assessment</li>
-        <li>100% Confidential</li>
+        <li>60-Minute Strategy Call</li>
+        <li>Immediate Stress Decompression</li>
+        <li>Confidential Sounding Board</li>
       </ul>
       <a href="form.html" class="btn" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Book Session</a>
     </div>
 
-    <!-- 3. Premium Option (Featured) -->
+    <!-- PREMIUM TIER -->
     <div class="price-card featured fade-in-up" style="transition-delay: 0.2s;">
       <div style="position:absolute; top:0; right:0; background:var(--gold); color:#000; padding:0.4rem 1rem; font-size:0.6rem; font-weight:600; letter-spacing:1px;">RECOMMENDED</div>
-      <p style="letter-spacing:2px; font-size:0.7rem; color:var(--gold); text-transform:uppercase;">Membership</p>
+      <p style="letter-spacing:2px; font-size:0.65rem; color:var(--gold); text-transform:uppercase;">Membership</p>
       <h3>Private Client</h3>
       <div class="price-tag">$599<span>/month</span></div>
       <ul class="check-list">
-        <li><strong>4 Sessions / Month (Weekly)</strong></li>
+        <li><strong>Weekly Sessions (4x/mo)</strong></li>
         <li>Priority Scheduling Access</li>
-        <li>Unlimited Text Support</li>
-        <li>Quarterly Growth Review</li>
+        <li>Unlimited Async Text Support</li>
+        <li>Cultural/HSK8 Options Available</li>
       </ul>
       <a href="form.html" class="btn btn-primary" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Apply for Access</a>
     </div>
-
   </div>
 </section>
 
+<!-- FAQ -->
 <section class="section" style="padding-top:0;">
   <div class="section-header fade-in-up">
     <h2>Common Questions</h2>
@@ -285,15 +237,15 @@ footer p { font-size: 0.75rem; color: #555; letter-spacing: 1px; }
   <div style="max-width:800px; margin:0 auto;">
     <div class="faq-item fade-in-up">
       <div class="faq-question">Is this therapy?</div>
-      <div class="faq-answer">No. We provide emotional support and coaching-style guidance. We do not diagnose or treat mental illness. We are for high-functioning individuals navigating stress and life complexities.</div>
+      <div class="faq-answer">No. We provide emotional support and coaching-style guidance. We do not diagnose or treat mental illness. We are for high-functioning individuals navigating stress.</div>
     </div>
     <div class="faq-item fade-in-up">
-      <div class="faq-question">Is it truly confidential?</div>
-      <div class="faq-answer">Yes. We are a private pay service. We do not interface with insurance companies, meaning no diagnosis codes are ever entered into your permanent health record.</div>
+      <div class="faq-question">Do you offer language coaching?</div>
+      <div class="faq-answer">Yes. Specifically for executives, we provide <strong>HSK 8 level Chinese</strong> engagement partners to refine cultural nuance, negotiation vocabulary, and elite-level communication skills.</div>
     </div>
     <div class="faq-item fade-in-up">
-      <div class="faq-question">Who are the companions?</div>
-      <div class="faq-answer">Our team consists of EQ-intelligent individuals with backgrounds in executive coaching, psychology, and communications, vetted for empathy and professional maturity.</div>
+      <div class="faq-question">How does payment work?</div>
+      <div class="faq-answer">Applying is free. Once we confirm fit and schedule your session, payment is handled securely via invoice. You are never charged without your explicit consent.</div>
     </div>
   </div>
 </section>
@@ -301,29 +253,20 @@ footer p { font-size: 0.75rem; color: #555; letter-spacing: 1px; }
 <footer>
   <div class="logo" style="margin-bottom:1rem; opacity:0.5;">Private<span>Counsel</span></div>
   <p>© 2025 Private Counsel • Global Private Service</p>
-  
-  <div style="margin-top:1.5rem; font-size:0.65rem; opacity:0.4;">
-    <a href="javascript:void(0)" onclick="document.getElementById('legal-modal').style.display='flex'" style="text-decoration:underline; cursor:pointer;">Privacy Policy & Disclaimer</a>
-  </div>
   <p style="opacity: 0.3; margin-top:0.5rem;">New York • London • Dubai • Singapore</p>
 </footer>
 
-<!-- Legal Modal -->
-<div id="legal-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:2000; padding:1rem; overflow-y:auto; align-items:center; justify-content:center;">
-  <div style="max-width:600px; width:100%; margin:auto; background:#111; padding:3rem 2rem; border:1px solid #333; position:relative;">
-    <h3 style="color:var(--gold); font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin-top:0;">Legal & Privacy</h3>
-    <div style="color:#999; font-size:0.85rem; line-height:1.8; text-align:left;">
-      <p><strong>1. Non-Clinical Service:</strong> Private Counsel is an emotional support and consulting service. We are not licensed psychologists or psychiatrists. We do not provide medical diagnoses or prescriptions.</p>
-      <p><strong>2. Emergency Protocol:</strong> If you are experiencing a life-threatening emergency or suicidal thoughts, please contact your local emergency services (911 in the US) immediately. We are not an emergency response service.</p>
-      <p><strong>3. Data Privacy:</strong> We adhere to a strict "Zero-Record" policy for session content. We do not record video or audio calls. Your contact information is encrypted and used solely for scheduling and billing purposes.</p>
-      <p><strong>4. Payments:</strong> All services are private-pay. We do not accept insurance. Refunds are processed on a case-by-case basis within 24 hours of booking.</p>
-    </div>
-    <button onclick="document.getElementById('legal-modal').style.display='none'" class="btn" style="margin-top:2rem; width:100%;">Close Window</button>
-  </div>
-</div>
+<!-- ✨ Elite WhatsApp Button ✨ -->
+<!-- 链接替换为了你的真实号码 -->
+<a href="https://wa.me/16769896777" target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
+  <!-- Custom SVG Icon for cleaner look -->
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.77 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.91C20.28 16.46 16.58 20.16 12.05 20.16ZM16.61 14.9C16.36 14.78 15.14 14.18 14.91 14.1C14.68 14.01 14.51 13.97 14.34 14.22C14.17 14.47 13.69 15.03 13.54 15.2C13.39 15.37 13.24 15.39 12.99 15.26C12.74 15.14 11.94 14.88 10.99 14.03C10.25 13.37 9.75 12.56 9.61 12.31C9.47 12.06 9.6 11.93 9.72 11.81C9.83 11.7 9.97 11.52 10.09 11.38C10.21 11.24 10.25 11.14 10.33 10.97C10.41 10.8 10.37 10.66 10.31 10.53C10.25 10.41 9.77 9.22 9.56 8.74C9.36 8.27 9.16 8.33 9.01 8.33C8.87 8.33 8.7 8.33 8.53 8.33C8.36 8.33 8.08 8.4 7.83 8.67C7.58 8.94 6.87 9.6 6.87 10.95C6.87 12.3 7.85 13.61 8 13.8C8.15 14 10.04 16.91 12.93 18.16C13.62 18.46 14.15 18.63 14.57 18.77C15.25 18.98 15.86 18.96 16.34 18.89C16.88 18.81 18 18.21 18.23 17.56C18.47 16.91 18.47 16.36 18.4 16.24C18.33 16.12 18.17 16.05 17.92 15.93H16.61V14.9Z"/>
+  </svg>
+</a>
 
 <script>
-// Animation
+// Scroll Animation
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -331,10 +274,9 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.1 });
-
 document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
 
-// AI 表单提交逻辑
+// AI Tool Form Redirect
 const aiForm = document.getElementById('ai-form');
 if(aiForm) {
   aiForm.addEventListener('submit', function(e) {
