@@ -171,6 +171,26 @@ input::placeholder { color: #555; }
   cursor: pointer; margin-top: 1.5rem; text-decoration: underline;
 }
 
+/* Payment Note Styling */
+.payment-note {
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    text-align: left;
+}
+.payment-note p {
+    font-size: 0.8rem;
+    color: #ccc;
+    margin: 0;
+    line-height: 1.5;
+}
+.payment-note strong {
+    color: var(--gold);
+    font-weight: 500;
+}
+
 /* Success */
 #success { display: none; }
 
@@ -193,7 +213,11 @@ input::placeholder { color: #555; }
     <!-- STEP 1: Plan -->
     <div class="step active" id="step1">
       <h2>Select Your Tier</h2>
-      
+      <!-- ✨ Added reassurance here -->
+      <p style="font-size: 0.85rem; color: #888; margin-top: -1.5rem; margin-bottom: 2rem;">
+        No payment required today.
+      </p>
+
       <div class="plan-selector">
         <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
           <strong>Discovery Session</strong>
@@ -225,7 +249,7 @@ input::placeholder { color: #555; }
         <div class="option-card" onclick="selectOption('support_type', 'Navigating Stress', this)">Navigating High-Pressure Stress</div>
         <div class="option-card" onclick="selectOption('support_type', 'Career Clarity', this)">Career & Leadership Clarity</div>
         <div class="option-card" onclick="selectOption('support_type', 'Relationships', this)">Relationship Dynamics</div>
-        <!-- ★★★ New Option: HSK 8 ★★★ -->
+        <!-- HSK 8 Option -->
         <div class="option-card" onclick="selectOption('support_type', 'Chinese Learning (HSK 8)', this)">Chinese Learning (HSK 8)</div>
         <div class="option-card" onclick="selectOption('support_type', 'Just Talking', this)">Just need a private space to talk</div>
       </div>
@@ -242,7 +266,7 @@ input::placeholder { color: #555; }
       <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
     </div>
 
-    <!-- STEP 3: Info & Auto-Referral -->
+    <!-- STEP 3: Info & Payment Reassurance -->
     <div class="step" id="step3">
       <h2>Contact Details</h2>
       
@@ -250,14 +274,21 @@ input::placeholder { color: #555; }
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="text" name="phone" placeholder="Phone (Optional)">
       
-      <!-- Auto-filled Referrer Field -->
       <input type="hidden" name="referrer" id="referrerField">
+
+      <!-- ✨ Vital Reassurance Block ✨ -->
+      <div class="payment-note">
+        <p><strong>Note:</strong> This is a registration form only. <br>
+        <span style="color:#fff;">No payment is processed now.</span> <br>
+        Specific services and payment will be arranged via Email or WhatsApp after we review your application.</p>
+      </div>
 
       <p style="font-size:0.7rem; color:#444; margin-bottom: 2rem; text-align: left;">
         <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Data is encrypted.
       </p>
 
-      <button type="submit" class="btn-next" id="submitBtn">Submit Application</button>
+      <!-- ✨ Changed Button Text ✨ -->
+      <button type="submit" class="btn-next" id="submitBtn">Submit Request (No Payment Due)</button>
       <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
     </div>
 
@@ -266,7 +297,7 @@ input::placeholder { color: #555; }
   <div id="success">
     <h2 style="color:var(--gold);">Received</h2>
     <p style="color:var(--dim); line-height:1.6;">
-      Check your email shortly.<br>Our concierge will be in touch.
+      Thank you.<br>We will reach out via Email/WhatsApp shortly to finalize details.
     </p>
     <a href="index.html" class="btn-back" style="display:block; margin-top:3rem; text-decoration:none;">Return Home</a>
   </div>
@@ -276,20 +307,14 @@ input::placeholder { color: #555; }
 <script>
 // --- Core Logic ---
 
-// 1. Auto-capture 'ref' from URL or SessionStorage
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   let refCode = urlParams.get('ref');
-
-  // Store in sessionStorage if present (survives refresh)
   if (refCode) {
     sessionStorage.setItem('affiliate_ref', refCode);
   } else {
-    // Retrieve from storage if URL param missing
     refCode = sessionStorage.getItem('affiliate_ref');
   }
-
-  // Populate hidden field
   if (refCode) {
     const refInput = document.getElementById('referrerField');
     if (refInput) {
@@ -317,7 +342,6 @@ function nextStep(step) {
   if (step === 3) {
     const v1 = document.getElementById('support_type').value;
     const v2 = document.getElementById('current_situation').value;
-    
     if (!v1 || !v2) {
       alert("Please select an option for both questions.");
       return;
@@ -331,12 +355,9 @@ function nextStep(step) {
   
   const nextEl = document.getElementById('step' + step);
   nextEl.style.display = 'block';
-  // Small delay to allow display:block to apply before adding opacity class
   setTimeout(() => { nextEl.classList.add('active'); }, 10);
 
-  // Update Progress Bar
   const progressMap = {1: 33, 2: 66, 3: 100};
-  // Fixed syntax here (removed backslashes)
   document.getElementById('progress').style.width = progressMap[step] + '%';
   
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -347,7 +368,7 @@ const submitBtn = document.getElementById('submitBtn');
 
 form.onsubmit = async (e) => {
   e.preventDefault();
-  submitBtn.innerText = "Encrypting...";
+  submitBtn.innerText = "Processing...";
   submitBtn.disabled = true;
 
   const formData = new FormData(form);
@@ -370,16 +391,11 @@ form.onsubmit = async (e) => {
       successEl.style.display = 'block';
     } else {
       alert('Error: ' + (result.msg || 'Submission failed'));
-      submitBtn.innerText = "Submit Application";
+      submitBtn.innerText = "Submit Request";
       submitBtn.disabled = false;
     }
   } catch(err) {
-    // Fallback/Demo mode
     console.log("Network error (Simulated Success for Demo)");
-    // In production, you might want to uncomment the alert below instead of simulating success
-    // alert("Connection error. Please try again.");
-    
-    // For now, simulating success so you can test UI flow without backend:
     form.style.display = 'none';
     document.querySelector('.progress-bar').style.display = 'none';
     document.getElementById('success').style.display = 'block';
