@@ -1,5 +1,4 @@
-// server.js (v3.1 - Update: Referrer Field Added)
-
+// server.js (v3.1 - Update: Referrer Field Added & Syntax Fixed)
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -29,7 +28,7 @@ const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev'; // 优
 // --- 3. 中间件 ---
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('./'));
+app.use(express.static('./')); // 托管当前目录下的静态文件 (index.html, form.html)
 
 // --- 4. AI 分析接口 ---
 app.post('/api/analyze', async (req, res) => {
@@ -83,7 +82,7 @@ app.post('/api/submit-form', async (req, res) => {
         <p><strong>姓名:</strong> ${name}</p>
         <p><strong>邮箱:</strong> <a href="mailto:${email}">${email}</a></p>
         <p><strong>电话:</strong> ${phone || '未填写'}</p>
-        <p><strong>介绍人/邀请码:</strong> ${referrer || '无'}</p> <!-- ★★★ 这里添加了显示逻辑 ★★★ -->
+        <p><strong>介绍人/邀请码:</strong> <span style="color: #D4AF37; font-weight: bold;">${referrer || '无'}</span></p>
         <hr>
         <p><strong>套餐:</strong> ${selected_plan}</p>
         <p><strong>核心诉求:</strong> ${support_type}</p>
