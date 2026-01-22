@@ -11,16 +11,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* --- 核心变量 --- */
 :root {
   --gold: #D4AF37;
   --bg: #030303;
-  --card-bg: #0A0A0A;
   --text: #F0F0F0;
   --dim: #888;
 }
 
-/* --- 基础设置 --- */
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
@@ -33,179 +30,95 @@ body {
   overflow-x: hidden;
 }
 
-/* 动态背景光晕 */
 .bg-glow {
   position: fixed; inset: 0;
-  background: 
-    radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-  z-index: -1;
-  pointer-events: none;
+  background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+  z-index: -1; pointer-events: none;
 }
 
 .form-wrapper {
-  width: 100%;
-  max-width: 520px;
-  padding: 2rem;
-  box-sizing: border-box;
+  width: 100%; max-width: 500px;
+  padding: 1.5rem; padding-top: 4rem;
   text-align: center;
-  position: relative;
-  z-index: 10;
-  padding-bottom: 5rem;
+  position: relative; z-index: 10;
 }
 
 /* 进度条 */
 .progress-bar {
-  width: 120px;
-  height: 2px;
-  background: rgba(255,255,255,0.1);
-  margin: 0 auto 3rem;
-  position: relative;
-  border-radius: 2px;
+  width: 100px; height: 2px; background: rgba(255,255,255,0.1);
+  margin: 0 auto 2rem; border-radius: 2px;
 }
 .progress-inner {
-  position: absolute; left: 0; top: 0; height: 100%;
-  background: var(--gold); width: 33%;
-  transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  height: 100%; background: var(--gold); width: 33%;
+  transition: width 0.3s ease; /* 进度条动画 */
 }
 
 h2 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem;
-  font-weight: 300;
-  margin-bottom: 2rem;
-  color: #fff;
-  line-height: 1.2;
+  font-size: 2rem; font-weight: 300; margin-bottom: 1.5rem; color: #fff;
 }
 
-.step { display: none; opacity: 0; transform: translateY(15px); transition: 0.4s ease; }
-.step.active { display: block; opacity: 1; transform: translateY(0); }
+/* --- ⚡️ 极速切换逻辑 (无动画延迟) --- */
+.step { display: none; }
+.step.active { display: block; animation: fadeIn 0.3s ease-out; }
 
-/* --- ✨ 重点修改：高级选项卡片 (Step 2) --- */
-.selection-group {
-  margin-bottom: 2.5rem;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem; /* 增加卡片间距 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* 选项样式 */
+.selection-group { display: flex; flex-direction: column; gap: 1rem; text-align: left; margin-bottom: 2rem; }
 .option-card {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 1.4rem 1.5rem; /* 宽敞的点击区域 */
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  font-size: 1.05rem;
-  color: #bbb;
-  border-radius: 8px; /* 圆角柔和 */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.2rem; cursor: pointer; border-radius: 6px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: border 0.2s; /* 仅保留边框变色动画，防止卡顿 */
 }
-
-/* 鼠标悬停 */
-.option-card:hover {
-  border-color: rgba(212, 175, 55, 0.3);
-  background: rgba(255,255,255,0.04);
-  transform: translateX(4px); /* 微微动效 */
-}
-
-/* 选中状态 (黑金发光) */
 .option-card.active {
-  border-color: var(--gold);
-  background: linear-gradient(90deg, rgba(212, 175, 55, 0.08) 0%, rgba(0,0,0,0) 100%);
-  color: #fff;
-  box-shadow: inset 3px 0 0 var(--gold); /* 左侧金线指示器 */
+  border-color: var(--gold); background: rgba(212, 175, 55, 0.05);
 }
+.option-card::after { content: '→'; color: #444; font-size: 1.2rem; }
+.option-card.active::after { content: '✓'; color: var(--gold); }
 
-/* 右侧箭头图标 */
-.option-card::after {
-  content: '→'; 
-  font-family: monospace;
-  font-size: 1.2rem;
-  color: #444;
-  transition: 0.3s;
-}
-.option-card.active::after {
-  content: '✓';
-  color: var(--gold);
-  transform: scale(1.1);
-}
-
-/* --- 套餐卡片 (Step 1) --- */
+/* 套餐样式 */
 .plan-selector { display: grid; gap: 1rem; margin-bottom: 2rem; }
 .plan-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 1.5rem;
-  cursor: pointer;
-  text-align: left;
-  position: relative;
-  transition: 0.2s;
-  border-radius: 8px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+  padding: 1.2rem; cursor: pointer; text-align: left; position: relative; border-radius: 6px;
 }
-.plan-card:hover { background: rgba(255,255,255,0.05); }
 .plan-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
-.plan-card strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem; }
-.plan-card .price { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
-.plan-card .desc { font-size: 0.85rem; color: var(--dim); line-height: 1.4; padding-right: 3rem; }
+.plan-card strong { display: block; color: #fff; margin-bottom: 0.2rem; }
+.plan-card .price { position: absolute; top: 1.2rem; right: 1.2rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;}
+.plan-card .desc { font-size: 0.8rem; color: #888; padding-right: 3rem; }
 
-/* --- 输入框 --- */
+/* 输入框 */
 input {
-  box-sizing: border-box; width: 100%;
-  background: transparent; border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  color: #fff; padding: 1rem 0; font-size: 1.1rem;
-  margin-bottom: 2rem; font-family: 'Inter', sans-serif;
-  border-radius: 0;
+  box-sizing: border-box; width: 100%; background: transparent; border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 0.8rem 0;
+  font-size: 1rem; margin-bottom: 1.5rem; border-radius: 0;
 }
 input:focus { outline: none; border-bottom-color: var(--gold); }
 
-/* --- 按钮 --- */
+/* 按钮 */
 .btn-next {
-  width: 100%;
-  background: var(--gold); color: #000;
-  border: none; padding: 1.1rem;
-  font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
-  cursor: pointer; margin-top: 1rem;
-  font-size: 0.8rem;
-  border-radius: 4px;
-  transition: 0.3s;
+  width: 100%; background: var(--gold); color: #000; border: none; padding: 1rem;
+  font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+  border-radius: 4px; font-size: 0.8rem;
 }
-.btn-next:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
-
 .btn-back {
-  background: transparent; color: var(--dim);
-  border: none; font-size: 0.75rem; letter-spacing: 1px;
+  background: transparent; color: #666; border: none; font-size: 0.75rem;
   cursor: pointer; margin-top: 1.5rem; text-decoration: underline;
 }
 
-/* --- 支付提示框 --- */
+/* 支付提示 */
 .payment-note {
-    background: rgba(212, 175, 55, 0.05);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    border-radius: 4px;
-    text-align: left;
+  background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 0.8rem; margin-bottom: 1.5rem; border-radius: 4px; text-align: left;
 }
-.payment-note p { font-size: 0.8rem; color: #ccc; margin: 0; line-height: 1.5; }
-.payment-note strong { color: var(--gold); font-weight: 500; }
+.payment-note p { font-size: 0.75rem; color: #ccc; margin: 0; }
 
-/* --- 成功状态 --- */
 #success { display: none; }
-
-/* --- 📱 移动端适配 --- */
-@media screen and (max-width: 768px) {
-  .form-wrapper { padding: 1.5rem; padding-top: 4rem; }
-  h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
-  /* 移动端字体微调 */
-  .option-card { padding: 1.2rem; font-size: 1rem; }
-}
 </style>
 </head>
 <body>
@@ -217,28 +130,22 @@ input:focus { outline: none; border-bottom-color: var(--gold); }
 
   <form id="bespokeForm">
     
-    <!-- STEP 1: Plan (含免费选项) -->
+    <!-- STEP 1 -->
     <div class="step active" id="step1">
       <h2>Select Your Tier</h2>
-      <p style="font-size: 0.85rem; color: #888; margin-top: -1.5rem; margin-bottom: 2rem;">
-        No payment required today.
-      </p>
+      <p style="font-size: 0.8rem; color: #666; margin-top: -1.2rem; margin-bottom: 2rem;">No payment required today.</p>
 
       <div class="plan-selector">
-        <!-- 免费选项 -->
         <div class="plan-card" onclick="selectPlan('Introductory Call', 'Free', this)">
           <strong>Introductory Call</strong>
           <div class="price">Free</div>
           <p class="desc">15-min chat to explore compatibility.</p>
         </div>
-
-        <!-- 付费选项 (默认) -->
         <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
           <strong>Discovery Session</strong>
           <div class="price">$49</div>
           <p class="desc">One-time 60min clarity call.</p>
         </div>
-        
         <div class="plan-card" onclick="selectPlan('Monthly Membership', '599', this)">
           <strong>Private Membership</strong>
           <div class="price">$599</div>
@@ -248,70 +155,54 @@ input:focus { outline: none; border-bottom-color: var(--gold); }
 
       <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
       <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
-      <p style="font-size:0.65rem; color:#444; margin-top:2rem;">Confidential Application.</p>
     </div>
 
-    <!-- STEP 2: Needs (✨ 极简三选一 ✨) -->
+    <!-- STEP 2 -->
     <div class="step" id="step2">
       <h2>Service Focus</h2>
-      <p style="font-size: 0.9rem; color: #888; margin-bottom: 2rem;">Choose your primary area of focus.</p>
+      <p style="font-size: 0.9rem; color: #888; margin-bottom: 2rem;">Select your primary need.</p>
       
       <input type="hidden" name="support_type" id="support_type">
-      <!-- 删除了 current_situation 字段 -->
 
       <div class="selection-group">
-        
-        <!-- 1. 心理咨询 -->
         <div class="option-card" onclick="selectOption('support_type', 'Psychological Counseling', this)">
           <div>
             <span style="display:block; color:#fff; font-weight:500;">Psychological Counseling</span>
-            <span style="display:block; font-size:0.75rem; color:#666; margin-top:4px;">Stress, Burnout & Clarity</span>
+            <span style="display:block; font-size:0.75rem; color:#666;">Stress, Burnout & Clarity</span>
           </div>
         </div>
-
-        <!-- 2. 情感陪聊 -->
         <div class="option-card" onclick="selectOption('support_type', 'Emotional Companionship', this)">
           <div>
             <span style="display:block; color:#fff; font-weight:500;">Emotional Companionship</span>
-            <span style="display:block; font-size:0.75rem; color:#666; margin-top:4px;">Private, Non-judgmental Support</span>
+            <span style="display:block; font-size:0.75rem; color:#666;">Non-judgmental Support</span>
           </div>
         </div>
-
-        <!-- 3. 学习中文 (HSK 8) -->
         <div class="option-card" onclick="selectOption('support_type', 'Chinese Learning (HSK 8)', this)">
           <div>
             <span style="display:block; color:var(--gold); font-weight:500;">Chinese Learning (HSK 8)</span>
-            <span style="display:block; font-size:0.75rem; color:#666; margin-top:4px;">Elite Cultural & Language Mastery</span>
+            <span style="display:block; font-size:0.75rem; color:#666;">Elite Cultural Mastery</span>
           </div>
         </div>
-
       </div>
 
       <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
       <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
     </div>
 
-    <!-- STEP 3: Info & Submit -->
+    <!-- STEP 3 (法律勾选框已移除) -->
     <div class="step" id="step3">
       <h2>Contact Details</h2>
       
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="text" name="phone" placeholder="Phone (Optional)">
-      
       <input type="hidden" name="referrer" id="referrerField">
 
       <div class="payment-note">
-        <p><strong>Note:</strong> This is a registration form only. <br>
-        <span style="color:#fff;">No payment is processed now.</span> <br>
-        Services and payment will be arranged via Email/WhatsApp.</p>
+        <p><strong>Note:</strong> No payment is processed now. We will contact you via Email/WhatsApp to confirm details.</p>
       </div>
 
-      <p style="font-size:0.7rem; color:#444; margin-bottom: 2rem; text-align: left;">
-        <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Data is encrypted.
-      </p>
-
-      <button type="submit" class="btn-next" id="submitBtn">Submit Request (No Payment Due)</button>
+      <button type="submit" class="btn-next" id="submitBtn">Submit Request</button>
       <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
     </div>
 
@@ -319,31 +210,19 @@ input:focus { outline: none; border-bottom-color: var(--gold); }
 
   <div id="success">
     <h2 style="color:var(--gold);">Received</h2>
-    <p style="color:var(--dim); line-height:1.6;">
-      Thank you.<br>We will reach out via Email/WhatsApp shortly.
-    </p>
+    <p style="color:var(--dim);">We will be in touch shortly.</p>
     <a href="index.html" class="btn-back" style="display:block; margin-top:3rem; text-decoration:none;">Return Home</a>
   </div>
 
 </div>
 
 <script>
-// --- Core Logic ---
-
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
-  let refCode = urlParams.get('ref');
+  let refCode = urlParams.get('ref') || sessionStorage.getItem('affiliate_ref');
   if (refCode) {
     sessionStorage.setItem('affiliate_ref', refCode);
-  } else {
-    refCode = sessionStorage.getItem('affiliate_ref');
-  }
-  if (refCode) {
-    const refInput = document.getElementById('referrerField');
-    if (refInput) {
-      refInput.value = refCode;
-      console.log("✅ Tracking Code Applied:", refCode);
-    }
+    if(document.getElementById('referrerField')) document.getElementById('referrerField').value = refCode;
   }
 });
 
@@ -361,25 +240,18 @@ function selectOption(fieldId, value, el) {
   document.getElementById(fieldId).value = value;
 }
 
+// ⚡️ 极速切换逻辑 ⚡️
 function nextStep(step) {
-  // ✨ 验证逻辑已简化：只检查 Step 2 的 support_type
-  if (step === 3) {
-    const v1 = document.getElementById('support_type').value;
-    if (!v1) {
-      alert("Please select your primary focus.");
-      return;
-    }
+  if (step === 3 && !document.getElementById('support_type').value) {
+    alert("Please select your primary focus.");
+    return;
   }
 
-  document.querySelectorAll('.step').forEach(s => {
-    s.classList.remove('active');
-    setTimeout(() => { if(!s.classList.contains('active')) s.style.display='none'; }, 400);
-  });
-  
-  const nextEl = document.getElementById('step' + step);
-  nextEl.style.display = 'block';
-  setTimeout(() => { nextEl.classList.add('active'); }, 10);
+  // 直接隐藏所有步骤，显示目标步骤，无延时
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
 
+  // 更新进度条
   const progressMap = {1: 33, 2: 66, 3: 100};
   document.getElementById('progress').style.width = progressMap[step] + '%';
   
@@ -387,16 +259,15 @@ function nextStep(step) {
 }
 
 const form = document.getElementById('bespokeForm');
-const submitBtn = document.getElementById('submitBtn');
-
 form.onsubmit = async (e) => {
   e.preventDefault();
-  submitBtn.innerText = "Processing...";
-  submitBtn.disabled = true;
+  const btn = document.getElementById('submitBtn');
+  btn.innerText = "Processing...";
+  btn.disabled = true;
 
   const formData = new FormData(form);
   const data = Object.fromEntries(formData);
-  const payload = { ...data, submittedAt: new Date().toISOString(), source: 'web_form_v2' };
+  const payload = { ...data, submittedAt: new Date().toISOString() };
 
   try {
     const res = await fetch('/api/submit-form', {
@@ -404,22 +275,17 @@ form.onsubmit = async (e) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-
-    const result = await res.json();
-    
-    if (res.ok && result.success) {
+    if (res.ok) {
       form.style.display = 'none';
       document.querySelector('.progress-bar').style.display = 'none';
-      const successEl = document.getElementById('success');
-      successEl.style.display = 'block';
+      document.getElementById('success').style.display = 'block';
     } else {
-      alert('Error: ' + (result.msg || 'Submission failed'));
-      submitBtn.innerText = "Submit Request";
-      submitBtn.disabled = false;
+      alert('Submission failed. Please try again.');
+      btn.innerText = "Submit Request";
+      btn.disabled = false;
     }
   } catch(err) {
-    // 模拟成功 (演示用)
-    console.log("Network error (Simulated Success)");
+    console.log("Network error (Simulated)");
     form.style.display = 'none';
     document.querySelector('.progress-bar').style.display = 'none';
     document.getElementById('success').style.display = 'block';
