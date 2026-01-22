@@ -1,4 +1,4 @@
-// server.js (v3.1 - Update: Referrer Field Added & Syntax Fixed)
+// server.js (v4.0 - Final Complete Version)
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -23,14 +23,15 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const YOUR_RECEIVE_EMAIL = process.env.RECEIVE_EMAIL;
-const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev'; // 优先用您自己的域名邮箱
+// 如果没有配置发件人邮箱，默认使用 Resend 的测试邮箱，但建议在 .env 配置 SENDER_EMAIL
+const SENDER_EMAIL = process.env.SENDER_EMAIL || 'onboarding@resend.dev'; 
 
 // --- 3. 中间件 ---
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('./')); // 托管当前目录下的静态文件 (index.html, form.html)
 
-// --- 4. AI 分析接口 ---
+// --- 4. AI 分析接口 (用于 Stress Test) ---
 app.post('/api/analyze', async (req, res) => {
     const { text } = req.body;
     if (!text) {
@@ -60,33 +61,43 @@ app.post('/api/analyze', async (req, res) => {
     }
 });
 
-// --- 5. 表单提交接口 (已更新，支持 referrer) ---
+// --- 5. 表单提交接口 (含智能标题 & 邀请码支持) ---
 app.post('/api/submit-form', async (req, res) => {
   try {
-    // ★★★ 在这里从 req.body 中解构出 referrer 字段 ★★★
+    // 解构前端传来的数据
     const { name, email, phone, referrer, selected_plan, support_type, current_situation } = req.body;
     
+    // 简单校验
     if (!name || !email || !selected_plan) {
       return res.status(400).json({ success: false, msg: 'Client info missing' });
     }
 
-    console.log(`✅ 收到新表单: ${name} | ${email}`);
+    console.log(`✅ 收到提交: ${name} | ${selected_plan}`);
 
-    // 为了稳定，我们只发邮件给您，不再尝试给客户发自动回复
+    // ★★★ 智能标题逻辑 ★★★
+    // 自动判断是 "免费咨询" 还是 "付费意向"
+    let emailSubject = `💰 新订单: ${name}`;
+    if (selected_plan && selected_plan.includes('Free')) {
+        emailSubject = `🆓 免费咨询申请: ${name}`;
+    }
+
+    // 发送邮件给你自己
     await resend.emails.send({
       from: `Private Counsel Admin <${SENDER_EMAIL}>`,
       to: YOUR_RECEIVE_EMAIL,
-      subject: `💰 新订单: ${name}`,
+      subject: emailSubject,
       html: `
-        <h1>新客户申请</h1>
+        <h1>新客户申请详情</h1>
         <p><strong>姓名:</strong> ${name}</p>
         <p><strong>邮箱:</strong> <a href="mailto:${email}">${email}</a></p>
         <p><strong>电话:</strong> ${phone || '未填写'}</p>
         <p><strong>介绍人/邀请码:</strong> <span style="color: #D4AF37; font-weight: bold;">${referrer || '无'}</span></p>
         <hr>
-        <p><strong>套餐:</strong> ${selected_plan}</p>
+        <p><strong>已选套餐:</strong> <span style="font-size:1.1em; font-weight:bold;">${selected_plan}</span></p>
         <p><strong>核心诉求:</strong> ${support_type}</p>
         <p><strong>当前现状:</strong> ${current_situation}</p>
+        <br>
+        <p style="color:#888; font-size:0.8em;">来自 Private Counsel 官网表单 (v4.0)</p>
       `
     });
 
