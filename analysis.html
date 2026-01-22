@@ -4,13 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Your AI Analysis | Private Counsel</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+
 <style>
 :root { --gold: #D4AF37; --bg: #050505; --text: #F0F0F0; --dim: #999; }
+
 body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; box-sizing: border-box; }
+
 .container { max-width: 700px; width: 100%; text-align: center; }
+
 h1, h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; }
 h1 { font-size: 2.2rem; margin-bottom: 1rem; color: var(--gold); }
 h2 { font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; }
@@ -25,6 +30,7 @@ h2 { font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; }
 
 /* 2. 结果展示：专业报告风格 */
 #result { display: none; text-align: left; background: #0A0A0A; border: 1px solid #222; padding: 2.5rem; line-height: 1.8; font-size: 1rem; color: #ccc; border-radius: 4px; }
+
 #analysis-content strong { color: var(--gold); font-weight: 600; }
 #analysis-content ul { padding-left: 20px; margin-top: 0.5rem; }
 #analysis-content li { margin-bottom: 0.5rem; }
@@ -32,6 +38,15 @@ h2 { font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; }
 /* 3. 转化按钮 */
 .btn-primary { display: inline-block; margin-top: 1rem; background: var(--gold); color: #000; padding: 1.1rem 3rem; text-decoration: none; font-weight: 600; font-size: 1rem; letter-spacing: 1px; transition: 0.3s; border-radius: 4px; }
 .btn-primary:hover { background: #fff; color: #000; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); }
+
+/* 模糊层效果 (暗示还有更多) */
+.blurred-preview {
+    background: linear-gradient(180deg, rgba(10,10,10,0) 0%, #0A0A0A 100%);
+    height: 100px;
+    margin-top: -80px;
+    position: relative;
+    z-index: 10;
+}
 
 @media screen and (max-width: 768px) {
   h1 { font-size: 1.8rem; }
@@ -50,13 +65,17 @@ h2 { font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; }
 
     <!-- 结果状态 -->
     <div id="result">
-        <h1>Your Confidential Report</h1>
+        <h1 style="text-align:center;">Your Confidential Brief</h1>
         <div id="analysis-content"></div>
         
-        <h2>AI provides data. Humans provide clarity.</h2>
-        <p style="color:var(--dim); text-align: center;">If this analysis resonates, consider a deeper conversation. Your first step towards clarity is just one click away.</p>
-        <div style="text-align: center;">
-          <a href="form.html" class="btn-primary">Book a $49 Discovery Session</a>
+        <!-- 增加一个视觉上的模糊结尾，引导用户 -->
+        <div style="margin-top: 2rem; border-top: 1px solid #333; padding-top: 1.5rem; text-align: center;">
+            <p style="color:var(--gold); font-style:italic; margin-bottom: 0.5rem;">"AI identifies patterns. Humans build solutions."</p>
+            <p style="color:var(--dim); font-size: 0.9rem; margin-bottom: 2rem;">
+                This analysis is just the surface. To unlock your personalized recovery roadmap (including HSK 8 options if applicable), book a complimentary strategy call.
+            </p>
+            <!-- ✨ Changed CTA to FREE Consult ✨ -->
+            <a href="form.html" class="btn-primary">Book Free Consultation</a>
         </div>
     </div>
 </div>
@@ -87,23 +106,31 @@ window.onload = async function() {
         }
 
         const data = await response.json();
-
-        // 将AI返回的Markdown格式文本转换为HTML
+        
+        // --- 修复后的 Markdown 解析逻辑 ---
         let html = data.analysis;
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // **Bold** -> <strong>Bold</strong>
-        html = html.replace(/\* (.*?)(?=\n\*|\n\n|$)/g, '<li>$1</li>'); // * Item -> <li>Item</li>
-        html = html.replace(/<\/li><li>/g, '</li><li>'); // Fix lists
-        html = html.replace(/<li>/g, '<ul><li>'); // Start lists
-        html = html.replace(/<\/li>(?!<li>)/g, '</li></ul>'); // End lists
+        
+        // 1. Bold: **text** -> <strong>text</strong>
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); 
+        
+        // 2. Newlines to <br> (处理换行)
         html = html.replace(/\n/g, '<br>');
 
+        // 3. Lists: * item -> <li>item</li> (简单处理)
+        // 注意：简单的替换可能无法完美处理嵌套列表，但对于GPT的标准输出通常足够
+        html = html.replace(/<br>\* (.*?)(?=<br>|$)/g, '<ul><li>$1</li></ul>');
+        
+        // 清理一下多余的 ul 标签合并 (可选优化，这里保持简单防止出错)
+        html = html.replace(/<\/ul><br><ul>/g, ''); 
+
         contentDiv.innerHTML = html;
+
         loader.style.display = 'none';
         resultDiv.style.display = 'block';
 
     } catch (error) {
         console.error('Analysis failed:', error);
-        contentDiv.innerHTML = `<p>Sorry, the AI engine is currently overloaded. Please try again in a few moments.</p><p style="color:#666; font-size:0.8rem;"><i>Error: ${error.message}</i></p>`;
+        contentDiv.innerHTML = `<p style="text-align:center; color:#d4af37;">Connection Interrupted</p><p style="text-align:center; color:#666; font-size:0.9rem;">The AI engine is currently at capacity. Please try again or skip directly to booking.</p>`;
         loader.style.display = 'none';
         resultDiv.style.display = 'block';
     }
