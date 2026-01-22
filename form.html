@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Application | Private Counsel</title>
 
-<!-- Google Fonts -->
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+/* --- 核心变量 --- */
 :root {
   --gold: #D4AF37;
   --bg: #030303;
@@ -19,6 +20,7 @@
   --dim: #888;
 }
 
+/* --- 基础设置 --- */
 body {
   font-family: 'Inter', sans-serif;
   background: var(--bg);
@@ -31,7 +33,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Background */
+/* 动态背景光晕 */
 .bg-glow {
   position: fixed; inset: 0;
   background: 
@@ -52,7 +54,7 @@ body {
   padding-bottom: 5rem;
 }
 
-/* Progress Bar */
+/* 进度条 */
 .progress-bar {
   width: 120px;
   height: 2px;
@@ -61,7 +63,6 @@ body {
   position: relative;
   border-radius: 2px;
 }
-
 .progress-inner {
   position: absolute; left: 0; top: 0; height: 100%;
   background: var(--gold); width: 33%;
@@ -81,53 +82,62 @@ h2 {
 .step { display: none; opacity: 0; transform: translateY(15px); transition: 0.4s ease; }
 .step.active { display: block; opacity: 1; transform: translateY(0); }
 
-/* --- Selection Cards --- */
+/* --- ✨ 重点修改：高级选项卡片 (Step 2) --- */
 .selection-group {
   margin-bottom: 2.5rem;
   text-align: left;
-}
-
-.group-label {
-  font-size: 0.85rem;
-  color: var(--gold);
-  margin-bottom: 1rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem; /* 增加卡片间距 */
 }
 
 .option-card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 1rem 1.2rem;
-  margin-bottom: 0.8rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.4rem 1.5rem; /* 宽敞的点击区域 */
   cursor: pointer;
-  transition: 0.2s;
-  font-size: 0.95rem;
-  color: #ccc;
-  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-size: 1.05rem;
+  color: #bbb;
+  border-radius: 8px; /* 圆角柔和 */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  overflow: hidden;
 }
 
-.option-card:hover { border-color: rgba(212, 175, 55, 0.3); }
+/* 鼠标悬停 */
+.option-card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(255,255,255,0.04);
+  transform: translateX(4px); /* 微微动效 */
+}
 
+/* 选中状态 (黑金发光) */
 .option-card.active {
   border-color: var(--gold);
-  background: rgba(212, 175, 55, 0.08);
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.08) 0%, rgba(0,0,0,0) 100%);
   color: #fff;
+  box-shadow: inset 3px 0 0 var(--gold); /* 左侧金线指示器 */
 }
 
+/* 右侧箭头图标 */
+.option-card::after {
+  content: '→'; 
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: #444;
+  transition: 0.3s;
+}
 .option-card.active::after {
   content: '✓';
   color: var(--gold);
-  font-weight: bold;
+  transform: scale(1.1);
 }
 
-/* Plan Cards (Step 1) */
+/* --- 套餐卡片 (Step 1) --- */
 .plan-selector { display: grid; gap: 1rem; margin-bottom: 2rem; }
-
 .plan-card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.1);
@@ -136,14 +146,15 @@ h2 {
   text-align: left;
   position: relative;
   transition: 0.2s;
+  border-radius: 8px;
 }
-
+.plan-card:hover { background: rgba(255,255,255,0.05); }
 .plan-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
 .plan-card strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem; }
 .plan-card .price { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
 .plan-card .desc { font-size: 0.85rem; color: var(--dim); line-height: 1.4; padding-right: 3rem; }
 
-/* Input Fields */
+/* --- 输入框 --- */
 input {
   box-sizing: border-box; width: 100%;
   background: transparent; border: none;
@@ -153,9 +164,8 @@ input {
   border-radius: 0;
 }
 input:focus { outline: none; border-bottom-color: var(--gold); }
-input::placeholder { color: #555; }
 
-/* Buttons */
+/* --- 按钮 --- */
 .btn-next {
   width: 100%;
   background: var(--gold); color: #000;
@@ -163,7 +173,10 @@ input::placeholder { color: #555; }
   font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
   cursor: pointer; margin-top: 1rem;
   font-size: 0.8rem;
+  border-radius: 4px;
+  transition: 0.3s;
 }
+.btn-next:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
 
 .btn-back {
   background: transparent; color: var(--dim);
@@ -171,7 +184,7 @@ input::placeholder { color: #555; }
   cursor: pointer; margin-top: 1.5rem; text-decoration: underline;
 }
 
-/* Payment Note Styling */
+/* --- 支付提示框 --- */
 .payment-note {
     background: rgba(212, 175, 55, 0.05);
     border: 1px solid rgba(212, 175, 55, 0.2);
@@ -180,24 +193,18 @@ input::placeholder { color: #555; }
     border-radius: 4px;
     text-align: left;
 }
-.payment-note p {
-    font-size: 0.8rem;
-    color: #ccc;
-    margin: 0;
-    line-height: 1.5;
-}
-.payment-note strong {
-    color: var(--gold);
-    font-weight: 500;
-}
+.payment-note p { font-size: 0.8rem; color: #ccc; margin: 0; line-height: 1.5; }
+.payment-note strong { color: var(--gold); font-weight: 500; }
 
-/* Success */
+/* --- 成功状态 --- */
 #success { display: none; }
 
+/* --- 📱 移动端适配 --- */
 @media screen and (max-width: 768px) {
   .form-wrapper { padding: 1.5rem; padding-top: 4rem; }
   h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
-  .option-card { padding: 1.2rem 1rem; font-size: 0.9rem; }
+  /* 移动端字体微调 */
+  .option-card { padding: 1.2rem; font-size: 1rem; }
 }
 </style>
 </head>
@@ -210,7 +217,7 @@ input::placeholder { color: #555; }
 
   <form id="bespokeForm">
     
-    <!-- STEP 1: Plan -->
+    <!-- STEP 1: Plan (含免费选项) -->
     <div class="step active" id="step1">
       <h2>Select Your Tier</h2>
       <p style="font-size: 0.85rem; color: #888; margin-top: -1.5rem; margin-bottom: 2rem;">
@@ -218,22 +225,20 @@ input::placeholder { color: #555; }
       </p>
 
       <div class="plan-selector">
-        
-        <!-- ✨ 1. New Free Option ✨ -->
+        <!-- 免费选项 -->
         <div class="plan-card" onclick="selectPlan('Introductory Call', 'Free', this)">
           <strong>Introductory Call</strong>
           <div class="price">Free</div>
           <p class="desc">15-min chat to explore compatibility.</p>
         </div>
 
-        <!-- 2. Standard Option (Default Active) -->
+        <!-- 付费选项 (默认) -->
         <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
           <strong>Discovery Session</strong>
           <div class="price">$49</div>
           <p class="desc">One-time 60min clarity call.</p>
         </div>
         
-        <!-- 3. Premium Option -->
         <div class="plan-card" onclick="selectPlan('Monthly Membership', '599', this)">
           <strong>Private Membership</strong>
           <div class="price">$599</div>
@@ -246,36 +251,47 @@ input::placeholder { color: #555; }
       <p style="font-size:0.65rem; color:#444; margin-top:2rem;">Confidential Application.</p>
     </div>
 
-    <!-- STEP 2: Needs -->
+    <!-- STEP 2: Needs (✨ 极简三选一 ✨) -->
     <div class="step" id="step2">
-      <h2>Your Needs</h2>
+      <h2>Service Focus</h2>
+      <p style="font-size: 0.9rem; color: #888; margin-bottom: 2rem;">Choose your primary area of focus.</p>
       
       <input type="hidden" name="support_type" id="support_type">
-      <input type="hidden" name="current_situation" id="current_situation">
+      <!-- 删除了 current_situation 字段 -->
 
       <div class="selection-group">
-        <span class="group-label">Primary Focus</span>
-        <div class="option-card" onclick="selectOption('support_type', 'Navigating Stress', this)">Navigating High-Pressure Stress</div>
-        <div class="option-card" onclick="selectOption('support_type', 'Career Clarity', this)">Career & Leadership Clarity</div>
-        <div class="option-card" onclick="selectOption('support_type', 'Relationships', this)">Relationship Dynamics</div>
-        <!-- HSK 8 Option -->
-        <div class="option-card" onclick="selectOption('support_type', 'Chinese Learning (HSK 8)', this)">Chinese Learning (HSK 8)</div>
-        <div class="option-card" onclick="selectOption('support_type', 'Just Talking', this)">Just need a private space to talk</div>
-      </div>
+        
+        <!-- 1. 心理咨询 -->
+        <div class="option-card" onclick="selectOption('support_type', 'Psychological Counseling', this)">
+          <div>
+            <span style="display:block; color:#fff; font-weight:500;">Psychological Counseling</span>
+            <span style="display:block; font-size:0.75rem; color:#666; margin-top:4px;">Stress, Burnout & Clarity</span>
+          </div>
+        </div>
 
-      <div class="selection-group">
-        <span class="group-label">Current State</span>
-        <div class="option-card" onclick="selectOption('current_situation', 'Overwhelmed', this)">Overwhelmed / Burnout nearby</div>
-        <div class="option-card" onclick="selectOption('current_situation', 'Isolated', this)">Feeling isolated at the top</div>
-        <div class="option-card" onclick="selectOption('current_situation', 'Stuck', this)">Stuck / Needing a breakthrough</div>
-        <div class="option-card" onclick="selectOption('current_situation', 'Curious', this)">Curious about the service</div>
+        <!-- 2. 情感陪聊 -->
+        <div class="option-card" onclick="selectOption('support_type', 'Emotional Companionship', this)">
+          <div>
+            <span style="display:block; color:#fff; font-weight:500;">Emotional Companionship</span>
+            <span style="display:block; font-size:0.75rem; color:#666; margin-top:4px;">Private, Non-judgmental Support</span>
+          </div>
+        </div>
+
+        <!-- 3. 学习中文 (HSK 8) -->
+        <div class="option-card" onclick="selectOption('support_type', 'Chinese Learning (HSK 8)', this)">
+          <div>
+            <span style="display:block; color:var(--gold); font-weight:500;">Chinese Learning (HSK 8)</span>
+            <span style="display:block; font-size:0.75rem; color:#666; margin-top:4px;">Elite Cultural & Language Mastery</span>
+          </div>
+        </div>
+
       </div>
 
       <button type="button" class="btn-next" onclick="nextStep(3)">Continue</button>
       <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
     </div>
 
-    <!-- STEP 3: Info & Payment Reassurance -->
+    <!-- STEP 3: Info & Submit -->
     <div class="step" id="step3">
       <h2>Contact Details</h2>
       
@@ -288,7 +304,7 @@ input::placeholder { color: #555; }
       <div class="payment-note">
         <p><strong>Note:</strong> This is a registration form only. <br>
         <span style="color:#fff;">No payment is processed now.</span> <br>
-        Specific services and payment will be arranged via Email or WhatsApp after we review your application.</p>
+        Services and payment will be arranged via Email/WhatsApp.</p>
       </div>
 
       <p style="font-size:0.7rem; color:#444; margin-bottom: 2rem; text-align: left;">
@@ -304,7 +320,7 @@ input::placeholder { color: #555; }
   <div id="success">
     <h2 style="color:var(--gold);">Received</h2>
     <p style="color:var(--dim); line-height:1.6;">
-      Thank you.<br>We will reach out via Email/WhatsApp shortly to finalize details.
+      Thank you.<br>We will reach out via Email/WhatsApp shortly.
     </p>
     <a href="index.html" class="btn-back" style="display:block; margin-top:3rem; text-decoration:none;">Return Home</a>
   </div>
@@ -334,7 +350,6 @@ window.addEventListener('DOMContentLoaded', () => {
 function selectPlan(name, price, el) {
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  // 如果价格是数字，加上 $ 符号；如果是 "Free"，直接显示
   let priceDisplay = (price === 'Free') ? 'Free' : '$' + price;
   document.getElementById('selected_plan').value = name + ' (' + priceDisplay + ')';
 }
@@ -342,17 +357,16 @@ function selectPlan(name, price, el) {
 function selectOption(fieldId, value, el) {
   const group = el.parentElement;
   group.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
-  
   el.classList.add('active');
   document.getElementById(fieldId).value = value;
 }
 
 function nextStep(step) {
+  // ✨ 验证逻辑已简化：只检查 Step 2 的 support_type
   if (step === 3) {
     const v1 = document.getElementById('support_type').value;
-    const v2 = document.getElementById('current_situation').value;
-    if (!v1 || !v2) {
-      alert("Please select an option for both questions.");
+    if (!v1) {
+      alert("Please select your primary focus.");
       return;
     }
   }
@@ -404,7 +418,8 @@ form.onsubmit = async (e) => {
       submitBtn.disabled = false;
     }
   } catch(err) {
-    console.log("Network error (Simulated Success for Demo)");
+    // 模拟成功 (演示用)
+    console.log("Network error (Simulated Success)");
     form.style.display = 'none';
     document.querySelector('.progress-bar').style.display = 'none';
     document.getElementById('success').style.display = 'block';
