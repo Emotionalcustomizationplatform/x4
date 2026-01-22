@@ -213,19 +213,28 @@ input::placeholder { color: #555; }
     <!-- STEP 1: Plan -->
     <div class="step active" id="step1">
       <h2>Select Your Tier</h2>
-      <!-- ✨ Added reassurance here -->
       <p style="font-size: 0.85rem; color: #888; margin-top: -1.5rem; margin-bottom: 2rem;">
         No payment required today.
       </p>
 
       <div class="plan-selector">
+        
+        <!-- ✨ 1. New Free Option ✨ -->
+        <div class="plan-card" onclick="selectPlan('Introductory Call', 'Free', this)">
+          <strong>Introductory Call</strong>
+          <div class="price">Free</div>
+          <p class="desc">15-min chat to explore compatibility.</p>
+        </div>
+
+        <!-- 2. Standard Option (Default Active) -->
         <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
           <strong>Discovery Session</strong>
           <div class="price">$49</div>
           <p class="desc">One-time 60min clarity call.</p>
         </div>
         
-        <div class="plan-card" onclick="selectPlan('Monthly Membership', '249', this)">
+        <!-- 3. Premium Option -->
+        <div class="plan-card" onclick="selectPlan('Monthly Membership', '599', this)">
           <strong>Private Membership</strong>
           <div class="price">$599</div>
           <p class="desc">Weekly sessions + Priority support.</p>
@@ -276,7 +285,6 @@ input::placeholder { color: #555; }
       
       <input type="hidden" name="referrer" id="referrerField">
 
-      <!-- ✨ Vital Reassurance Block ✨ -->
       <div class="payment-note">
         <p><strong>Note:</strong> This is a registration form only. <br>
         <span style="color:#fff;">No payment is processed now.</span> <br>
@@ -287,7 +295,6 @@ input::placeholder { color: #555; }
         <span style="color:var(--gold);">✦ Zero-Record Policy:</span> Data is encrypted.
       </p>
 
-      <!-- ✨ Changed Button Text ✨ -->
       <button type="submit" class="btn-next" id="submitBtn">Submit Request (No Payment Due)</button>
       <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
     </div>
@@ -327,7 +334,9 @@ window.addEventListener('DOMContentLoaded', () => {
 function selectPlan(name, price, el) {
   document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('selected_plan').value = name + ' ($' + price + ')';
+  // 如果价格是数字，加上 $ 符号；如果是 "Free"，直接显示
+  let priceDisplay = (price === 'Free') ? 'Free' : '$' + price;
+  document.getElementById('selected_plan').value = name + ' (' + priceDisplay + ')';
 }
 
 function selectOption(fieldId, value, el) {
