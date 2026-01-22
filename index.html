@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Private Counsel | Elite Executive Support</title>
 
-<!-- SEO & Meta -->
-<meta name="description" content="Confidential emotional support and strategic clarity for founders and executives. Strictly non-clinical. Zero records.">
-<meta property="og:title" content="Private Counsel | Elite Executive Support">
-<meta property="og:image" content="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?q=80&w=1200&auto=format&fit=crop">
+<meta name="description" content="Confidential emotional support and strategic clarity for founders and executives. Strictly non-clinical.">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,12 +13,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
-/* --- 核心变量 (黑金主题) --- */
+/* --- 顶级质感变量 --- */
 :root {
   --gold: #D4AF37;
-  --gold-glow: rgba(212, 175, 55, 0.4);
-  --bg: #050505;
-  --card-bg: rgba(255, 255, 255, 0.02);
+  --bg: #030303;
+  --glass: rgba(255, 255, 255, 0.02);
+  --border: rgba(255, 255, 255, 0.06);
   --text: #F0F0F0;
   --dim: #888;
 }
@@ -42,29 +39,42 @@ h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
 a { color: inherit; text-decoration: none; transition: 0.3s; }
 * { box-sizing: border-box; }
 
-/* --- 导航栏 --- */
-nav { 
-  position: fixed; top: 0; width: 100%; 
-  padding: 1.2rem 6%; 
-  display: flex; justify-content: space-between; align-items: center; 
-  background: rgba(5, 5, 5, 0.85); 
-  backdrop-filter: blur(20px); 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-  z-index: 1000; transition: 0.3s; 
+/* --- 创意背景：呼吸光晕 --- */
+.ambient-light {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.06) 0%, transparent 60%);
+  z-index: -1; pointer-events: none;
+  animation: breathe 10s infinite ease-in-out;
 }
-.logo { letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; color: #fff; font-weight: 500; white-space: nowrap; }
+@keyframes breathe {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+}
+
+/* --- 导航栏 (悬浮玻璃) --- */
+nav { 
+  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+  width: 90%; max-width: 1200px;
+  padding: 1rem 2rem; 
+  display: flex; justify-content: space-between; align-items: center; 
+  background: rgba(10, 10, 10, 0.7); 
+  backdrop-filter: blur(12px); 
+  border: 1px solid var(--border);
+  border-radius: 50px; /* 胶囊形状导航 */
+  z-index: 1000; 
+}
+.logo { letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; color: #fff; font-weight: 500; }
 .logo span { color: var(--gold); }
 
-/* --- 按钮系统 --- */
+/* --- 现代胶囊按钮 --- */
 .btn { 
-  padding: 0.9rem 2.2rem; 
-  border: 1px solid rgba(255,255,255,0.2); 
+  padding: 0.8rem 2rem; 
+  border: 1px solid rgba(255,255,255,0.15); 
   color: #fff; font-size: 0.75rem; 
-  letter-spacing: 2px; text-transform: uppercase; 
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+  letter-spacing: 1px; text-transform: uppercase; 
+  transition: all 0.3s ease; 
   background: transparent; 
-  cursor: pointer; white-space: nowrap; 
-  border-radius: 4px;
+  cursor: pointer; border-radius: 50px;
 }
 .btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.05); }
 
@@ -73,8 +83,7 @@ nav {
 }
 .btn-primary:hover { 
   background: #fff; border-color: #fff; color: #000; 
-  transform: translateY(-3px); 
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); 
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); 
 }
 
 /* --- Hero 区域 --- */
@@ -82,217 +91,216 @@ nav {
   min-height: 100vh; 
   display: flex; flex-direction: column; 
   justify-content: center; align-items: center; text-align: center; 
-  padding: 0 1.5rem; position: relative; 
-  background-image: linear-gradient(to bottom, rgba(5,5,5,0.4), rgba(5,5,5,1)), url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2000&q=90'); 
+  padding: 0 1.5rem; 
+  /* 这里的背景图只保留纹理，颜色靠 ambient-light */
+  background-image: url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2000&q=90'); 
   background-size: cover; background-position: center; 
+  background-blend-mode: overlay;
+  background-color: #050505;
 }
 .hero h1 { 
-  font-size: clamp(3rem, 8vw, 6.5rem); 
-  line-height: 1.05; margin-bottom: 1.5rem; 
+  font-size: clamp(3.5rem, 9vw, 7.5rem); 
+  line-height: 1; margin-bottom: 1.5rem; 
   font-weight: 300; color: #fff; 
-  text-shadow: 0 20px 40px rgba(0,0,0,0.8); 
-  max-width: 900px;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.8); 
+  max-width: 1000px;
 }
-.hero h1 i { font-style: italic; font-weight: 400; color: var(--gold); }
+.hero h1 i { font-style: italic; color: var(--gold); font-weight: 400; }
 .hero p { 
-  font-size: clamp(1rem, 2vw, 1.25rem); 
-  color: #ccc; margin-bottom: 3.5rem; 
+  font-size: clamp(1rem, 2vw, 1.3rem); 
+  color: #ccc; margin-bottom: 3rem; 
   max-width: 600px; font-weight: 300; 
-  text-shadow: 0 2px 10px rgba(0,0,0,0.9); 
 }
 
-/* --- AI 工具板块 --- */
+/* --- AI 终端风格 --- */
 #ai-tool { 
-  background: linear-gradient(180deg, #0a0a0a 0%, var(--bg) 100%); 
-  border-top: 1px solid rgba(255,255,255,0.05); text-align: center; 
+  position: relative; z-index: 2;
+  margin-top: -50px; /* 重叠效果 */
 }
-#ai-tool textarea { 
-  width: 100%; max-width: 600px; height: 120px; 
-  background: #0D0D0D; border: 1px solid #222; 
-  color: #ccc; padding: 1.5rem; font-size: 1rem; 
-  border-radius: 6px; box-sizing: border-box; 
-  font-family: 'Inter', sans-serif; transition: 0.3s; 
-  margin-bottom: 1.5rem; 
+.terminal-window {
+  max-width: 700px; margin: 0 auto;
+  background: rgba(10,10,10,0.9);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
-#ai-tool textarea:focus { outline: none; border-color: var(--gold); background: #111; }
+.terminal-window textarea { 
+  width: 100%; height: 100px; 
+  background: transparent; border: none; border-bottom: 1px solid #333;
+  color: #eee; font-size: 1.1rem; 
+  font-family: 'Inter', sans-serif; 
+  resize: none; margin-bottom: 2rem;
+}
+.terminal-window textarea:focus { outline: none; border-bottom-color: var(--gold); }
+.terminal-window textarea::placeholder { color: #444; }
 
-/* --- 通用布局 --- */
-.section { padding: 8rem 8%; max-width: 1200px; margin: 0 auto; }
+/* --- 创意核心: Bento Grid (特性网格) --- */
+.section { padding: 8rem 5%; max-width: 1300px; margin: 0 auto; }
 .section-header { text-align: center; margin-bottom: 4rem; }
-.section-header h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; color: #fff; font-weight: 300; }
-.section-header p { color: var(--dim); max-width: 500px; margin: 0 auto; font-size: 1rem; }
+.section-header h2 { font-size: 3rem; margin-bottom: 0.5rem; color: #fff; font-weight: 300; }
 
-/* --- 网格系统 (自适应) --- */
-.grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-  gap: 2rem; 
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3列 */
+  grid-template-rows: repeat(2, 300px); /* 2行 */
+  gap: 1.5rem;
 }
 
-/* --- 特性卡片 (Features) --- */
-.feature-card { 
-  padding: 3rem 2rem; 
-  border: 1px solid rgba(255,255,255,0.05); 
-  background: var(--card-bg); 
-  transition: 0.4s ease; 
-  border-radius: 8px;
+.bento-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden; position: relative;
 }
-.feature-card:hover { 
-  border-color: rgba(212, 175, 55, 0.3); 
-  transform: translateY(-5px); 
+.bento-card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-5px);
   background: rgba(255,255,255,0.03);
 }
-.feature-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; font-weight: 400; }
-.feature-card p { color: var(--dim); font-size: 0.95rem; line-height: 1.7; }
+
+/* 布局控制 */
+.bento-large { grid-column: span 2; } /* 占2列 */
+.bento-tall { grid-row: span 2; background: radial-gradient(circle at 100% 0%, rgba(212, 175, 55, 0.05), transparent); } /* 占2行 */
+
+.bento-icon { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
+.bento-card h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 0.5rem; font-family: 'Cormorant Garamond', serif; }
+.bento-card p { color: #888; font-size: 0.95rem; line-height: 1.6; }
 
 /* --- 价格卡片 --- */
-.pricing-grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-  gap: 2rem; align-items: start; 
+.pricing-wrapper {
+  display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
 }
-.price-card { 
-  background: #0A0A0A; 
-  border: 1px solid rgba(255,255,255,0.08); 
-  padding: 3rem 2rem; 
-  position: relative; transition: 0.4s ease; 
-  box-sizing: border-box; 
-  display: flex; flex-direction: column; 
-  border-radius: 12px; 
+.price-card {
+  flex: 1; min-width: 300px; max-width: 380px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 3rem; border-radius: 20px;
+  text-align: center;
+  transition: 0.4s;
 }
-.price-card:hover { 
-  border-color: var(--gold); 
-  transform: translateY(-8px); 
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6); 
+.price-card:hover { transform: scale(1.02); border-color: var(--gold); }
+.price-card.featured {
+  border-color: var(--gold);
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent);
 }
-.price-card.featured { 
-  border: 1px solid var(--gold); 
-  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), #0A0A0A); 
-}
-.price-tag { font-size: 3.5rem; font-family: 'Cormorant Garamond', serif; color: #fff; margin: 1rem 0; font-weight: 300; }
-.price-tag span { font-size: 1rem; font-family: 'Inter', sans-serif; color: var(--dim); margin-left: 5px; letter-spacing: 0; }
-.check-list { margin-bottom: 2.5rem; flex-grow: 1; padding: 0; list-style: none; }
-.check-list li { margin-bottom: 1rem; color: #ccc; font-size: 0.9rem; display: flex; align-items: flex-start; }
-.check-list li::before { content: "•"; color: var(--gold); margin-right: 12px; font-size: 1.2rem; line-height: 1.2; }
+.price-amount { font-size: 4rem; font-family: 'Cormorant Garamond', serif; color: #fff; font-weight: 300; }
 
-/* --- FAQ --- */
-.faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 2rem 0; }
-.faq-question { font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; font-weight: 400; font-family: 'Cormorant Garamond', serif; }
-.faq-answer { color: var(--dim); font-size: 0.95rem; max-width: 800px; line-height: 1.7; }
-
-/* --- WhatsApp 悬浮金钮 --- */
+/* --- Footer & WhatsApp --- */
+footer { padding: 6rem 5%; text-align: center; border-top: 1px solid var(--border); margin-top: 8rem; }
 .whatsapp-float {
   position: fixed; bottom: 30px; right: 30px;
   width: 60px; height: 60px;
   background: var(--gold); color: #000;
   border-radius: 50%; 
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.5); 
-  z-index: 9999; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+  box-shadow: 0 0 30px rgba(0,0,0,0.5); 
+  z-index: 9999; transition: 0.3s;
   border: 2px solid rgba(255,255,255,0.1);
 }
-.whatsapp-float:hover { 
-  transform: scale(1.1); 
-  background: #fff; 
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6); 
-}
+.whatsapp-float:hover { transform: scale(1.1); background: #fff; }
 .whatsapp-float svg { width: 30px; height: 30px; fill: currentColor; }
 
-/* --- 底部 (专业法律版) --- */
-footer { padding: 6rem 5%; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 6rem; }
-footer p { font-size: 0.8rem; color: #444; letter-spacing: 1px; }
+/* --- 移动端适配 --- */
+@media screen and (max-width: 900px) {
+  .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .bento-large, .bento-tall { grid-column: auto; grid-row: auto; min-height: 250px; }
+  nav { width: 100%; top: 0; border-radius: 0; background: rgba(5,5,5,0.95); border: none; border-bottom: 1px solid var(--border); }
+  .hero h1 { font-size: 3rem; }
+  #ai-tool { margin-top: 0; }
+  .terminal-window { padding: 1.5rem; }
+  .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+}
 
-/* --- 动画类 --- */
+/* 动画 */
 .fade-in-up { opacity: 0; transform: translateY(30px); transition: 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
 .visible { opacity: 1; transform: translateY(0); }
-
-/* --- 📱 移动端专项优化 --- */
-@media screen and (max-width: 768px) {
-  nav { padding: 1rem 5%; }
-  .hero h1 { font-size: 2.8rem; line-height: 1.1; }
-  .section { padding: 5rem 6%; }
-  .pricing-grid, .grid { gap: 1.5rem; }
-  .price-card, .feature-card { padding: 2rem 1.5rem; }
-  .whatsapp-float { bottom: 20px; right: 20px; width: 54px; height: 54px; }
-  .whatsapp-float svg { width: 26px; height: 26px; }
-  .btn { padding: 0.8rem 1.8rem; font-size: 0.7rem; }
-}
 </style>
 </head>
 <body>
 
+<!-- 呼吸光背景 -->
+<div class="ambient-light"></div>
+
 <nav>
   <div class="logo">Private<span>Counsel</span></div>
-  <a href="form.html" class="btn">Client Application</a>
+  <a href="form.html" class="btn">Start Application</a>
 </nav>
 
 <section class="hero">
   <div class="fade-in-up">
     <h1>Calm in the <i>Chaos</i>.</h1>
-    <p>
-      The private emotional & strategic sanctuary for founders and executives.
-      <br>Radically confidential. Strictly non-clinical.
-    </p>
+    <p>The elite emotional infrastructure for founders.</p>
     
-    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; align-items:center;">
-      <a href="#ai-tool" class="btn btn-primary">AI Stress Assessment</a>
-      <a href="form.html" class="btn">Book Free Consult</a>
+    <div style="display:flex; gap:1rem; justify-content:center;">
+      <a href="#ai-tool" class="btn btn-primary">Free AI Stress Test</a>
+      <a href="form.html" class="btn">Book Consult</a>
     </div>
-    
-    <p style="margin-top:1.5rem; font-size:0.7rem; letter-spacing:1px; opacity:0.6; color:#888;">
-      <span style="color:var(--gold);">✦</span> No payment required to apply
-    </p>
   </div>
 </section>
 
-<!-- AI Tool -->
+<!-- AI Terminal Section (High-tech vibe) -->
 <section class="section" id="ai-tool">
-  <div class="section-header fade-in-up">
-    <h2 style="color:var(--gold);">The Burnout Index</h2>
-    <p>Describe your current professional landscape. Our AI provides an instant, private analysis of your stress vectors.</p>
+  <div class="terminal-window fade-in-up">
+    <div style="text-align:center; margin-bottom:2rem;">
+      <h3 style="color:var(--gold); margin:0;">AI Burnout Index™</h3>
+      <p style="font-size:0.9rem; color:#666;">Confidential Neural Analysis</p>
+    </div>
+    <form id="ai-form">
+      <textarea id="stress-input" placeholder="Type your current situation here... (e.g., 'Overwhelmed by fundraising, feeling isolated...')"></textarea>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Run Analysis</button>
+    </form>
   </div>
-  <form id="ai-form" class="fade-in-up" style="transition-delay: 0.2s;">
-    <textarea id="stress-input" name="stress_input" rows="3" placeholder="I feel like I'm carrying the weight of..."></textarea>
-    <button type="submit" class="btn btn-primary">Analyze My Situation</button>
-  </form>
 </section>
 
-<!-- Features / Philosophy (UPGRADED) -->
-<section class="section" id="philosophy">
+<!-- Bento Grid Features (Creative Layout) -->
+<section class="section">
   <div class="section-header fade-in-up">
-    <h2 style="letter-spacing: 1px;">The Executive Standard</h2>
-    <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color:#888; font-style: italic;">
-      "Where elite strategy meets absolute confidentiality."
-    </p>
+    <h2>The Executive Standard</h2>
+    <p>"Where elite strategy meets absolute confidentiality."</p>
   </div>
 
-  <div class="grid">
-    <div class="feature-card fade-in-up">
-      <div style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;">✦</div>
-      <h3>Radical Confidentiality</h3>
-      <p>
-        We operate strictly outside the medical insurance system. 
-        <strong>Zero diagnoses. Zero digital footprints.</strong> 
-        Your vulnerability never becomes a liability.
-      </p>
+  <div class="bento-grid">
+    <!-- 1. 大卡片：隐私 -->
+    <div class="bento-card bento-large fade-in-up">
+      <div class="bento-icon">✦</div>
+      <div>
+        <h3>Radical Confidentiality</h3>
+        <p>Operating strictly outside the medical insurance system. Zero diagnoses. Zero digital footprints. Your vulnerability never becomes a liability.</p>
+      </div>
     </div>
 
-    <div class="feature-card fade-in-up" style="transition-delay: 0.1s;">
-      <div style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;">✦</div>
-      <h3>Intellectual Alignment</h3>
-      <p>
-        Founders don't need generic therapy; they need <strong>strategic empathy</strong>. 
-        Our partners are vetted for high EQ and business acumen to match your wavelength immediately.
-      </p>
+    <!-- 2. 竖卡片：HSK 8 (重点) -->
+    <div class="bento-card bento-tall fade-in-up" style="transition-delay: 0.1s;">
+      <div class="bento-icon">文</div>
+      <div>
+        <h3>Cultural Strategy (HSK 8)</h3>
+        <p>Language is power. We provide elite engagement partners to refine your negotiation rhetoric and cultural authority for Asian markets.</p>
+        <br>
+        <p style="color:var(--gold); font-size:0.8rem;">*Available for Private Members</p>
+      </div>
     </div>
 
-    <div class="feature-card fade-in-up" style="transition-delay: 0.2s;">
-      <div style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;">✦</div>
-      <h3>Cultural Strategy (HSK 8)</h3>
-      <p>
-        Language is power. We provide <strong>HSK Level 8</strong> engagement partners 
-        to refine your nuance, negotiation rhetoric, and cultural authority for Asian markets.
-      </p>
+    <!-- 3. 普通卡片：智力对齐 -->
+    <div class="bento-card fade-in-up" style="transition-delay: 0.2s;">
+      <div class="bento-icon">🧠</div>
+      <div>
+        <h3>Intellectual Alignment</h3>
+        <p>Founders need strategic empathy, not generic therapy. We match your wavelength immediately.</p>
+      </div>
+    </div>
+
+    <!-- 4. 普通卡片：24/7 -->
+    <div class="bento-card fade-in-up" style="transition-delay: 0.3s;">
+      <div class="bento-icon">∞</div>
+      <div>
+        <h3>Async Access</h3>
+        <p>Unlimited text support between sessions. We are your pocket boardroom advisor.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -300,112 +308,52 @@ footer p { font-size: 0.8rem; color: #444; letter-spacing: 1px; }
 <!-- Pricing -->
 <section class="section">
   <div class="section-header fade-in-up">
-    <h2>Engagement Tiers</h2>
-    <p>Flexible options tailored to your schedule.</p>
+    <h2>Membership</h2>
   </div>
   
-  <div class="pricing-grid">
-    <!-- FREE TIER -->
+  <div class="pricing-wrapper">
+    <!-- Free -->
     <div class="price-card fade-in-up">
-      <p style="letter-spacing:2px; font-size:0.65rem; color:var(--dim); text-transform:uppercase;">Introduction</p>
+      <p style="letter-spacing:2px; font-size:0.7rem; color:#666; text-transform:uppercase;">Introduction</p>
+      <div class="price-amount">Free</div>
       <h3>Chemistry Call</h3>
-      <div class="price-tag">Free</div>
-      <ul class="check-list">
-        <li>15-Minute Compatibility Chat</li>
-        <li>Brief Situation Assessment</li>
-        <li>Zero Commitment</li>
-      </ul>
-      <a href="form.html" class="btn" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Book Free</a>
+      <p style="color:#888;">15-min chat to ensure fit.</p>
+      <a href="form.html" class="btn" style="margin-top:2rem; display:inline-block;">Book Now</a>
     </div>
 
-    <!-- STANDARD TIER -->
-    <div class="price-card fade-in-up" style="transition-delay: 0.1s;">
-      <p style="letter-spacing:2px; font-size:0.65rem; color:var(--dim); text-transform:uppercase;">Session</p>
-      <h3>Discovery</h3>
-      <div class="price-tag">$49<span>/single</span></div>
-      <ul class="check-list">
-        <li>60-Minute Strategy Call</li>
-        <li>Immediate Stress Decompression</li>
-        <li>Confidential Sounding Board</li>
-      </ul>
-      <a href="form.html" class="btn" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Book Session</a>
-    </div>
-
-    <!-- PREMIUM TIER -->
-    <div class="price-card featured fade-in-up" style="transition-delay: 0.2s;">
-      <div style="position:absolute; top:0; right:0; background:var(--gold); color:#000; padding:0.4rem 1rem; font-size:0.6rem; font-weight:600; letter-spacing:1px;">RECOMMENDED</div>
-      <p style="letter-spacing:2px; font-size:0.65rem; color:var(--gold); text-transform:uppercase;">Membership</p>
+    <!-- Paid -->
+    <div class="price-card featured fade-in-up" style="transition-delay: 0.1s;">
+      <p style="letter-spacing:2px; font-size:0.7rem; color:var(--gold); text-transform:uppercase;">Recommended</p>
+      <div class="price-amount">$599</div>
       <h3>Private Client</h3>
-      <div class="price-tag">$599<span>/month</span></div>
-      <ul class="check-list">
-        <li><strong>Weekly Sessions (4x/mo)</strong></li>
-        <li>Priority Scheduling Access</li>
-        <li>Unlimited Async Text Support</li>
-        <li>Cultural/HSK8 Options Available</li>
-      </ul>
-      <a href="form.html" class="btn btn-primary" style="width:100%; display:block; text-align:center; box-sizing:border-box;">Apply for Access</a>
+      <p style="color:#888;">Weekly sessions + Priority access.</p>
+      <a href="form.html" class="btn btn-primary" style="margin-top:2rem; display:inline-block;">Apply Access</a>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="section" style="padding-top:0;">
-  <div class="section-header fade-in-up">
-    <h2>Common Questions</h2>
-  </div>
-  <div style="max-width:800px; margin:0 auto;">
-    <div class="faq-item fade-in-up">
-      <div class="faq-question">Is this therapy?</div>
-      <div class="faq-answer">No. We provide emotional support and coaching-style guidance. We do not diagnose or treat mental illness. We are for high-functioning individuals navigating stress.</div>
-    </div>
-    <div class="faq-item fade-in-up">
-      <div class="faq-question">Do you offer language coaching?</div>
-      <div class="faq-answer">Yes. Specifically for executives, we provide <strong>HSK 8 level Chinese</strong> engagement partners to refine cultural nuance, negotiation vocabulary, and elite-level communication skills.</div>
-    </div>
-    <div class="faq-item fade-in-up">
-      <div class="faq-question">How does payment work?</div>
-      <div class="faq-answer">Applying is free. Once we confirm fit and schedule your session, payment is handled securely via invoice. You are never charged without your explicit consent.</div>
-    </div>
-  </div>
-</section>
-
-<!-- Footer (Professional Legal Disclaimer) -->
+<!-- Footer -->
 <footer>
   <div class="logo" style="margin-bottom:1.5rem; opacity:0.7;">Private<span>Counsel</span></div>
-  <p style="color:#666; font-size:0.8rem;">© 2025 Private Counsel Global. All rights reserved.</p>
-  <p style="opacity: 0.3; margin-top:0.5rem; font-size:0.75rem;">New York • London • Dubai • Singapore</p>
-
-  <!-- Divider -->
+  <p style="color:#666; font-size:0.8rem;">© 2025 Private Counsel Global.</p>
+  
   <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin: 3rem auto; max-width: 800px;">
-
-  <!-- Disclaimer Block -->
-  <div style="max-width: 800px; margin: 0 auto; text-align: left; padding: 0 1rem;">
-    <div style="display:flex; gap:1.5rem; margin-bottom: 1.5rem; justify-content: center; font-size: 0.75rem; color: #888;">
-      <a href="#" style="text-decoration:none; transition:0.3s;">Privacy Policy</a>
-      <a href="#" style="text-decoration:none; transition:0.3s;">Terms of Service</a>
-      <a href="#" style="text-decoration:none; transition:0.3s;">Disclaimer</a>
-    </div>
-    <p style="font-size: 0.65rem; color: #444; line-height: 1.6; text-align: center;">
-      <strong>LEGAL DISCLAIMER:</strong> Private Counsel is a consulting and emotional support service for high-performance individuals. 
-      We are <span style="color:#666;">not a licensed medical provider</span> and do not provide psychological diagnosis, medication management, or crisis intervention. 
-      Services provided are educational and coaching-oriented in nature. 
-      <br><br>
-      The term "HSK 8" refers to the proficiency level of our linguistic partners and does not imply an official certification body. 
-      All client conversations are encrypted and subject to our strict Zero-Record policy. 
-      If you are experiencing a medical emergency, please contact your local emergency services immediately.
-    </p>
+  
+  <div style="max-width: 800px; margin: 0 auto; font-size: 0.65rem; color: #444; line-height: 1.6;">
+    <strong>LEGAL DISCLAIMER:</strong> Private Counsel is a consulting service. We are not a licensed medical provider. Services are educational and coaching-oriented. <br>
+    The term "HSK 8" refers to proficiency level, not official certification. Zero-Record policy applies.
   </div>
 </footer>
 
-<!-- WhatsApp Float -->
-<a href="https://wa.me/16769896777" target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
+<!-- WhatsApp -->
+<a href="https://wa.me/16769896777" target="_blank" class="whatsapp-float" title="Chat">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.77 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.91C20.28 16.46 16.58 20.16 12.05 20.16ZM16.61 14.9C16.36 14.78 15.14 14.18 14.91 14.1C14.68 14.01 14.51 13.97 14.34 14.22C14.17 14.47 13.69 15.03 13.54 15.2C13.39 15.37 13.24 15.39 12.99 15.26C12.74 15.14 11.94 14.88 10.99 14.03C10.25 13.37 9.75 12.56 9.61 12.31C9.47 12.06 9.6 11.93 9.72 11.81C9.83 11.7 9.97 11.52 10.09 11.38C10.21 11.24 10.25 11.14 10.33 10.97C10.41 10.8 10.37 10.66 10.31 10.53C10.25 10.41 9.77 9.22 9.56 8.74C9.36 8.27 9.16 8.33 9.01 8.33C8.87 8.33 8.7 8.33 8.53 8.33C8.36 8.33 8.08 8.4 7.83 8.67C7.58 8.94 6.87 9.6 6.87 10.95C6.87 12.3 7.85 13.61 8 13.8C8.15 14 10.04 16.91 12.93 18.16C13.62 18.46 14.15 18.63 14.57 18.77C15.25 18.98 15.86 18.96 16.34 18.89C16.88 18.81 18 18.21 18.23 17.56C18.47 16.91 18.47 16.36 18.4 16.24C18.33 16.12 18.17 16.05 17.92 15.93H16.61V14.9Z"/>
   </svg>
 </a>
 
 <script>
-// --- Scroll Animation ---
+// Scroll Animation
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -415,18 +363,17 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
 
-// --- AI Tool Redirect ---
+// AI Tool
 const aiForm = document.getElementById('ai-form');
 if(aiForm) {
   aiForm.addEventListener('submit', function(e) {
     e.preventDefault();
     const stressInput = document.getElementById('stress-input').value;
     if (!stressInput.trim()) {
-      alert('Please describe your stress before getting an analysis.');
+      alert('Please describe your stress.');
       return;
     }
-    const encodedText = encodeURIComponent(stressInput);
-    window.location.href = `analysis.html?text=${encodedText}`;
+    window.location.href = `analysis.html?text=${encodeURIComponent(stressInput)}`;
   });
 }
 </script>
