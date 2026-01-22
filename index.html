@@ -4,378 +4,294 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>Private Counsel | Elite Executive Support</title>
+<meta name="description" content="Confidential emotional support and strategic clarity for founders.">
 
-<meta name="description" content="Confidential emotional support and strategic clarity for founders and executives. Strictly non-clinical.">
-
-<!-- Fonts -->
+<!-- 引入字体 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
 
+<!-- ✨ 引入 GSAP 动画库 (全球创意网站标配) ✨ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
 <style>
-/* --- 顶级质感变量 --- */
+/* --- 核心变量 --- */
 :root {
   --gold: #D4AF37;
   --bg: #030303;
   --glass: rgba(255, 255, 255, 0.02);
-  --border: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.08);
   --text: #F0F0F0;
-  --dim: #888;
 }
 
-/* --- 基础设置 --- */
-html { scroll-behavior: smooth; }
-body { 
-  margin: 0; 
+html, body { 
+  margin: 0; padding: 0; width: 100%; height: 100%;
   font-family: 'Inter', sans-serif; 
-  background: var(--bg); 
-  color: var(--text); 
-  -webkit-font-smoothing: antialiased; 
-  line-height: 1.6;
-  overflow-x: hidden;
+  background: var(--bg); color: var(--text); 
+  overflow-x: hidden; 
+  -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
-a { color: inherit; text-decoration: none; transition: 0.3s; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+a { text-decoration: none; color: inherit; }
 * { box-sizing: border-box; }
 
-/* --- 创意背景：呼吸光晕 --- */
-.ambient-light {
+/* --- 🎬 1. 开场加载幕布 (Loader) --- */
+.loader-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.06) 0%, transparent 60%);
-  z-index: -1; pointer-events: none;
-  animation: breathe 10s infinite ease-in-out;
+  background: #000;
+  z-index: 9999;
+  display: flex; justify-content: center; align-items: center;
 }
-@keyframes breathe {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(1.05); }
+.loader-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; color: #fff; letter-spacing: 4px; text-transform: uppercase;
+  opacity: 0; /* 初始隐藏，交给 GSAP 控制 */
 }
+.loader-logo span { color: var(--gold); }
 
-/* --- 导航栏 (悬浮玻璃) --- */
+/* --- 2. 导航栏 --- */
 nav { 
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-  width: 90%; max-width: 1200px;
-  padding: 1rem 2rem; 
+  position: fixed; top: 0; left: 0; width: 100%;
+  padding: 1.5rem 6%; 
   display: flex; justify-content: space-between; align-items: center; 
-  background: rgba(10, 10, 10, 0.7); 
-  backdrop-filter: blur(12px); 
-  border: 1px solid var(--border);
-  border-radius: 50px; /* 胶囊形状导航 */
-  z-index: 1000; 
+  z-index: 100;
+  opacity: 0; /* GSAP 进场 */
 }
-.logo { letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; color: #fff; font-weight: 500; }
+.logo { font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
 .logo span { color: var(--gold); }
 
-/* --- 现代胶囊按钮 --- */
-.btn { 
-  padding: 0.8rem 2rem; 
-  border: 1px solid rgba(255,255,255,0.15); 
-  color: #fff; font-size: 0.75rem; 
-  letter-spacing: 1px; text-transform: uppercase; 
-  transition: all 0.3s ease; 
-  background: transparent; 
-  cursor: pointer; border-radius: 50px;
+.btn-nav {
+  padding: 0.7rem 1.8rem; border: 1px solid rgba(255,255,255,0.2); 
+  border-radius: 50px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+  transition: 0.3s; color: #fff; cursor: pointer;
 }
-.btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+.btn-nav:hover { border-color: var(--gold); color: var(--gold); }
 
-.btn-primary { 
-  background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; 
-}
-.btn-primary:hover { 
-  background: #fff; border-color: #fff; color: #000; 
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); 
-}
-
-/* --- Hero 区域 --- */
+/* --- 3. Hero 区域 --- */
 .hero { 
-  min-height: 100vh; 
+  height: 100vh; width: 100%;
   display: flex; flex-direction: column; 
   justify-content: center; align-items: center; text-align: center; 
-  padding: 0 1.5rem; 
-  /* 这里的背景图只保留纹理，颜色靠 ambient-light */
-  background-image: url('https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=2000&q=90'); 
-  background-size: cover; background-position: center; 
-  background-blend-mode: overlay;
-  background-color: #050505;
+  position: relative; 
 }
+
+/* 动态背景光 */
+.ambient-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  pointer-events: none; z-index: -1;
+  animation: pulse 8s infinite ease-in-out;
+}
+@keyframes pulse { 0%,100%{opacity:0.5;} 50%{opacity:0.8;} }
+
+/* 文字容器，用于遮罩动画 */
+.overflow-hide { overflow: hidden; display: block; }
+
 .hero h1 { 
-  font-size: clamp(3.5rem, 9vw, 7.5rem); 
-  line-height: 1; margin-bottom: 1.5rem; 
+  font-size: clamp(3.5rem, 9vw, 8rem); 
+  line-height: 1.1; margin: 0; 
   font-weight: 300; color: #fff; 
-  text-shadow: 0 10px 30px rgba(0,0,0,0.8); 
-  max-width: 1000px;
 }
-.hero h1 i { font-style: italic; color: var(--gold); font-weight: 400; }
+.hero h1 .word { display: inline-block; transform: translateY(120%); /* 初始在下面 */ }
+.hero h1 i { font-style: italic; color: var(--gold); }
+
 .hero p { 
-  font-size: clamp(1rem, 2vw, 1.3rem); 
-  color: #ccc; margin-bottom: 3rem; 
-  max-width: 600px; font-weight: 300; 
+  margin-top: 2rem; font-size: clamp(1rem, 1.5vw, 1.2rem); 
+  color: #888; max-width: 500px; 
+  opacity: 0; transform: translateY(20px);
 }
 
-/* --- AI 终端风格 --- */
-#ai-tool { 
-  position: relative; z-index: 2;
-  margin-top: -50px; /* 重叠效果 */
+.hero-btns {
+  margin-top: 3rem; display: flex; gap: 1rem;
+  opacity: 0; transform: translateY(20px);
 }
-.terminal-window {
-  max-width: 700px; margin: 0 auto;
-  background: rgba(10,10,10,0.9);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(20px);
-  border-radius: 16px;
-  padding: 2.5rem;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}
-.terminal-window textarea { 
-  width: 100%; height: 100px; 
-  background: transparent; border: none; border-bottom: 1px solid #333;
-  color: #eee; font-size: 1.1rem; 
-  font-family: 'Inter', sans-serif; 
-  resize: none; margin-bottom: 2rem;
-}
-.terminal-window textarea:focus { outline: none; border-bottom-color: var(--gold); }
-.terminal-window textarea::placeholder { color: #444; }
 
-/* --- 创意核心: Bento Grid (特性网格) --- */
-.section { padding: 8rem 5%; max-width: 1300px; margin: 0 auto; }
-.section-header { text-align: center; margin-bottom: 4rem; }
-.section-header h2 { font-size: 3rem; margin-bottom: 0.5rem; color: #fff; font-weight: 300; }
+/* 磁力按钮 */
+.btn-primary { 
+  background: var(--gold); color: #000; padding: 1rem 2.5rem; 
+  border-radius: 50px; font-weight: 600; font-size: 0.9rem;
+  transition: transform 0.2s; cursor: pointer; display: inline-block;
+}
+.btn-ghost {
+  background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+  padding: 1rem 2.5rem; border-radius: 50px; font-size: 0.9rem; cursor: pointer;
+}
+
+/* --- 4. Bento Grid (特性展示) --- */
+.section { padding: 8rem 5%; max-width: 1400px; margin: 0 auto; }
+.section-title { font-size: 3rem; margin-bottom: 4rem; text-align: center; opacity: 0; }
 
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3列 */
-  grid-template-rows: repeat(2, 300px); /* 2行 */
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
-
 .bento-card {
   background: var(--glass);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 2.5rem;
-  transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  display: flex; flex-direction: column; justify-content: space-between;
-  overflow: hidden; position: relative;
-}
-.bento-card:hover {
-  border-color: rgba(212, 175, 55, 0.3);
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.03);
-}
-
-/* 布局控制 */
-.bento-large { grid-column: span 2; } /* 占2列 */
-.bento-tall { grid-row: span 2; background: radial-gradient(circle at 100% 0%, rgba(212, 175, 55, 0.05), transparent); } /* 占2行 */
-
-.bento-icon { font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
-.bento-card h3 { font-size: 1.8rem; font-weight: 400; margin-bottom: 0.5rem; font-family: 'Cormorant Garamond', serif; }
-.bento-card p { color: #888; font-size: 0.95rem; line-height: 1.6; }
-
-/* --- 价格卡片 --- */
-.pricing-wrapper {
-  display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
-}
-.price-card {
-  flex: 1; min-width: 300px; max-width: 380px;
-  background: var(--glass);
-  border: 1px solid var(--border);
-  padding: 3rem; border-radius: 20px;
-  text-align: center;
+  border-radius: 24px;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
   transition: 0.4s;
+  opacity: 0; transform: translateY(50px); /* 初始状态 */
 }
-.price-card:hover { transform: scale(1.02); border-color: var(--gold); }
-.price-card.featured {
-  border-color: var(--gold);
-  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent);
+.bento-card:hover { 
+  background: rgba(255,255,255,0.04); 
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-5px); 
 }
-.price-amount { font-size: 4rem; font-family: 'Cormorant Garamond', serif; color: #fff; font-weight: 300; }
+.bento-large { grid-column: span 2; }
+.bento-icon { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--gold); }
+.bento-card h3 { font-size: 1.8rem; margin-bottom: 1rem; color: #eee; font-weight: 400; }
+.bento-card p { color: #888; line-height: 1.6; }
 
-/* --- Footer & WhatsApp --- */
-footer { padding: 6rem 5%; text-align: center; border-top: 1px solid var(--border); margin-top: 8rem; }
+/* --- 5. Footer --- */
+footer { 
+  border-top: 1px solid var(--border); 
+  padding: 4rem 5%; text-align: center; color: #444; font-size: 0.8rem; 
+  margin-top: 5rem;
+}
+
+/* WhatsApp */
 .whatsapp-float {
   position: fixed; bottom: 30px; right: 30px;
-  width: 60px; height: 60px;
-  background: var(--gold); color: #000;
-  border-radius: 50%; 
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5); 
-  z-index: 9999; transition: 0.3s;
-  border: 2px solid rgba(255,255,255,0.1);
+  width: 60px; height: 60px; background: var(--gold);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  z-index: 100; color: #000; transition: 0.3s;
 }
 .whatsapp-float:hover { transform: scale(1.1); background: #fff; }
-.whatsapp-float svg { width: 30px; height: 30px; fill: currentColor; }
 
-/* --- 移动端适配 --- */
-@media screen and (max-width: 900px) {
-  .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-  .bento-large, .bento-tall { grid-column: auto; grid-row: auto; min-height: 250px; }
-  nav { width: 100%; top: 0; border-radius: 0; background: rgba(5,5,5,0.95); border: none; border-bottom: 1px solid var(--border); }
-  .hero h1 { font-size: 3rem; }
-  #ai-tool { margin-top: 0; }
-  .terminal-window { padding: 1.5rem; }
-  .whatsapp-float { width: 50px; height: 50px; bottom: 20px; right: 20px; }
+@media(max-width: 900px) {
+  .bento-grid { grid-template-columns: 1fr; }
+  .bento-large { grid-column: auto; }
 }
-
-/* 动画 */
-.fade-in-up { opacity: 0; transform: translateY(30px); transition: 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
-.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- 呼吸光背景 -->
-<div class="ambient-light"></div>
+<!-- 1. 开场遮罩 -->
+<div class="loader-overlay">
+  <div class="loader-logo">Private<span>Counsel</span></div>
+</div>
 
+<!-- 2. 导航 -->
 <nav>
   <div class="logo">Private<span>Counsel</span></div>
-  <a href="form.html" class="btn">Start Application</a>
+  <a href="form.html" class="btn-nav">Apply</a>
 </nav>
 
+<!-- 3. Hero 主视觉 -->
 <section class="hero">
-  <div class="fade-in-up">
-    <h1>Calm in the <i>Chaos</i>.</h1>
-    <p>The elite emotional infrastructure for founders.</p>
-    
-    <div style="display:flex; gap:1rem; justify-content:center;">
-      <a href="#ai-tool" class="btn btn-primary">Free AI Stress Test</a>
-      <a href="form.html" class="btn">Book Consult</a>
-    </div>
+  <div class="ambient-glow"></div>
+  
+  <h1>
+    <!-- 每一个单词包在 span 里，方便 GSAP 单独控制动画 -->
+    <span class="overflow-hide"><span class="word">Calm</span></span>
+    <span class="overflow-hide"><span class="word">in</span></span>
+    <span class="overflow-hide"><span class="word">the</span></span>
+    <span class="overflow-hide"><span class="word"><i>Chaos</i>.</span></span>
+  </h1>
+  
+  <p>The elite emotional & strategic sanctuary for founders.</p>
+  
+  <div class="hero-btns">
+    <a href="form.html" class="btn-ghost">Book Free</a>
+    <a href="#bento" class="btn-primary">Explore</a>
   </div>
 </section>
 
-<!-- AI Terminal Section (High-tech vibe) -->
-<section class="section" id="ai-tool">
-  <div class="terminal-window fade-in-up">
-    <div style="text-align:center; margin-bottom:2rem;">
-      <h3 style="color:var(--gold); margin:0;">AI Burnout Index™</h3>
-      <p style="font-size:0.9rem; color:#666;">Confidential Neural Analysis</p>
-    </div>
-    <form id="ai-form">
-      <textarea id="stress-input" placeholder="Type your current situation here... (e.g., 'Overwhelmed by fundraising, feeling isolated...')"></textarea>
-      <button type="submit" class="btn btn-primary" style="width:100%;">Run Analysis</button>
-    </form>
-  </div>
-</section>
-
-<!-- Bento Grid Features (Creative Layout) -->
-<section class="section">
-  <div class="section-header fade-in-up">
-    <h2>The Executive Standard</h2>
-    <p>"Where elite strategy meets absolute confidentiality."</p>
-  </div>
-
+<!-- 4. Features (Bento Grid) -->
+<section class="section" id="bento">
+  <h2 class="section-title">The Executive Standard</h2>
+  
   <div class="bento-grid">
-    <!-- 1. 大卡片：隐私 -->
-    <div class="bento-card bento-large fade-in-up">
+    <!-- Card 1 -->
+    <div class="bento-card bento-large">
       <div class="bento-icon">✦</div>
-      <div>
-        <h3>Radical Confidentiality</h3>
-        <p>Operating strictly outside the medical insurance system. Zero diagnoses. Zero digital footprints. Your vulnerability never becomes a liability.</p>
-      </div>
+      <h3>Radical Confidentiality</h3>
+      <p>Operating strictly outside the medical insurance system. Zero diagnoses. Zero digital footprints. Your vulnerability never becomes a liability.</p>
     </div>
 
-    <!-- 2. 竖卡片：HSK 8 (重点) -->
-    <div class="bento-card bento-tall fade-in-up" style="transition-delay: 0.1s;">
+    <!-- Card 2 -->
+    <div class="bento-card">
       <div class="bento-icon">文</div>
-      <div>
-        <h3>Cultural Strategy (HSK 8)</h3>
-        <p>Language is power. We provide elite engagement partners to refine your negotiation rhetoric and cultural authority for Asian markets.</p>
-        <br>
-        <p style="color:var(--gold); font-size:0.8rem;">*Available for Private Members</p>
-      </div>
+      <h3>HSK 8 Strategy</h3>
+      <p>Elite linguistic partners to refine negotiation rhetoric and cultural authority in Asian markets.</p>
     </div>
 
-    <!-- 3. 普通卡片：智力对齐 -->
-    <div class="bento-card fade-in-up" style="transition-delay: 0.2s;">
+    <!-- Card 3 -->
+    <div class="bento-card">
       <div class="bento-icon">🧠</div>
-      <div>
-        <h3>Intellectual Alignment</h3>
-        <p>Founders need strategic empathy, not generic therapy. We match your wavelength immediately.</p>
-      </div>
+      <h3>Intellectual Alignment</h3>
+      <p>Founders need strategic empathy. We match your wavelength immediately.</p>
     </div>
 
-    <!-- 4. 普通卡片：24/7 -->
-    <div class="bento-card fade-in-up" style="transition-delay: 0.3s;">
+    <!-- Card 4 -->
+    <div class="bento-card bento-large">
       <div class="bento-icon">∞</div>
-      <div>
-        <h3>Async Access</h3>
-        <p>Unlimited text support between sessions. We are your pocket boardroom advisor.</p>
-      </div>
+      <h3>Async Access</h3>
+      <p>Unlimited text support between sessions. We are your pocket boardroom advisor, available when the crisis hits.</p>
     </div>
   </div>
 </section>
 
-<!-- Pricing -->
-<section class="section">
-  <div class="section-header fade-in-up">
-    <h2>Membership</h2>
-  </div>
-  
-  <div class="pricing-wrapper">
-    <!-- Free -->
-    <div class="price-card fade-in-up">
-      <p style="letter-spacing:2px; font-size:0.7rem; color:#666; text-transform:uppercase;">Introduction</p>
-      <div class="price-amount">Free</div>
-      <h3>Chemistry Call</h3>
-      <p style="color:#888;">15-min chat to ensure fit.</p>
-      <a href="form.html" class="btn" style="margin-top:2rem; display:inline-block;">Book Now</a>
-    </div>
-
-    <!-- Paid -->
-    <div class="price-card featured fade-in-up" style="transition-delay: 0.1s;">
-      <p style="letter-spacing:2px; font-size:0.7rem; color:var(--gold); text-transform:uppercase;">Recommended</p>
-      <div class="price-amount">$599</div>
-      <h3>Private Client</h3>
-      <p style="color:#888;">Weekly sessions + Priority access.</p>
-      <a href="form.html" class="btn btn-primary" style="margin-top:2rem; display:inline-block;">Apply Access</a>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
 <footer>
-  <div class="logo" style="margin-bottom:1.5rem; opacity:0.7;">Private<span>Counsel</span></div>
-  <p style="color:#666; font-size:0.8rem;">© 2025 Private Counsel Global.</p>
-  
-  <hr style="border:0; border-top:1px solid rgba(255,255,255,0.05); margin: 3rem auto; max-width: 800px;">
-  
-  <div style="max-width: 800px; margin: 0 auto; font-size: 0.65rem; color: #444; line-height: 1.6;">
-    <strong>LEGAL DISCLAIMER:</strong> Private Counsel is a consulting service. We are not a licensed medical provider. Services are educational and coaching-oriented. <br>
-    The term "HSK 8" refers to proficiency level, not official certification. Zero-Record policy applies.
-  </div>
+  <p>© 2025 Private Counsel Global. All rights reserved.</p>
+  <br>
+  <p style="font-size:0.65rem; max-width:600px; margin:0 auto; opacity:0.6;">
+    LEGAL DISCLAIMER: Not a medical provider. Educational and coaching services only. HSK 8 refers to proficiency level. Zero-Record policy applies.
+  </p>
 </footer>
 
-<!-- WhatsApp -->
-<a href="https://wa.me/16769896777" target="_blank" class="whatsapp-float" title="Chat">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.77 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.91C20.28 16.46 16.58 20.16 12.05 20.16ZM16.61 14.9C16.36 14.78 15.14 14.18 14.91 14.1C14.68 14.01 14.51 13.97 14.34 14.22C14.17 14.47 13.69 15.03 13.54 15.2C13.39 15.37 13.24 15.39 12.99 15.26C12.74 15.14 11.94 14.88 10.99 14.03C10.25 13.37 9.75 12.56 9.61 12.31C9.47 12.06 9.6 11.93 9.72 11.81C9.83 11.7 9.97 11.52 10.09 11.38C10.21 11.24 10.25 11.14 10.33 10.97C10.41 10.8 10.37 10.66 10.31 10.53C10.25 10.41 9.77 9.22 9.56 8.74C9.36 8.27 9.16 8.33 9.01 8.33C8.87 8.33 8.7 8.33 8.53 8.33C8.36 8.33 8.08 8.4 7.83 8.67C7.58 8.94 6.87 9.6 6.87 10.95C6.87 12.3 7.85 13.61 8 13.8C8.15 14 10.04 16.91 12.93 18.16C13.62 18.46 14.15 18.63 14.57 18.77C15.25 18.98 15.86 18.96 16.34 18.89C16.88 18.81 18 18.21 18.23 17.56C18.47 16.91 18.47 16.36 18.4 16.24C18.33 16.12 18.17 16.05 17.92 15.93H16.61V14.9Z"/>
-  </svg>
+<a href="https://wa.me/16769896777" class="whatsapp-float">
+  <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.77 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.91C20.28 16.46 16.58 20.16 12.05 20.16ZM16.61 14.9C16.36 14.78 15.14 14.18 14.91 14.1C14.68 14.01 14.51 13.97 14.34 14.22C14.17 14.47 13.69 15.03 13.54 15.2C13.39 15.37 13.24 15.39 12.99 15.26C12.74 15.14 11.94 14.88 10.99 14.03C10.25 13.37 9.75 12.56 9.61 12.31C9.47 12.06 9.6 11.93 9.72 11.81C9.83 11.7 9.97 11.52 10.09 11.38C10.21 11.24 10.25 11.14 10.33 10.97C10.41 10.8 10.37 10.66 10.31 10.53C10.25 10.41 9.77 9.22 9.56 8.74C9.36 8.27 9.16 8.33 9.01 8.33C8.87 8.33 8.7 8.33 8.53 8.33C8.36 8.33 8.08 8.4 7.83 8.67C7.58 8.94 6.87 9.6 6.87 10.95C6.87 12.3 7.85 13.61 8 13.8C8.15 14 10.04 16.91 12.93 18.16C13.62 18.46 14.15 18.63 14.57 18.77C15.25 18.98 15.86 18.96 16.34 18.89C16.88 18.81 18 18.21 18.23 17.56C18.47 16.91 18.47 16.36 18.4 16.24C18.33 16.12 18.17 16.05 17.92 15.93H16.61V14.9Z"/></svg>
 </a>
 
 <script>
-// Scroll Animation
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+// --- GSAP 电影级动画逻辑 ---
 
-// AI Tool
-const aiForm = document.getElementById('ai-form');
-if(aiForm) {
-  aiForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const stressInput = document.getElementById('stress-input').value;
-    if (!stressInput.trim()) {
-      alert('Please describe your stress.');
-      return;
-    }
-    window.location.href = `analysis.html?text=${encodeURIComponent(stressInput)}`;
-  });
-}
+window.addEventListener("load", () => {
+  const tl = gsap.timeline();
+
+  // 1. Logo 呼吸进场
+  tl.to(".loader-logo", { opacity: 1, duration: 1, ease: "power2.out" })
+    .to(".loader-logo", { opacity: 0, duration: 0.5, delay: 0.5 })
+    
+  // 2. 幕布上滑揭开 (Reveal)
+    .to(".loader-overlay", { y: "-100%", duration: 1.2, ease: "power4.inOut" })
+    
+  // 3. 导航栏淡入
+    .to("nav", { opacity: 1, duration: 0.5 }, "-=0.5")
+    
+  // 4. 标题错位上浮 (Stagger Text)
+    .to(".word", { y: "0%", duration: 1, stagger: 0.1, ease: "power3.out" }, "-=0.8")
+    
+  // 5. 副标题和按钮进场
+    .to(".hero p", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=0.6")
+    .to(".hero-btns", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=0.8");
+
+  // 6. 滚动触发动画 (ScrollTrigger 简化版)
+  const cards = document.querySelectorAll('.bento-card');
+  const title = document.querySelector('.section-title');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        // 使用 GSAP 做平滑上浮
+        gsap.to(entry.target, { 
+          opacity: 1, y: 0, duration: 1, ease: "power3.out" 
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(title);
+  cards.forEach(card => observer.observe(card));
+});
 </script>
 
 </body>
