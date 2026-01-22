@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Application | Private Counsel</title>
+
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --gold: #D4AF37;
@@ -59,6 +61,7 @@ body {
   position: relative;
   border-radius: 2px;
 }
+
 .progress-inner {
   position: absolute; left: 0; top: 0; height: 100%;
   background: var(--gold); width: 33%;
@@ -83,6 +86,7 @@ h2 {
   margin-bottom: 2.5rem;
   text-align: left;
 }
+
 .group-label {
   font-size: 0.85rem;
   color: var(--gold);
@@ -91,6 +95,7 @@ h2 {
   text-transform: uppercase;
   display: block;
 }
+
 .option-card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.1);
@@ -105,12 +110,15 @@ h2 {
   align-items: center;
   justify-content: space-between;
 }
+
 .option-card:hover { border-color: rgba(212, 175, 55, 0.3); }
+
 .option-card.active {
   border-color: var(--gold);
   background: rgba(212, 175, 55, 0.08);
   color: #fff;
 }
+
 .option-card.active::after {
   content: '✓';
   color: var(--gold);
@@ -119,6 +127,7 @@ h2 {
 
 /* Plan Cards (Step 1) */
 .plan-selector { display: grid; gap: 1rem; margin-bottom: 2rem; }
+
 .plan-card {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.1);
@@ -128,6 +137,7 @@ h2 {
   position: relative;
   transition: 0.2s;
 }
+
 .plan-card.active { border-color: var(--gold); background: rgba(212, 175, 55, 0.08); }
 .plan-card strong { display: block; color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem; }
 .plan-card .price { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.2rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
@@ -154,6 +164,7 @@ input::placeholder { color: #555; }
   cursor: pointer; margin-top: 1rem;
   font-size: 0.8rem;
 }
+
 .btn-back {
   background: transparent; color: var(--dim);
   border: none; font-size: 0.75rem; letter-spacing: 1px;
@@ -182,18 +193,21 @@ input::placeholder { color: #555; }
     <!-- STEP 1: Plan -->
     <div class="step active" id="step1">
       <h2>Select Your Tier</h2>
+      
       <div class="plan-selector">
         <div class="plan-card active" onclick="selectPlan('Discovery Session', '49', this)">
           <strong>Discovery Session</strong>
           <div class="price">$49</div>
           <p class="desc">One-time 60min clarity call.</p>
         </div>
+        
         <div class="plan-card" onclick="selectPlan('Monthly Membership', '249', this)">
           <strong>Private Membership</strong>
           <div class="price">$599</div>
           <p class="desc">Weekly sessions + Priority support.</p>
         </div>
       </div>
+
       <input type="hidden" name="selected_plan" id="selected_plan" value="Discovery Session ($49)">
       <button type="button" class="btn-next" onclick="nextStep(2)">Continue</button>
       <p style="font-size:0.65rem; color:#444; margin-top:2rem;">Confidential Application.</p>
@@ -211,6 +225,8 @@ input::placeholder { color: #555; }
         <div class="option-card" onclick="selectOption('support_type', 'Navigating Stress', this)">Navigating High-Pressure Stress</div>
         <div class="option-card" onclick="selectOption('support_type', 'Career Clarity', this)">Career & Leadership Clarity</div>
         <div class="option-card" onclick="selectOption('support_type', 'Relationships', this)">Relationship Dynamics</div>
+        <!-- ★★★ New Option: HSK 8 ★★★ -->
+        <div class="option-card" onclick="selectOption('support_type', 'Chinese Learning (HSK 8)', this)">Chinese Learning (HSK 8)</div>
         <div class="option-card" onclick="selectOption('support_type', 'Just Talking', this)">Just need a private space to talk</div>
       </div>
 
@@ -229,11 +245,12 @@ input::placeholder { color: #555; }
     <!-- STEP 3: Info & Auto-Referral -->
     <div class="step" id="step3">
       <h2>Contact Details</h2>
+      
       <input type="text" name="name" placeholder="Full Name" required>
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="text" name="phone" placeholder="Phone (Optional)">
       
-      <!-- ★★★ 核心修改：改为隐藏字段，自动填充 ★★★ -->
+      <!-- Auto-filled Referrer Field -->
       <input type="hidden" name="referrer" id="referrerField">
 
       <p style="font-size:0.7rem; color:#444; margin-bottom: 2rem; text-align: left;">
@@ -253,25 +270,26 @@ input::placeholder { color: #555; }
     </p>
     <a href="index.html" class="btn-back" style="display:block; margin-top:3rem; text-decoration:none;">Return Home</a>
   </div>
+
 </div>
 
 <script>
 // --- Core Logic ---
 
-// 1. 自动抓取 URL 中的 ref 参数并填入隐藏字段
+// 1. Auto-capture 'ref' from URL or SessionStorage
 window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   let refCode = urlParams.get('ref');
 
-  // 如果 URL 里有 ref，存入 sessionStorage (防止刷新丢失)
+  // Store in sessionStorage if present (survives refresh)
   if (refCode) {
     sessionStorage.setItem('affiliate_ref', refCode);
   } else {
-    // URL 里没有，尝试从 storage 取 (可能是用户之前点过链接)
+    // Retrieve from storage if URL param missing
     refCode = sessionStorage.getItem('affiliate_ref');
   }
 
-  // 填入隐藏字段
+  // Populate hidden field
   if (refCode) {
     const refInput = document.getElementById('referrerField');
     if (refInput) {
@@ -299,6 +317,7 @@ function nextStep(step) {
   if (step === 3) {
     const v1 = document.getElementById('support_type').value;
     const v2 = document.getElementById('current_situation').value;
+    
     if (!v1 || !v2) {
       alert("Please select an option for both questions.");
       return;
@@ -312,9 +331,12 @@ function nextStep(step) {
   
   const nextEl = document.getElementById('step' + step);
   nextEl.style.display = 'block';
+  // Small delay to allow display:block to apply before adding opacity class
   setTimeout(() => { nextEl.classList.add('active'); }, 10);
 
+  // Update Progress Bar
   const progressMap = {1: 33, 2: 66, 3: 100};
+  // Fixed syntax here (removed backslashes)
   document.getElementById('progress').style.width = progressMap[step] + '%';
   
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -352,13 +374,18 @@ form.onsubmit = async (e) => {
       submitBtn.disabled = false;
     }
   } catch(err) {
-    // 模拟成功（如果后端未连接）
+    // Fallback/Demo mode
     console.log("Network error (Simulated Success for Demo)");
+    // In production, you might want to uncomment the alert below instead of simulating success
+    // alert("Connection error. Please try again.");
+    
+    // For now, simulating success so you can test UI flow without backend:
     form.style.display = 'none';
     document.querySelector('.progress-bar').style.display = 'none';
     document.getElementById('success').style.display = 'block';
   }
 };
 </script>
+
 </body>
 </html>
