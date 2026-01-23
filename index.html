@@ -3,198 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO & METADATA -->
-    <title>Private Counsel | Confidential Counseling & Coaching | Free Consultation</title>
-    <meta name="description" content="Explore confidential, asynchronous support with Private Counsel. We offer professional psychological counseling, emotional companionship, and advanced Mandarin coaching. Start with a free, no-obligation consultation.">
-    <link rel="canonical" href="https://www.customcompanion.xyz/">
-    <meta property="og:title" content="Private Counsel | Confidential Counseling & Coaching">
-    <meta property="og:description" content="Asynchronous support for modern leaders. Start with a free, no-obligation consultation.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.customcompanion.xyz/">
-    <meta property="og:image" content="https://www.customcompanion.xyz/social-preview.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Private Counsel | Confidential Counseling & Coaching">
-    <meta name="twitter:description" content="Asynchronous support for modern leaders. Start with a free, no-obligation consultation.">
-    <meta name="twitter:image" content="https://www.customcompanion.xyz/social-preview.jpg">
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org", "@type": "Organization", "name": "Private Counsel", "url": "https://www.customcompanion.xyz/",
-      "logo": "https://www.customcompanion.xyz/logo.png",
-      "contactPoint": { "@type": "ContactPoint", "contactType": "customer support", "telephone": "+1-676-989-6777", "areaServed": "US", "availableLanguage": ["en", "zh"] },
-      "description": "Private Counsel offers professional, confidential, and asynchronous support including psychological counseling, emotional companionship, and advanced Mandarin coaching.",
-      "makesOffer": [ { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Initial Dialogue (Free Consultation)" }, "price": "0", "priceCurrency": "USD" }, { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Continuous Counsel Membership" }, "price": "710", "priceCurrency": "USD", "priceSpecification": { "@type": "PriceSpecification", "price": "710", "priceCurrency": "USD", "unitText": "MONTH" } } ]
-    }
-    </script>
+    <title>Private Counsel | Elite Support</title>
+    <meta name="description" content="Confidential counsel for modern leaders.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg: #000000; --accent: #9d8aff; --glow-color: rgba(157, 138, 255, 0.4); --text-primary: #F5F5F7;
-            --text-secondary: #A1A1A6; --border-color: rgba(255, 255, 255, 0.15); --glass-bg: rgba(18, 18, 22, 0.6);
+            --bg: #050505; 
+            --text-primary: #f2f2f2;
+            --text-secondary: #888;
+            --accent: #fff; /* 极简白 */
+            --border: rgba(255,255,255,0.1);
         }
-        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; }
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        .container { width: 90%; max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
-        .section { padding: 120px 0; }
-        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
-        .cta-button { text-decoration: none; padding: 14px 32px; border-radius: 12px; font-weight: 600; display: inline-block; transition: all 0.3s ease; text-align: center; border: 1px solid transparent; }
-        .cta-button.primary { background: var(--accent); color: #000; box-shadow: 0 0 25px var(--glow-color); border-color: rgba(255,255,255,0.2); }
-        .cta-button.primary:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 0 40px var(--glow-color); }
-        .cta-button.secondary { background-color: transparent; color: var(--text-primary); border-color: var(--border-color); }
-        .cta-button.secondary:hover { background-color: var(--border-color); color: #fff; }
-        .hero { min-height: 90vh; display: flex; align-items: center; text-align: center; }
-        .hero-title { font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
-        .hero-title .highlight{ color: var(--accent); text-shadow: 0 0 15px var(--glow-color); }
-        .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--text-secondary); max-width: 680px; margin: 0 auto 3rem; }
-        .section-header { text-align: center; margin-bottom: 70px; }
-        .section-tag { color: var(--accent); font-weight: 600; margin-bottom: 0.5rem; display: block; }
-        .section-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; letter-spacing: -0.02em; margin: 0; }
-        .glass-card { background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; height: 100%; display: flex; flex-direction: column; }
-        .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .process-step .step-number { font-size: 1.5rem; font-weight: 600; color: var(--accent); margin-bottom: 1rem; }
-        .process-step .step-title { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; }
-        .process-step .step-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        body {
+            background-color: var(--bg);
+            /* 高端深邃背景：纯CSS渐变，无丑陋图案 */
+            background-image: radial-gradient(circle at 50% 0%, #1a1a20 0%, #050505 60%);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .container { width: 90%; max-width: 1000px; margin: 0 auto; }
         
-        /* [NEW] Features Section */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .feature-card { padding: 24px; text-align: center; }
-        .feature-icon { color: var(--accent); margin-bottom: 1rem; width: 40px; height: 40px; }
-        .feature-title { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; }
-        .feature-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        /* Hero Section */
+        .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+        }
+        .cta-btn {
+            display: inline-block;
+            background: var(--text-primary);
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        .cta-btn:hover { opacity: 0.9; }
 
-        /* [NEW] Testimonials Section */
-        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .testimonial-card .quote { font-style: italic; font-size: 1.1rem; line-height: 1.5; margin: 0 0 1.5rem 0; }
-        .testimonial-card .author { font-weight: 600; color: var(--text-secondary); text-align: right; }
+        /* Sections */
+        .section { padding: 100px 0; border-top: 1px solid var(--border); }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-align: center; margin-bottom: 60px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .card { padding: 20px; }
+        .card h3 { font-size: 1.25rem; margin-bottom: 10px; font-weight: 500; }
+        .card p { color: var(--text-secondary); font-size: 0.95rem; }
 
-        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .pricing-card { position: relative; padding: 40px; }
-        .pricing-card.featured { border-color: var(--accent); box-shadow: 0 0 30px var(--glow-color); }
-        .featured-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
-        .pricing-card h3 { font-size: 1.75rem; font-weight: 600; margin-top: 0; }
-        .price { font-size: 3rem; font-weight: 700; margin: 1rem 0; }
-        .price .period { font-size: 1rem; font-weight: 500; color: var(--text-secondary); }
-        .plan-desc { color: var(--text-secondary); margin-bottom: 2rem; }
-        .features-list { list-style: none; padding: 0; margin: 0 0 2rem 0; flex-grow: 1; }
-        .features-list li { position: relative; padding-left: 25px; margin-bottom: 0.75rem; }
-        .features-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); }
-        .service-item-title { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem 0; color: var(--text-primary); }
-        .service-item-desc { color: var(--text-secondary); }
-        .dual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        #about-card .credentials-list { list-style: none; padding: 20px 0 0 0; margin: 0; }
-        #about-card .credentials-list li { position: relative; padding-left: 25px; margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--text-secondary); }
-        #about-card .credentials-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
-        .site-footer { padding: 60px 0; font-size: 0.875rem; color: var(--text-secondary); text-align: center; }
-        .footer-disclaimer { border-top: 1px solid var(--border-color); padding-top: 40px; margin-top: 40px; }
-        .disclaimer-title { font-weight: 600; color: var(--text-primary); }
-        .disclaimer-text { font-size: 0.8rem; line-height: 1.5; max-width: 800px; margin: 0.5rem auto 0; }
-        .whatsapp-float { position: fixed; width: 55px; height: 55px; bottom: 30px; right: 30px; background-color: #25D366; border-radius: 50%; z-index: 100; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); }
-        .whatsapp-float:hover { transform: scale(1.1); }
-        @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
+        footer { text-align: center; padding: 60px 0; color: var(--text-secondary); border-top: 1px solid var(--border); font-size: 0.8rem; }
     </style>
 </head>
 <body>
-    <canvas id="bg-canvas"></canvas>
-    
+
     <section class="hero container">
-        <div class="fade-in-section is-visible">
-            <h1 class="hero-title">A Space for Your Mind,<br> Redefined with <span class="highlight">Privacy.</span></h1>
-            <p class="hero-subtitle">We offer professional, 1-on-1 asynchronous dialogue to explore your thoughts. Start a confidential conversation today, completely free, or choose a membership for continuous support.</p>
-            <a href="form.html" class="cta-button primary">Start Your Free Consultation</a>
+        <h1 class="hero-title">A Space for<br>Your Mind.</h1>
+        <p class="hero-subtitle">Professional, asynchronous counsel for leaders. Private, secure, and purely human.</p>
+        <div>
+            <a href="form.html" class="cta-btn">Start Consultation</a>
         </div>
     </section>
 
-    <!-- [UPGRADED] Features Section -->
-    <section id="features" class="section container fade-in-section">
-        <div class="section-header">
-            <span class="section-tag">Our Core Principles</span>
-            <h2 class="section-title">Designed For Depth.</h2>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card glass-card">
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197"></path></svg>
-                <h3 class="feature-title">Human-to-Human</h3>
-                <p class="feature-desc">This is not AI. Engage in a thoughtful dialogue with a real, qualified professional dedicated to your growth.</p>
+    <section class="section container">
+        <h2 class="section-title">The Foundation</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Privacy First</h3>
+                <p>Zero-record policy. End-to-end encrypted. Your identity and thoughts are yours alone.</p>
             </div>
-            <div class="feature-card glass-card">
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                <h3 class="feature-title">Absolute Confidentiality</h3>
-                <p class="feature-desc">Built on a foundation of zero-record policy and end-to-end encryption. Your privacy is non-negotiable.</p>
+            <div class="card">
+                <h3>Human Expertise</h3>
+                <p>No AI chatbots. Connect with licensed counselors and senior strategists.</p>
             </div>
-            <div class="feature-card glass-card">
-                 <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m-9 9h18"></path></svg>
-                <h3 class="feature-title">Asynchronous Flexibility</h3>
-                <p class="feature-desc">No scheduling needed. Reflect and respond on your own time, allowing for deeper, more considered insights.</p>
+            <div class="card">
+                <h3>Asynchronous</h3>
+                <p>Reflect and respond on your own time. No scheduling conflicts, just deep work.</p>
             </div>
         </div>
     </section>
 
-    <!-- [NEW] Testimonials Section -->
-    <section id="testimonials" class="section container fade-in-section">
-        <div class="section-header">
-            <span class="section-tag">Social Proof</span>
-            <h2 class="section-title">Voices of Clarity.</h2>
-        </div>
-        <div class="testimonial-grid">
-            <div class="testimonial-card glass-card">
-                <p class="quote">"This was the first time I felt truly heard without the pressure of a live session. The asynchronous model is a game-changer for a founder's schedule."</p>
-                <p class="author">— A.L., Founder in Tech</p>
-            </div>
-            <div class="testimonial-card glass-card">
-                <p class="quote">"The insights I received were far more strategic than simple empathy. It was like having a high-EQ board member on call. Invaluable."</p>
-                <p class="author">— J.S., Executive in Finance</p>
-            </div>
-            <div class="testimonial-card glass-card">
-                <p class="quote">"Navigating a cross-cultural business deal, the Mandarin coaching was critical. It went beyond language into the nuances of negotiation. Highly recommended."</p>
-                <p class="author">— M.C., Entrepreneur</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section (Unchanged) -->
-    <section id="pricing" class="section container fade-in-section">
-        <div class="section-header"><span class="section-tag">Membership</span><h2 class="section-title">Choose Your Path</h2></div>
-        <div class="pricing-grid">
-            <div class="pricing-card glass-card">
+    <section class="section container">
+        <h2 class="section-title">Membership</h2>
+        <div class="grid">
+            <div class="card" style="border: 1px solid var(--border); border-radius: 12px; padding: 40px;">
                 <h3>Initial Dialogue</h3>
-                <div class="price">$0 <span class="period">One-Time</span></div>
-                <p class="plan-desc">A no-commitment starting point to understand your needs and experience our method.</p>
-                <ul class="features-list"><li>One-time detailed inquiry submission</li><li>In-depth personal response via email</li><li>Professional assessment of your situation</li><li>No payment information required</li></ul>
-                <a href="form.html" class="cta-button secondary">Start for Free</a>
+                <p style="font-size: 2rem; color: #fff; margin: 10px 0;">Free</p>
+                <p>Experience our method with a no-cost initial assessment.</p>
             </div>
-            <div class="pricing-card glass-card featured">
-                <span class="featured-badge">Full Access</span><h3>Continuous Counsel</h3><div class="price">$710 <span class="period">/ month</span></div>
-                <p class="plan-desc">Ongoing, unlimited asynchronous support for deep and continuous personal and professional growth.</p>
-                 <ul class="features-list"><li><strong>Unlimited</strong> asynchronous dialogues</li><li>Dedicated professional counsel</li><li>Guaranteed 24-hour response time</li><li>Access to all service areas</li><li>Pause or cancel anytime</li></ul>
-                <a href="form.html?plan=monthly" class="cta-button primary">Become a Member</a>
+            <div class="card" style="border: 1px solid #fff; border-radius: 12px; padding: 40px;">
+                <h3>Continuous Counsel</h3>
+                <p style="font-size: 2rem; color: #fff; margin: 10px 0;">$710 <span style="font-size: 1rem; color: #888">/ month</span></p>
+                <p>Unlimited asynchronous support and strategic guidance.</p>
             </div>
         </div>
     </section>
 
-    <!-- Trust Section (Unchanged) -->
-    <section id="trust" class="section container fade-in-section">
-        <div class="dual-grid">
-            <div id="about-card" class="glass-card"><h3 class="service-item-title">Grounded in Expertise</h3><p class="service-item-desc">Our team comprises a network of professionals... Your conversation will be handled by:</p><ul class="credentials-list"><li>[e.g., Licensed Professional Counselors (LPC)]</li><li>[e.g., ICF-Certified Coaches (PCC)]</li><li>[e.g., Specialists in Cross-Cultural Communication]</li></ul></div>
-            <div id="privacy-card" class="glass-card"><h3 class="service-item-title">Your Privacy is Absolute</h3><p class="service-item-desc">We built our system on a foundation of uncompromising confidentiality. All submissions are E2E encrypted, our policy is zero-record for session content, and your data is never, ever shared.</p><a href="#footer-disclaimer" style="color:var(--accent); margin-top: 1rem; display:inline-block;">Read Our Full Disclaimer</a></div>
-        </div>
-    </section>
-
-    <!-- Footer (Unchanged) -->
-    <footer class="site-footer">
-        <div class="container"><p>&copy; 2025 Private Counsel Inc. All Rights Reserved.</p><div id="footer-disclaimer" class="footer-disclaimer"><p class="disclaimer-title">Important Disclaimer:</p><p class="disclaimer-text">Private Counsel provides educational and supportive coaching services... Your use of this service signifies your understanding and acceptance of these terms.</p></div></div>
+    <footer>
+        <p>&copy; 2025 Private Counsel Inc. All Rights Reserved.</p>
     </footer>
-    
-    <a href="https://wa.me/16769896777" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.459L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.289.173-1.414z"/></svg></a>
-    
-    <script>
-        const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; let particles = []; const particleCount = 40; class Particle { constructor(){ this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+1; this.speedX = (Math.random()*0.4-0.2); this.speedY = (Math.random()*0.4-0.2); this.color = 'rgba(157, 138, 255, 0.5)'; } update(){ if(this.x>canvas.width||this.x<0)this.speedX*=-1; if(this.y>canvas.height||this.y<0)this.speedY*=-1; this.x+=this.speedX; this.y+=this.speedY; } draw(){ ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); } } function initParticles(){ for(let i=0;i<particleCount;i++){ particles.push(new Particle()); } } function animateParticles(){ ctx.clearRect(0,0,canvas.width,canvas.height); for(let i=0;i<particles.length;i++){ particles[i].update(); particles[i].draw(); } requestAnimationFrame(animateParticles); } initParticles(); animateParticles(); window.addEventListener('resize', ()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; particles=[]; initParticles(); });
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 }); document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
-    </script>
+
 </body>
 </html>
