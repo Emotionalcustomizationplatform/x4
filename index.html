@@ -1,231 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Private Counsel | The Fluid Mind</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-    :root {
-        --bg: #02020a;
-        --accent: #8855ff; /* 柔和的科技紫 */
-        --text: #e0e0e0;
-        --text-dark: #888;
-        --border-color: rgba(255, 255, 255, 0.1);
-    }
-    body {
-        background-color: var(--bg);
-        color: var(--text);
-        font-family: 'Inter', sans-serif;
-        margin: 0;
-        overflow-x: hidden;
-    }
-    .container {
-        width: 100%;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 0 40px;
-        box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ================== SEO & METADATA UPGRADE ================== -->
+    
+    <!-- 1. Optimized Title Tag: Includes keywords and value proposition. -->
+    <title>Private Counsel | Confidential Counseling & Coaching | Free Consultation</title>
+    
+    <!-- 2. Meta Description: Appears in search results, crucial for click-through rates. -->
+    <meta name="description" content="Explore confidential, asynchronous support with Private Counsel. We offer professional psychological counseling, emotional companionship, and advanced Mandarin coaching. Start with a free, no-obligation consultation.">
+    
+    <!-- 3. Canonical URL: Prevents duplicate content issues by specifying the preferred URL. -->
+    <link rel="canonical" href="https://www.your-domain.com/"> <!--! 请将 your-domain.com 替换为您的真实域名 !-->
+    
+    <!-- 4. Open Graph / Facebook & LinkedIn Social Sharing -->
+    <meta property="og:title" content="Private Counsel | Confidential Counseling & Coaching">
+    <meta property="og:description" content="Asynchronous support for modern leaders. Start with a free, no-obligation consultation.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.your-domain.com/"> <!--! 域名替换 !-->
+    <meta property="og:image" content="https://www.your-domain.com/social-preview.jpg"> <!--! 建议创建一个 1200x630px 的预览图 !-->
+    
+    <!-- 5. Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Private Counsel | Confidential Counseling & Coaching">
+    <meta name="twitter:description" content="Asynchronous support for modern leaders. Start with a free, no-obligation consultation.">
+    <meta name="twitter:image" content="https://www.your-domain.com/social-preview.jpg"> <!--! 域名和图片路径替换 !-->
 
-    /* === GSAP 动画初始状态 === */
-    .hero-line span, .hero p, .hero .cta, .section-title, .feature-card {
-        opacity: 0;
-        transform: translateY(30px);
+    <!-- 6. Structured Data (JSON-LD): Helps Google understand your business, services, and offers. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Private Counsel",
+      "url": "https://www.your-domain.com/",
+      "logo": "https://www.your-domain.com/logo.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "telephone": "+1-676-989-6777",
+        "areaServed": "US",
+        "availableLanguage": ["en", "zh"]
+      },
+      "description": "Private Counsel offers professional, confidential, and asynchronous support including psychological counseling, emotional companionship, and advanced Mandarin coaching.",
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Initial Dialogue (Free Consultation)",
+            "description": "A no-commitment starting point to understand your needs and experience our method. Includes a one-time detailed inquiry and a professional, in-depth response via email."
+          },
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Continuous Counsel Membership",
+            "description": "Ongoing, unlimited asynchronous support for deep and continuous personal and professional growth. Includes a dedicated counsel and guaranteed 24-hour response time."
+          },
+          "price": "710",
+          "priceCurrency": "USD",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": "710",
+            "priceCurrency": "USD",
+            "valueAddedTaxIncluded": "false",
+            "unitText": "MONTH"
+          }
+        }
+      ]
     }
+    </script>
+    
+    <!-- ================== END OF SEO UPGRADE ================== -->
 
-    /* === Hero Section === */
-    .hero {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        position: relative;
-    }
-    .hero-title {
-        font-size: clamp(3rem, 10vw, 7rem);
-        font-weight: 500;
-        line-height: 1.1;
-        margin: 0 0 2rem 0;
-    }
-    .hero-line {
-        display: block;
-        overflow: hidden;
-    }
-    .hero-line span {
-        display: inline-block; /* Required for transform */
-    }
-    .hero-title .accent-text {
-        color: var(--accent);
-        font-style: italic;
-    }
-    .hero p {
-        font-size: 1.2rem;
-        max-width: 500px;
-        color: var(--text-dark);
-        margin-bottom: 3rem;
-    }
-    .cta {
-        background: var(--accent);
-        color: #fff;
-        text-decoration: none;
-        padding: 1rem 2.5rem;
-        border-radius: 50px;
-        font-weight: 500;
-        transition: transform 0.3s ease;
-    }
-    .cta:hover {
-        transform: scale(1.05);
-    }
-
-    /* === Features Section === */
-    .features-section {
-        padding: 150px 0;
-    }
-    .section-title {
-        text-align: center;
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        font-weight: 500;
-        margin-bottom: 80px;
-    }
-    .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-    }
-    .feature-card {
-        position: relative;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--border-color);
-        border-radius: 20px;
-        padding: 2.5rem;
-        backdrop-filter: blur(15px);
-        overflow: hidden;
-        min-height: 250px;
-    }
-    .feature-card::before {
-        content: "";
-        position: absolute;
-        left: var(--x);
-        top: var(--y);
-        transform: translate(-50%, -50%);
-        width: 250px;
-        height: 250px;
-        background: radial-gradient(circle at center, rgba(136, 85, 255, 0.2) 0%, transparent 60%);
-        opacity: 0;
-        transition: opacity 0.5s;
-    }
-    .feature-card:hover::before {
-        opacity: 1;
-    }
-    .card-content { pointer-events: none; }
-    .card-icon {
-        font-size: 2rem;
-        color: var(--accent);
-        margin-bottom: 1rem;
-    }
-    .card-title {
-        font-size: 1.5rem;
-        font-weight: 500;
-        margin: 0 0 0.8rem 0;
-    }
-    .card-desc {
-        color: var(--text-dark);
-        line-height: 1.6;
-    }
-    /* === Footer === */
-    footer {
-        text-align: center;
-        padding: 40px 0;
-        color: var(--text-dark);
-        font-size: 0.9rem;
-        border-top: 1px solid var(--border-color);
-        margin-top: 100px;
-    }
-</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000; --accent: #9d8aff; --glow-color: rgba(157, 138, 255, 0.4);
+            --text-primary: #F5F5F7; --text-secondary: #A1A1A6; --border-color: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(18, 18, 22, 0.6);
+        }
+        body {
+            background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6;
+        }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+        .section { padding: 120px 0; }
+        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        .cta-button { text-decoration: none; padding: 14px 32px; border-radius: 12px; font-weight: 600; display: inline-block; transition: all 0.3s ease; text-align: center; border: 1px solid transparent; }
+        .cta-button.primary { background: var(--accent); color: #000; box-shadow: 0 0 25px var(--glow-color); border-color: rgba(255,255,255,0.2); }
+        .cta-button.primary:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 0 40px var(--glow-color); }
+        .cta-button.secondary { background-color: transparent; color: var(--text-primary); border-color: var(--border-color); }
+        .cta-button.secondary:hover { background-color: var(--border-color); color: #fff; }
+        .hero { min-height: 90vh; display: flex; align-items: center; text-align: center; }
+        .hero-title { font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.5rem; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
+        .hero-title .highlight{ color: var(--accent); text-shadow: 0 0 15px var(--glow-color); }
+        .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--text-secondary); max-width: 680px; margin: 0 auto 3rem; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-tag { color: var(--accent); font-weight: 600; margin-bottom: 0.5rem; display: block; }
+        .section-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+        .glass-card { background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 20px; padding: 32px; height: 100%; display: flex; flex-direction: column; }
+        .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .process-step .step-number { font-size: 1.5rem; font-weight: 600; color: var(--accent); margin-bottom: 1rem; }
+        .process-step .step-title { font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; }
+        .process-step .step-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .pricing-card { position: relative; padding: 40px; }
+        .pricing-card.featured { border-color: var(--accent); box-shadow: 0 0 30px var(--glow-color); }
+        .featured-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .pricing-card h3 { font-size: 1.75rem; font-weight: 600; margin-top: 0; }
+        .price { font-size: 3rem; font-weight: 700; margin: 1rem 0; }
+        .price .period { font-size: 1rem; font-weight: 500; color: var(--text-secondary); }
+        .plan-desc { color: var(--text-secondary); margin-bottom: 2rem; }
+        .features-list { list-style: none; padding: 0; margin: 0 0 2rem 0; flex-grow: 1; }
+        .features-list li { position: relative; padding-left: 25px; margin-bottom: 0.75rem; }
+        .features-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); }
+        .service-item-title { font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem 0; color: var(--text-primary); }
+        .service-item-desc { color: var(--text-secondary); }
+        .dual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        #about-card .credentials-list { list-style: none; padding: 20px 0 0 0; margin: 0; }
+        #about-card .credentials-list li { position: relative; padding-left: 25px; margin-bottom: 0.75rem; font-size: 0.9rem; color: var(--text-secondary); }
+        #about-card .credentials-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+        .site-footer { padding: 60px 0; font-size: 0.875rem; color: var(--text-secondary); text-align: center; }
+        .footer-disclaimer { border-top: 1px solid var(--border-color); padding-top: 40px; margin-top: 40px; }
+        .disclaimer-title { font-weight: 600; color: var(--text-primary); }
+        .disclaimer-text { font-size: 0.8rem; line-height: 1.5; max-width: 800px; margin: 0.5rem auto 0; }
+        .whatsapp-float { position: fixed; width: 55px; height: 55px; bottom: 30px; right: 30px; background-color: #25D366; border-radius: 50%; z-index: 100; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); }
+        .whatsapp-float:hover { transform: scale(1.1); }
+        @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
-
-<section class="hero">
-    <div class="container">
-        <h1 class="hero-title">
-            <span class="hero-line"><span>Clarity for</span></span>
-            <span class="hero-line"><span class="accent-text">the Founder.</span></span>
-        </h1>
-        <p>Private Counsel is your strategic emotional partner, engineered for the pressures of leadership.</p>
-        <a href="form.html" class="cta">Begin Your Journey</a>
-    </div>
-</section>
-
-<section class="features-section">
-    <div class="container">
-        <h2 class="section-title">An Infrastructure for Your Mind.</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="card-content">
-                    <div class="card-icon">01.</div>
-                    <h3 class="card-title">Absolute Discretion</h3>
-                    <p class="card-desc">Zero-record sessions. Uncompromising privacy for uncompromising leaders.</p>
-                </div>
+    <canvas id="bg-canvas"></canvas>
+    <!-- Page Content Remains Unchanged -->
+    <section class="hero container">
+        <div class="fade-in-section is-visible">
+            <h1 class="hero-title">A Space for Your Mind,<br> Redefined with <span class="highlight">Privacy.</span></h1>
+            <p class="hero-subtitle">We offer professional, 1-on-1 asynchronous dialogue to explore your thoughts. Start a confidential conversation today, completely free, or choose a membership for continuous support.</p>
+            <a href="form.html" class="cta-button primary">Start Your Free Consultation</a>
+        </div>
+    </section>
+    <section id="process" class="section container fade-in-section">
+        <div class="section-header">
+            <span class="section-tag">Our Process</span>
+            <h2 class="section-title">Your Journey to Clarity.</h2>
+        </div>
+        <div class="process-grid">
+            <div class="process-step glass-card">
+                <div class="step-number">01</div><h3 class="step-title">Submit a Free Request</h3><p class="step-desc">Fill out a short, secure form. Tell us what's on your mind. This initial step is always free and confidential.</p>
             </div>
-            <div class="feature-card">
-                <div class="card-content">
-                    <div class="card-icon">02.</div>
-                    <h3 class="card-title">Asynchronous Access</h3>
-                    <p class="card-desc">Your counsel, on your time. Support that adapts to your founder-lifestyle.</p>
-                </div>
+            <div class="process-step glass-card">
+                <div class="step-number">02</div><h3 class="step-title">Receive a Personal Response</h3><p class="step-desc">A qualified professional reviews your submission and provides a thoughtful, in-depth response to your inbox.</p>
             </div>
-            <div class="feature-card">
-                <div class="card-content">
-                    <div class="card-icon">03.</div>
-                    <h3 class="card-title">Strategic Alignment</h3>
-                    <p class="card-desc">Beyond empathy. We provide high-EQ strategic input that moves the needle.</p>
-                </div>
+            <div class="process-step glass-card">
+                <div class="step-number">03</div><h3 class="step-title">Choose Your Path</h3><p class="step-desc">Continue with a one-time dialogue or subscribe to our monthly membership for unlimited, ongoing support.</p>
             </div>
         </div>
-    </div>
-</section>
-
-<footer>
-    <div class="container">
-        <p>&copy; 2025 Private Counsel Inc. All Rights Reserved.</p>
-    </div>
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script>
-    gsap.registerPlugin(ScrollTrigger);
-
-    const tl = gsap.timeline({ delay: 0.2 });
-    tl.to(".hero-line span", { y: 0, opacity: 1, stagger: 0.2, duration: 1.5, ease: "expo.out" })
-      .to(".hero p", { y: 0, opacity: 1, duration: 1.5, ease: "expo.out" }, "-=1.2")
-      .to(".hero .cta", { y: 0, opacity: 1, duration: 1.5, ease: "expo.out" }, "-=1.2");
-
-    gsap.to(".section-title", {
-        scrollTrigger: { trigger: ".section-title", start: "top 85%" },
-        y: 0, opacity: 1, duration: 2, ease: "expo.out"
-    });
-    gsap.utils.toArray('.feature-card').forEach(card => {
-        gsap.to(card, {
-            scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none none" },
-            y: 0, opacity: 1, duration: 1.5, stagger: 0.1, ease: "expo.out"
-        });
-    });
-    document.querySelectorAll('.feature-card').forEach(card => {
-        card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--x', `${x}px`);
-            card.style.setProperty('--y', `${y}px`);
-        });
-    });
-</script>
-
+    </section>
+    <section id="pricing" class="section container fade-in-section">
+        <div class="section-header"><span class="section-tag">Membership</span><h2 class="section-title">Choose Your Path</h2></div>
+        <div class="pricing-grid">
+            <div class="pricing-card glass-card">
+                <h3>Initial Dialogue</h3>
+                <div class="price">$0 <span class="period">One-Time</span></div>
+                <p class="plan-desc">A no-commitment starting point to understand your needs and experience our method.</p>
+                <ul class="features-list"><li>One-time detailed inquiry submission</li><li>In-depth personal response via email</li><li>Professional assessment of your situation</li><li>No payment information required</li></ul>
+                <a href="form.html" class="cta-button secondary">Start for Free</a>
+            </div>
+            <div class="pricing-card glass-card featured">
+                <span class="featured-badge">Full Access</span><h3>Continuous Counsel</h3><div class="price">$710 <span class="period">/ month</span></div>
+                <p class="plan-desc">Ongoing, unlimited asynchronous support for deep and continuous personal and professional growth.</p>
+                 <ul class="features-list"><li><strong>Unlimited</strong> asynchronous dialogues</li><li>Dedicated professional counsel</li><li>Guaranteed 24-hour response time</li><li>Access to all service areas</li><li>Pause or cancel anytime</li></ul>
+                <a href="form.html?plan=monthly" class="cta-button primary">Become a Member</a>
+            </div>
+        </div>
+    </section>
+    <section id="trust" class="section container fade-in-section">
+        <div class="dual-grid">
+            <div id="about-card" class="glass-card">
+                <h3 class="service-item-title">Grounded in Expertise</h3>
+                <p class="service-item-desc">Our team comprises a network of professionals dedicated to a new standard of support. We believe in strategic partnership, not just passive listening. Your conversation will be handled by:</p>
+                <ul class="credentials-list"><li>[e.g., Licensed Professional Counselors (LPC)]</li><li>[e.g., ICF-Certified Coaches (PCC)]</li><li>[e.g., Specialists in Cross-Cultural Communication]</li></ul>
+            </div>
+            <div id="privacy-card" class="glass-card">
+                <h3 class="service-item-title">Your Privacy is Absolute</h3>
+                <p class="service-item-desc">We built our system on a foundation of uncompromising confidentiality. All submissions are E2E encrypted, our policy is zero-record for session content, and your data is never, ever shared.</p>
+                <a href="#footer-disclaimer" style="color:var(--accent); margin-top: 1rem; display:inline-block;">Read Our Full Disclaimer</a>
+            </div>
+        </div>
+    </section>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Private Counsel Inc. All Rights Reserved.</p>
+            <div id="footer-disclaimer" class="footer-disclaimer">
+                <p class="disclaimer-title">Important Disclaimer:</p>
+                <p class="disclaimer-text">Private Counsel provides educational and supportive coaching services. We are not a medical provider, and our services do not constitute medical advice, diagnosis, or treatment. If you are in a crisis, please call 911 or contact your local emergency services. Your use of this service signifies your understanding and acceptance of these terms.</p>
+            </div>
+        </div>
+    </footer>
+    <a href="https://wa.me/16769896777" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99 0-3.903-.52-5.586-1.459L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.289.173-1.414z"/></svg>
+    </a>
+    <script>
+        // Background Particle Animation
+        const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; let particles = []; const particleCount = 40; class Particle { constructor(){ this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+1; this.speedX = (Math.random()*0.4-0.2); this.speedY = (Math.random()*0.4-0.2); this.color = 'rgba(157, 138, 255, 0.5)'; } update(){ if(this.x>canvas.width||this.x<0)this.speedX*=-1; if(this.y>canvas.height||this.y<0)this.speedY*=-1; this.x+=this.speedX; this.y+=this.speedY; } draw(){ ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill(); } } function initParticles(){ for(let i=0;i<particleCount;i++){ particles.push(new Particle()); } } function animateParticles(){ ctx.clearRect(0,0,canvas.width,canvas.height); for(let i=0;i<particles.length;i++){ particles[i].update(); particles[i].draw(); } requestAnimationFrame(animateParticles); } initParticles(); animateParticles(); window.addEventListener('resize', ()=>{ canvas.width=window.innerWidth; canvas.height=window.innerHeight; particles=[]; initParticles(); });
+        // Scroll Fade-in Animation
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 }); document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
+    </script>
 </body>
 </html>
