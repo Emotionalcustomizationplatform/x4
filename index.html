@@ -1,122 +1,382 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Counsel | Elite Support</title>
-    <meta name="description" content="Confidential counsel for modern leaders.">
     
+    <!-- ================= SEO: High-Converting & Rich Snippets ================= -->
+    <title>Private Counsel | Confidential Strategic Support for Founders</title>
+    <meta name="description" content="Secure, asynchronous psychological strategy and emotional infrastructure for high-performance leaders. Zero-record privacy. HSK 8 Negotiation Support.">
+    <link rel="canonical" href="https://www.customcompanion.xyz/">
+    <meta name="robots" content="index, follow">
+
+    <!-- Performance: Preconnect & Font Swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+    <!-- Open Graph (Social) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Private Counsel | The Founder's Silent Partner">
+    <meta property="og:description" content="Elite, confidential counsel for executives. Strategic psychology & emotional support.">
+    <meta property="og:url" content="https://www.customcompanion.xyz/">
+    <meta property="og:image" content="https://www.customcompanion.xyz/social-preview.jpg">
+
+    <!-- JSON-LD: Full Commercial Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Private Counsel",
+      "url": "https://www.customcompanion.xyz",
+      "logo": "https://www.customcompanion.xyz/logo.png",
+      "description": "Elite psychological and strategic counsel for executives.",
+      "priceRange": "$$$$",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-676-989-6777",
+        "contactType": "customer service",
+        "availableLanguage": ["English", "Chinese"]
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Initial Dialogue",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Preliminary assessment and chemistry check."
+        },
+        {
+          "@type": "Offer",
+          "name": "Continuous Counsel Membership",
+          "price": "710",
+          "priceCurrency": "USD",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "price": "710",
+            "priceCurrency": "USD",
+            "unitText": "MONTH"
+          }
+        }
+      ]
+    }
+    </script>
+
     <style>
         :root {
-            --bg: #050505; 
-            --text-primary: #f2f2f2;
-            --text-secondary: #888;
-            --accent: #fff; /* 极简白 */
-            --border: rgba(255,255,255,0.1);
+            --bg: #050505;
+            --surface: #0a0a0a;
+            --surface-card: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.1);
+            --border-light: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #A3A3A3;
+            --accent: #fff;
+            --gold: #E5C359; 
+            --gold-glow: rgba(229, 195, 89, 0.15);
         }
+
+        /* 基础设置 */
         body {
             background-color: var(--bg);
-            /* 高端深邃背景：纯CSS渐变，无丑陋图案 */
-            background-image: radial-gradient(circle at 50% 0%, #1a1a20 0%, #050505 60%);
             color: var(--text-primary);
             font-family: 'Inter', sans-serif;
             margin: 0;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        .container { width: 90%; max-width: 1000px; margin: 0 auto; }
+
+        /* 性能优化背景：纯 CSS 渐变，无 heavy SVG */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #050505 50%);
+            pointer-events: none;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; margin: 0; }
+
+        /* === Navbar: 修复重叠与点击区域 === */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 16px 0; transition: background 0.3s, border-bottom 0.3s;
+        }
+        .navbar.scrolled {
+            background: rgba(5, 5, 5, 0.95);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 600; font-size: 1.1rem; color: #fff; text-decoration: none; letter-spacing: -0.01em; }
         
-        /* Hero Section */
-        .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; text-align: center; }
-        .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 6vw, 5.5rem);
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
+        /* 导航按钮实体化 */
+        .nav-btn {
+            background: rgba(255,255,255,0.1); border: 1px solid var(--border);
+            padding: 8px 20px; border-radius: 50px; color: #fff; font-size: 0.85rem;
+            text-decoration: none; transition: all 0.2s; font-weight: 500;
         }
-        .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            font-weight: 300;
+        .nav-btn:hover { background: #fff; color: #000; }
+
+        /* === Hero Section: 优化间距与层级 === */
+        .hero {
+            min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            position: relative;
         }
-        .cta-btn {
-            display: inline-block;
-            background: var(--text-primary);
-            color: #000;
-            padding: 16px 40px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 6.5rem); line-height: 1.05; margin-bottom: 24px;
+            background: linear-gradient(180deg, #FFFFFF 30%, #999 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-        .cta-btn:hover { opacity: 0.9; }
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.35rem); color: var(--text-secondary);
+            max-width: 620px; margin: 0 auto 40px; font-weight: 300;
+        }
+        
+        .btn-hero {
+            display: inline-block; background: #fff; color: #000;
+            padding: 18px 48px; border-radius: 50px; font-weight: 600; font-size: 1.05rem;
+            text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 25px rgba(255,255,255,0.1); margin-bottom: 60px; /* 增加底部间距 */
+        }
+        .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(255,255,255,0.25); }
+
+        .scroll-hint {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            opacity: 0.5; animation: float 3s ease-in-out infinite; color: var(--text-secondary);
+        }
+        @keyframes float { 0%, 100% {transform:translateX(-50%) translateY(0);} 50% {transform:translateX(-50%) translateY(10px);} }
 
         /* Sections */
-        .section { padding: 100px 0; border-top: 1px solid var(--border); }
-        .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-align: center; margin-bottom: 60px; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .card { padding: 20px; }
-        .card h3 { font-size: 1.25rem; margin-bottom: 10px; font-weight: 500; }
-        .card p { color: var(--text-secondary); font-size: 0.95rem; }
+        .section { padding: 120px 0; border-top: 1px solid var(--border); }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 12px; }
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; }
 
-        footer { text-align: center; padding: 60px 0; color: var(--text-secondary); border-top: 1px solid var(--border); font-size: 0.8rem; }
+        /* === Services: 视觉区分 === */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .feature-card {
+            background: var(--surface-card); border: 1px solid var(--border);
+            padding: 35px; border-radius: 12px; transition: 0.3s;
+        }
+        .feature-card:hover { border-color: var(--border-light); transform: translateY(-3px); background: rgba(255,255,255,0.06); }
+        .feature-card h3 { font-size: 1.4rem; margin-bottom: 12px; color: #fff; }
+        .feature-card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+
+        /* === Trust Section: 移动端优化 === */
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 40px; }
+        .trust-item { text-align: center; padding: 10px; }
+        .trust-icon { width: 32px; height: 32px; margin-bottom: 12px; color: var(--text-secondary); }
+        .trust-item h4 { font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 4px; color: #fff; }
+        .trust-item p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; }
+
+        /* === Pricing: 层级强化 === */
+        .pricing-section { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center; max-width: 900px; margin: 0 auto; }
+        
+        .pricing-card {
+            background: var(--surface-card); border: 1px solid var(--border);
+            padding: 40px; border-radius: 16px; position: relative;
+        }
+        
+        /* Premium Logic */
+        .pricing-card.premium {
+            background: linear-gradient(180deg, rgba(229, 195, 89, 0.08) 0%, rgba(0,0,0,0) 100%);
+            border: 1px solid rgba(229, 195, 89, 0.4); /* Gold Border */
+            padding: 50px;
+            box-shadow: 0 0 60px rgba(229, 195, 89, 0.05);
+        }
+        .badge {
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--gold); color: #000; padding: 4px 16px;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            border-radius: 20px; white-space: nowrap;
+        }
+
+        .price { font-family: 'Playfair Display', serif; font-size: 2.8rem; display: block; margin: 24px 0; color: #fff; }
+        .premium .price { color: var(--gold); }
+        .price span { font-family: 'Inter', sans-serif; font-size: 1rem; color: var(--text-secondary); }
+
+        .pricing-features { list-style: none; padding: 0; margin: 30px 0; color: var(--text-secondary); font-size: 0.95rem; }
+        .pricing-features li { margin-bottom: 12px; padding-left: 20px; position: relative; }
+        .pricing-features li::before { content: "•"; color: var(--text-primary); position: absolute; left: 0; }
+
+        .btn-pricing {
+            display: block; width: 100%; padding: 14px 0; text-align: center; border-radius: 6px;
+            text-decoration: none; font-weight: 500; font-size: 0.95rem; margin-top: 20px; transition: 0.2s;
+        }
+        .btn-outline { border: 1px solid var(--border); color: #fff; }
+        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+        .btn-gold { background: var(--gold); color: #000; font-weight: 600; }
+        .btn-gold:hover { background: #F0D069; }
+
+        /* Footer */
+        footer { padding: 80px 0; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.85rem; text-align: center; }
+        .legal a { color: var(--text-secondary); text-decoration: none; margin: 0 15px; transition: 0.2s; }
+        .legal a:hover { color: #fff; }
+
+        /* WhatsApp: 增强可见性 */
+        .whatsapp-float {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 56px; height: 56px; background: #25D366; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 999; transition: transform 0.3s;
+            border: 2px solid rgba(255,255,255,0.1); 
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
+
+        /* === Mobile Optimization === */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.2rem; }
+            .pricing-section { grid-template-columns: 1fr; gap: 40px; }
+            /* 移动端 Badge 位置修正到右上角 */
+            .badge { left: auto; right: 20px; transform: none; top: -14px; }
+            .pricing-card.premium { padding: 40px; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+            .trust-icon { width: 28px; height: 28px; margin-bottom: 8px; }
+            .navbar { padding: 12px 0; }
+        }
     </style>
 </head>
 <body>
 
+    <div class="ambient-bg"></div>
+
+    <!-- Sticky Nav -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">Private Counsel.</a>
+            <a href="form.html" class="nav-btn" aria-label="Book a consultation">Book Session &rarr;</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
     <section class="hero container">
-        <h1 class="hero-title">A Space for<br>Your Mind.</h1>
-        <p class="hero-subtitle">Professional, asynchronous counsel for leaders. Private, secure, and purely human.</p>
-        <div>
-            <a href="form.html" class="cta-btn">Start Consultation</a>
+        <h1>The Founder's<br>Silent Partner.</h1>
+        <p>Strategic psychology and emotional infrastructure for high-performance leadership. Fortress-level confidentiality.</p>
+        <a href="form.html" class="btn-hero" aria-label="Inquire for access to Private Counsel">Inquire for Access</a>
+        
+        <div class="scroll-hint" aria-hidden="true">
+            <span>Explore</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 13L12 18L17 13M7 6L12 11L17 6"/></svg>
         </div>
     </section>
 
+    <!-- Services -->
     <section class="section container">
-        <h2 class="section-title">The Foundation</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Privacy First</h3>
-                <p>Zero-record policy. End-to-end encrypted. Your identity and thoughts are yours alone.</p>
+        <div class="section-header">
+            <h2>Core Expertise</h2>
+            <p>Designed for the isolation of the C-Suite.</p>
+        </div>
+        <div class="grid-cards">
+            <div class="feature-card">
+                <h3>Psychological Strategy</h3>
+                <p>Decode burnout, investor pressure, and co-founder conflict. Move from reactive stress to strategic clarity.</p>
             </div>
-            <div class="card">
-                <h3>Human Expertise</h3>
-                <p>No AI chatbots. Connect with licensed counselors and senior strategists.</p>
+            <div class="feature-card">
+                <h3>Emotional Companion</h3>
+                <p>A strictly private space to voice the unvoiceable. Human connection, detached from your org chart.</p>
             </div>
-            <div class="card">
-                <h3>Asynchronous</h3>
-                <p>Reflect and respond on your own time. No scheduling conflicts, just deep work.</p>
+            <div class="feature-card">
+                <h3>Mandarin Mastery</h3>
+                <p>HSK 8+ level cultural nuance and negotiation psychology required for global execution.</p>
             </div>
         </div>
     </section>
 
+    <!-- Trust -->
     <section class="section container">
-        <h2 class="section-title">Membership</h2>
-        <div class="grid">
-            <div class="card" style="border: 1px solid var(--border); border-radius: 12px; padding: 40px;">
-                <h3>Initial Dialogue</h3>
-                <p style="font-size: 2rem; color: #fff; margin: 10px 0;">Free</p>
-                <p>Experience our method with a no-cost initial assessment.</p>
+        <div class="section-header" style="margin-bottom: 40px;">
+            <h2>Why Private Counsel?</h2>
+        </div>
+        <div class="trust-grid">
+            <div class="trust-item">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <h4>Zero Records</h4>
+                <p>Absolute privacy. No session notes.</p>
             </div>
-            <div class="card" style="border: 1px solid #fff; border-radius: 12px; padding: 40px;">
-                <h3>Continuous Counsel</h3>
-                <p style="font-size: 2rem; color: #fff; margin: 10px 0;">$710 <span style="font-size: 1rem; color: #888">/ month</span></p>
-                <p>Unlimited asynchronous support and strategic guidance.</p>
+            <div class="trust-item">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h4>Asynchronous</h4>
+                <p>Deep work on your own timeline.</p>
+            </div>
+            <div class="trust-item">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h4>Verified Experts</h4>
+                <p>Licensed counselors. No AI bots.</p>
+            </div>
+            <div class="trust-item">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <h4>24h Response</h4>
+                <p>Guaranteed priority access.</p>
             </div>
         </div>
     </section>
 
+    <!-- Pricing -->
+    <section class="section container">
+        <div class="section-header">
+            <h2>Membership</h2>
+            <p>Select your level of engagement.</p>
+        </div>
+        <div class="pricing-section">
+            <!-- Free Tier -->
+            <div class="pricing-card">
+                <div>
+                    <h3>Initial Dialogue</h3>
+                    <span class="price">Free</span>
+                    <ul class="pricing-features">
+                        <li>Preliminary assessment</li>
+                        <li>Single secure submission</li>
+                        <li>Chemistry check</li>
+                    </ul>
+                </div>
+                <a href="form.html" class="btn-pricing btn-outline" aria-label="Start free assessment">Begin Assessment</a>
+            </div>
+            
+            <!-- Premium Tier -->
+            <div class="pricing-card premium">
+                <span class="badge">Most Selected</span>
+                <div>
+                    <h3>Continuous Counsel</h3>
+                    <span class="price">$710 <span>/ month</span></span>
+                    <ul class="pricing-features">
+                        <li><strong>Unlimited</strong> asynchronous support</li>
+                        <li>Strategic & emotional guidance</li>
+                        <li>Priority response</li>
+                        <li>Dedicated partner</li>
+                    </ul>
+                </div>
+                <a href="form.html" class="btn-pricing btn-gold" aria-label="Apply for continuous counsel membership">Apply for Membership</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Private Counsel Inc. All Rights Reserved.</p>
+        <div class="container">
+            <p>&copy; 2025 Private Counsel Inc.</p>
+            <div class="legal" style="margin-top: 20px;">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Disclaimer</a>
+            </div>
+            <p style="opacity: 0.4; margin-top: 40px; font-size: 0.75rem;">Disclaimer: Services are educational and supportive coaching only.</p>
+        </div>
     </footer>
 
+    <!-- WhatsApp -->
+    <a href="https://wa.me/16769896777" class="whatsapp-float" target="_blank" aria-label="Contact via WhatsApp">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.932.513 1.945.786 2.793.786 3.18 0 5.767-2.587 5.767-5.766.001-3.185-2.585-5.773-5.764-5.773zm0 10.534c-.818 0-1.611-.223-2.31-.637l-.165-.099-1.716.45.457-1.673-.108-.171c-.482-.767-.736-1.579-.736-2.637 0-2.624 2.135-4.759 4.578-4.759 2.445 0 4.58 2.135 4.58 4.759.001 2.627-2.133 4.767-4.58 4.767z"/><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.523 0-10-4.477-10-10S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    </a>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+    </script>
 </body>
 </html>
