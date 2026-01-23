@@ -1,107 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Partner Center | Custom Companion</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  body {
-    background: #050505; color: #f0f0f0; font-family: 'Inter', sans-serif;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-height: 100vh; margin: 0; text-align: center;
-  }
-  .container {
-    background: #0a0a0a; border: 1px solid #222; padding: 3rem; max-width: 500px; width: 90%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border-radius: 8px;
-  }
-  h1 { font-family: 'Cormorant Garamond', serif; color: #D4AF37; margin-bottom: 0.5rem; font-weight: 400; }
-  p { color: #888; font-size: 0.9rem; line-height: 1.6; margin-bottom: 2rem; }
-  
-  input {
-    width: 100%; padding: 1rem; background: #111; border: 1px solid #333; color: #fff;
-    margin-bottom: 1rem; box-sizing: border-box; font-size: 1rem; text-align: center;
-    border-radius: 4px;
-  }
-  input:focus { outline: none; border-color: #D4AF37; }
-  
-  .btn {
-    background: #D4AF37; color: #000; border: none; padding: 1rem 2rem;
-    font-weight: 600; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1px;
-    border-radius: 4px; transition: 0.3s;
-  }
-  .btn:hover { background: #fff; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-
-  #result-area { display: none; margin-top: 2rem; border-top: 1px solid #222; padding-top: 1.5rem; }
-  .link-title { font-size: 0.8rem; color: #666; margin-bottom: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-  .link-box {
-    background: rgba(212, 175, 55, 0.05); border: 1px dashed #D4AF37; padding: 1rem;
-    color: #D4AF37; word-break: break-all; font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem;
-    border-radius: 4px;
-  }
-  .copy-btn { background: transparent; border: 1px solid #555; color: #aaa; padding: 0.6rem 1.2rem; font-size: 0.8rem; cursor: pointer; border-radius: 4px; transition: 0.2s; }
-  .copy-btn:hover { border-color: #fff; color: #fff; background: rgba(255,255,255,0.05); }
-</style>
-</head>
-<body>
-
-<div class="container">
-  <h1>Affiliate Link Generator</h1>
-  <p>Enter your unique Partner Name (or ID) below to create your tracking link.</p>
-  
-  <input type="text" id="affiliateName" placeholder="Enter your name (e.g. AlexSmith)" />
-  <button class="btn" onclick="generateLink()">Generate Link</button>
-
-  <div id="result-area">
-    <div class="link-title">Your Exclusive Tracking Link</div>
-    <div class="link-box" id="linkOutput"></div>
-    <button class="copy-btn" onclick="copyLink()">Copy Link to Clipboard</button>
-  </div>
-</div>
-
-<script>
-  function generateLink() {
-    let name = document.getElementById('affiliateName').value.trim();
-    if (!name) { alert("Please enter your name first."); return; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Center | Private Counsel</title>
     
-    // 移除空格，确保URL整洁
-    name = name.replace(/\s+/g, '');
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
-    // ★★★ 智能逻辑：自动识别当前文件位置 ★★★
-    // 无论是本地 file:// 还是服务器 https:// 都能自动适配
-    let currentPath = window.location.href;
-    
-    // 获取当前目录 (去掉 partner.html)
-    let folderPath = currentPath.substring(0, currentPath.lastIndexOf('/'));
-    
-    // 假设 form.html 和 partner.html 在同一个文件夹下
-    let baseUrl = folderPath + "/form.html";
-    
-    // 拼接完整的追踪链接
-    const finalUrl = `${baseUrl}?ref=${encodeURIComponent(name)}`;
-    
-    // 显示结果
-    document.getElementById('linkOutput').textContent = finalUrl;
-    document.getElementById('result-area').style.display = 'block';
-  }
+    <style>
+        :root {
+            --bg: #050505;
+            --surface-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --gold: #E5C359;
+            --gold-glow: rgba(229, 195, 89, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #A3A3A3;
+        }
 
-  function copyLink() {
-    const linkText = document.getElementById('linkOutput').textContent;
-    navigator.clipboard.writeText(linkText).then(() => {
-      const btn = document.querySelector('.copy-btn');
-      const originalText = btn.innerText;
-      btn.innerText = "Copied!";
-      btn.style.borderColor = "#D4AF37";
-      btn.style.color = "#D4AF37";
-      setTimeout(() => {
-        btn.innerText = originalText;
-        btn.style.borderColor = "#555";
-        btn.style.color = "#aaa";
-      }, 2000);
-    });
-  }
-</script>
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #050505 60%);
+            padding: 20px;
+        }
 
-</body>
-</html>
+        .container {
+            background: var(--surface-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            padding: 3.5rem 2.5rem;
+            max-width: 480px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 顶部装饰光效 */
+        .container::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.5;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            margin: 0 0 1rem;
+            font-size: 2.2rem;
+            letter-spacing: -0.01em;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* === 输入区域 === */
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            box-sizing: border-box;
+            transition: 0.3s;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 20px var(--gold-glow);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        input::placeholder { color: rgba(255, 255, 255, 0.2); }
+
+        .btn {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 50px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px var(--gold-glow);
+            background: #F0D069;
+        }
+
+        /* === 结果区域 (初始隐藏) === */
+        #result-area {
+            display: none;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .link-display {
+            background: rgba(229, 195, 89, 0.05);
+            border: 1px dashed rgba(229, 195, 89, 0.4);
+            padding: 1.2rem;
+            color: var(--gold);
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-outline:hover {
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Copy Success Toast */
+        .toast {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0;
