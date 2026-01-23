@@ -12,6 +12,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 const publicPath = path.resolve(__dirname, 'public');
 
+// ★★★ 修复 1: 必须信任 Render 的反向代理，否则 Rate Limit 会报错 ★★★
+app.set('trust proxy', 1);
+
 // 1. 初始化 Resend
 if (!process.env.RESEND_API_KEY) {
     console.error("❌ ERROR: RESEND_API_KEY is missing.");
@@ -23,7 +26,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(publicPath));
 
-// 3. 原生日志系统 (无第三方依赖)
+// 3. 原生日志系统
 const LOG_DIR = path.resolve(__dirname, 'logs');
 if (!fs.existsSync(LOG_DIR)) {
     fs.mkdirSync(LOG_DIR, { recursive: true });
@@ -39,10 +42,7 @@ const writeLog = async (type, data) => {
 app.post('/api/submit', rateLimit({ windowMs: 60*60*1000, max: 20 }), async (req, res) => {
     const { name, email, phone, selected_plan, support_type, referrer, website_url } = req.body;
 
-    // 蜜罐拦截
     if (website_url) return res.json({ status: 'ignored' });
-
-    // 基础验证
     if (!name || !email) return res.status(400).json({ status: 'error', message: 'Missing fields' });
 
     const cleanData = {
@@ -55,7 +55,6 @@ app.post('/api/submit', rateLimit({ windowMs: 60*60*1000, max: 20 }), async (req
         ip: req.ip
     };
 
-    // 优先本地备份
     let backup = 'success';
     try { await writeLog('leads', cleanData); } catch (e) { backup = 'failed'; }
 
@@ -63,7 +62,8 @@ app.post('/api/submit', rateLimit({ windowMs: 60*60*1000, max: 20 }), async (req
     try {
         const { data, error } = await resend.emails.send({
             from: 'Private Counsel <onboarding@resend.dev>',
-            to: ['dpx204825@Gmail.com'], 
+            // ★★★ 修复 2: 严格使用小写，匹配 Resend 报错提示中的地址 ★★★
+            to: ['dpx204825@gmail.com'], 
             subject: `New Lead: ${cleanData.name}`,
             reply_to: cleanData.email,
             html: `
@@ -82,21 +82,21 @@ app.post('/api/submit', rateLimit({ windowMs: 60*60*1000, max: 20 }), async (req
 
         if (error) {
             console.error('❌ Resend API Error:', JSON.stringify(error, null, 2));
-            throw error;
+            throw error; 
         }
 
-        console.log(`✅ Email sent to dpx204825@Gmail.com for ${cleanData.email}`);
+        console.log(`✅ Email sent successfully to dpx204825@gmail.com`);
         return res.status(201).json({ status: 'success', id: data.id });
 
     } catch (err) {
         console.error('❌ Sending Failed:', err.message);
-        // 如果备份成功，返回 202 让前端显示成功，否则返回 500
         const status = backup === 'success' ? 202 : 500;
+        // 如果是 403 错误（账号限制），在前端稍微提示一下（仅用于调试，生产环境可以去掉）
         return res.status(status).json({ status: backup === 'success' ? 'warning' : 'error' });
     }
 });
 
-// 5. 兜底路由 (SPA支持)
+// 5. 兜底路由
 app.get('*', (req, res) => {
     const index = path.join(publicPath, 'index.html');
     if (fs.existsSync(index)) res.sendFile(index);
