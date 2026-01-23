@@ -22,10 +22,7 @@
             --gold-glow: rgba(229, 195, 89, 0.15);
             --error: #ff4d4d;
             
-            --text-primary: #ffffff;
-            --text-secondary: #A3A3A3;
-            
-            --radius: 12px; /* 稍微减小圆角，更显商务 */
+            --radius: 12px;
         }
 
         /* === 基础布局 === */
@@ -70,7 +67,7 @@
             line-height: 1.6; font-weight: 300;
         }
 
-        /* === 卡片选择网格 === */
+        /* === 卡片选择网格 (无图标版) === */
         .selection-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
@@ -84,12 +81,11 @@
             backdrop-filter: blur(10px);
             border: 1px solid var(--border); 
             border-radius: var(--radius); 
-            padding: 2.2rem 2rem; /* 调整内边距 */
+            padding: 2.2rem 2rem; 
             cursor: pointer; 
             text-align: left; 
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            
-            /* 新增：左侧隐形金条 */
+            /* 核心设计：左侧隐形金条 */
             border-left: 3px solid transparent; 
         }
 
@@ -101,15 +97,14 @@
 
         .selection-card.active {
             border-color: var(--gold);
-            /* 激活时左侧金条亮起 */
+            /* 激活时金条亮起 */
             border-left-color: var(--gold); 
             box-shadow: 0 0 40px rgba(229, 195, 89, 0.05);
             background: rgba(229, 195, 89, 0.03);
         }
 
-        .card-icon { font-size: 2.2rem; margin-bottom: 1.2rem; display: block; }
+        /* 已移除 .card-icon 相关样式 */
         
-        /* 标题字号微调，更精致 */
         .card-title { font-size: 1.15rem; font-weight: 500; margin-bottom: 0.6rem; color: #fff; letter-spacing: 0.3px; }
         .card-desc { color: var(--text-secondary); line-height: 1.5; font-size: 0.9rem; margin: 0; font-weight: 300; }
         
@@ -192,7 +187,6 @@
             .form-container { padding: 1.5rem; padding-top: 5rem; }
             .selection-grid { grid-template-columns: 1fr; gap: 16px; }
             .selection-card { padding: 1.5rem; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
-            .card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
             .card-desc { display: block; font-size: 0.85rem; opacity: 0.8; }
             .step-title { font-size: 2.2rem; }
         }
@@ -203,15 +197,14 @@
 <div class="form-container">
     <form id="bespokeForm">
         
-        <!-- STEP 1: Plan Selection -->
+        <!-- STEP 1: Plan Selection (已移除所有图标) -->
         <div class="step active" id="step1">
             <h2 class="step-title">Choose Your Path</h2>
             <p class="step-subtitle">All relationships begin with a dialogue. Select an engagement level to proceed.</p>
             
             <div class="selection-grid">
-                <!-- 第一步保留了 Icon，作为视觉锚点，如果也想去掉可以删掉 span -->
+                <!-- 第一张卡片：纯文字 -->
                 <div class="selection-card active" onclick="FormLogic.selectPlan('Initial Dialogue', '0', this)">
-                    <span class="card-icon">💡</span>
                     <div>
                         <div class="card-title">Initial Dialogue</div>
                         <p class="card-desc">A confidential 45-min session to assess your needs and chemistry.</p>
@@ -219,9 +212,9 @@
                     <div class="card-price">Free</div>
                 </div>
 
+                <!-- 第二张卡片：纯文字 -->
                 <div class="selection-card" onclick="FormLogic.selectPlan('Continuous Counsel', '710', this)">
                     <span class="featured-badge">Membership</span>
-                    <span class="card-icon">🗝️</span>
                     <div>
                         <div class="card-title">Continuous Counsel</div>
                         <p class="card-desc">Unlimited asynchronous strategic and emotional support.</p>
@@ -236,7 +229,7 @@
             </div>
         </div>
 
-        <!-- STEP 2: Priority Selection (已移除 Emoji) -->
+        <!-- STEP 2: Priority Selection (已移除所有图标) -->
         <div class="step" id="step2">
              <h2 class="step-title">Primary Focus</h2>
             <p class="step-subtitle">What is the most pressing challenge on your mind right now?</p>
@@ -244,7 +237,6 @@
             <input type="hidden" name="support_type" id="support_type">
             
             <div class="selection-grid">
-                <!-- 纯文字版卡片 -->
                 <div class="selection-card" onclick="FormLogic.selectOption('support_type', 'Psychological Strategy', this)">
                     <div>
                         <div class="card-title">Psychological Strategy</div>
@@ -259,9 +251,10 @@
                     </div>
                 </div>
 
-                <div class="selection-card" onclick="FormLogic.selectOption('support_type', 'Cultural Strategy (HSK 8)', this)">
+                <!-- 第三张卡片：已修改标题为中文 -->
+                <div class="selection-card" onclick="FormLogic.selectOption('support_type', 'Mandarin Learning (HSK 8)', this)">
                     <div>
-                        <div class="card-title">Global Strategy</div>
+                        <div class="card-title">学习中文 (HSK 8级)</div>
                         <p class="card-desc">Mandarin nuance and cross-cultural negotiation tactics.</p>
                     </div>
                 </div>
@@ -305,7 +298,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script>
-/* FormLogic Module - Same as optimized version */
+/* FormLogic Module */
 const FormLogic = (() => {
     let currentStep = 1;
     const API_ENDPOINT = '/api/submit';
