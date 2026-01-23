@@ -1,243 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>Private Counsel Pro</title>
-
-<!-- Fonts: Inter (Apple Style) -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Counsel | The Fluid Mind</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #000000;
-  --card-bg: #151516; 
-  --text: #F5F5F7;
-  --text-gray: #86868b;
-  --gold: #D4AF37; 
-}
+    :root {
+        --bg: #02020a;
+        --accent: #8855ff; /* 柔和的科技紫 */
+        --text: #e0e0e0;
+        --text-dark: #888;
+        --border-color: rgba(255, 255, 255, 0.1);
+    }
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        overflow-x: hidden;
+    }
+    .container {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 40px;
+        box-sizing: border-box;
+    }
 
-body {
-  margin: 0; padding: 0;
-  font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg); color: var(--text);
-  overflow-x: hidden; -webkit-font-smoothing: antialiased;
-}
+    /* === GSAP 动画初始状态 === */
+    .hero-line span, .hero p, .hero .cta, .section-title, .feature-card {
+        opacity: 0;
+        transform: translateY(30px);
+    }
 
-a { text-decoration: none; color: inherit; transition: 0.3s; }
-* { box-sizing: border-box; }
+    /* === Hero Section === */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+    }
+    .hero-title {
+        font-size: clamp(3rem, 10vw, 7rem);
+        font-weight: 500;
+        line-height: 1.1;
+        margin: 0 0 2rem 0;
+    }
+    .hero-line {
+        display: block;
+        overflow: hidden;
+    }
+    .hero-line span {
+        display: inline-block; /* Required for transform */
+    }
+    .hero-title .accent-text {
+        color: var(--accent);
+        font-style: italic;
+    }
+    .hero p {
+        font-size: 1.2rem;
+        max-width: 500px;
+        color: var(--text-dark);
+        margin-bottom: 3rem;
+    }
+    .cta {
+        background: var(--accent);
+        color: #fff;
+        text-decoration: none;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 500;
+        transition: transform 0.3s ease;
+    }
+    .cta:hover {
+        transform: scale(1.05);
+    }
 
-/* Nav */
-nav {
-  position: fixed; top: 0; width: 100%; height: 48px;
-  background: rgba(0,0,0,0.8); backdrop-filter: saturate(180%) blur(20px);
-  z-index: 9999; display: flex; justify-content: center; align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.nav-content {
-  width: 100%; max-width: 1000px; padding: 0 20px;
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 12px; color: #e8e8ed;
-}
-.logo { font-weight: 600; }
-
-/* Hero */
-.hero {
-  height: 100vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center;
-  padding-top: 60px;
-}
-.hero h1 {
-  font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; margin: 0;
-  background: linear-gradient(180deg, #ffecd2 0%, #D4AF37 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  opacity: 0; transform: translateY(30px);
-}
-.hero h2 {
-  font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 600; margin: 10px 0 20px;
-  opacity: 0; transform: translateY(30px);
-}
-.hero p {
-  font-size: 1.2rem; color: var(--text-gray); max-width: 600px; margin: 0 auto 40px;
-  opacity: 0; transform: translateY(30px);
-}
-.cta-links {
-  display: flex; gap: 25px; font-size: 17px; font-weight: 500;
-  opacity: 0; transform: translateY(30px);
-}
-.cta-links a { color: var(--gold); }
-.cta-links a:hover { text-decoration: underline; }
-
-/* Bento Grid */
-.section-grid { padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
-.grid-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; text-align: center; margin-bottom: 60px; }
-
-.bento-box {
-  display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 500px 500px; gap: 20px;
-}
-.card {
-  background: var(--card-bg); border-radius: 30px; overflow: hidden; position: relative;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding: 40px; transition: transform 0.5s;
-}
-.card:hover { transform: scale(1.02); }
-.card-content { z-index: 2; }
-.card-title { font-size: 40px; font-weight: 700; margin: 0 0 15px; }
-.card-desc { font-size: 18px; color: var(--text-gray); max-width: 300px; margin: 0 auto; }
-.card-bg {
-  position: absolute; inset: 0; z-index: 1; background-size: cover; background-position: center;
-  opacity: 0.6; filter: grayscale(100%); transition: 0.5s;
-}
-.card:hover .card-bg { filter: grayscale(0%); opacity: 0.8; }
-
-.span-2 { grid-column: span 2; }
-.card-gold-text .card-title {
-  background: linear-gradient(90deg, #D4AF37, #F3E5AB);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-
-/* Pricing */
-.pricing-section { background: #111; padding: 100px 5%; text-align: center; }
-.pricing-cards { display: flex; justify-content: center; gap: 30px; margin-top: 50px; flex-wrap: wrap; }
-.p-card {
-  background: #000; width: 320px; padding: 40px; border-radius: 20px; border: 1px solid #333; text-align: left;
-}
-.p-card:hover { border-color: var(--gold); }
-.p-btn {
-  display: block; width: 100%; padding: 12px; background: #fff; color: #000;
-  text-align: center; border-radius: 20px; font-weight: 600; margin-top: 30px;
-}
-
-/* Footer (Legal) */
-footer { background: #111; color: var(--text-gray); padding: 60px 5%; font-size: 12px; border-top: 1px solid #333; }
-.footer-content { max-width: 1000px; margin: 0 auto; text-align: center;}
-
-/* WhatsApp */
-.wa-float {
-  position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-  background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  z-index: 100; transition: 0.3s;
-}
-.wa-float:hover { transform: scale(1.1); background: #fff; }
-
-@media(max-width: 900px) {
-  .bento-box { grid-template-columns: 1fr; grid-template-rows: auto; }
-  .span-2 { grid-column: span 1; }
-  .card { min-height: 400px; }
-}
+    /* === Features Section === */
+    .features-section {
+        padding: 150px 0;
+    }
+    .section-title {
+        text-align: center;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 500;
+        margin-bottom: 80px;
+    }
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    .feature-card {
+        position: relative;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 2.5rem;
+        backdrop-filter: blur(15px);
+        overflow: hidden;
+        min-height: 250px;
+    }
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        left: var(--x);
+        top: var(--y);
+        transform: translate(-50%, -50%);
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle at center, rgba(136, 85, 255, 0.2) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+    .card-content { pointer-events: none; }
+    .card-icon {
+        font-size: 2rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin: 0 0 0.8rem 0;
+    }
+    .card-desc {
+        color: var(--text-dark);
+        line-height: 1.6;
+    }
+    /* === Footer === */
+    footer {
+        text-align: center;
+        padding: 40px 0;
+        color: var(--text-dark);
+        font-size: 0.9rem;
+        border-top: 1px solid var(--border-color);
+        margin-top: 100px;
+    }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-content">
-    <a href="#" class="logo">Private Counsel</a>
-    <div style="display:flex; gap:20px;">
-      <a href="#features">Overview</a>
-      <a href="form.html">Apply</a>
-    </div>
-  </div>
-</nav>
-
 <section class="hero">
-  <h1 class="anim-hero">Private Counsel.</h1>
-  <h2 class="anim-hero">Pro. Beyond Therapy.</h2>
-  <p class="anim-hero">The ultimate emotional infrastructure for high-performance founders.</p>
-  <div class="cta-links anim-hero">
-    <a href="form.html">Book Free Consult ›</a>
-    <a href="#features">Learn more ›</a>
-  </div>
-  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" style="width:80%; max-width:1000px; margin-top:60px; border-radius:30px; opacity:0; transform:translateY(50px);" class="anim-hero-img">
+    <div class="container">
+        <h1 class="hero-title">
+            <span class="hero-line"><span>Clarity for</span></span>
+            <span class="hero-line"><span class="accent-text">the Founder.</span></span>
+        </h1>
+        <p>Private Counsel is your strategic emotional partner, engineered for the pressures of leadership.</p>
+        <a href="form.html" class="cta">Begin Your Journey</a>
+    </div>
 </section>
 
-<section class="section-grid" id="features">
-  <div class="grid-title">Strategy. Not just support.</div>
-  <div class="bento-box">
-    <!-- HSK 8 (Gold) -->
-    <div class="card span-2 card-gold-text">
-      <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1535139262971-c51845709a48?q=80&w=2070&auto=format&fit=crop');"></div>
-      <div class="card-content">
-        <div class="card-eyebrow">Language Mastery</div>
-        <div class="card-title">HSK 8 Strategy.</div>
-        <div class="card-desc">Elite negotiation rhetoric for Asian markets.</div>
-      </div>
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">An Infrastructure for Your Mind.</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="card-content">
+                    <div class="card-icon">01.</div>
+                    <h3 class="card-title">Absolute Discretion</h3>
+                    <p class="card-desc">Zero-record sessions. Uncompromising privacy for uncompromising leaders.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="card-content">
+                    <div class="card-icon">02.</div>
+                    <h3 class="card-title">Asynchronous Access</h3>
+                    <p class="card-desc">Your counsel, on your time. Support that adapts to your founder-lifestyle.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="card-content">
+                    <div class="card-icon">03.</div>
+                    <h3 class="card-title">Strategic Alignment</h3>
+                    <p class="card-desc">Beyond empathy. We provide high-EQ strategic input that moves the needle.</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- Privacy -->
-    <div class="card">
-      <div class="card-content">
-        <div class="card-eyebrow">Privacy</div>
-        <div class="card-title">Zero Records.</div>
-        <div class="card-desc">Off the grid. No insurance trails.</div>
-      </div>
-    </div>
-    <!-- Async -->
-    <div class="card">
-      <div class="card-content">
-        <div class="card-eyebrow">Availability</div>
-        <div class="card-title">Async.</div>
-        <div class="card-desc">24/7 Text support.</div>
-      </div>
-    </div>
-    <!-- EQ -->
-    <div class="card span-2">
-      <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2071&auto=format&fit=crop');"></div>
-      <div class="card-content">
-        <div class="card-eyebrow">Alignment</div>
-        <div class="card-title">High EQ Partners.</div>
-        <div class="card-desc">We match your wavelength immediately.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pricing-section">
-  <div class="grid-title" style="margin-bottom:20px;">Membership</div>
-  <div class="pricing-cards">
-    <div class="p-card">
-      <span class="p-tag">Starter</span>
-      <div class="p-name">Introductory Call</div>
-      <div class="p-price">Free</div>
-      <a href="form.html" class="p-btn">Book</a>
-    </div>
-    <div class="p-card" style="border-color:var(--gold);">
-      <span class="p-tag">Membership</span>
-      <div class="p-name">Private Client</div>
-      <div class="p-price">$599</div>
-      <a href="form.html" class="p-btn" style="background:var(--gold);">Apply</a>
-    </div>
-  </div>
 </section>
 
 <footer>
-  <div class="footer-content">
-    <p>Copyright © 2025 Private Counsel Inc. All rights reserved.</p>
-    <p style="margin-top:10px; opacity:0.6;">
-      LEGAL DISCLAIMER: Private Counsel is a consulting service, not a medical provider. "HSK 8" refers to linguistic proficiency. Zero-Record policy applies.
-    </p>
-  </div>
+    <div class="container">
+        <p>&copy; 2025 Private Counsel Inc. All Rights Reserved.</p>
+    </div>
 </footer>
 
-<a href="https://wa.me/16769896777" class="wa-float" target="_blank">
-  <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.16C10.57 20.16 9.12 19.77 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.71 20.28 11.91C20.28 16.46 16.58 20.16 12.05 20.16ZM16.61 14.9C16.36 14.78 15.14 14.18 14.91 14.1C14.68 14.01 14.51 13.97 14.34 14.22C14.17 14.47 13.69 15.03 13.54 15.2C13.39 15.37 13.24 15.39 12.99 15.26C12.74 15.14 11.94 14.88 10.99 14.03C10.25 13.37 9.75 12.56 9.61 12.31C9.47 12.06 9.6 11.93 9.72 11.81C9.83 11.7 9.97 11.52 10.09 11.38C10.21 11.24 10.25 11.14 10.33 10.97C10.41 10.8 10.37 10.66 10.31 10.53C10.25 10.41 9.77 9.22 9.56 8.74C9.36 8.27 9.16 8.33 9.01 8.33C8.87 8.33 8.7 8.33 8.53 8.33C8.36 8.33 8.08 8.4 7.83 8.67C7.58 8.94 6.87 9.6 6.87 10.95C6.87 12.3 7.85 13.61 8 13.8C8.15 14 10.04 16.91 12.93 18.16C13.62 18.46 14.15 18.63 14.57 18.77C15.25 18.98 15.86 18.96 16.34 18.89C16.88 18.81 18 18.21 18.23 17.56C18.47 16.91 18.47 16.36 18.4 16.24C18.33 16.12 18.17 16.05 17.92 15.93H16.61V14.9Z"/></svg>
-</a>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
-gsap.registerPlugin(ScrollTrigger);
-const tl = gsap.timeline();
-tl.to(".anim-hero", { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" })
-  .to(".anim-hero-img", { y: 0, opacity: 1, duration: 1.2, ease: "power2.out" }, "-=0.8");
+    gsap.registerPlugin(ScrollTrigger);
 
-gsap.utils.toArray('.card').forEach(card => {
-  gsap.from(card, {
-    scrollTrigger: { trigger: card, start: "top 85%" },
-    y: 50, opacity: 0, duration: 1, ease: "power3.out"
-  });
-});
+    const tl = gsap.timeline({ delay: 0.2 });
+    tl.to(".hero-line span", { y: 0, opacity: 1, stagger: 0.2, duration: 1.5, ease: "expo.out" })
+      .to(".hero p", { y: 0, opacity: 1, duration: 1.5, ease: "expo.out" }, "-=1.2")
+      .to(".hero .cta", { y: 0, opacity: 1, duration: 1.5, ease: "expo.out" }, "-=1.2");
+
+    gsap.to(".section-title", {
+        scrollTrigger: { trigger: ".section-title", start: "top 85%" },
+        y: 0, opacity: 1, duration: 2, ease: "expo.out"
+    });
+    gsap.utils.toArray('.feature-card').forEach(card => {
+        gsap.to(card, {
+            scrollTrigger: { trigger: card, start: "top 85%", toggleActions: "play none none none" },
+            y: 0, opacity: 1, duration: 1.5, stagger: 0.1, ease: "expo.out"
+        });
+    });
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--x', `${x}px`);
+            card.style.setProperty('--y', `${y}px`);
+        });
+    });
 </script>
+
 </body>
 </html>
