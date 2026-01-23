@@ -164,6 +164,12 @@
             background: transparent;
             border: 1px solid var(--border);
             color: var(--text-secondary);
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
         }
 
         .btn-outline:hover {
@@ -185,3 +191,95 @@
             font-size: 0.8rem;
             font-weight: 600;
             opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+            z-index: 20;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .toast.show { opacity: 1; top: 30px; }
+
+    </style>
+</head>
+<body>
+
+<div class="toast" id="copyToast">Link Copied!</div>
+
+<div class="container">
+    <h1>Partner Access</h1>
+    <p>Generate your exclusive tracking link to invite founders to Private Counsel.</p>
+
+    <div class="input-group">
+        <label for="affiliateName">Your Partner ID</label>
+        <input type="text" 
+               id="affiliateName" 
+               placeholder="e.g. AlexSmith" 
+               oninput="cleanInput(this)"
+               onkeydown="if(event.key === 'Enter') generateLink()">
+    </div>
+
+    <button class="btn" onclick="generateLink()">Generate Asset</button>
+
+    <div id="result-area">
+        <label>Your Tracking Link</label>
+        <div class="link-display" id="linkOutput"></div>
+        
+        <div class="action-row">
+            <button class="btn-outline" onclick="copyLink()">Copy Link</button>
+            <button class="btn-outline" onclick="testLink()">Test Link &rarr;</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 自动清洗输入：只允许字母、数字、下划线
+    function cleanInput(el) {
+        el.value = el.value.replace(/[^a-zA-Z0-9_]/g, '');
+    }
+
+    function generateLink() {
+        const nameInput = document.getElementById('affiliateName');
+        const name = nameInput.value.trim();
+        
+        if (!name) {
+            // 错误震动反馈
+            nameInput.style.borderColor = '#ff4d4d';
+            setTimeout(() => nameInput.style.borderColor = '', 1000);
+            return;
+        }
+
+        // ★★★ 关键逻辑更新 ★★★
+        // 因为您把 form.html 改成了 index.html (首页)
+        // 所以链接不再需要指向 /form.html，而是直接指向根目录 /
+        
+        // 获取当前网站的基础 URL (例如 https://customcompanion.xyz)
+        const baseUrl = window.location.origin;
+        
+        // 拼接参数: /?ref=AlexSmith
+        const finalUrl = `${baseUrl}/?ref=${encodeURIComponent(name)}`;
+
+        // 展示结果
+        document.getElementById('linkOutput').textContent = finalUrl;
+        document.getElementById('result-area').style.display = 'block';
+    }
+
+    function copyLink() {
+        const linkText = document.getElementById('linkOutput').textContent;
+        navigator.clipboard.writeText(linkText).then(() => {
+            showToast();
+        });
+    }
+
+    function testLink() {
+        const linkText = document.getElementById('linkOutput').textContent;
+        if(linkText) window.open(linkText, '_blank');
+    }
+
+    function showToast() {
+        const toast = document.getElementById('copyToast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+</script>
+
+</body>
+</html>
