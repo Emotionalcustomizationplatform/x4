@@ -102,8 +102,6 @@
             box-shadow: 0 0 40px rgba(229, 195, 89, 0.05);
             background: rgba(229, 195, 89, 0.03);
         }
-
-        /* 已移除 .card-icon 相关样式 */
         
         .card-title { font-size: 1.15rem; font-weight: 500; margin-bottom: 0.6rem; color: #fff; letter-spacing: 0.3px; }
         .card-desc { color: var(--text-secondary); line-height: 1.5; font-size: 0.9rem; margin: 0; font-weight: 300; }
@@ -181,6 +179,16 @@
 
         #success { display: none; }
         #success .step-title { color: var(--gold); }
+        
+        /* === PayPal 容器动画 === */
+        #paypal-wrapper {
+            max-width: 400px; margin: 0 auto; 
+            background: rgba(255,255,255,0.05); 
+            padding: 24px; border-radius: 12px; 
+            border: 1px solid var(--border);
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* 移动端优化 */
         @media (max-width: 768px) {
@@ -194,16 +202,19 @@
 </head>
 <body>
 
+<!-- 引入 PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AeDpvr_Z_IjseYKwZNNfXYIYzkm3lgYyMBvmrMlfgF_8-gQ95XTE0FnoqH2rU3FjWf5VcMq1J1aMxaGT&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+
 <div class="form-container">
     <form id="bespokeForm">
         
-        <!-- STEP 1: Plan Selection (已移除所有图标) -->
+        <!-- STEP 1: Plan Selection -->
         <div class="step active" id="step1">
             <h2 class="step-title">Choose Your Path</h2>
             <p class="step-subtitle">All relationships begin with a dialogue. Select an engagement level to proceed.</p>
             
             <div class="selection-grid">
-                <!-- 第一张卡片：纯文字 -->
+                <!-- 第一张卡片 -->
                 <div class="selection-card active" onclick="FormLogic.selectPlan('Initial Dialogue', '0', this)">
                     <div>
                         <div class="card-title">Initial Dialogue</div>
@@ -212,7 +223,7 @@
                     <div class="card-price">Free</div>
                 </div>
 
-                <!-- 第二张卡片：纯文字 -->
+                <!-- 第二张卡片 -->
                 <div class="selection-card" onclick="FormLogic.selectPlan('Continuous Counsel', '710', this)">
                     <span class="featured-badge">Membership</span>
                     <div>
@@ -229,7 +240,7 @@
             </div>
         </div>
 
-        <!-- STEP 2: Priority Selection (已移除所有图标) -->
+        <!-- STEP 2: Priority Selection -->
         <div class="step" id="step2">
              <h2 class="step-title">Primary Focus</h2>
             <p class="step-subtitle">What is the most pressing challenge on your mind right now?</p>
@@ -251,7 +262,6 @@
                     </div>
                 </div>
 
-                <!-- 第三张卡片：已修改标题为中文 -->
                 <div class="selection-card" onclick="FormLogic.selectOption('support_type', 'Mandarin Learning (HSK 8)', this)">
                     <div>
                         <div class="card-title">学习中文 (HSK 8级)</div>
@@ -303,22 +313,13 @@ const FormLogic = (() => {
     let currentStep = 1;
     const API_ENDPOINT = '/api/submit';
     
+    // 动画函数 (保留不变)
     const animate = {
-        in: (el) => {
-            gsap.fromTo(el, { opacity: 0, y: 15, scale: 0.98, filter: 'blur(5px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.6, ease: "power2.out" });
-        },
-        out: (el, onComplete) => {
-            gsap.to(el, { opacity: 0, y: -15, scale: 0.98, filter: 'blur(5px)', duration: 0.3, ease: "power2.in", onComplete: onComplete });
-        },
-        shake: (el) => {
-            gsap.fromTo(el, { x: -10 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" });
-        },
-        toastIn: (el) => {
-            gsap.to(el, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.2)" });
-        },
-        toastOut: (el) => {
-            gsap.to(el, { y: -20, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => el.remove() });
-        }
+        in: (el) => { gsap.fromTo(el, { opacity: 0, y: 15, scale: 0.98, filter: 'blur(5px)' }, { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.6, ease: "power2.out" }); },
+        out: (el, onComplete) => { gsap.to(el, { opacity: 0, y: -15, scale: 0.98, filter: 'blur(5px)', duration: 0.3, ease: "power2.in", onComplete: onComplete }); },
+        shake: (el) => { gsap.fromTo(el, { x: -10 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" }); },
+        toastIn: (el) => { gsap.to(el, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.2)" }); },
+        toastOut: (el) => { gsap.to(el, { y: -20, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => el.remove() }); }
     };
 
     const showToast = (message, type = 'ref') => {
@@ -333,7 +334,6 @@ const FormLogic = (() => {
         }
         toast.className = 'ref-toast';
         toast.innerHTML = `<span class="ref-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg></span><span>Referral Applied: <span class="ref-code">${message}</span></span><button class="ref-close" aria-label="Close">&times;</button>`;
-        
         let timer;
         const startTimer = () => { timer = setTimeout(() => animate.toastOut(toast), 5000); };
         toast.querySelector('.ref-close').onclick = () => { clearTimeout(timer); animate.toastOut(toast); };
@@ -372,8 +372,11 @@ const FormLogic = (() => {
         document.getElementById(inputId).value = value;
     };
 
+    // --- 核心初始化逻辑 (集成 PayPal) ---
     const init = () => {
         animate.in(document.getElementById('step1'));
+        
+        // 推荐码逻辑
         const urlParams = new URLSearchParams(window.location.search);
         const refCode = urlParams.get('ref');
         if (refCode) {
@@ -381,36 +384,86 @@ const FormLogic = (() => {
             document.getElementById('referrerField').value = safeRef;
             setTimeout(() => showToast(safeRef), 800);
         }
+
         const form = document.getElementById('bespokeForm');
+
         form.onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             const originalText = btn.innerText;
+            const formData = new FormData(form);
+            const payload = Object.fromEntries(formData);
+            
+            // 判断是否包含 '710'
+            const isPaidPlan = payload.selected_plan.includes('710');
+
             btn.innerText = "Securing Connection...";
             btn.disabled = true;
             btn.style.opacity = "0.7";
+
             try {
-                const formData = new FormData(form);
-                const payload = Object.fromEntries(formData);
                 payload.submittedAt = new Date().toISOString();
+                
+                // 1. 发送数据到后台 (备份)
                 const response = await fetch(API_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+
                 if (response.ok) {
                     animate.out(form, () => {
                         form.style.display = 'none';
-                        const successEl = document.getElementById('success');
-                        successEl.style.display = 'block';
-                        gsap.fromTo(successEl, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.5)" });
-                        let count = 5;
-                        const counter = document.getElementById('countdown');
-                        setInterval(() => {
-                            count--;
-                            if(count >= 0) counter.innerText = count;
-                            if(count <= 0) window.location.href = 'index.html';
-                        }, 1000);
+
+                        if (isPaidPlan) {
+                            // === 付费版: 渲染 PayPal ===
+                            const container = document.createElement('div');
+                            container.id = 'paypal-wrapper';
+                            // 动态创建一个容器
+                            container.innerHTML = `
+                                <h3 style="color:#fff; margin-bottom:1.5rem; font-family:'Playfair Display',serif; text-align:center;">Complete Membership</h3>
+                                <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-bottom:2rem;">Secure subscription setup via PayPal.</p>
+                                <div id="paypal-button-container-P-2C4268778X3283126NF2UBHA"></div>
+                            `;
+                            document.querySelector('.form-container').appendChild(container);
+
+                            // 渲染按钮
+                            paypal.Buttons({
+                                style: {
+                                    shape: 'rect',
+                                    color: 'gold', // 使用金色匹配主题
+                                    layout: 'vertical',
+                                    label: 'subscribe'
+                                },
+                                createSubscription: function(data, actions) {
+                                    return actions.subscription.create({
+                                        plan_id: 'P-2C4268778X3283126NF2UBHA'
+                                    });
+                                },
+                                onApprove: function(data, actions) {
+                                    // 支付成功
+                                    container.style.display = 'none';
+                                    const successEl = document.getElementById('success');
+                                    successEl.querySelector('.step-subtitle').innerHTML = "Payment Confirmed.<br>Welcome to Private Counsel.";
+                                    successEl.style.display = 'block';
+                                    gsap.fromTo(successEl, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.5)" });
+                                }
+                            }).render('#paypal-button-container-P-2C4268778X3283126NF2UBHA');
+
+                        } else {
+                            // === 免费版: 直接显示成功 ===
+                            const successEl = document.getElementById('success');
+                            successEl.style.display = 'block';
+                            gsap.fromTo(successEl, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.5)" });
+
+                            let count = 5;
+                            const counter = document.getElementById('countdown');
+                            setInterval(() => {
+                                count--;
+                                if(count >= 0) counter.innerText = count;
+                                if(count <= 0) window.location.href = 'index.html';
+                            }, 1000);
+                        }
                     });
                 } else {
                     throw new Error('Server returned ' + response.status);
