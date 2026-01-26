@@ -4,366 +4,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application | Private Counsel</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg: #050505; --surface: #0a0a0a; 
-            --surface-card: rgba(255, 255, 255, 0.04);
-            --border: rgba(255, 255, 255, 0.12); 
-            --gold: #E5C359; --gold-dim: #bfa145;
+            --bg: #050505; --surface: #0a0a0a; --surface-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1); --gold: #E5C359; 
             --text-primary: #ffffff; --text-secondary: #A3A3A3;
-            --error: #ff5f5f;
         }
+
         body { 
             background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #050505 50%);
             background-color: var(--bg); color: var(--text-primary); 
             font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; 
-            display: flex; align-items: center; justify-content: center;
-            -webkit-font-smoothing: antialiased;
-        }
-        .form-container { width: 100%; max-width: 800px; padding: 2rem; text-align: center; }
-
-        /* === Pro Animations (CSS3) === */
-        .step { display: none; }
-        
-        /* 进场动画：丝滑上浮 */
-        .step.active { 
-            display: block; 
-            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        }
-        
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+            display: flex; align-items: center; justify-content: center; overflow-x: hidden;
         }
 
-        .step-title { 
-            font-family: 'Playfair Display', serif; font-size: 2.5rem; 
-            margin-bottom: 0.8rem; color: #fff; letter-spacing: -0.01em;
-        }
-        .step-subtitle { 
-            color: var(--text-secondary); margin-bottom: 3rem; 
-            font-size: 1.05rem; font-weight: 300; 
-        }
+        .form-container { width: 100%; max-width: 900px; padding: 2rem; text-align: center; position: relative; padding-top: 4rem; }
 
-        /* === Cards (Professional Look) === */
-        .selection-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 24px; margin-bottom: 3rem; 
-        }
-        .selection-card { 
-            background: var(--surface-card); 
-            border: 1px solid var(--border); 
-            border-radius: 16px; padding: 2.2rem; 
-            cursor: pointer; text-align: left; 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-            position: relative; overflow: hidden;
-        }
-        /* 悬停微光效果 */
-        .selection-card:hover { 
-            border-color: rgba(255,255,255,0.25); 
-            background: rgba(255,255,255,0.06); 
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        /* 选中状态：金色边框 + 微背景 */
-        .selection-card.selected { 
-            border-color: var(--gold); 
-            background: rgba(229, 195, 89, 0.04); 
-            box-shadow: 0 0 0 1px var(--gold); /* 双重边框强化视觉 */
-        }
+        /* Step Styles */
+        .step { display: none; opacity: 0; }
+        .step.active { display: block; opacity: 1; }
+        .step-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.8rem; color: #fff; }
+        .step-subtitle { color: var(--text-secondary); margin-bottom: 3rem; font-size: 1rem; }
         
-        .card-title { font-size: 1.2rem; font-weight: 500; margin-bottom: 0.6rem; color: #fff; }
-        .card-desc { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; }
+        .selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 3rem; }
+        .selection-card { background: var(--surface-card); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; cursor: pointer; text-align: left; transition: 0.3s; border-left: 3px solid transparent; }
+        .selection-card:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+        .selection-card.active { border-color: var(--gold); border-left-color: var(--gold); background: rgba(229, 195, 89, 0.03); }
+        
+        .card-title { font-size: 1.15rem; font-weight: 500; margin-bottom: 0.5rem; color: #fff; }
+        .card-desc { color: var(--text-secondary); font-size: 0.9rem; }
         .card-price { margin-top: 1.5rem; font-size: 1.5rem; color: var(--gold); font-family: 'Playfair Display', serif; }
-
-        /* === Inputs (High End) === */
-        .input-box { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; text-align: left; }
-        .form-input { 
-            width: 100%; 
-            background: rgba(255,255,255,0.03); 
-            border: 1px solid var(--border); 
-            padding: 18px 20px; 
-            color: #fff; border-radius: 10px; 
-            box-sizing: border-box; 
-            transition: 0.3s; font-size: 1rem;
-        }
-        .form-input::placeholder { color: rgba(255,255,255,0.2); }
-        .form-input:focus { 
-            outline: none; 
-            border-color: var(--gold); 
-            background: rgba(0,0,0,0.2); 
-            box-shadow: 0 0 15px rgba(229, 195, 89, 0.1);
-        }
-        .form-input.error { border-color: var(--error); background: rgba(255, 77, 77, 0.05); }
-        .error-msg { color: var(--error); font-size: 0.85rem; display: none; margin-top: -12px; margin-bottom: 8px; font-weight: 500; }
-
-        /* === Buttons === */
-        .nav-bar { display: flex; justify-content: center; gap: 16px; margin-top: 3.5rem; }
-        .btn { 
-            border: none; cursor: pointer; padding: 18px 48px; 
-            border-radius: 50px; font-weight: 600; font-size: 1rem; 
-            transition: all 0.2s; letter-spacing: 0.3px;
-        }
-        .btn-primary { 
-            background: var(--gold); color: #050505; 
-            box-shadow: 0 4px 20px rgba(229, 195, 89, 0.2);
-        }
-        .btn-primary:hover { 
-            background: #edd37b; 
-            transform: translateY(-2px); 
-            box-shadow: 0 6px 25px rgba(229, 195, 89, 0.3);
-        }
-        .btn-primary:active { transform: translateY(0); }
-        .btn-primary:disabled { opacity: 0.6; cursor: wait; transform: none; box-shadow: none; }
+        .featured-badge { position: absolute; top: 16px; right: 16px; background: var(--gold); color: #000; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; }
         
+        .input-box { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+        .form-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 16px; color: #fff; border-radius: 8px; box-sizing: border-box; }
+        .form-input:focus { outline: none; border-color: var(--gold); }
+        
+        .nav-bar { display: flex; justify-content: center; gap: 1rem; margin-top: 3rem; }
+        .btn { border: none; cursor: pointer; padding: 16px 40px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; }
+        .btn-primary { background: var(--gold); color: #000; }
         .btn-back { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
-        .btn-back:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.03); }
 
-        /* === Loader === */
-        .loader { display: none; width: 20px; height: 20px; border: 2px solid rgba(0,0,0,0.1); border-radius: 50%; border-top-color: #000; animation: spin 0.8s linear infinite; margin-left: 10px; vertical-align: middle; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Toast */
+        .ref-toast { position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-20px); background: #000; border: 1px solid var(--gold); color: #fff; padding: 12px 24px; border-radius: 50px; display: flex; align-items: center; gap: 12px; z-index: 9999; opacity: 0; pointer-events: none; font-size: 0.85rem; }
+        .ref-icon { color: var(--gold); display: flex; }
+        .ref-code { font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+        .ref-close { background: none; border: none; color: #555; cursor: pointer; padding: 4px; display: flex; }
+        
+        .error-toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: rgba(255, 77, 77, 0.9); color: white; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; z-index: 1000; opacity: 0; pointer-events: none; }
 
-        /* Honeypot */
-        .website-field { position: absolute; left: -9999px; opacity: 0; } 
+        /* === 成功页 === */
+        #success { display: none; text-align: center; }
+        .success-icon { font-size: 3.5rem; color: var(--gold); margin-bottom: 1rem; display: block; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        
+        /* 支付跳转提示文字 */
+        .redirect-hint { 
+            color: var(--gold); 
+            font-size: 0.95rem; 
+            margin-top: 2rem; 
+            opacity: 0; 
+            font-weight: 500; 
+            padding: 12px 20px;
+            background: rgba(229, 195, 89, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(229, 195, 89, 0.3);
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .form-container { padding: 1.5rem; padding-top: 5rem; }
+            .selection-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
 <div class="form-container">
-    <form id="appForm" novalidate>
-        
-        <!-- STEP 1: Plan -->
+    <form id="bespokeForm">
+        <!-- STEP 1 -->
         <div class="step active" id="step1">
-            <h2 class="step-title">Select Your Tier</h2>
-            <p class="step-subtitle">Choose the level of engagement required.</p>
-            
-            <div class="selection-grid" id="planGrid">
-                <div class="selection-card" data-plan-id="free" onclick="App.selectPlan(this)">
-                    <div class="card-title">Initial Dialogue</div>
-                    <p class="card-desc">Confidential 45-min screening session to assess fit.</p>
-                    <div class="card-price">Complimentary</div>
+            <h2 class="step-title">Choose Your Path</h2>
+            <p class="step-subtitle">Select an engagement level to proceed.</p>
+            <div class="selection-grid">
+                <div class="selection-card active" onclick="FormLogic.selectPlan('Initial Dialogue', '0', this)">
+                    <div><div class="card-title">Initial Dialogue</div><p class="card-desc">Confidential 45-min session.</p></div>
+                    <div class="card-price">Free</div>
                 </div>
-                <div class="selection-card" data-plan-id="continuous" onclick="App.selectPlan(this)">
-                    <div class="card-title">Continuous Counsel</div>
-                    <p class="card-desc">Comprehensive monthly retainer. 4 Sessions/mo + Priority Access.</p>
-                    <div class="card-price">$710<span style="font-size:0.9rem; color:#888">/mo</span></div>
+                <div class="selection-card" onclick="FormLogic.selectPlan('Continuous Counsel', '710', this)">
+                    <span class="featured-badge">Membership</span>
+                    <div>
+                        <div class="card-title">Continuous Counsel</div>
+                        <!-- ★★★ 修改部分：已改为 "4 Sessions / Month" ★★★ -->
+                        <p class="card-desc">4 Sessions / Month. Strategic & emotional support.</p>
+                    </div>
+                    <div class="card-price">$710<span class="period">/mo</span></div>
                 </div>
             </div>
-            
-            <input type="hidden" name="plan_id" id="planInput" required>
-            <div class="error-msg" id="step1Error">⚠ Please select a plan to proceed</div>
-
-            <div class="nav-bar">
-                <button type="button" class="btn btn-primary" onclick="App.validateAndNext(1)">
-                    Next Step &rarr;
-                </button>
-            </div>
+            <input type="hidden" name="selected_plan" id="selected_plan" value="Initial Dialogue ($0)">
+            <div class="nav-bar"><button type="button" class="btn btn-primary" onclick="FormLogic.nextStep(2)">Next Step</button></div>
         </div>
 
-        <!-- STEP 2: Focus -->
+        <!-- STEP 2 -->
         <div class="step" id="step2">
-             <h2 class="step-title">Primary Objective</h2>
-            <p class="step-subtitle">Where is the most friction currently?</p>
-            
-            <div class="selection-grid" id="focusGrid">
-                <div class="selection-card" onclick="App.selectFocus(this, 'Strategy')">
-                    <div class="card-title">Psychological Strategy</div>
-                    <p class="card-desc">Co-founder conflict, investor pressure, burnout management.</p>
-                </div>
-                <div class="selection-card" onclick="App.selectFocus(this, 'Support')">
-                    <div class="card-title">Emotional Companion</div>
-                    <p class="card-desc">A private, detached space to process leadership isolation.</p>
-                </div>
-                <div class="selection-card" onclick="App.selectFocus(this, 'Mandarin')">
-                    <div class="card-title">Advanced Mandarin</div>
-                    <p class="card-desc">Cross-cultural nuance & HSK 8+ level negotiation tactics.</p>
-                </div>
+             <h2 class="step-title">Primary Focus</h2>
+            <p class="step-subtitle">What is your most pressing challenge?</p>
+            <input type="hidden" name="support_type" id="support_type">
+            <div class="selection-grid">
+                <div class="selection-card" onclick="FormLogic.selectOption('support_type', 'Psychological Strategy', this)"><div><div class="card-title">Psychological Strategy</div><p class="card-desc">Navigate burnout and conflict.</p></div></div>
+                <div class="selection-card" onclick="FormLogic.selectOption('support_type', 'Emotional Support', this)"><div><div class="card-title">Emotional Companion</div><p class="card-desc">A private space to be heard.</p></div></div>
+                <div class="selection-card" onclick="FormLogic.selectOption('support_type', 'Mandarin Learning (HSK 8)', this)"><div><div class="card-title">学习中文 (HSK 8级)</div><p class="card-desc">Mandarin nuance and cross-cultural negotiation tactics.</p></div></div>
             </div>
-            
-            <input type="hidden" name="focus" id="focusInput">
-            <div class="error-msg" id="step2Error">⚠ Please select a primary focus</div>
-
-            <div class="nav-bar">
-                <button type="button" class="btn btn-back" onclick="App.prevStep(1)">Back</button>
-                <button type="button" class="btn btn-primary" onclick="App.validateAndNext(2)">Continue</button>
-            </div>
+            <div class="nav-bar"><button type="button" class="btn btn-back" onclick="FormLogic.prevStep(1)">Back</button><button type="button" class="btn btn-primary" onclick="FormLogic.nextStep(3)">Continue</button></div>
         </div>
 
-        <!-- STEP 3: Details -->
+        <!-- STEP 3 -->
         <div class="step" id="step3">
-            <h2 class="step-title">Finalize Application</h2>
-            <p class="step-subtitle">Secure submission. Encrypted & Private.</p>
-            
+            <h2 class="step-title">Secure Submission</h2>
+            <p class="step-subtitle">Your details are encrypted.</p>
             <div class="input-box">
-                <div><input type="text" name="name" placeholder="Full Legal Name" class="form-input" required></div>
-                <div><input type="email" name="email" placeholder="Work Email" class="form-input" required></div>
-                <div><input type="tel" name="phone" placeholder="Direct Line / WhatsApp" class="form-input"></div>
-                
+                <input type="text" name="name" placeholder="Full Name" required class="form-input">
+                <input type="email" name="email" placeholder="Email Address" required class="form-input">
+                <input type="tel" name="phone" placeholder="Phone (Optional)" class="form-input">
                 <input type="hidden" name="referrer" id="referrerField">
-                <input type="text" name="honeypot" class="website-field" autocomplete="off">
+                <input type="text" name="website_url" style="display:none">
             </div>
-
-            <div class="nav-bar">
-                <button type="button" class="btn btn-back" onclick="App.prevStep(2)">Back</button>
-                <button type="submit" class="btn btn-primary" id="submitBtn">
-                    <span id="btnText">Secure Submission</span>
-                    <div class="loader" id="btnLoader"></div>
-                </button>
-            </div>
-            <div class="error-msg" id="apiError" style="text-align:center; margin-top:20px;"></div>
+            <div class="nav-bar"><button type="button" class="btn btn-back" onclick="FormLogic.prevStep(2)">Back</button><button type="submit" class="btn btn-primary" id="submitBtn">Submit Request</button></div>
         </div>
     </form>
 
-    <!-- Success View -->
-    <div class="step" id="successView" style="text-align: center; padding-top: 40px;">
-        <div style="font-size: 3.5rem; margin-bottom: 24px; color:var(--gold); animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">✦</div>
-        <h2 class="step-title">Application Received</h2>
-        <p class="step-subtitle" id="successMsg">We will review your profile shortly.</p>
+    <!-- 统一成功页 (无中间过渡) -->
+    <div id="success">
+        <span class="success-icon">✦</span>
+        <h2 class="step-title">Application Secured</h2>
+        <p class="step-subtitle">Your details have been successfully logged.</p>
         
-        <div id="paymentRedirect" style="display:none; margin-top:30px; padding:24px; background:rgba(229, 195, 89, 0.08); border: 1px solid rgba(229, 195, 89, 0.2); border-radius:12px;">
-            <p style="color:var(--gold); font-weight:600; margin:0 0 8px 0; font-size:1.05rem;">Opening Secure Payment Gateway...</p>
-            <p style="font-size:0.9rem; opacity:0.7; margin:0;">Please complete the transfer to finalize.</p>
-        </div>
+        <!-- 支付提示 (仅付费版显示) -->
+        <div class="redirect-hint" id="redirect-msg"></div>
         
-        <a href="index.html" class="btn btn-back" style="margin-top:40px; display:inline-block">Return Home</a>
+        <!-- 返回按钮 (仅免费版显示) -->
+        <a href="index.html" class="btn btn-back" id="home-btn" style="display:none; margin-top:30px;">Return Home</a>
     </div>
-
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
-const App = (() => {
+const FormLogic = (() => {
     let currentStep = 1;
     const API_ENDPOINT = '/api/submit';
+    const PAYPAL_ME = "https://paypal.me/dpx710"; 
     
+    // UI Helpers
+    const showView = (id) => {
+        ['bespokeForm', 'success'].forEach(el => document.getElementById(el).style.display = 'none');
+        const el = document.getElementById(id);
+        el.style.display = 'block';
+        gsap.fromTo(el, { opacity:0, y:10 }, { opacity:1, y:0, duration:0.5 });
+    };
+
     const init = () => {
-        // 简单直接的推荐人逻辑：只看 URL
-        try {
-            const params = new URLSearchParams(window.location.search);
-            let ref = params.get('ref');
-            if (ref) document.getElementById('referrerField').value = ref;
-        } catch(e) { console.log('Tracking skipped'); }
+        document.getElementById('step1').style.display = 'block';
+        gsap.fromTo('#step1', { opacity:0 }, { opacity:1, duration:0.8 });
 
-        document.getElementById('appForm').addEventListener('submit', handleSubmit);
-    };
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('ref')) document.getElementById('referrerField').value = params.get('ref');
 
-    const selectPlan = (el) => {
-        document.querySelectorAll('#planGrid .selection-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        document.getElementById('planInput').value = el.dataset.planId;
-        document.getElementById('step1Error').style.display = 'none';
-    };
-
-    const selectFocus = (el, val) => {
-        document.querySelectorAll('#focusGrid .selection-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        document.getElementById('focusInput').value = val;
-        document.getElementById('step2Error').style.display = 'none';
-    };
-
-    const validateAndNext = (step) => {
-        let isValid = true;
-        // 验证 Step 1
-        if (step === 1) {
-            if (!document.getElementById('planInput').value) {
-                const err = document.getElementById('step1Error');
-                err.style.display = 'block';
-                err.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }], { duration: 300 });
-                isValid = false;
-            }
-        }
-        // 验证 Step 2
-        if (step === 2) {
-             if (!document.getElementById('focusInput').value) {
-                const err = document.getElementById('step2Error');
-                err.style.display = 'block';
-                err.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-5px)' }, { transform: 'translateX(5px)' }, { transform: 'translateX(0)' }], { duration: 300 });
-                isValid = false;
-            }
-        }
-        if (isValid) switchStep(step + 1);
-    };
-
-    const prevStep = (step) => switchStep(step);
-
-    // ★★★ 丝滑 CSS 切换核心 ★★★
-    const switchStep = (targetStep) => {
-        const currentEl = document.getElementById(`step${currentStep}`);
-        const targetEl = document.getElementById(`step${targetStep}`);
-        
-        // 1. 立即移除当前 active
-        currentEl.classList.remove('active');
-        
-        // 2. 稍微延迟一点点，确保 DOM 渲染，然后添加 active 触发 CSS 动画
-        setTimeout(() => {
-            targetEl.classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 10);
-        
-        currentStep = targetStep;
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const btn = document.getElementById('submitBtn');
-        const loader = document.getElementById('btnLoader');
-        const btnText = document.getElementById('btnText');
-        const errorDiv = document.getElementById('apiError');
-
-        btn.disabled = true;
-        btnText.style.opacity = '0.5';
-        loader.style.display = 'inline-block';
-        errorDiv.style.display = 'none';
-
-        try {
+        const form = document.getElementById('bespokeForm');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
             const formData = new FormData(form);
             const payload = Object.fromEntries(formData);
-            
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 15000); 
+            const isPaid = payload.selected_plan.includes('710');
+            const btn = document.getElementById('submitBtn');
 
-            const response = await fetch(API_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-                signal: controller.signal
-            });
-            
-            clearTimeout(timeoutId);
-            const result = await response.json();
+            btn.innerText = "Processing..."; btn.disabled = true;
 
-            if (!response.ok) throw new Error(result.message || 'Server error');
-            handleSuccess(result);
+            try {
+                // 1. 后台备份 (秒存)
+                await fetch(API_ENDPOINT, { 
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({...payload, submittedAt: new Date().toISOString()}) 
+                });
 
-        } catch (err) {
-            console.error(err);
-            errorDiv.textContent = err.name === 'AbortError' ? "Connection timed out. Please try again." : ("Error: " + err.message);
-            errorDiv.style.display = 'block';
-            btn.disabled = false;
-            btnText.style.opacity = '1';
-            loader.style.display = 'none';
-        }
+                // 2. 无论是否成功备份，直接显示前端成功页 (给用户极速体验)
+                showView('success');
+
+                if (isPaid) {
+                    // === 付费版逻辑 ===
+                    const hint = document.getElementById('redirect-msg');
+                    // 金色提示框
+                    hint.innerHTML = "Opening secure payment gateway...<br>Please complete the transfer to finalize.";
+                    gsap.to(hint, { opacity: 1, duration: 0.5, delay: 0.3 });
+                    
+                    // 1.5 秒后跳转 (给用户反应时间)
+                    setTimeout(() => {
+                        window.location.href = PAYPAL_ME;
+                    }, 1500);
+                } else {
+                    // === 免费版逻辑 ===
+                    const hint = document.getElementById('redirect-msg');
+                    hint.style.display = 'none'; // 免费版不需要支付提示
+                    
+                    // 修改副标题更亲切
+                    document.querySelector('#success .step-subtitle').innerHTML = "We will be in touch shortly.";
+                    
+                    // 5秒自动跳回首页，或者用户点按钮
+                    document.getElementById('home-btn').style.display = 'inline-block';
+                    setTimeout(() => window.location.href = 'index.html', 5000);
+                }
+
+            } catch (err) {
+                console.error(err);
+                if(isPaid) window.location.href = PAYPAL_ME; // 兜底跳转
+                else alert("Network error. Please try again.");
+            }
+        };
     };
 
-    const handleSuccess = (data) => {
-        document.getElementById('step3').classList.remove('active');
-        document.getElementById('successView').classList.add('active');
-        
-        if (data.redirect_url) {
-            const redir = document.getElementById('paymentRedirect');
-            redir.style.display = 'block';
-            setTimeout(() => { window.location.href = data.redirect_url; }, 2000);
-        } else {
-            document.getElementById('successMsg').innerText = "We have received your request. Expect a confidential response within 24 hours.";
+    return {
+        init,
+        nextStep: (d) => {
+            const cur = document.getElementById('step'+currentStep);
+            const next = document.getElementById('step'+d);
+            gsap.to(cur, { opacity:0, y:-10, duration:0.3, onComplete:() => {
+                cur.classList.remove('active'); cur.style.display='none';
+                next.classList.add('active'); next.style.display='block';
+                gsap.fromTo(next, { opacity:0, y:10 }, { opacity:1, y:0, duration:0.5 });
+                currentStep = d;
+            }});
+        },
+        prevStep: (d) => {
+            const cur = document.getElementById('step'+currentStep);
+            const prev = document.getElementById('step'+d);
+            gsap.to(cur, { opacity:0, y:10, duration:0.3, onComplete:() => {
+                cur.classList.remove('active'); cur.style.display='none';
+                prev.classList.add('active'); prev.style.display='block';
+                gsap.fromTo(prev, { opacity:0, y:-10 }, { opacity:1, y:0, duration:0.5 });
+                currentStep = d;
+            }});
+        },
+        selectPlan: (n, p, el) => { 
+            document.querySelectorAll('#step1 .selection-card').forEach(c=>c.classList.remove('active'));
+            el.classList.add('active'); 
+            document.getElementById('selected_plan').value = `${n} ($${p}/mo)`;
+        },
+        selectOption: (id, v, el) => {
+            document.querySelectorAll('#step2 .selection-card').forEach(c=>c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById(id).value = v;
         }
     };
-
-    return { init, selectPlan, selectFocus, validateAndNext, prevStep };
 })();
-
-document.addEventListener('DOMContentLoaded', App.init);
+document.addEventListener('DOMContentLoaded', FormLogic.init);
 </script>
-
 </body>
 </html>
