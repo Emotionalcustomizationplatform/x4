@@ -4,30 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application | Private Counsel</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --bg: #050505; --surface: #0a0a0a; --surface-card: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.1); --gold: #E5C359; 
             --text-primary: #ffffff; --text-secondary: #A3A3A3;
+            --error: #ff4d4d;
         }
-
         body { 
             background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #050505 50%);
             background-color: var(--bg); color: var(--text-primary); 
             font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh; 
             display: flex; align-items: center; justify-content: center; overflow-x: hidden;
         }
-
         .form-container { width: 100%; max-width: 900px; padding: 2rem; text-align: center; position: relative; padding-top: 4rem; }
 
-        /* Step Styles */
-        .step { display: none; opacity: 0; }
-        .step.active { display: block; opacity: 1; }
+        /* Step Styles - 纯CSS动画替代GSAP，更稳定 */
+        .step { display: none; }
+        .step.active { 
+            display: block; 
+            animation: slideUp 0.5s ease-out forwards; 
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .step-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 0.8rem; color: #fff; }
         .step-subtitle { color: var(--text-secondary); margin-bottom: 3rem; font-size: 1rem; }
         
@@ -46,37 +49,23 @@
         .form-input:focus { outline: none; border-color: var(--gold); }
         
         .nav-bar { display: flex; justify-content: center; gap: 1rem; margin-top: 3rem; }
-        .btn { border: none; cursor: pointer; padding: 16px 40px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; }
+        .btn { border: none; cursor: pointer; padding: 16px 40px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
         .btn-primary { background: var(--gold); color: #000; }
         .btn-back { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
-
-        /* Toast */
-        .ref-toast { position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-20px); background: #000; border: 1px solid var(--gold); color: #fff; padding: 12px 24px; border-radius: 50px; display: flex; align-items: center; gap: 12px; z-index: 9999; opacity: 0; pointer-events: none; font-size: 0.85rem; }
-        .ref-icon { color: var(--gold); display: flex; }
-        .ref-code { font-weight: 700; color: var(--gold); letter-spacing: 1px; }
-        .ref-close { background: none; border: none; color: #555; cursor: pointer; padding: 4px; display: flex; }
-        
-        .error-toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: rgba(255, 77, 77, 0.9); color: white; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; z-index: 1000; opacity: 0; pointer-events: none; }
 
         /* === 成功页 === */
         #success { display: none; text-align: center; }
         .success-icon { font-size: 3.5rem; color: var(--gold); margin-bottom: 1rem; display: block; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         
-        /* 支付跳转提示文字 */
         .redirect-hint { 
-            color: var(--gold); 
-            font-size: 0.95rem; 
-            margin-top: 2rem; 
-            opacity: 0; 
-            font-weight: 500; 
-            padding: 12px 20px;
-            background: rgba(229, 195, 89, 0.1);
-            border-radius: 8px;
+            color: var(--gold); font-size: 0.95rem; margin-top: 2rem; 
+            font-weight: 500; padding: 12px 20px;
+            background: rgba(229, 195, 89, 0.1); border-radius: 8px;
             border: 1px solid rgba(229, 195, 89, 0.3);
-            display: inline-block;
+            display: none; /* 默认隐藏 */
         }
-
         @media (max-width: 768px) {
             .form-container { padding: 1.5rem; padding-top: 5rem; }
             .selection-grid { grid-template-columns: 1fr; }
@@ -100,7 +89,6 @@
                     <span class="featured-badge">Membership</span>
                     <div>
                         <div class="card-title">Continuous Counsel</div>
-                        <!-- ★★★ 修改部分：已改为 "4 Sessions / Month" ★★★ -->
                         <p class="card-desc">4 Sessions / Month. Strategic & emotional support.</p>
                     </div>
                     <div class="card-price">$710<span class="period">/mo</span></div>
@@ -138,116 +126,109 @@
         </div>
     </form>
 
-    <!-- 统一成功页 (无中间过渡) -->
+    <!-- 成功页 -->
     <div id="success">
         <span class="success-icon">✦</span>
         <h2 class="step-title">Application Secured</h2>
         <p class="step-subtitle">Your details have been successfully logged.</p>
         
-        <!-- 支付提示 (仅付费版显示) -->
+        <!-- 支付提示 -->
         <div class="redirect-hint" id="redirect-msg"></div>
         
-        <!-- 返回按钮 (仅免费版显示) -->
+        <!-- 返回按钮 -->
         <a href="index.html" class="btn btn-back" id="home-btn" style="display:none; margin-top:30px;">Return Home</a>
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
 const FormLogic = (() => {
     let currentStep = 1;
     const API_ENDPOINT = '/api/submit';
-    const PAYPAL_ME = "https://paypal.me/dpx710"; 
     
-    // UI Helpers
+    // 初始化
+    const init = () => {
+        // 1. 推荐人追踪 (保持原逻辑)
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('ref')) document.getElementById('referrerField').value = params.get('ref');
+
+        // 2. 绑定提交事件
+        const form = document.getElementById('bespokeForm');
+        form.onsubmit = handleSubmit;
+    };
+
+    // 核心提交逻辑
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData);
+        
+        // UI 更新
+        const btn = document.getElementById('submitBtn');
+        const originalText = btn.innerText;
+        btn.innerText = "Processing..."; 
+        btn.disabled = true;
+
+        try {
+            // 发送请求给后端
+            const response = await fetch(API_ENDPOINT, { 
+                method: 'POST', 
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify({...payload, submittedAt: new Date().toISOString()}) 
+            });
+            
+            const result = await response.json();
+
+            // 显示成功页
+            showView('success');
+
+            // 判断是否需要跳转 (根据后端返回的 redirect_url)
+            if (result.redirect_url) {
+                // === 付费版 ===
+                const hint = document.getElementById('redirect-msg');
+                hint.style.display = 'inline-block';
+                hint.innerHTML = "Opening secure payment gateway...<br>Please complete the transfer to finalize.";
+                
+                // 1.5 秒后跳转到后端指定的带ID的链接
+                setTimeout(() => {
+                    window.location.href = result.redirect_url;
+                }, 1500);
+            } else {
+                // === 免费版 ===
+                document.querySelector('#success .step-subtitle').innerHTML = "We will be in touch shortly.";
+                document.getElementById('home-btn').style.display = 'inline-block';
+                setTimeout(() => window.location.href = 'index.html', 5000);
+            }
+
+        } catch (err) {
+            console.error(err);
+            btn.innerText = originalText;
+            btn.disabled = false;
+            alert("Connection error. Please try again.");
+        }
+    };
+
+    // 辅助函数：切换步骤 (纯JS+CSS版)
     const showView = (id) => {
         ['bespokeForm', 'success'].forEach(el => document.getElementById(el).style.display = 'none');
         const el = document.getElementById(id);
         el.style.display = 'block';
-        gsap.fromTo(el, { opacity:0, y:10 }, { opacity:1, y:0, duration:0.5 });
-    };
-
-    const init = () => {
-        document.getElementById('step1').style.display = 'block';
-        gsap.fromTo('#step1', { opacity:0 }, { opacity:1, duration:0.8 });
-
-        const params = new URLSearchParams(window.location.search);
-        if(params.get('ref')) document.getElementById('referrerField').value = params.get('ref');
-
-        const form = document.getElementById('bespokeForm');
-        form.onsubmit = async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            const payload = Object.fromEntries(formData);
-            const isPaid = payload.selected_plan.includes('710');
-            const btn = document.getElementById('submitBtn');
-
-            btn.innerText = "Processing..."; btn.disabled = true;
-
-            try {
-                // 1. 后台备份 (秒存)
-                await fetch(API_ENDPOINT, { 
-                    method: 'POST', 
-                    headers: {'Content-Type': 'application/json'}, 
-                    body: JSON.stringify({...payload, submittedAt: new Date().toISOString()}) 
-                });
-
-                // 2. 无论是否成功备份，直接显示前端成功页 (给用户极速体验)
-                showView('success');
-
-                if (isPaid) {
-                    // === 付费版逻辑 ===
-                    const hint = document.getElementById('redirect-msg');
-                    // 金色提示框
-                    hint.innerHTML = "Opening secure payment gateway...<br>Please complete the transfer to finalize.";
-                    gsap.to(hint, { opacity: 1, duration: 0.5, delay: 0.3 });
-                    
-                    // 1.5 秒后跳转 (给用户反应时间)
-                    setTimeout(() => {
-                        window.location.href = PAYPAL_ME;
-                    }, 1500);
-                } else {
-                    // === 免费版逻辑 ===
-                    const hint = document.getElementById('redirect-msg');
-                    hint.style.display = 'none'; // 免费版不需要支付提示
-                    
-                    // 修改副标题更亲切
-                    document.querySelector('#success .step-subtitle').innerHTML = "We will be in touch shortly.";
-                    
-                    // 5秒自动跳回首页，或者用户点按钮
-                    document.getElementById('home-btn').style.display = 'inline-block';
-                    setTimeout(() => window.location.href = 'index.html', 5000);
-                }
-
-            } catch (err) {
-                console.error(err);
-                if(isPaid) window.location.href = PAYPAL_ME; // 兜底跳转
-                else alert("Network error. Please try again.");
-            }
-        };
+        el.style.animation = 'popIn 0.5s ease-out';
     };
 
     return {
         init,
         nextStep: (d) => {
-            const cur = document.getElementById('step'+currentStep);
-            const next = document.getElementById('step'+d);
-            gsap.to(cur, { opacity:0, y:-10, duration:0.3, onComplete:() => {
-                cur.classList.remove('active'); cur.style.display='none';
-                next.classList.add('active'); next.style.display='block';
-                gsap.fromTo(next, { opacity:0, y:10 }, { opacity:1, y:0, duration:0.5 });
-                currentStep = d;
-            }});
+            document.getElementById('step'+currentStep).classList.remove('active');
+            document.getElementById('step'+d).classList.add('active');
+            currentStep = d;
+            window.scrollTo({top:0, behavior:'smooth'});
         },
         prevStep: (d) => {
-            const cur = document.getElementById('step'+currentStep);
-            const prev = document.getElementById('step'+d);
-            gsap.to(cur, { opacity:0, y:10, duration:0.3, onComplete:() => {
-                cur.classList.remove('active'); cur.style.display='none';
-                prev.classList.add('active'); prev.style.display='block';
-                gsap.fromTo(prev, { opacity:0, y:-10 }, { opacity:1, y:0, duration:0.5 });
-                currentStep = d;
-            }});
+            document.getElementById('step'+currentStep).classList.remove('active');
+            document.getElementById('step'+d).classList.add('active');
+            currentStep = d;
+            window.scrollTo({top:0, behavior:'smooth'});
         },
         selectPlan: (n, p, el) => { 
             document.querySelectorAll('#step1 .selection-card').forEach(c=>c.classList.remove('active'));
@@ -261,7 +242,9 @@ const FormLogic = (() => {
         }
     };
 })();
+
 document.addEventListener('DOMContentLoaded', FormLogic.init);
 </script>
+
 </body>
 </html>
