@@ -1,62 +1,40 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const { Resend } = require('resend');
-const fs = require('fs');
-const path = require('path');
-// 移除了 helmet, rate-limit, validator 等所有可能报错的库
-// 只用 Node.js 自带的原生 crypto 库
-const crypto = require('crypto'); 
+// ... 前面的代码不变 ...
 
-const app = express();
-const port = process.env.PORT || 3000;
-const publicPath = path.resolve(__dirname, 'public');
-
-// 1. 基础配置
-app.set('trust proxy', 1);
-app.use(cors()); // 允许跨域
-app.use(bodyParser.json()); // 解析 JSON
-
-// 初始化邮件
-if (!process.env.RESEND_API_KEY) {
-    console.error("❌ 错误: .env 文件中缺少 RESEND_API_KEY");
-}
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-// 2. 简易日志 (存硬盘)
-const LOG_DIR = path.resolve(__dirname, 'logs');
-if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
-
-const writeLog = async (data) => {
-    const file = path.join(LOG_DIR, `leads_${new Date().toISOString().split('T')[0]}.jsonl`);
-    const line = JSON.stringify({ ts: new Date().toISOString(), ...data }) + '\n';
-    try { await fs.promises.appendFile(file, line); } catch (e) { console.error('Log Error:', e); }
-};
-
-// 3. 提交接口 (删繁就简，只留核心)
+// 3. 提交接口 (智能兼容版)
 app.post('/api/submit', async (req, res) => {
     try {
-        const { name, email, phone, plan_id, focus, referrer, honeypot } = req.body;
+        let { name, email, phone, plan_id, selected_plan, focus, support_type, referrer, honeypot } = req.body;
 
-        // Bot 陷阱
+        // 1. Bot 拦截
         if (honeypot) return res.json({ status: 'success' });
 
-        // 简单的必填校验
+        // 2. ★★★ 核心修复：智能判断套餐 (兼容旧版前端) ★★★
+        // 如果前端没传 plan_id，就去检查旧版的 selected_plan
+        if (!plan_id && selected_plan) {
+            // 只要旧版里包含 '710' 或 'Continuous'，就认为是付费
+            if (selected_plan.includes('710') || selected_plan.toLowerCase().includes('continuous')) {
+                plan_id = 'continuous';
+            } else {
+                plan_id = 'free';
+            }
+        }
+
+        // 3. 必填校验
         if (!name || !email) {
             return res.status(400).json({ status: 'error', message: 'Missing fields' });
         }
 
-        // 简单的 HTML 转义 (代替 validator 库)
-        const safeText = (str) => (str || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-        // 套餐定义
-        const isPaid = (plan_id === 'continuous');
+        // 4. 判断是否付费
+        const isPaid = (plan_id === 'continuous'); // 只要是 continuous 就是付费
         const price = isPaid ? 710 : 0;
-        const planName = isPaid ? 'Continuous Counsel' : 'Initial Dialogue';
+        const planName = isPaid ? 'Continuous Counsel ($710)' : 'Initial Dialogue (Free)';
+
+        // 5. 兼容 focus 字段 (旧版叫 support_type)
+        const finalFocus = focus || support_type || 'General';
 
         // 生成 ID
         const submissionId = crypto.randomUUID().slice(0, 8).toUpperCase();
+        const safeText = (str) => (str || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
         const cleanData = {
             id: submissionId,
@@ -65,7 +43,7 @@ app.post('/api/submit', async (req, res) => {
             phone: safeText(phone),
             plan: planName,
             amount: price,
-            focus: safeText(focus),
+            focus: safeText(finalFocus),
             ref: safeText(referrer),
             ip: req.ip
         };
@@ -73,9 +51,8 @@ app.post('/api/submit', async (req, res) => {
         // 写日志
         await writeLog(cleanData);
 
-        // 发邮件 (保留您的黄色警告功能)
+        // 发邮件 (保留警告功能)
         const subjectPrefix = isPaid ? '[💰 PAYMENT PENDING]' : '[✅ FREE]';
-        
         const warningHtml = isPaid ? `
             <div style="background: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; margin-bottom: 20px;">
                 <strong>⚠️ 待付款预警 / PAYMENT PENDING</strong><br>
@@ -95,21 +72,23 @@ app.post('/api/submit', async (req, res) => {
             subject: `${subjectPrefix} New Lead: ${cleanData.name}`,
             html: `
                 ${warningHtml}
-                <p><strong>ID:</strong> ${cleanData.id}</p>
+                <p><strong>Submission ID:</strong> ${cleanData.id}</p>
                 <p><strong>Name:</strong> ${cleanData.name}</p>
                 <p><strong>Email:</strong> ${cleanData.email}</p>
                 <p><strong>Referrer:</strong> ${cleanData.ref}</p>
                 <hr>
-                <p><strong>Plan:</strong> ${cleanData.plan} ($${cleanData.amount})</p>
+                <p><strong>Plan:</strong> ${cleanData.plan}</p>
+                <p><strong>Focus:</strong> ${cleanData.focus}</p>
             `
         });
 
-        // 返回成功
+        // 返回结果
         let responseData = { status: 'success', submission_id: submissionId };
         if (isPaid) {
+            // 付费版：返回 PayPal 链接
             responseData.redirect_url = `https://paypal.me/dpx710/${price}USD?memo=${submissionId}`;
         }
-
+        
         return res.status(201).json(responseData);
 
     } catch (err) {
@@ -118,12 +97,4 @@ app.post('/api/submit', async (req, res) => {
     }
 });
 
-// 4. 静态文件兜底
-app.use(express.static(publicPath));
-app.get('*', (req, res) => {
-    const indexPath = path.join(publicPath, 'index.html');
-    if (fs.existsSync(indexPath)) res.sendFile(indexPath);
-    else res.status(404).send('Not Found');
-});
-
-app.listen(port, '0.0.0.0', () => console.log(`Server running on port ${port}`));
+// ... 后面的代码不变 ...
