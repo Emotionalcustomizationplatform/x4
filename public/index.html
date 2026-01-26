@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --bg: #050505; --surface: #0a0a0a; --surface-card: rgba(255, 255, 255, 0.04);
@@ -21,17 +20,16 @@
         .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #050505 50%); pointer-events: none; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
         h1, h2, h3, h4 { font-family: 'Playfair Display', serif; margin: 0; }
-
+        
         /* Navbar */
         .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 16px 0; transition: background 0.3s, border-bottom 0.3s; }
         .navbar.scrolled { background: rgba(5, 5, 5, 0.95); border-bottom: 1px solid var(--border); }
         .nav-content { display: flex; justify-content: space-between; align-items: center; }
-        /* 修正：品牌名 */
         .logo { font-weight: 600; font-size: 1.1rem; color: #fff; text-decoration: none; letter-spacing: -0.01em; }
         
         .nav-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--border); padding: 8px 20px; border-radius: 50px; color: #fff; font-size: 0.85rem; text-decoration: none; transition: 0.2s; font-weight: 500; }
         .nav-btn:hover { background: #fff; color: #000; }
-
+        
         /* Hero */
         .hero { min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
         .hero h1 { font-size: clamp(3.5rem, 8vw, 6.5rem); line-height: 1.05; margin-bottom: 24px; background: linear-gradient(180deg, #FFFFFF 30%, #999 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 20px 40px rgba(0,0,0,0.6); }
@@ -40,20 +38,20 @@
         .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(255,255,255,0.25); }
         .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); opacity: 0.5; animation: float 3s infinite; color: var(--text-secondary); }
         @keyframes float { 0%, 100% {transform:translateX(-50%) translateY(0);} 50% {transform:translateX(-50%) translateY(10px);} }
-
+        
         /* Sections */
         .section { padding: 120px 0; border-top: 1px solid var(--border); }
         .section-header { text-align: center; margin-bottom: 60px; }
         .section-header h2 { font-size: 2.5rem; margin-bottom: 12px; }
         .section-header p { color: var(--text-secondary); font-size: 1.1rem; }
-
+        
         /* Cards */
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
         .feature-card { background: var(--surface-card); border: 1px solid var(--border); padding: 35px; border-radius: 12px; transition: 0.3s; }
         .feature-card:hover { border-color: var(--border-light); transform: translateY(-3px); background: rgba(255,255,255,0.06); }
         .feature-card h3 { font-size: 1.4rem; margin-bottom: 12px; color: #fff; }
         .feature-card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; margin: 0; }
-
+        
         /* Pricing */
         .pricing-section { display: grid; grid-template-columns: 1fr 1.1fr; gap: 40px; align-items: center; max-width: 900px; margin: 0 auto; }
         .pricing-card { background: var(--surface-card); border: 1px solid var(--border); padding: 40px; border-radius: 16px; position: relative; }
@@ -71,7 +69,7 @@
         .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
         .btn-gold { background: var(--gold); color: #000; font-weight: 600; }
         .btn-gold:hover { background: #F0D069; }
-
+        
         /* Trust & Footer */
         .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 40px; }
         .trust-item { text-align: center; padding: 10px; }
@@ -85,7 +83,6 @@
         
         .whatsapp-float { position: fixed; bottom: 30px; right: 30px; width: 56px; height: 56px; background: #25D366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 999; transition: transform 0.3s; border: 2px solid rgba(255,255,255,0.1); }
         .whatsapp-float:hover { transform: scale(1.1); }
-
         @media (max-width: 768px) {
             .hero h1 { font-size: 3.2rem; }
             .pricing-section { grid-template-columns: 1fr; gap: 40px; }
@@ -97,16 +94,13 @@
 </head>
 <body>
     <div class="ambient-bg"></div>
-
     <!-- Nav -->
     <nav class="navbar" id="navbar">
         <div class="container nav-content">
-            <!-- 修正 1: 品牌名改为 Private Advisor -->
             <a href="#" class="logo">Private Advisor.</a>
             <a href="form.html" class="nav-btn">Book Session &rarr;</a>
         </div>
     </nav>
-
     <!-- Hero -->
     <section class="hero container">
         <h1>The Founder's<br>Silent Partner.</h1>
@@ -118,7 +112,6 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 13L12 18L17 13M7 6L12 11L17 6"/></svg>
         </div>
     </section>
-
     <!-- Expertise -->
     <section class="section container">
         <div class="section-header">
@@ -135,17 +128,14 @@
                 <p>A strictly private space to voice the unvoiceable. Human connection, detached from your org chart.</p>
             </div>
             <div class="feature-card">
-                <!-- 修正 2: 强调“教学”属性 -->
                 <h3>Advanced Mandarin</h3>
                 <p>Elite HSK 8+ level training and cross-cultural negotiation strategy for global execution.</p>
             </div>
         </div>
     </section>
-
     <!-- Trust -->
     <section class="section container">
         <div class="section-header" style="margin-bottom: 40px;">
-            <!-- 修正 3: 标题 -->
             <h2>Why Private Advisor?</h2>
         </div>
         <div class="trust-grid">
@@ -171,7 +161,6 @@
             </div>
         </div>
     </section>
-
     <!-- Pricing -->
     <section class="section container">
         <div class="section-header">
@@ -185,7 +174,6 @@
                     <h3>Initial Dialogue</h3>
                     <span class="price">Free</span>
                     <ul class="pricing-features">
-                        <!-- 修正 4: 翻译优化 -->
                         <li>Preliminary fit assessment</li>
                         <li>Single secure submission</li>
                         <li>Chemistry check</li>
@@ -198,11 +186,9 @@
             <div class="pricing-card premium">
                 <span class="badge">Most Selected</span>
                 <div>
-                    <!-- 修正 5: 名字优化 -->
                     <h3>Monthly Retainer</h3>
                     <span class="price">$710 <span>/ month</span></span>
                     <ul class="pricing-features">
-                        <!-- 修正 6: 明确权益 4次/月 -->
                         <li><strong>4 Sessions / Month</strong></li>
                         <li>Strategic & emotional guidance</li>
                         <li>Priority response</li>
@@ -213,11 +199,9 @@
             </div>
         </div>
     </section>
-
     <!-- Footer -->
     <footer>
         <div class="container">
-            <!-- 修正 7: 公司名同步 -->
             <p>&copy; 2026 Private Advisor Inc.</p>
             <div class="legal" style="margin-top: 20px;">
                 <a href="#">Privacy Policy</a>
@@ -227,16 +211,34 @@
             <p style="opacity: 0.4; margin-top: 40px; font-size: 0.75rem;">Disclaimer: Services are educational and supportive coaching only. Not legal advice.</p>
         </div>
     </footer>
-
     <a href="https://wa.me/16769896777" class="whatsapp-float" target="_blank">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.932.513 1.945.786 2.793.786 3.18 0 5.767-2.587 5.767-5.766.001-3.185-2.585-5.773-5.764-5.773zm0 10.534c-.818 0-1.611-.223-2.31-.637l-.165-.099-1.716.45.457-1.673-.108-.171c-.482-.767-.736-1.579-.736-2.637 0-2.624 2.135-4.759 4.578-4.759 2.445 0 4.58 2.135 4.58 4.759.001 2.627-2.133 4.767-4.58 4.767z"/><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.523 0-10-4.477-10-10S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
     </a>
-
     <script>
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Navbar Scroll Effect
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) nav.classList.add('scrolled');
+                else nav.classList.remove('scrolled');
+            });
+
+            // 2. REFERRAL LINK PASSTHROUGH LOGIC (CRITICAL FIX)
+            // Checks if the user arrived with a ?ref= query (e.g., from an affiliate link)
+            const currentParams = window.location.search;
+            
+            if (currentParams) {
+                // Find all links that point to the form page
+                const formLinks = document.querySelectorAll('a[href="form.html"]');
+                
+                // Append the current query parameters (including ref) to these links
+                formLinks.forEach(link => {
+                    link.href = 'form.html' + currentParams;
+                });
+                
+                // Optional: Console log for debugging
+                console.log(`Updated ${formLinks.length} links with referral params: ${currentParams}`);
+            }
         });
     </script>
 </body>
