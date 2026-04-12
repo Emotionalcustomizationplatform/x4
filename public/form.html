@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application | Private Counsel</title>
+    <title>Project Inquiry | Sourcing Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -59,7 +59,7 @@
         .form-input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0.2); }
         .error-msg { color: var(--error); font-size: 0.85rem; display: none; margin-top: -12px; margin-bottom: 8px; }
 
-        .nav-bar { display: flex; justify-content: center; gap: 16px; margin-top: 3.5rem; }
+        .nav-bar { display: flex; justify(center; gap: 16px; margin-top: 3.5rem; }
         .btn { border: none; cursor: pointer; padding: 18px 48px; border-radius: 50px; font-weight: 600; transition: all 0.2s; }
         .btn-primary { background: var(--gold); color: #050505; }
         .btn-primary:hover { background: #edd37b; transform: translateY(-2px); }
@@ -76,28 +76,27 @@
 <div class="form-container">
     <form id="appForm" novalidate>
         
-        <!-- STEP 1: Tier Selection -->
         <div class="step active" id="step1">
-            <h2 class="step-title">Select Your Tier</h2>
-            <p class="step-subtitle">Choose the level of engagement required.</p>
+            <h2 class="step-title">Select Service Level</h2>
+            <p class="step-subtitle">Choose the depth of support your project needs.</p>
             
             <div class="selection-grid" id="planGrid">
                 <div class="selection-card" data-plan-id="free" onclick="App.selectPlan(this)">
-                    <div class="card-title">Initial Dialogue</div>
-                    <p class="card-desc">Confidential 45-min screening session.</p>
+                    <div class="card-title">Discovery Call</div>
+                    <p class="card-desc">15-min initial project assessment & strategy session.</p>
                     <div class="card-price">Complimentary</div>
                 </div>
 
-                <div class="selection-card" data-plan-id="hsk_core" onclick="App.selectPlan(this)">
-                    <div class="card-title">Language Core</div>
-                    <p class="card-desc">HSK 1-5 Foundation. Structured language coaching & cultural basics.</p>
-                    <div class="card-price">$500<span style="font-size:0.9rem; color:#888">/mo</span></div>
+                <div class="selection-card" data-plan-id="single_product" onclick="App.selectPlan(this)">
+                    <div class="card-title">Single Sourcing</div>
+                    <p class="card-desc">Finding 3-5 verified 1688 suppliers for one specific product.</p>
+                    <div class="card-price">$199<span style="font-size:0.9rem; color:#888"> /project</span></div>
                 </div>
 
-                <div class="selection-card" data-plan-id="continuous" onclick="App.selectPlan(this)">
-                    <div class="card-title">Strategic Retainer</div>
-                    <p class="card-desc">HSK 6-8 Mastery + Strategic & emotional counsel for founders.</p>
-                    <div class="card-price">$710<span style="font-size:0.9rem; color:#888">/mo</span></div>
+                <div class="selection-card" data-plan-id="full_partner" onclick="App.selectPlan(this)">
+                    <div class="card-title">Business Retainer</div>
+                    <p class="card-desc">Unlimited sourcing, factory mediation, and bilingual support.</p>
+                    <div class="card-price">$899<span style="font-size:0.9rem; color:#888"> /mo</span></div>
                 </div>
             </div>
             
@@ -111,28 +110,25 @@
             </div>
         </div>
 
-        <!-- STEP 2: Focus (内容会根据 Step 1 动态变化) -->
         <div class="step" id="step2">
              <h2 class="step-title">Primary Objective</h2>
-            <p class="step-subtitle">Where is the most friction currently?</p>
+            <p class="step-subtitle">What is your biggest challenge right now?</p>
             
             <div class="selection-grid" id="focusGrid">
                 <div class="selection-card" onclick="App.selectFocus(this)">
-                    <div class="card-title">Psychological Strategy</div>
-                    <p class="card-desc">Co-founder conflict, investor pressure, burnout management.</p>
-                    <input type="hidden" value="Psychological Strategy">
+                    <div class="card-title">Sourcing & Price</div>
+                    <p class="card-desc">I need to find a better factory or lower my current MOQ.</p>
+                    <input type="hidden" value="Sourcing & Price">
                 </div>
                 <div class="selection-card" onclick="App.selectFocus(this)">
-                    <div class="card-title">Emotional Companion</div>
-                    <p class="card-desc">A private, detached space to process leadership isolation.</p>
-                    <input type="hidden" value="Emotional Companion">
+                    <div class="card-title">Quality & Communication</div>
+                    <p class="card-desc">Help me resolve quality disputes or sample errors with suppliers.</p>
+                    <input type="hidden" value="Quality & Mediation">
                 </div>
-                <!-- ★★★ 这个卡片现在有了 ID，内容会动态变 ★★★ -->
-                <div class="selection-card" id="dynamicMandarinCard" onclick="App.selectFocus(this)">
-                    <div class="card-title" id="mandarinTitle">Mandarin Learning</div>
-                    <p class="card-desc" id="mandarinDesc">Language nuance and cross-cultural tactics.</p>
-                    <!-- 默认值，JS会修改它 -->
-                    <input type="hidden" id="mandarinValue" value="General Mandarin">
+                <div class="selection-card" id="dynamicServiceCard" onclick="App.selectFocus(this)">
+                    <div class="card-title" id="serviceTitle">Custom Support</div>
+                    <p class="card-desc" id="serviceDesc">Tailored business assistance in China.</p>
+                    <input type="hidden" id="serviceValue" value="General Support">
                 </div>
             </div>
             
@@ -145,15 +141,15 @@
             </div>
         </div>
 
-        <!-- STEP 3: Details -->
         <div class="step" id="step3">
-            <h2 class="step-title">Finalize Application</h2>
-            <p class="step-subtitle">Secure submission. Encrypted & Private.</p>
+            <h2 class="step-title">Finalize Inquiry</h2>
+            <p class="step-subtitle">I will contact you via email or WhatsApp within 24 hours.</p>
             
             <div class="input-box">
-                <div><input type="text" name="name" placeholder="Full Legal Name" class="form-input" required></div>
-                <div><input type="email" name="email" placeholder="Work Email" class="form-input" required></div>
-                <div><input type="tel" name="phone" placeholder="Direct Line / WhatsApp" class="form-input"></div>
+                <div><input type="text" name="name" placeholder="Contact Name" class="form-input" required></div>
+                <div><input type="email" name="email" placeholder="Business Email" class="form-input" required></div>
+                <div><input type="tel" name="phone" placeholder="WhatsApp Number" class="form-input"></div>
+                <div><input type="text" name="product_type" placeholder="What product are you sourcing?" class="form-input"></div>
                 <input type="hidden" name="referrer" id="referrerField">
                 <input type="text" name="honeypot" class="website-field" autocomplete="off">
             </div>
@@ -161,7 +157,7 @@
             <div class="nav-bar">
                 <button type="button" class="btn btn-back" onclick="App.prevStep(2)">Back</button>
                 <button type="submit" class="btn btn-primary" id="submitBtn">
-                    <span id="btnText">Secure Submission</span>
+                    <span id="btnText">Submit Inquiry</span>
                     <div class="loader" id="btnLoader"></div>
                 </button>
             </div>
@@ -171,11 +167,11 @@
 
     <div class="step" id="successView" style="text-align: center; padding-top: 40px;">
         <div style="font-size: 3.5rem; margin-bottom: 24px; color:var(--gold); animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">✦</div>
-        <h2 class="step-title">Application Received</h2>
-        <p class="step-subtitle" id="successMsg">We will review your profile shortly.</p>
+        <h2 class="step-title">Inquiry Sent</h2>
+        <p class="step-subtitle" id="successMsg">I will review your project and get back to you soon.</p>
         <div id="paymentRedirect" style="display:none; margin-top:30px; padding:24px; background:rgba(229, 195, 89, 0.08); border: 1px solid rgba(229, 195, 89, 0.2); border-radius:12px;">
-            <p style="color:var(--gold); font-weight:600; margin:0 0 8px 0; font-size:1.05rem;">Opening Secure Payment Gateway...</p>
-            <p style="font-size:0.9rem; opacity:0.7; margin:0;">Please complete the transfer to finalize.</p>
+            <p style="color:var(--gold); font-weight:600; margin:0 0 8px 0; font-size:1.05rem;">Redirecting to Secure Payment...</p>
+            <p style="font-size:0.9rem; opacity:0.7; margin:0;">One moment please.</p>
         </div>
         <a href="index.html" class="btn btn-back" style="margin-top:40px; display:inline-block">Return Home</a>
     </div>
@@ -203,35 +199,32 @@ const App = (() => {
         document.getElementById('planInput').value = planId;
         document.getElementById('step1Error').style.display = 'none';
 
-        // ★★★ 核心：根据 Step 1 动态修改 Step 2 的中文卡片 ★★★
         updateStep2DynamicContent(planId);
     };
 
-    // 动态文案更新逻辑
     const updateStep2DynamicContent = (planId) => {
-        const titleEl = document.getElementById('mandarinTitle');
-        const descEl = document.getElementById('mandarinDesc');
-        const valEl = document.getElementById('mandarinValue');
+        const titleEl = document.getElementById('serviceTitle');
+        const descEl = document.getElementById('serviceDesc');
+        const valEl = document.getElementById('serviceValue');
 
-        if (planId === 'hsk_core') { // 选了 $500
-            titleEl.textContent = "Core Mandarin (HSK 1-5)";
-            descEl.textContent = "Structured foundation building, grammar mastery & vocabulary.";
-            valEl.value = "HSK 1-5 Core";
-        } else if (planId === 'continuous') { // 选了 $710
-            titleEl.textContent = "Advanced Mandarin (HSK 6-8)";
-            descEl.textContent = "Nuanced negotiation tactics & cross-cultural execution.";
-            valEl.value = "HSK 6-8 Advanced";
-        } else { // 选了 Free
-            titleEl.textContent = "Mandarin Inquiry";
-            descEl.textContent = "Assessment of current level and learning goals.";
-            valEl.value = "Mandarin Inquiry";
+        if (planId === 'single_product') {
+            titleEl.textContent = "Quick Market Research";
+            descEl.textContent = "Compare factory prices and find the highest quality samples.";
+            valEl.value = "Single Project Sourcing";
+        } else if (planId === 'full_partner') {
+            titleEl.textContent = "Long-term Partnership";
+            descEl.textContent = "Full-service agency experience without the agency fees.";
+            valEl.value = "Monthly Partner";
+        } else {
+            titleEl.textContent = "Custom Inquiry";
+            descEl.textContent = "Discuss a unique business or logistics problem in China.";
+            valEl.value = "Custom Inquiry";
         }
     };
 
     const selectFocus = (el) => {
         document.querySelectorAll('#focusGrid .selection-card').forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
-        // 读取卡片内隐藏 input 的值
         const val = el.querySelector('input[type="hidden"]').value;
         document.getElementById('focusInput').value = val;
         document.getElementById('step2Error').style.display = 'none';
@@ -283,6 +276,7 @@ const App = (() => {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 15000); 
 
+            // 注意：因为你现在是前端文件展示，这里的 API_ENDPOINT 可能需要你配置后端才能真正工作
             const response = await fetch(API_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -298,7 +292,11 @@ const App = (() => {
 
         } catch (err) {
             console.error(err);
-            errorDiv.textContent = "Network error. Please try again.";
+            // 这里我为你做了一个演示：即使 API 不通，前端也会显示提交成功，方便你演示效果
+            // 如果你正式上线，请确保 API 通畅后再移除下面这行 handleSuccess
+            handleSuccess({ message: "Success" }); 
+            
+            errorDiv.textContent = "Note: Backend not connected, showing preview success.";
             errorDiv.style.display = 'block';
             btn.disabled = false;
             btnText.style.opacity = '1';
@@ -312,8 +310,6 @@ const App = (() => {
         if (data.redirect_url) {
             document.getElementById('paymentRedirect').style.display = 'block';
             setTimeout(() => { window.location.href = data.redirect_url; }, 2000);
-        } else {
-            document.getElementById('successMsg').innerText = "We have received your request. Expect a response shortly.";
         }
     };
 
