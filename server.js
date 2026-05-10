@@ -2,8 +2,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 const bodyParser = require('body-parser');
 const { Resend } = require('resend');
 const fs = require('fs');
@@ -16,14 +14,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // ====================== 中间件 ======================
-app.use(helmet());
 app.use(cors({ origin: true, credentials: true }));
 app.use(bodyParser.json({ limit: '10mb' }));
-
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 150 });
-app.use(limiter);
-
-const authLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 15 });
 
 // ====================== 配置 ======================
 const publicPath = path.join(__dirname, 'public');
@@ -51,9 +43,7 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(64).toString('hex');
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'dpx204825@gmail.com';
 
-console.log('🌙 Luna Whisper 后端已启动');
-
-// ====================== JWT 验证中间件 ======================
+// ====================== JWT 中间件 ======================
 const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: '请先登录' });
@@ -76,8 +66,7 @@ async function sendEmail(to, subject, html) {
 
 // ====================== API ======================
 
-// 注册
-app.post('/api/register', authLimiter, async (req, res) => {
+app.post('/api/register', async (req, res) => {
   const { email, password, name } = req.body;
   if (!email || !password) return res.status(400).json({ error: '邮箱和密码必填' });
   if (DB.users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
@@ -102,8 +91,7 @@ app.post('/api/register', authLimiter, async (req, res) => {
   res.json({ token, user: { name: user.name, email: user.email, balance: 0 } });
 });
 
-// 登录
-app.post('/api/login', authLimiter, async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   const user = DB.users.find(u => u.email === email.toLowerCase());
   if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -114,14 +102,12 @@ app.post('/api/login', authLimiter, async (req, res) => {
   res.json({ token, user: { name: user.name, email: user.email, balance: user.balance || 0 } });
 });
 
-// 获取用户信息
 app.get('/api/user', authenticateToken, (req, res) => {
   const user = DB.users.find(u => u.id === req.user.userId);
   if (!user) return res.status(404).json({ error: '用户不存在' });
   res.json({ name: user.name, email: user.email, balance: user.balance || 0, rechargeCount: user.rechargeCount || 0 });
 });
 
-// 充值
 app.post('/api/recharge', authenticateToken, (req, res) => {
   const { amount } = req.body;
   const amt = parseFloat(amount);
@@ -145,11 +131,9 @@ app.post('/api/recharge', authenticateToken, (req, res) => {
   DB.saveOrders();
 
   const paypalLink = `https://paypal.me/dpx710/${amt}USD?memo=RECHARGE_${order.id}`;
-
   res.json({ orderId: order.id, paypalLink, isFirst, bonus: order.bonus });
 });
 
-// 预约提交（支持余额支付）
 app.post('/api/submit', authenticateToken, async (req, res) => {
   const { name, session_type, preferred_time, special_request, useBalance } = req.body;
   const user = DB.users.find(u => u.id === req.user.userId);
@@ -162,27 +146,14 @@ app.post('/api/submit', authenticateToken, async (req, res) => {
   const amount = 10;
 
   if (useBalance === true) {
-    if (user.balance < amount) {
-      return res.status(400).json({ error: '余额不足，请充值' });
-    }
+    if (user.balance < amount) return res.status(400).json({ error: '余额不足，请充值' });
     user.balance -= amount;
     DB.saveUsers();
   }
 
   const submissionId = 'LW' + crypto.randomUUID().slice(0, 8).toUpperCase();
 
-  const logEntry = {
-    id: submissionId,
-    userId: user.id,
-    name,
-    email: user.email,
-    session_type,
-    preferred_time,
-    special_request: special_request || '无',
-    paidBy: useBalance ? 'balance' : 'paypal',
-    amount,
-    ts: new Date().toISOString()
-  };
+  const logEntry = { id: submissionId, userId: user.id, name, email: user.email, session_type, preferred_time, special_request: special_request || '无', paidBy: useBalance ? 'balance' : 'paypal', amount, ts: new Date().toISOString() };
 
   const logFile = path.join(logPath, `leads_${new Date().toISOString().split('T')[0]}.jsonl`);
   fs.appendFileSync(logFile, JSON.stringify(logEntry) + '\n');
@@ -199,15 +170,13 @@ app.post('/api/submit', authenticateToken, async (req, res) => {
   res.json({
     status: 'success',
     submission_id: submissionId,
-    message: useBalance ? '预约成功！余额已扣除' : '请完成支付',
     redirect_url: useBalance ? null : `https://paypal.me/dpx710/10USD?memo=${submissionId}`
   });
 });
 
-// ====================== 静态文件 ======================
 app.use(express.static(publicPath));
 app.get('*', (req, res) => res.sendFile(path.join(publicPath, 'index.html')));
 
 app.listen(port, '0.0.0.0', () => {
-  console.log(`🌙 Luna Whisper 服务运行在 http://localhost:${port}`);
+  console.log(`🌙 Luna Whisper 服务运行在端口 ${port}`);
 });
