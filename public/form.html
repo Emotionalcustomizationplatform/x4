@@ -6,14 +6,8 @@
   <title>预约你的睡眠陪伴 | Luna Whisper</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0a0a1f; --card: rgba(255,255,255,0.06); --border: rgba(180,180,255,0.18);
-      --accent: #c8b6ff; --text: #fff; --text-secondary: #b0b0cc; --error: #ff6b6b;
-    }
-    body {
-      background: radial-gradient(circle at 50% -20%, #1a1a3a 0%, #0a0a1f 60%);
-      color: var(--text); font-family: 'Inter','Noto Sans SC',sans-serif; margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-    }
+    :root { --bg: #0a0a1f; --card: rgba(255,255,255,0.06); --border: rgba(180,180,255,0.18); --accent: #c8b6ff; --text: #fff; --text-secondary: #b0b0cc; --error: #ff6b6b; }
+    body { background: radial-gradient(circle at 50% -20%, #1a1a3a 0%, #0a0a1f 60%); color: var(--text); font-family: 'Inter','Noto Sans SC',sans-serif; margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; }
     body.zh { font-family: 'Noto Sans SC','Inter',sans-serif; }
     .container { width:100%; max-width:700px; padding:2rem; position:relative; }
     .step { display:none; }
@@ -48,7 +42,7 @@
   <form id="bookingForm">
     <div class="step active" id="step1">
       <h2 data-en="Choose Your Experience" data-zh="选择你的体验">选择你的体验</h2>
-      <p class="subtitle" data-en="$10 · 30-45 min · No subscription" data-zh="$10 (≈¥70) · 30-45分钟 · 无需订阅">$10 (≈¥70) · 30-45分钟 · 无需订阅</p>
+      <p class="subtitle" data-en="$10 · 30-45 min" data-zh="$10 (≈¥70) · 30-45分钟">$10 (≈¥70) · 30-45分钟</p>
       <div class="grid" id="typeGrid">
         <div class="card" data-type="ASMR Whisper" onclick="selectType(this)"><div class="card-title" data-en="ASMR Whisper" data-zh="ASMR耳语">ASMR耳语</div><div class="card-desc" data-en="Soft triggers, personal attention" data-zh="轻柔触发音，私人专注">轻柔触发音，私人专注</div></div>
         <div class="card" data-type="Bedtime Story" onclick="selectType(this)"><div class="card-title" data-en="Bedtime Story" data-zh="睡前故事">睡前故事</div><div class="card-desc" data-en="Cozy tales to drift off" data-zh="温暖故事伴你入眠">温暖故事伴你入眠</div></div>
@@ -70,6 +64,8 @@
       </div>
       <input type="hidden" name="session_plan" value="single">
       <input type="hidden" name="referrer" id="refInput">
+      <!-- 防机器人 honeypot -->
+      <div style="display:none"><input type="text" name="honeypot"></div>
       <div class="btn-bar">
         <button type="button" class="btn btn-back" onclick="prevStep()">← 返回</button>
         <button type="submit" class="btn btn-primary">✅ 支付 $10 并确认</button>
@@ -78,13 +74,15 @@
   </form>
   <div class="step" id="successView" style="text-align:center;padding:60px 20px;">
     <h2 data-en="Booking Confirmed!" data-zh="预约成功！">预约成功！</h2>
-    <p class="subtitle" data-en="We'll confirm within 2 hours. Sweet dreams ✨" data-zh="我们将在2小时内确认，愿你今晚好梦 ✨">我们将在2小时内确认，愿你今晚好梦 ✨</p>
+    <p class="subtitle" data-en="We'll confirm within 2 hours." data-zh="我们将在2小时内确认，愿你今晚好梦 ✨">我们将在2小时内确认，愿你今晚好梦 ✨</p>
     <a href="/" class="btn btn-back" style="margin-top:30px;">← 返回首页</a>
   </div>
 </div>
+
 <script>
 let currentStep = 1;
 const form = document.getElementById('bookingForm');
+document.getElementById('refInput').value = new URLSearchParams(window.location.search).get('ref') || '';
 
 // 语言切换
 document.getElementById('langSwitch').addEventListener('click', e => {
@@ -92,12 +90,9 @@ document.getElementById('langSwitch').addEventListener('click', e => {
   if (!btn) return;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const lang = btn.dataset.lang;
-  document.body.className = lang === 'zh' ? 'zh' : '';
-  document.querySelectorAll('[data-en]').forEach(el => el.textContent = el.getAttribute('data-'+lang));
+  document.body.className = btn.dataset.lang === 'zh' ? 'zh' : '';
+  document.querySelectorAll('[data-en]').forEach(el => el.textContent = el.getAttribute('data-' + btn.dataset.lang));
 });
-
-document.getElementById('refInput').value = new URLSearchParams(window.location.search).get('ref') || '';
 
 function selectType(el) {
   document.querySelectorAll('#typeGrid .card').forEach(c => c.classList.remove('selected'));
@@ -105,17 +100,18 @@ function selectType(el) {
   document.getElementById('typeInput').value = el.dataset.type;
   document.getElementById('step1Error').style.display = 'none';
 }
+
 function nextStep(from) {
-  if (from===1 && !document.getElementById('typeInput').value) {
+  if (from === 1 && !document.getElementById('typeInput').value) {
     document.getElementById('step1Error').style.display = 'block';
     return;
   }
-  switchStep(from+1);
+  switchStep(from + 1);
 }
-function prevStep() { switchStep(currentStep-1); }
+function prevStep() { switchStep(currentStep - 1); }
 function switchStep(n) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('step'+n).classList.add('active');
+  document.getElementById('step' + n).classList.add('active');
   currentStep = n;
   window.scrollTo(0,0);
 }
@@ -123,31 +119,31 @@ function switchStep(n) {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const data = Object.fromEntries(new FormData(form));
-  const btn = form.querySelector('button[type="submit"]');
-  btn.textContent = '处理中...'; btn.disabled = true;
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.textContent = '处理中...'; submitBtn.disabled = true;
   try {
     const res = await fetch('/api/submit', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    const json = await res.json();
-    if (json.status === 'success' && json.redirect_url) {
-      window.location.href = json.redirect_url;
+    const result = await res.json();
+    if (result.status === 'success' && result.redirect_url) {
+      // 直接跳转支付
+      window.location.href = result.redirect_url;
     } else {
-      showSuccess();
+      // 非生产环境或错误时显示成功页面
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('successView').classList.add('active');
     }
-  } catch(err) {
-    showSuccess();
+  } catch (error) {
+    // 网络错误时也显示成功页面，避免用户流失
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('successView').classList.add('active');
   } finally {
-    btn.textContent = '✅ 支付 $10 并确认'; btn.disabled = false;
+    submitBtn.textContent = '✅ 支付 $10 并确认'; submitBtn.disabled = false;
   }
 });
-
-function showSuccess() {
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.getElementById('successView').classList.add('active');
-}
 </script>
 </body>
 </html>
