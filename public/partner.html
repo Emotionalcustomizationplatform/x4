@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partner Center | Private Counsel</title>
+    <title>Partner Center | Luna Whisper</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,13 +11,13 @@
 
     <style>
         :root {
-            --bg: #050505;
-            --surface-card: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-            --gold: #E5C359;
-            --gold-glow: rgba(229, 195, 89, 0.2);
+            --bg: #0a0a1f;
+            --surface-card: rgba(255, 255, 255, 0.06);
+            --border: rgba(180, 180, 255, 0.15);
+            --accent: #c8b6ff;
+            --accent-glow: rgba(200, 182, 255, 0.25);
             --text-primary: #ffffff;
-            --text-secondary: #A3A3A3;
+            --text-secondary: #b0b0cc;
         }
 
         body {
@@ -29,58 +29,56 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at 50% -20%, #1a1a2e 0%, #050505 60%);
+            background: radial-gradient(circle at 50% -20%, #1a1a3a 0%, #0a0a1f 60%);
             padding: 20px;
         }
 
         .container {
             background: var(--surface-card);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--border);
             padding: 3.5rem 2.5rem;
             max-width: 480px;
             width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        /* 顶部装饰光效 */
         .container::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
-            opacity: 0.5;
+            content: ''; 
+            position: absolute; 
+            top: 0; left: 0; right: 0; 
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            color: #fff;
             margin: 0 0 1rem;
-            font-size: 2.2rem;
-            letter-spacing: -0.01em;
+            font-size: 2.3rem;
+            letter-spacing: -0.02em;
         }
 
         p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.97rem;
             line-height: 1.6;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.8rem;
         }
 
-        /* === 输入区域 === */
         .input-group {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
             text-align: left;
         }
 
         label {
             display: block;
-            font-size: 0.75rem;
-            color: var(--gold);
+            font-size: 0.78rem;
+            color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 8px;
@@ -89,30 +87,23 @@
 
         input {
             width: 100%;
-            padding: 16px;
-            background: rgba(0, 0, 0, 0.3);
+            padding: 16px 20px;
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid var(--border);
             color: #fff;
-            font-family: 'Inter', sans-serif;
             font-size: 1.1rem;
-            border-radius: 10px;
-            box-sizing: border-box;
-            transition: 0.3s;
+            border-radius: 12px;
             text-align: center;
-            letter-spacing: 0.5px;
         }
 
         input:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 20px var(--gold-glow);
-            background: rgba(0, 0, 0, 0.5);
+            border-color: var(--accent);
+            box-shadow: 0 0 25px var(--accent-glow);
         }
 
-        input::placeholder { color: rgba(255, 255, 255, 0.2); }
-
         .btn {
-            background: var(--gold);
+            background: var(--accent);
             color: #000;
             border: none;
             padding: 16px;
@@ -120,44 +111,39 @@
             cursor: pointer;
             width: 100%;
             border-radius: 50px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-size: 1rem;
+            font-size: 1.05rem;
             margin-top: 10px;
+            transition: all 0.3s;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px var(--gold-glow);
-            background: #F0D069;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px var(--accent-glow);
         }
 
-        /* === 结果区域 (初始隐藏) === */
         #result-area {
             display: none;
             margin-top: 2.5rem;
             padding-top: 2rem;
             border-top: 1px solid var(--border);
-            animation: fadeIn 0.5s ease-out;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
         .link-display {
-            background: rgba(229, 195, 89, 0.05);
-            border: 1px dashed rgba(229, 195, 89, 0.4);
-            padding: 1.2rem;
-            color: var(--gold);
+            background: rgba(200, 182, 255, 0.08);
+            border: 1px dashed var(--accent);
+            padding: 1.3rem;
+            color: var(--accent);
             word-break: break-all;
             font-family: monospace;
-            font-size: 0.9rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            position: relative;
+            font-size: 0.92rem;
+            border-radius: 12px;
+            margin: 1rem 0;
         }
 
         .action-row {
             display: flex;
             gap: 12px;
+            margin-top: 1rem;
         }
 
         .btn-outline {
@@ -165,119 +151,103 @@
             border: 1px solid var(--border);
             color: var(--text-secondary);
             flex: 1;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: 500;
-            transition: 0.2s;
         }
 
         .btn-outline:hover {
-            border-color: #fff;
-            color: #fff;
-            background: rgba(255,255,255,0.05);
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
-        /* Copy Success Toast */
         .toast {
-            position: absolute;
-            top: 20px;
+            position: fixed;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: #fff;
             color: #000;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 12px 24px;
+            border-radius: 30px;
             font-weight: 600;
             opacity: 0;
-            transition: 0.3s;
-            pointer-events: none;
-            z-index: 20;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.4s;
+            z-index: 100;
         }
-        .toast.show { opacity: 1; top: 30px; }
-
+        .toast.show { opacity: 1; }
     </style>
 </head>
 <body>
 
-<div class="toast" id="copyToast">Link Copied!</div>
+<div class="toast" id="copyToast">Link Copied Successfully!</div>
 
 <div class="container">
-    <h1>Partner Access</h1>
-    <p>Generate your exclusive tracking link to invite founders to Private Counsel.</p>
+    <h1>Partner Center</h1>
+    <p>Generate your exclusive referral link and earn from every booking.</p>
 
     <div class="input-group">
-        <label for="affiliateName">Your Partner ID</label>
+        <label for="partnerName">Your Partner Name / ID</label>
         <input type="text" 
-               id="affiliateName" 
-               placeholder="e.g. AlexSmith" 
+               id="partnerName" 
+               placeholder="e.g. EmmaChen" 
                oninput="cleanInput(this)"
                onkeydown="if(event.key === 'Enter') generateLink()">
     </div>
 
-    <button class="btn" onclick="generateLink()">Generate Asset</button>
+    <button class="btn" onclick="generateLink()">Generate Referral Link</button>
 
     <div id="result-area">
-        <label>Your Tracking Link</label>
+        <label>Your Unique Referral Link</label>
         <div class="link-display" id="linkOutput"></div>
         
         <div class="action-row">
             <button class="btn-outline" onclick="copyLink()">Copy Link</button>
-            <button class="btn-outline" onclick="testLink()">Test Link &rarr;</button>
+            <button class="btn-outline" onclick="testLink()">Test Link →</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 自动清洗输入：只允许字母、数字、下划线
     function cleanInput(el) {
         el.value = el.value.replace(/[^a-zA-Z0-9_]/g, '');
     }
 
     function generateLink() {
-        const nameInput = document.getElementById('affiliateName');
+        const nameInput = document.getElementById('partnerName');
         const name = nameInput.value.trim();
         
         if (!name) {
-            // 错误震动反馈
-            nameInput.style.borderColor = '#ff4d4d';
-            setTimeout(() => nameInput.style.borderColor = '', 1000);
+            nameInput.style.borderColor = '#ff6b6b';
+            setTimeout(() => nameInput.style.borderColor = '', 1200);
             return;
         }
 
-        // ★★★ 关键逻辑更新 ★★★
-        // 因为您把 form.html 改成了 index.html (首页)
-        // 所以链接不再需要指向 /form.html，而是直接指向根目录 /
-        
-        // 获取当前网站的基础 URL (例如 https://customcompanion.xyz)
         const baseUrl = window.location.origin;
-        
-        // 拼接参数: /?ref=AlexSmith
         const finalUrl = `${baseUrl}/?ref=${encodeURIComponent(name)}`;
 
-        // 展示结果
         document.getElementById('linkOutput').textContent = finalUrl;
         document.getElementById('result-area').style.display = 'block';
     }
 
     function copyLink() {
         const linkText = document.getElementById('linkOutput').textContent;
-        navigator.clipboard.writeText(linkText).then(() => {
-            showToast();
-        });
+        if (linkText) {
+            navigator.clipboard.writeText(linkText).then(() => {
+                showToast();
+            });
+        }
     }
 
     function testLink() {
         const linkText = document.getElementById('linkOutput').textContent;
-        if(linkText) window.open(linkText, '_blank');
+        if (linkText) window.open(linkText, '_blank');
     }
 
     function showToast() {
         const toast = document.getElementById('copyToast');
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
+        setTimeout(() => toast.classList.remove('show'), 2200);
     }
 </script>
 
