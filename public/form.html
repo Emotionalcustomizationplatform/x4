@@ -64,7 +64,6 @@
       </div>
       <input type="hidden" name="session_plan" value="single">
       <input type="hidden" name="referrer" id="refInput">
-      <!-- 防机器人 honeypot -->
       <div style="display:none"><input type="text" name="honeypot"></div>
       <div class="btn-bar">
         <button type="button" class="btn btn-back" onclick="prevStep()">← 返回</button>
@@ -84,7 +83,6 @@ let currentStep = 1;
 const form = document.getElementById('bookingForm');
 document.getElementById('refInput').value = new URLSearchParams(window.location.search).get('ref') || '';
 
-// 语言切换
 document.getElementById('langSwitch').addEventListener('click', e => {
   const btn = e.target.closest('.lang-btn');
   if (!btn) return;
@@ -129,15 +127,12 @@ form.addEventListener('submit', async (e) => {
     });
     const result = await res.json();
     if (result.status === 'success' && result.redirect_url) {
-      // 直接跳转支付
       window.location.href = result.redirect_url;
     } else {
-      // 非生产环境或错误时显示成功页面
       document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       document.getElementById('successView').classList.add('active');
     }
   } catch (error) {
-    // 网络错误时也显示成功页面，避免用户流失
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById('successView').classList.add('active');
   } finally {
