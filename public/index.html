@@ -1,77 +1,561 @@
-<!-- ============ 定价套餐 ============ -->
-<section class="section container" id="book">
-    <div class="section-header">
-        <h2 data-en="Choose Your Plan" data-zh="选择服务套餐">选择服务套餐</h2>
-        <p data-en="First session free · Cancel anytime" data-zh="首次体验免费 · 随时取消">首次体验免费 · 随时取消</p>
-    </div>
-    
-    <!-- 免费体验优先展示 -->
-    <div style="text-align:center; margin-bottom:48px;">
-        <div style="display:inline-block; background:linear-gradient(135deg, rgba(200,182,255,0.2), rgba(240,194,122,0.2)); border:2px solid var(--gold); border-radius:24px; padding:32px 48px; text-align:center;">
-            <span style="display:inline-block; background:var(--gold); color:#000; padding:6px 18px; border-radius:50px; font-weight:700; font-size:0.85rem; margin-bottom:12px;" data-en="NEW CLIENT OFFER" data-zh="新客专享">新客专享</span>
-            <h3 style="font-size:1.8rem; margin:12px 0; font-family:'Playfair Display', serif;" data-en="First Session Free" data-zh="首次体验免费">首次体验免费</h3>
-            <p style="color:var(--text-secondary); margin-bottom:20px;" data-en="30-min trial · No credit card needed" data-zh="30分钟试用 · 无需信用卡">30分钟试用 · 无需信用卡</p>
-            <a href="#" class="btn-hero" style="background:var(--gold); color:#000; box-shadow:0 0 30px rgba(240,194,122,0.4);" data-en="Claim Free Trial" data-zh="领取免费体验">领取免费体验</a>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Whisper · 真人ASMR睡眠陪伴</title>
+    <meta name="description" content="用真人ASMR耳语、个性化睡前故事和温柔的人声，伴你进入深眠。$10/次，灵活预约。">
+    <meta property="og:title" content="Luna Whisper · 真人ASMR睡眠陪伴">
+    <meta property="og:description" content="用真人ASMR耳语、个性化睡前故事和温柔的人声，伴你进入深眠。$10/次。">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1511295742362-92c96b1cf484?w=1200">
+    <meta property="og:url" content="#">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0a0a1f;
+            --surface: #111127;
+            --card: rgba(255, 255, 255, 0.06);
+            --border: rgba(180, 180, 255, 0.15);
+            --accent: #c8b6ff;
+            --accent-glow: rgba(200, 182, 255, 0.4);
+            --text: #ffffff;
+            --text-secondary: #b0b0cc;
+            --text-muted: #8a8aab;
+            --success: #25D366;
+            --gold: #f0c27a;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.zh {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+        }
+
+        .ambient-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(circle at 50% 20%, #1a1a3a 0%, #0a0a1f 70%);
+            pointer-events: none;
+        }
+        .ambient-bg::after {
+            content: ''; position: absolute; inset: 0;
+            box-shadow: 10vw 20vh 2px rgba(200,182,255,0.6), 50vw 10vh 1.5px rgba(176,176,204,0.5), 80vw 80vh 2.5px rgba(255,255,255,0.7);
+            animation: twinkle 8s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.85; }
+        }
+
+        .container {
+            max-width: 1200px; margin: 0 auto; padding: 0 24px;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 20px 0; transition: all 0.4s ease;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 31, 0.95);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 12px 0;
+        }
+        .nav-content {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+        }
+        .logo {
+            font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--text); letter-spacing: 0.02em;
+        }
+        .logo:hover { opacity: 0.85; }
+        .logo span { color: var(--accent); }
+
+        .lang-switch {
+            display: flex; gap: 4px; background: rgba(255, 255, 255, 0.08); padding: 4px; border-radius: 50px; border: 1px solid var(--border);
+        }
+        .lang-btn {
+            padding: 8px 16px; border-radius: 50px; font-size: 0.85rem; cursor: pointer; transition: 0.3s;
+            background: transparent; color: var(--text-secondary); border: none; font-weight: 500; white-space: nowrap;
+        }
+        .lang-btn:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+        .lang-btn.active {
+            background: var(--accent); color: #0a0a1f; font-weight: 700; box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .nav-right {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        }
+        .btn-outline {
+            background: transparent; border: 1px solid var(--border); color: var(--text);
+            padding: 10px 22px; border-radius: 50px; font-size: 0.9rem; cursor: pointer;
+            transition: 0.3s; font-weight: 500; text-decoration: none; display: inline-block; white-space: nowrap;
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.12); border-color: var(--accent);
+        }
+        .btn-hero {
+            background: var(--accent); color: #0a0a1f; padding: 16px 40px; border-radius: 50px;
+            font-size: 1.05rem; font-weight: 700; text-decoration: none; display: inline-block;
+            transition: all 0.35s ease; box-shadow: 0 0 40px var(--accent-glow); border: none; cursor: pointer;
+        }
+        .btn-hero:hover {
+            transform: translateY(-2px); box-shadow: 0 8px 50px rgba(200, 182, 255, 0.7); background: #d9ccff;
+        }
+        .btn-highlight {
+            background: #ffffff; color: #0a0a1f; box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 120px 24px 60px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', 'Noto Sans SC', serif;
+            font-size: clamp(2.8rem, 7vw, 5.2rem); line-height: 1.15; margin-bottom: 20px; font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.2rem; max-width: 600px; margin: 0 auto 36px; color: var(--text-secondary);
+        }
+
+        /* 信任徽章 */
+        .trust-bar {
+            display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+            margin: 48px 0; padding: 28px 24px; background: rgba(255,255,255,0.04);
+            border-radius: 20px; border: 1px solid var(--border);
+        }
+        .trust-item { text-align: center; }
+        .trust-number {
+            font-size: 2rem; font-weight: 700; color: var(--accent); font-family: 'Playfair Display', serif;
+        }
+        .trust-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+        .urgency-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(240,194,122,0.15); border: 1px solid var(--gold);
+            color: var(--gold); padding: 12px 24px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 600; margin-bottom: 28px; animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* 区块 */
+        .section { padding: 100px 0; border-top: 1px solid var(--border); }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 {
+            font-family: 'Playfair Display', 'Noto Sans SC', serif; font-size: 2.4rem; margin-bottom: 12px; font-weight: 600;
+        }
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .grid { display: grid; gap: 28px; }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+        /* 陪伴师卡片 */
+        .companion-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+            overflow: hidden; transition: 0.4s; text-align: center;
+        }
+        .companion-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(200, 182, 255, 0.5);
+            box-shadow: 0 24px 50px rgba(0,0,0,0.5), 0 0 40px rgba(200,182,255,0.1);
+        }
+        .companion-img {
+            width: 100%; height: 340px; object-fit: cover; border-bottom: 1px solid var(--border);
+        }
+        .companion-info { padding: 28px 24px 32px; }
+        .companion-name { font-size: 1.5rem; font-weight: 600; margin-bottom: 6px; }
+        .companion-tag { color: var(--accent); margin-bottom: 12px; font-size: 0.9rem; font-weight: 500; }
+        .companion-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.6; }
+        .companion-info audio { width: 100%; margin-top: 8px; border-radius: 8px; background: rgba(255,255,255,0.04); }
+
+        /* 评价卡片 */
+        .testimonial-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+            padding: 32px 28px; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .testimonial-card:hover {
+            border-color: var(--accent); box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+        .testimonial-text {
+            font-style: italic; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem;
+        }
+        .testimonial-author { font-weight: 600; color: var(--accent); }
+        .testimonial-rating { color: var(--gold); margin-bottom: 12px; }
+
+        /* 价格卡片 */
+        .plan-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+            padding: 48px 36px; transition: 0.4s; text-align: center;
+        }
+        .plan-card.featured {
+            border-color: var(--accent); box-shadow: 0 0 40px rgba(200,182,255,0.15);
+        }
+        .plan-badge {
+            display: inline-block; background: var(--accent); color: #0a0a1f; font-size: 0.8rem;
+            font-weight: 700; padding: 6px 20px; border-radius: 50px; margin-bottom: 16px;
+        }
+        .plan-name { font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; }
+        .plan-price { font-size: 3.5rem; font-weight: 700; color: var(--accent); margin: 16px 0 8px; }
+        .plan-desc { color: var(--text-secondary); margin-bottom: 28px; font-size: 0.95rem; }
+
+        /* 免费音频卡片 */
+        .free-sample-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+            padding: 32px; text-align: center; transition: 0.3s;
+        }
+        .free-sample-card:hover { border-color: var(--accent); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+            padding: 40px 32px; width: 90%; max-width: 420px; position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 16px; right: 20px; background: none; border: none;
+            color: var(--text-muted); font-size: 1.5rem; cursor: pointer;
+        }
+        .modal h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 28px; text-align: center;
+        }
+        .modal-input {
+            width: 100%; padding: 14px 18px; margin-bottom: 14px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            border-radius: 12px; color: var(--text); font-size: 1rem; outline: none; transition: 0.2s;
+        }
+        .modal-input:focus { border-color: var(--accent); }
+        .modal-btn {
+            width: 100%; padding: 14px; margin-top: 8px; background: var(--accent);
+            color: #0a0a1f; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1rem;
+        }
+        .modal-btn.google { background: #ffffff; color: #0a0a1f; }
+        .modal-divider { text-align: center; margin: 20px 0; color: var(--text-muted); }
+        .modal-toggle { text-align: center; margin-top: 20px; color: var(--text-muted); }
+        .modal-toggle span { color: var(--accent); cursor: pointer; font-weight: 600; }
+
+        footer {
+            text-align: center; padding: 60px 24px; border-top: 1px solid var(--border); color: var(--text-muted);
+        }
+
+        .whatsapp-float {
+            position: fixed; bottom: 36px; right: 36px; width: 60px; height: 60px;
+            background: #25D366; color: white; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5); z-index: 999; text-decoration: none; transition: 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); background: #2be774; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .companion-img { height: 260px; }
+            .trust-bar { gap: 24px; }
+        }
+    </style>
+</head>
+<body class="zh">
+    <div class="ambient-bg" aria-hidden="true"></div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">Luna <span>Whisper</span></a>
+            <div class="nav-right">
+                <div class="lang-switch" id="langSwitch">
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn active" data-lang="zh">中文</button>
+                </div>
+                <button class="btn-outline" id="showAuth" data-en="My Account" data-zh="我的账户">我的账户</button>
+                <a href="#book" class="btn-hero" style="padding:10px 24px; font-size:0.9rem;" data-en="Book Now" data-zh="立即预约">立即预约</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首屏 -->
+    <section class="hero container">
+        <h1 data-en="Let a Gentle Voice<br>Guide You Into Deep Sleep"
+            data-zh="让温柔的声音<br>带你进入深眠">让温柔的声音<br>带你进入深眠</h1>
+        <p data-en="Real human ASMR • Personalized bedtime stories • Warm emotional support every night"
+           data-zh="真人ASMR耳语 · 个性化睡前故事 · 每晚温暖的情感陪伴">真人ASMR耳语 · 个性化睡前故事 · 每晚温暖的情感陪伴</p>
+
+        <div class="trust-bar">
+            <div class="trust-item">
+                <div class="trust-number">2,300+</div>
+                <div class="trust-label" data-en="Peaceful Nights" data-zh="宁静夜晚">宁静夜晚</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-number">100%</div>
+                <div class="trust-label" data-en="Private & Confidential" data-zh="私密保密">私密保密</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-number">✨</div>
+                <div class="trust-label" data-en="Real Human Voices" data-zh="真人声音">真人声音</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-number">4.9</div>
+                <div class="trust-label" data-en="Average Rating" data-zh="平均评分">平均评分</div>
+            </div>
+        </div>
+
+        <div class="urgency-badge" id="urgencyBadge">
+            ⏳ <span id="slotsLeft">4</span> <span data-en="slots left for tonight" data-zh="个今晚剩余席位">个今晚剩余席位</span>
+        </div>
+
+        <a href="#book" class="btn-hero" data-en="Book Your Companion Tonight" data-zh="今晚预约你的陪伴师">今晚预约你的陪伴师</a>
+    </section>
+
+    <!-- 陪伴师展示 -->
+    <section class="section container" id="companions">
+        <div class="section-header">
+            <h2 data-en="Meet Your Sleep Companions" data-zh="认识你的睡眠陪伴师">认识你的睡眠陪伴师</h2>
+            <p data-en="Choose the voice that feels right for you" data-zh="选择最适合你的声音">选择最适合你的声音</p>
+        </div>
+        <div class="grid grid-3">
+            <article class="companion-card">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&h=800&fit=crop" alt="Isla Montgomery" class="companion-img" loading="lazy">
+                <div class="companion-info">
+                    <h3 class="companion-name">Isla Montgomery</h3>
+                    <p class="companion-tag" data-en="Warm Whisperer • British" data-zh="温暖耳语师 · 英国">温暖耳语师 · 英国</p>
+                    <p class="companion-desc" data-en="Soft chestnut waves, gentle blue eyes. Specializes in slow calming ASMR."
+                       data-zh="柔和的栗色卷发，温柔的蓝眼睛。擅长慢速镇静ASMR。">柔和的栗色卷发，温柔的蓝眼睛。擅长慢速镇静ASMR。</p>
+                    <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+                </div>
+            </article>
+            <article class="companion-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" alt="Ethan Brooks" class="companion-img" loading="lazy">
+                <div class="companion-info">
+                    <h3 class="companion-name">Ethan Brooks</h3>
+                    <p class="companion-tag" data-en="Deep Calm • American" data-zh="沉稳低音 · 美国">沉稳低音 · 美国</p>
+                    <p class="companion-desc" data-en="Short dark hair, trustworthy presence. Deep voice bedtime stories."
+                       data-zh="黑色短发，让人信赖的气场。深沉睡前故事。">黑色短发，让人信赖的气场。深沉睡前故事。</p>
+                    <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"></audio>
+                </div>
+            </article>
+            <article class="companion-card">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop" alt="Amélie Moreau" class="companion-img" loading="lazy">
+                <div class="companion-info">
+                    <h3 class="companion-name">Amélie Moreau</h3>
+                    <p class="companion-tag" data-en="Elegant & Dreamy • French" data-zh="优雅梦幻 · 法国">优雅梦幻 · 法国</p>
+                    <p class="companion-desc" data-en="Long dark waves, mysterious smile. French whispers under purple light."
+                       data-zh="深色长卷发，神秘微笑。紫色氛围光下的法语耳语。">深色长卷发，神秘微笑。紫色氛围光下的法语耳语。</p>
+                    <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg"></audio>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section class="section container" id="testimonials" style="background: rgba(255,255,255,0.02); border-radius: 32px; margin-bottom: 40px;">
+        <div class="section-header">
+            <h2 data-en="What Our Sleepers Say" data-zh="客户真实反馈">客户真实反馈</h2>
+            <p data-en="Join 2,300+ peaceful sleepers worldwide" data-zh="加入全球2,300+宁静睡眠者的行列">加入全球2,300+宁静睡眠者的行列</p>
+        </div>
+        <div class="grid grid-3" id="testimonialsGrid"></div>
+    </section>
+
+    <!-- 免费音频采样 -->
+    <section class="section container">
+        <div class="section-header">
+            <h2 data-en="Free Sleep Audio Sample" data-zh="免费睡眠音频采样">免费睡眠音频采样</h2>
+            <p data-en="Experience the magic before you book" data-zh="预约前，先感受这份魔力">预约前，先感受这份魔力</p>
+        </div>
+        <div class="grid grid-3">
+            <div class="free-sample-card">
+                <h3 style="margin-bottom:12px;" data-en="Rainy Night Whispers" data-zh="雨夜耳语">雨夜耳语</h3>
+                <p style="color:var(--text-muted); margin-bottom:16px; font-size:0.9rem;" data-en="Isla's gentle voice with rain" data-zh="Isla温柔的声音配雨声">Isla温柔的声音配雨声</p>
+                <audio controls preload="none" style="width:100%;"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+                <p style="color:var(--accent); margin-top:12px; font-size:0.9rem;">⬇ <span data-en="Free Download" data-zh="免费下载">免费下载</span></p>
+            </div>
+            <div class="free-sample-card">
+                <h3 style="margin-bottom:12px;" data-en="Starlight Meditation" data-zh="星光冥想">星光冥想</h3>
+                <p style="color:var(--text-muted); margin-bottom:16px; font-size:0.9rem;" data-en="Ethan's deep guided meditation" data-zh="Ethan深沉引导冥想">Ethan深沉引导冥想</p>
+                <audio controls preload="none" style="width:100%;"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"></audio>
+                <p style="color:var(--accent); margin-top:12px; font-size:0.9rem;">⬇ <span data-en="Free Download" data-zh="免费下载">免费下载</span></p>
+            </div>
+            <div class="free-sample-card">
+                <h3 style="margin-bottom:12px;" data-en="French Dreamscape" data-zh="法式梦境">法式梦境</h3>
+                <p style="color:var(--text-muted); margin-bottom:16px; font-size:0.9rem;" data-en="Amélie's elegant French whispers" data-zh="Amélie优雅法语耳语">Amélie优雅法语耳语</p>
+                <audio controls preload="none" style="width:100%;"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg"></audio>
+                <p style="color:var(--accent); margin-top:12px; font-size:0.9rem;">⬇ <span data-en="Free Download" data-zh="免费下载">免费下载</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 定价：仅单次 $10 -->
+    <section class="section container" id="book">
+        <div class="section-header">
+            <h2 data-en="Simple Pricing" data-zh="简单定价">简单定价</h2>
+            <p data-en="One session, one peaceful night" data-zh="一次陪伴，一夜安眠">一次陪伴，一夜安眠</p>
+        </div>
+        <div style="max-width: 400px; margin: 0 auto;">
+            <div class="plan-card featured">
+                <span class="plan-badge" data-en="FLEXIBLE" data-zh="灵活预约">灵活预约</span>
+                <h3 class="plan-name" data-en="Single Session" data-zh="单次陪伴">单次陪伴</h3>
+                <div class="plan-price">
+                    $10
+                    <span style="display:block; font-size:1rem; color:var(--text-muted); font-weight:400; margin-top:4px;">≈ ¥70</span>
+                </div>
+                <p class="plan-desc" data-en="30-45 minutes of personalized ASMR companionship" data-zh="30-45分钟个性化ASMR陪伴">30-45分钟个性化ASMR陪伴</p>
+                <a href="#" class="btn-hero btn-highlight" style="padding:14px 40px; font-size:1rem; width:100%;" data-en="Book for $10" data-zh="¥70 立即预约">¥70 立即预约</a>
+                <p style="color:var(--text-muted); font-size:0.8rem; margin-top:16px;" data-en="No subscription · Cancel anytime" data-zh="无需订阅 · 随时取消">无需订阅 · 随时取消</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-size:1.1rem;"><strong>Luna Whisper</strong> — <span data-en="Real voices for peaceful nights" data-zh="用真实的声音，守护你宁静的夜晚">用真实的声音，守护你宁静的夜晚</span></p>
+        <p style="margin-top:8px; opacity:0.6; font-size:0.85rem;" data-en="© 2024 Luna Whisper. Non-medical relaxation service." data-zh="© 2024 Luna Whisper. 非医疗放松陪伴服务。">© 2024 Luna Whisper. 非医疗放松陪伴服务。</p>
+    </footer>
+
+    <a href="https://wa.me/13045967785" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+    <!-- 登录/注册 Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h3 id="modalTitle">欢迎回来</h3>
+            <form id="authForm">
+                <input type="email" class="modal-input" placeholder="Email" id="authEmail" required>
+                <input type="password" class="modal-input" placeholder="Password" id="authPassword" required minlength="6">
+                <div id="nameField" style="display:none;">
+                    <input type="text" class="modal-input" placeholder="Your Name" id="authName">
+                </div>
+                <button type="submit" class="modal-btn" id="submitBtn">登录</button>
+            </form>
+            <div class="modal-divider">— OR —</div>
+            <button class="modal-btn google" onclick="alert('Google登录演示')">
+                🅶 <span data-en="Continue with Google" data-zh="使用Google登录">使用Google登录</span>
+            </button>
+            <p class="modal-toggle" id="toggleText">
+                <span data-en="No account?" data-zh="还没有账号？">还没有账号？</span>
+                <span id="toggleBtn" style="color:var(--accent); cursor:pointer; font-weight:600;" data-en="Sign Up" data-zh="立即注册">立即注册</span>
+            </p>
         </div>
     </div>
 
-    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); max-width:960px; margin:0 auto; gap:24px;">
-        
-        <!-- 单次体验 -->
-        <div class="plan-card">
-            <h3 class="plan-name" data-en="Single Session" data-zh="单次陪伴">单次陪伴</h3>
-            <div class="plan-price">
-                $10
-                <span style="display:block; font-size:0.85rem; color:var(--text-muted); font-weight:400;">≈ ¥70</span>
-            </div>
-            <p class="plan-desc" data-en="30-45 min · Flexible booking" data-zh="30-45分钟 · 灵活预约">30-45分钟 · 灵活预约</p>
-            <a href="#" class="btn-hero" style="padding:12px 28px; font-size:0.9rem;" data-en="Book $10" data-zh="¥70 预约">¥70 预约</a>
-        </div>
-        
-        <!-- 月度计划 ★推荐 -->
-        <div class="plan-card featured">
-            <span class="plan-badge" data-en="MOST POPULAR" data-zh="最受欢迎">最受欢迎</span>
-            <h3 class="plan-name" data-en="Monthly Plan" data-zh="月度陪伴">月度陪伴</h3>
-            <div class="plan-price">
-                $36<span style="font-size:1rem;">/月</span>
-                <span style="display:block; font-size:0.85rem; color:var(--text-muted); font-weight:400;">≈ ¥252/月</span>
-            </div>
-            <p class="plan-desc">
-                <span data-en="4 sessions/month" data-zh="每月4次陪伴">每月4次陪伴</span><br>
-                <span style="color:var(--gold); font-weight:600;" data-en="Only $9/session" data-zh="仅 $9/次 (¥63/次)">仅 $9/次 (¥63/次)</span><br>
-                <span data-en="Priority booking · Free cancel" data-zh="优先预约 · 随时取消">优先预约 · 随时取消</span>
-            </p>
-            <a href="#" class="btn-hero btn-highlight" style="padding:12px 28px; font-size:0.9rem;" data-en="Start $36/mo" data-zh="¥252/月 开始">¥252/月 开始</a>
-        </div>
-        
-        <!-- 年度计划 ★最值 -->
-        <div class="plan-card">
-            <span style="display:inline-block; background:rgba(200,182,255,0.2); color:var(--accent); padding:4px 14px; border-radius:50px; font-size:0.75rem; font-weight:700; margin-bottom:12px;" data-en="BEST VALUE" data-zh="最超值">最超值</span>
-            <h3 class="plan-name" data-en="Annual Plan" data-zh="年度计划">年度计划</h3>
-            <div class="plan-price">
-                $199<span style="font-size:1rem;">/年</span>
-                <span style="display:block; font-size:0.85rem; color:var(--text-muted); font-weight:400;">≈ ¥1,393/年</span>
-            </div>
-            <p class="plan-desc">
-                <span data-en="24 sessions + 2 bonus months" data-zh="24次+赠送2个月">24次+赠送2个月</span><br>
-                <span style="color:var(--gold); font-weight:600;" data-en="Only $8/session" data-zh="仅 $8/次 (¥56/次)">仅 $8/次 (¥56/次)</span><br>
-                <span data-en="All premium features" data-zh="全部高级功能">全部高级功能</span>
-            </p>
-            <a href="#" class="btn-hero" style="padding:12px 28px; font-size:0.9rem; background:var(--accent);" data-en="Save with Annual" data-zh="¥1,393/年 超值">¥1,393/年 超值</a>
-        </div>
-    </div>
+    <script>
+        (function() {
+            let currentLang = 'zh';
+            let isLoginMode = true;
 
-    <!-- ===== 增值服务（高利润） ===== -->
-    <div style="margin-top:64px; text-align:center;">
-        <h3 style="font-family:'Playfair Display', serif; font-size:1.6rem; margin-bottom:32px;" data-en="Premium Add-ons" data-zh="增值服务">增值服务</h3>
-        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:20px; max-width:800px; margin:0 auto;">
-            
-            <div class="plan-card" style="border:1px solid var(--border);">
-                <div style="font-size:2rem; margin-bottom:8px;">🎙️</div>
-                <h4 data-en="Custom Bedtime Story" data-zh="定制睡前故事">定制睡前故事</h4>
-                <p style="color:var(--text-muted); margin:8px 0;" data-en="Your name, your story" data-zh="你的名字，专属故事">你的名字，专属故事</p>
-                <div style="font-weight:700; color:var(--accent);">$15 <span style="font-size:0.8rem; color:var(--text-muted);">≈ ¥105</span></div>
-            </div>
-            
-            <div class="plan-card" style="border:1px solid var(--border);">
-                <div style="font-size:2rem;
+            // 评价数据
+            const testimonialsData = [
+                { en: { text: "Isla's voice is pure magic. I went from scrolling at 3AM to sleeping within 20 minutes.", author: "— Rachel Kim, New York", rating: 5 }, zh: { text: "Isla的声音简直是魔法。我从凌晨3点刷手机变成了20分钟内就睡着。", author: "— Rachel Kim，纽约", rating: 5 } },
+                { en: { text: "Ethan's deep voice is incredibly grounding. After 7 sessions, my sleep quality improved dramatically.", author: "— David Chen, San Francisco", rating: 5 }, zh: { text: "Ethan低沉的嗓音让人特别有安全感。7次陪伴后，我的睡眠质量大幅提升。", author: "— David Chen，旧金山", rating: 5 } },
+                { en: { text: "Amélie's French whispers transport me to another world. So elegant and soothing.", author: "— Emily Watson, London", rating: 5 }, zh: { text: "Amélie的法语耳语仿佛把我带到了另一个世界，优雅又抚慰人心。", author: "— Emily Watson，伦敦", rating: 5 } },
+                { en: { text: "The personal attention feels like a caring friend. Luna Whisper changed my relationship with sleep.", author: "— Michael Torres, Madrid", rating: 5 }, zh: { text: "那种私人关注就像一个关心你的朋友。Luna Whisper改变了我与睡眠的关系。", author: "— Michael Torres，马德里", rating: 5 } },
+                { en: { text: "Marcus讲的睡前故事太治愈了！让我想起小时候妈妈讲故事的温暖感觉。", author: "— Li Ming, Shanghai", rating: 5 }, zh: { text: "Marcus讲的睡前故事太治愈了！让我想起小时候妈妈讲故事的温暖感觉。", author: "— 李明，上海", rating: 5 } },
+                { en: { text: "Sophie helped me process anxiety before sleep. It's like having a therapist and a friend.", author: "— Anna Schmidt, Berlin", rating: 5 }, zh: { text: "Sophie帮我在睡前处理焦虑情绪。就像把治疗师和朋友融进了一个温柔的声音里。", author: "— Anna Schmidt，柏林", rating: 5 } }
+            ];
+
+            function renderTestimonials() {
+                const grid = document.getElementById('testimonialsGrid');
+                if (!grid) return;
+                grid.innerHTML = testimonialsData.map(t => {
+                    const d = t[currentLang] || t.en;
+                    const stars = '★'.repeat(d.rating);
+                    return `<div class="testimonial-card"><div class="testimonial-rating">${stars}</div><p class="testimonial-text">"${d.text}"</p><p class="testimonial-author">${d.author}</p></div>`;
+                }).join('');
+            }
+
+            function switchLanguage(lang) {
+                currentLang = lang;
+                document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+                document.body.className = lang === 'zh' ? 'zh' : '';
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+                document.querySelectorAll('[data-en]').forEach(el => {
+                    const t = el.getAttribute('data-' + lang);
+                    if (t !== null) el.innerHTML = t.includes('<br>') ? t : t;
+                });
+                document.getElementById('authEmail').placeholder = lang === 'zh' ? '邮箱地址' : 'Email';
+                document.getElementById('authPassword').placeholder = lang === 'zh' ? '密码' : 'Password';
+                const nameInput = document.getElementById('authName');
+                if (nameInput) nameInput.placeholder = lang === 'zh' ? '姓名' : 'Name';
+                updateModalLang();
+                renderTestimonials();
+            }
+
+            document.getElementById('langSwitch').addEventListener('click', e => {
+                const btn = e.target.closest('.lang-btn');
+                if (btn) switchLanguage(btn.dataset.lang);
+            });
+
+            // 导航栏滚动
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
+            });
+
+            // 剩余席位动态
+            const slotsEl = document.getElementById('slotsLeft');
+            if (slotsEl) {
+                const randSlots = Math.floor(Math.random() * 5) + 1;
+                slotsEl.textContent = randSlots;
+            }
+
+            // 模态框逻辑
+            const overlay = document.getElementById('authModal');
+            const showBtn = document.getElementById('showAuth');
+            const closeBtn = document.getElementById('closeModal');
+            const toggleBtn = document.getElementById('toggleBtn');
+            const authForm = document.getElementById('authForm');
+            const nameField = document.getElementById('nameField');
+            const modalTitle = document.getElementById('modalTitle');
+            const submitBtn = document.getElementById('submitBtn');
+
+            function updateModalLang() {
+                if (isLoginMode) {
+                    modalTitle.textContent = currentLang === 'zh' ? '欢迎回来' : 'Welcome Back';
+                    submitBtn.textContent = currentLang === 'zh' ? '登录' : 'Sign In';
+                } else {
+                    modalTitle.textContent = currentLang === 'zh' ? '创建账号' : 'Create Account';
+                    submitBtn.textContent = currentLang === 'zh' ? '注册' : 'Sign Up';
+                }
+                toggleBtn.textContent = isLoginMode ? (currentLang === 'zh' ? '立即注册' : 'Sign Up') : (currentLang === 'zh' ? '返回登录' : 'Sign In');
+            }
+
+            function openModal() { overlay.classList.add('active'); updateModalLang(); }
+            function closeModal() { overlay.classList.remove('active'); }
+
+            showBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+            toggleBtn.addEventListener('click', () => {
+                isLoginMode = !isLoginMode;
+                nameField.style.display = isLoginMode ? 'none' : 'block';
+                updateModalLang();
+            });
+
+            authForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const email = document.getElementById('authEmail').value;
+                alert(isLoginMode ? `登录演示: ${email}` : `注册演示: ${email}`);
+                closeModal();
+            });
+
+            // 初始化
+            renderTestimonials();
+            updateModalLang();
+            switchLanguage('zh');
+        })();
+    </script>
+</body>
+</html>
