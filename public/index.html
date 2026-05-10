@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" prefix="og: http://ogp.me/ns#">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luna Whisper • Real ASMR Sleep Companion</title>
-    <meta name="description" content="Relax with personalized ASMR whispers, calming bedtime stories, and gentle human voices.">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Luna Whisper • Real Sleep Companions</title>
+    <meta name="description" content="Fall asleep with real human voices. Personalized ASMR, bedtime stories and gentle emotional support.">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-
+    
     <style>
         :root {
             --bg: #0a0a1f;
@@ -20,174 +18,161 @@
             --text: #ffffff;
             --text-secondary: #b0b0cc;
         }
-
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin:0; line-height:1.6; }
         body.zh { font-family: 'Noto Sans SC', 'Inter', sans-serif; }
-
+        
         .ambient-bg {
             position: fixed; inset: 0; z-index: -1;
             background: radial-gradient(circle at 50% 20%, #1a1a3a 0%, #0a0a1f 70%);
         }
-        .ambient-bg::after {
-            content: ''; position: absolute; inset: 0;
-            box-shadow: 10vw 20vh 2px #c8b6ff, 50vw 10vh 1.5px #b0b0cc, 80vw 80vh 2.5px #ffffff;
-            animation: twinkle 12s linear infinite alternate;
-        }
-        @keyframes twinkle { 0% { opacity: 0.4; } 100% { opacity: 0.9; } }
-
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; transition: all 0.4s; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; transition: 0.4s; }
         .navbar.scrolled { background: rgba(10,10,31,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 600; text-decoration: none; }
-        .logo span { color: var(--accent); }
+        
+        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.4rem, 7.5vw, 6rem); line-height: 1.1; margin-bottom: 24px; }
+        .hero p { font-size: 1.35rem; max-width: 720px; margin: 0 auto 40px; color: var(--text-secondary); }
 
-        .lang-switch {
-            display: flex; gap: 8px; background: rgba(255,255,255,0.1); padding: 6px; border-radius: 50px;
-        }
-        .lang-btn {
-            padding: 6px 14px; border-radius: 50px; font-size: 0.9rem; cursor: pointer; transition: 0.3s;
-        }
-        .lang-btn.active {
-            background: var(--accent); color: #000; font-weight: 600;
-        }
+        .btn-hero { background: var(--accent); color: #000; padding: 18px 52px; border-radius: 50px; font-size: 1.15rem; font-weight: 600; text-decoration: none; display: inline-block; box-shadow: 0 0 50px rgba(200,182,255,0.4); transition: 0.3s; }
+        .btn-hero:hover { transform: translateY(-5px); box-shadow: 0 0 70px rgba(200,182,255,0.6); }
 
-        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; padding: 0 20px; }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.2rem, 7.5vw, 5.8rem); line-height: 1.1; margin-bottom: 24px; }
-        .hero p { font-size: 1.3rem; max-width: 720px; margin: 0 auto 40px; color: var(--text-secondary); }
-
-        .btn-hero {
-            background: var(--accent); color: #000; padding: 18px 52px;
-            border-radius: 50px; font-size: 1.15rem; font-weight: 600;
-            text-decoration: none; display: inline-block;
-            box-shadow: 0 0 50px rgba(200,182,255,0.4);
-        }
-
-        .section { padding: 140px 0; border-top: 1px solid var(--border); }
+        .section { padding: 130px 0; border-top: 1px solid var(--border); }
         .section-header { text-align: center; margin-bottom: 80px; }
         .section-header h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 16px; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px; }
-        .card, .companion-card {
-            background: var(--card); border: 1px solid var(--border);
-            padding: 48px 36px; border-radius: 24px; transition: 0.4s; text-align: center;
-        }
-        .companion-card { padding: 0; overflow: hidden; }
-        .companion-img { width: 100%; height: 260px; object-fit: cover; }
-        .companion-info { padding: 28px; }
+        .card, .companion-card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; transition: 0.4s; }
+        .companion-card { overflow: hidden; }
+        .companion-img { width: 100%; height: 280px; object-fit: cover; }
+        .companion-info { padding: 28px; text-align: center; }
+
+        .lang-switch { position: fixed; top: 30px; right: 30px; z-index: 1001; background: rgba(255,255,255,0.1); padding: 6px; border-radius: 50px; display: flex; }
+        .lang-btn { padding: 8px 18px; border-radius: 50px; cursor: pointer; }
+        .lang-btn.active { background: var(--accent); color: #000; font-weight: 600; }
     </style>
 </head>
 <body>
     <div class="ambient-bg"></div>
 
     <nav class="navbar" id="navbar">
-        <div class="container nav-content">
-            <a href="#" class="logo">Luna <span>Whisper</span></a>
-            <div style="display:flex; align-items:center; gap:20px;">
-                <div class="lang-switch" id="langSwitch">
-                    <div class="lang-btn active" data-lang="en">EN</div>
-                    <div class="lang-btn" data-lang="zh">中文</div>
-                </div>
-                <a href="#book" class="btn-hero" style="padding:10px 28px; font-size:1rem;">Book Now</a>
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <a href="#" class="logo" style="font-size:1.6rem; font-weight:600; text-decoration:none;">Luna <span style="color:var(--accent);">Whisper</span></a>
+            <div class="lang-switch" id="langSwitch">
+                <div class="lang-btn active" data-lang="en">EN</div>
+                <div class="lang-btn" data-lang="zh">中文</div>
             </div>
         </div>
     </nav>
 
     <!-- Hero -->
     <section class="hero container">
-        <h1 data-en="Let a Gentle Voice<br>Guide You Into Deep Sleep" 
-            data-zh="让温柔的声音<br>带你进入深眠">Let a Gentle Voice<br>Guide You Into Deep Sleep</h1>
-        <p data-en="Real human ASMR • Personalized bedtime stories • Warm emotional support every night"
-           data-zh="真人ASMR耳语 · 个性化睡前故事 · 每晚温暖的情感陪伴">Real human ASMR • Personalized bedtime stories • Warm emotional support every night</p>
-        
-        <a href="#book" class="btn-hero" data-en="Book Your Companion Tonight" data-zh="今晚预约你的陪伴师">Book Your Companion Tonight</a>
+        <h1 data-en="Let a Gentle Real Voice<br>Guide You to Sleep" data-zh="让真实温柔的声音<br>带你进入梦乡">Let a Gentle Real Voice<br>Guide You to Sleep</h1>
+        <p data-en="Real human ASMR • Personalized bedtime stories • Warm emotional support" 
+           data-zh="真人ASMR耳语 · 个性化睡前故事 · 温暖的情感陪伴">Real human ASMR • Personalized bedtime stories • Warm emotional support</p>
+        <a href="#book" class="btn-hero" data-en="Book Your Session Tonight" data-zh="今晚预约陪伴">Book Your Session Tonight</a>
     </section>
 
-    <!-- Companions -->
+    <!-- 导师展示 -->
     <section class="section container">
         <div class="section-header">
-            <h2 data-en="Meet Your Sleep Companions" data-zh="认识你的睡眠陪伴师">Meet Your Sleep Companions</h2>
-            <p data-en="Choose the voice that feels right for you" data-zh="选择最适合你的声音">Choose the voice that feels right for you</p>
+            <h2 data-en="Meet Your Real Sleep Companions" data-zh="认识你的真实陪伴师">Meet Your Real Sleep Companions</h2>
+            <p data-en="All voices are real humans • Over 1,200 sessions completed" data-zh="全部为真人声音 · 已服务超过1200人">All voices are real humans • Over 1,200 sessions completed</p>
         </div>
         <div class="grid">
             <div class="companion-card">
-                <img src="https://picsum.photos/id/64/600/400" alt="Elena" class="companion-img">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600" alt="Elena" class="companion-img">
                 <div class="companion-info">
-                    <div class="companion-name" data-en="Elena Voss" data-zh="Elena Voss">Elena Voss</div>
-                    <div style="color:var(--accent);margin:8px 0;" data-en="Gentle Whisperer • British Accent" data-zh="温柔耳语师 · 英式口音">Gentle Whisperer • British Accent</div>
-                    <p data-en="Specialty: Slow ASMR, personal attention" data-zh="擅长：慢速ASMR、私人专注陪伴">Specialty: Slow ASMR, personal attention</p>
-                    <audio controls style="width:100%; margin-top:12px;">
-                        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="companion-name">Elena Voss</div>
+                    <div style="color:var(--accent); margin:8px 0;">Gentle British Whisperer • 4.98 (312 sessions)</div>
+                    <p data-en="Soft voice, excellent listener" data-zh="温柔的声音，优秀的倾听者">Soft voice, excellent listener</p>
+                    <audio controls style="width:100%; margin-top:12px;"><source src="YOUR_AUDIO_ELENA.mp3" type="audio/mpeg"></audio>
                 </div>
             </div>
-            <!-- 可继续添加更多陪伴师 -->
+
+            <div class="companion-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600" alt="Marcus" class="companion-img">
+                <div class="companion-info">
+                    <div class="companion-name">Marcus Reed</div>
+                    <div style="color:var(--accent); margin:8px 0;">Warm American Storyteller • 4.95 (248 sessions)</div>
+                    <p data-en="Immersive stories & deep relaxation" data-zh="沉浸式故事与深度放松">Immersive stories & deep relaxation</p>
+                    <audio controls style="width:100%; margin-top:12px;"><source src="YOUR_AUDIO_MARCUS.mp3" type="audio/mpeg"></audio>
+                </div>
+            </div>
+
+            <div class="companion-card">
+                <img src="https://images.unsplash.com/photo-1580489944761-09be1ec59862?w=600" alt="Sophie" class="companion-img">
+                <div class="companion-info">
+                    <div class="companion-name">Sophie Laurent</div>
+                    <div style="color:var(--accent); margin:8px 0;">Soft Healing Voice • 4.97 (189 sessions)</div>
+                    <p data-en="Emotional support in French accent" data-zh="法式口音的情感支持">Emotional support in French accent</p>
+                    <audio controls style="width:100%; margin-top:12px;"><source src="YOUR_AUDIO_SOPHIE.mp3" type="audio/mpeg"></audio>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Pricing -->
+    <!-- 用户评价 -->
+    <section class="section container" style="background:rgba(255,255,255,0.03);">
+        <div class="section-header">
+            <h2 data-en="What Our Sleepers Say" data-zh="用户真实反馈">What Our Sleepers Say</h2>
+        </div>
+        <div class="grid">
+            <div class="card"><p>"Elena’s voice is magic. Fell asleep in 15 minutes. Best decision for my insomnia."</p><strong>— Rachel Kim, New York</strong></div>
+            <div class="card"><p>"Marcus讲的故事太治愈了，我甚至没注意到自己什么时候睡着的。"</p><strong>— James Chen, Shanghai</strong></div>
+            <div class="card"><p>"Finally someone who listens without judgment at 3am. Sophie helped me so much."</p><strong>— Priya Patel, London</strong></div>
+        </div>
+    </section>
+
+    <!-- 定价 -->
     <section class="section container" id="book">
         <div class="section-header">
-            <h2 data-en="Choose Your Plan" data-zh="选择服务套餐">Choose Your Plan</h2>
+            <h2 data-en="Choose Your Session" data-zh="选择陪伴时长">Choose Your Session</h2>
+            <p data-en="One-time payment • No subscription" data-zh="单次付费 · 无需会员">One-time payment • No subscription</p>
         </div>
         <div class="grid">
             <div class="card">
-                <h3 data-en="Single Session" data-zh="单次陪伴">Single Session</h3>
-                <div style="font-size:3rem; font-weight:600; color:var(--accent); margin:20px 0;">$29</div>
-                <p data-en="30-45 minutes" data-zh="30-45分钟">30-45 minutes</p>
-                <a href="form.html" class="btn-hero" style="margin-top:30px; padding:14px 40px; font-size:1rem;">Book Now</a>
+                <h3 data-en="30 Minutes" data-zh="30分钟">30 Minutes</h3>
+                <div style="font-size:2.8rem; color:var(--accent); margin:20px 0;">$69</div>
+                <a href="form.html" class="btn-hero" style="font-size:1rem; padding:14px 40px;">Book Now</a>
             </div>
-            <div class="card" style="border-color:var(--accent);">
-                <h3 data-en="Monthly Plan" data-zh="月度陪伴计划">Monthly Plan</h3>
-                <div style="font-size:3rem; font-weight:600; color:var(--accent); margin:20px 0;">$89</div>
-                <p data-en="4 sessions • Priority booking" data-zh="每月4次 · 优先预约">4 sessions • Priority booking</p>
-                <a href="form.html" class="btn-hero" style="margin-top:30px; padding:14px 40px; font-size:1rem; background:#fff; color:#000;">Most Popular</a>
+            <div class="card" style="border-color:var(--accent); transform:scale(1.05);">
+                <h3 data-en="60 Minutes" data-zh="60分钟">60 Minutes</h3>
+                <div style="font-size:2.8rem; color:var(--accent); margin:20px 0;">$119</div>
+                <p style="color:var(--accent); font-weight:600;">Most Popular</p>
+                <a href="form.html" class="btn-hero" style="font-size:1rem; padding:14px 40px; background:#fff; color:#000;">Book Now</a>
+            </div>
+            <div class="card">
+                <h3 data-en="90 Minutes Premium" data-zh="90分钟高端">90 Minutes Premium</h3>
+                <div style="font-size:2.8rem; color:var(--accent); margin:20px 0;">$199</div>
+                <a href="form.html" class="btn-hero" style="font-size:1rem; padding:14px 40px;">Book Now</a>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="container">
-            <p><strong>Luna Whisper</strong> — <span data-en="Real voices for peaceful nights" data-zh="用真实的声音陪伴你的夜晚">Real voices for peaceful nights</span></p>
-            <p style="margin-top:20px; opacity:0.7;" data-en="Non-medical relaxation service" data-zh="非医疗放松陪伴服务，仅供娱乐与助眠用途">Non-medical relaxation service</p>
-        </div>
+    <footer style="text-align:center; padding:80px 20px; color:var(--text-secondary); border-top:1px solid var(--border);">
+        <p><strong>Luna Whisper</strong> — Real voices for peaceful nights</p>
+        <p style="margin-top:15px; opacity:0.7;">Non-medical relaxation and emotional support service</p>
     </footer>
 
-    <a href="https://wa.me/13045967785" class="whatsapp-float" target="_blank" style="position:fixed;bottom:40px;right:40px;width:66px;height:66px;background:#25D366;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:0 10px 30px rgba(0,0,0,0.5);z-index:999;">💬</a>
-
     <script>
-        const langSwitch = document.getElementById('langSwitch');
-        let currentLang = 'en';
-
-        langSwitch.addEventListener('click', (e) => {
-            if (e.target.classList.contains('lang-btn')) {
-                document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                
-                currentLang = e.target.dataset.lang;
-                document.documentElement.lang = currentLang;
-                if (currentLang === 'zh') document.body.classList.add('zh');
-                else document.body.classList.remove('zh');
-
-                document.querySelectorAll('[data-en]').forEach(el => {
-                    el.textContent = el.getAttribute(`data-${currentLang}`);
-                });
-            }
+        // 语言切换
+        document.getElementById('langSwitch').addEventListener('click', (e) => {
+            if (!e.target.classList.contains('lang-btn')) return;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const lang = e.target.dataset.lang;
+            document.body.classList.toggle('zh', lang === 'zh');
+            
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
         });
 
-        // Navbar scroll
+        // Navbar
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 80) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
         });
     </script>
 </body>
