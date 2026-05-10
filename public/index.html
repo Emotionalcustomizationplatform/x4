@@ -1,161 +1,163 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luna Whisper • Real Sleep Companions</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0a1f;
-  --accent: #c8b6ff;
-  --card-bg: rgba(255,255,255,0.06);
-  --card-border: rgba(180,180,255,0.15);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Whisper • Real Sleep Companions</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0a0a1f;
+            --accent: #c8b6ff;
+            --card: rgba(255,255,255,0.07);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { 
+            background: var(--bg); 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+        }
 
-body { margin:0; font-family:'Inter',sans-serif; background:var(--bg); color:#fff; }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: radial-gradient(circle at 50% 40%, #1a1a3a, #0a0a1f);
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 7.5vw, 4.8rem);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            max-width: 580px;
+            margin-bottom: 40px;
+            color: #ddd;
+        }
+        .btn-hero {
+            background: var(--accent);
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
 
-/* Hero */
-.hero {
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:120px 20px;
-  background: radial-gradient(circle at 50% 30%, #1a1a3a, #0a0a1f);
-  position:relative;
-  overflow:hidden;
-}
-.hero::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background: radial-gradient(circle, rgba(200,182,255,0.1) 0%, transparent 80%);
-  z-index:0;
-  animation: glow 20s infinite alternate;
-}
-@keyframes glow { 0%{opacity:0.3} 100%{opacity:0.6} }
-.hero h1 {
-  font-family:'Playfair Display', serif;
-  font-size:clamp(3rem,8vw,6rem);
-  line-height:1.1;
-  margin-bottom:20px;
-  background: linear-gradient(90deg, #c8b6ff, #b89eff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  position:relative; z-index:1;
-}
-.hero p { font-size:1.3rem; max-width:700px; margin-bottom:40px; color:#ddd; position:relative; z-index:1; }
+        .section { padding: 80px 20px; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 6vw, 2.6rem); }
 
-.btn-hero {
-  background: var(--accent);
-  color: #000;
-  padding: 18px 52px;
-  border-radius:50px;
-  font-size:1.2rem;
-  font-weight:600;
-  text-decoration:none;
-  box-shadow:0 8px 20px rgba(200,182,255,0.4);
-  transition:0.3s all;
-  position:relative; z-index:1;
-}
-.btn-hero:hover { transform:translateY(-3px); box-shadow:0 15px 40px rgba(200,182,255,0.6); }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .companion-card {
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .companion-img { width: 100%; height: 220px; object-fit: cover; }
 
-/* Sections */
-.section { padding:100px 20px; }
-.section-header { text-align:center; margin-bottom:70px; }
-.section-header h2 { font-family:'Playfair Display', serif; font-size:2.8rem; }
+        .pricing-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 28px 20px;
+            text-align: center;
+        }
+        .price { font-size: 2.4rem; color: var(--accent); font-weight: 600; margin: 12px 0; }
 
-/* Grid */
-.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:28px; }
-
-/* Companion Card */
-.companion-card {
-  background: rgba(20,20,50,0.6);
-  backdrop-filter: blur(12px);
-  border:1px solid var(--card-border);
-  border-radius:24px;
-  overflow:hidden;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-.companion-card:hover { transform: translateY(-10px); box-shadow:0 30px 60px rgba(200,182,255,0.3); }
-.companion-img { width:100%; height:280px; object-fit:cover; transition: transform 0.6s ease; }
-.companion-card:hover .companion-img { transform: scale(1.05); }
-.companion-info { padding:24px; text-align:center; }
-
-/* Pricing Card */
-.pricing-card { background: rgba(20,20,50,0.6); backdrop-filter: blur(12px); border:1px solid var(--card-border); border-radius:24px; padding:32px; text-align:center; transition: transform 0.3s, box-shadow 0.3s; }
-.pricing-card.popular { border-color: var(--accent); transform:scale(1.05); }
-.price { font-size:3rem; color: var(--accent); font-weight:600; margin:16px 0; }
-
-/* WhatsApp */
-.whatsapp-float {
-  position: fixed; bottom: 30px; right: 30px; width: 68px; height: 68px;
-  background: #25D366; color: white; border-radius: 50%; display: flex; align-items:center; justify-content:center;
-  font-size:34px; box-shadow: 0 8px 25px rgba(0,0,0,0.4); z-index: 999;
-}
-</style>
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 62px;
+            height: 62px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            z-index: 999;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Hero -->
-<section class="hero">
-  <h1>Let a Gentle Real Voice<br>Guide You to Sleep</h1>
-  <p>真人ASMR耳语 · 个性化睡前故事 · 温暖的情感陪伴</p>
-  <a href="form.html" class="btn-hero">立即预约今晚</a>
-</section>
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Let a Gentle Real Voice<br>Guide You to Sleep</h1>
+        <p>真人ASMR耳语 · 个性化睡前故事 · 温暖的情感陪伴</p>
+        <a href="form.html" class="btn-hero">立即预约今晚</a>
+    </section>
 
-<!-- Sleep Companions -->
-<section class="section">
-  <div class="container">
-    <div class="section-header"><h2>Meet Your Real Sleep Companions</h2></div>
-    <div class="grid">
-      <div class="companion-card">
-        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" class="companion-img" alt="Elena">
-        <div class="companion-info">
-          <h3>Elena Voss</h3>
-          <p>Gentle British Whisperer</p>
-          <audio controls style="width:100%; margin-top:12px;"><source src="YOUR_AUDIO1.mp3" type="audio/mpeg"></audio>
+    <!-- 导师 -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Meet Your Real Companions</h2>
+            </div>
+            <div class="grid">
+                <div class="companion-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" alt="Elena" class="companion-img">
+                    <div style="padding:20px; text-align:center;">
+                        <h3>Elena Voss</h3>
+                        <p>Gentle British Whisperer</p>
+                    </div>
+                </div>
+                <div class="companion-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" alt="Marcus" class="companion-img">
+                    <div style="padding:20px; text-align:center;">
+                        <h3>Marcus Reed</h3>
+                        <p>Warm American Storyteller</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="companion-card">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" class="companion-img" alt="Marcus">
-        <div class="companion-info">
-          <h3>Marcus Reed</h3>
-          <p>Warm American Storyteller</p>
-          <audio controls style="width:100%; margin-top:12px;"><source src="YOUR_AUDIO2.mp3" type="audio/mpeg"></audio>
+    </section>
+
+    <!-- 定价 -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Choose Your Session</h2>
+            </div>
+            <div class="grid">
+                <div class="pricing-card">
+                    <h3>30 Minutes</h3>
+                    <div class="price">$69</div>
+                    <a href="form.html" class="btn-hero" style="padding:12px 32px; font-size:1rem;">立即预定</a>
+                </div>
+                <div class="pricing-card" style="border:2px solid var(--accent);">
+                    <h3>60 Minutes</h3>
+                    <div class="price">$119</div>
+                    <p style="color:var(--accent); font-weight:600;">Most Popular</p>
+                    <a href="form.html" class="btn-hero" style="padding:12px 32px; font-size:1rem;">立即预定</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>90 Minutes Premium</h3>
+                    <div class="price">$199</div>
+                    <a href="form.html" class="btn-hero" style="padding:12px 32px; font-size:1rem;">立即预定</a>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- Pricing -->
-<section class="section">
-  <div class="container">
-    <div class="section-header"><h2>Choose Your Session</h2></div>
-    <div class="grid">
-      <div class="pricing-card">
-        <h3>30 Minutes</h3>
-        <div class="price">$69</div>
-        <a href="form.html" class="btn-hero">Book Now</a>
-      </div>
-      <div class="pricing-card popular">
-        <h3>60 Minutes</h3>
-        <div class="price">$119</div>
-        <p style="color:var(--accent);"><strong>Most Popular</strong></p>
-        <a href="form.html" class="btn-hero">Book Now</a>
-      </div>
-      <div class="pricing-card">
-        <h3>90 Minutes Premium</h3>
-        <div class="price">$199</div>
-        <a href="form.html" class="btn-hero">Book Now</a>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- WhatsApp -->
+    <a href="https://wa.me/13045967785" class="whatsapp-float" target="_blank">💬</a>
 
-<!-- WhatsApp -->
-<a href="https://wa.me/
+</body>
+</html>
