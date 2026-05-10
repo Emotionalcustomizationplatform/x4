@@ -22,33 +22,53 @@ const LOG_DIR = path.resolve(__dirname, 'logs');
 if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 
 const writeLog = async (data) => {
-    const file = path.join(LOG_DIR, `sourcing_leads_${new Date().toISOString().split('T')[0]}.jsonl`);
+    const file = path.join(LOG_DIR, `luna_whisper_leads_${new Date().toISOString().split('T')[0]}.jsonl`);
     const line = JSON.stringify({ ts: new Date().toISOString(), ...data }) + '\n';
     try { await fs.promises.appendFile(file, line); } catch (e) { console.error('Log Error:', e); }
 };
 
 app.post('/api/submit', async (req, res) => {
     try {
-        // 接收前端发来的新字段：product_type (产品类型)
-        let { name, email, phone, plan_id, focus, product_type, referrer, honeypot } = req.body;
+        let { 
+            name, 
+            email, 
+            whatsapp, 
+            session_plan, 
+            session_type, 
+            preferred_time, 
+            special_request, 
+            referrer, 
+            honeypot 
+        } = req.body;
 
         if (honeypot) return res.json({ status: 'success' });
 
-        if (!name || !email) return res.status(400).json({ status: 'error', message: 'Missing fields' });
-
-        // ★★★ 重新定义采购助手的价格档位 ★★★
-        let price = 0;
-        let planName = 'Discovery Call (Free)';
-
-        if (plan_id === 'full_partner') {
-            price = 899;
-            planName = 'Business Retainer ($899/mo)';
-        } else if (plan_id === 'single_product') {
-            price = 199;
-            planName = 'Single Sourcing Project ($199)';
+        if (!name || !email || !session_plan) {
+            return res.status(400).json({ status: 'error', message: 'Missing required fields' });
         }
 
-        const isPaid = price > 0;
+        // ==================== 价格映射（单次付费）====================
+        let price = 0;
+        let planName = 'Unknown';
+
+        switch (session_plan) {
+            case '30min':
+                price = 69;
+                planName = '30 Minutes Session ($69)';
+                break;
+            case '60min':
+                price = 119;
+                planName = '60 Minutes Deep Session ($119)';
+                break;
+            case 'premium':
+                price = 199;
+                planName = 'Premium 90 Minutes ($199)';
+                break;
+            default:
+                price = 119;
+                planName = '60 Minutes Session ($119)';
+        }
+
         const submissionId = crypto.randomUUID().slice(0, 8).toUpperCase();
         const safeText = (str) => (str || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
@@ -56,71 +76,74 @@ app.post('/api/submit', async (req, res) => {
             id: submissionId,
             name: safeText(name),
             email: safeText(email),
-            phone: safeText(phone),
-            product: safeText(product_type),
+            whatsapp: safeText(whatsapp),
             plan: planName,
             amount: price,
-            focus: safeText(focus || 'General Sourcing'),
+            session_type: safeText(session_type || 'Not specified'),
+            preferred_time: safeText(preferred_time),
+            special_request: safeText(special_request),
             ref: safeText(referrer),
             ip: req.ip
         };
 
         await writeLog(cleanData);
 
-        // [邮件模板] 针对采购业务优化的邮件通知
-        const subjectPrefix = isPaid ? `[💰 $${price} PENDING]` : '[☕ FREE]';
-        
-        const warningHtml = isPaid ? `
-            <div style="background: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-bottom: 25px;">
-                <strong>⚠️ 待确认付款 / PAYMENT PENDING</strong><br><br>
-                项目金额: <strong>$${price}</strong> (${planName})<br>
-                请检查 PayPal 是否收到款项 (订单ID: ${cleanData.id})。
-            </div>
-        ` : `
-            <div style="background: #d4edda; color: #155724; padding: 15px; border: 1px solid #c3e6cb; border-radius: 5px; margin-bottom: 25px;">
-                <strong>✅ 免费咨询预约</strong><br>客户正在寻求初步建议。
-            </div>
-        `;
+        // ==================== 邮件通知 ====================
+        const subject = `🌙 New Booking - ${cleanData.name} (${planName})`;
 
         await resend.emails.send({
-            from: 'Sourcing Pro <onboarding@resend.dev>',
-            to: ['dpx204825@gmail.com'], // 你的接收邮箱
+            from: 'Luna Whisper <no-reply@yourdomain.com>',   // 建议改成你自己的域名
+            to: ['dpx204825@gmail.com'],                     // 你的接收邮箱
             reply_to: cleanData.email,
-            subject: `${subjectPrefix} New Inquiry: ${cleanData.name} (${cleanData.product})`,
+            subject: subject,
             html: `
-                ${warningHtml}
-                <h3>Project Details</h3>
-                <p><strong>Ref ID:</strong> ${cleanData.id}</p>
-                <p><strong>Client Name:</strong> ${cleanData.name}</p>
-                <p><strong>Target Product:</strong> <span style="font-size:1.2em; color:#E5C359;">${cleanData.product}</span></p>
-                <p><strong>Email:</strong> ${cleanData.email}</p>
-                <p><strong>WhatsApp/Phone:</strong> ${cleanData.phone}</p>
+                <h2>🌙 新预约通知</h2>
+                <p><strong>客户姓名：</strong> ${cleanData.name}</p>
+                <p><strong>邮箱：</strong> ${cleanData.email}</p>
+                <p><strong>WhatsApp：</strong> ${cleanData.whatsapp || '未提供'}</p>
+                <p><strong>预约时长：</strong> ${cleanData.plan}</p>
+                <p><strong>陪伴类型：</strong> ${cleanData.session_type}</p>
+                <p><strong>期望时间：</strong> ${cleanData.preferred_time}</p>
                 <hr>
-                <p><strong>Selected Plan:</strong> ${cleanData.plan}</p>
-                <p><strong>Current Challenge:</strong> ${cleanData.focus}</p>
-                <p><strong>Source:</strong> ${cleanData.ref}</p>
+                <p><strong>特殊需求：</strong><br>${cleanData.special_request || '无'}</p>
+                <p><strong>推荐来源：</strong> ${cleanData.ref || '直接访问'}</p>
+                <p><strong>提交ID：</strong> ${cleanData.id}</p>
+                
+                <p style="margin-top:25px; color:#888;">
+                    请及时与客户确认时间安排。
+                </p>
             `
         });
 
-        let responseData = { status: 'success', submission_id: submissionId };
-        if (isPaid) {
-            // ★★★ 自动计算金额并生成支付链接 ★★★
-            responseData.redirect_url = `https://paypal.me/dpx710/${price}USD?memo=${submissionId}_${cleanData.product}`;
-        }
+        // 返回成功 + 支付链接（PayPal）
+        let responseData = { 
+            status: 'success', 
+            submission_id: submissionId 
+        };
+
+        responseData.redirect_url = `https://paypal.me/dpx710/${price}USD?memo=LW_${submissionId}`;
 
         return res.status(201).json(responseData);
 
     } catch (err) {
         console.error('Server Error:', err);
-        return res.status(500).json({ status: 'error', message: 'Internal Error' });
+        return res.status(500).json({ status: 'error', message: 'Internal server error' });
     }
 });
 
+// 静态文件服务
 app.use(express.static(publicPath));
+
+// SPA 支持（所有路由返回 index.html）
 app.get('*', (req, res) => {
     const indexPath = path.join(publicPath, 'index.html');
-    if (fs.existsSync(indexPath)) res.sendFile(indexPath);
-    else res.status(404).send('System Error');
+    if (fs.existsSync(indexPath)) {
+        res.sendFile(indexPath);
+    } else {
+        res.status(404).send('Page not found');
+    }
 });
 
-app.listen(port, '0.0.0.0', () => console.log(`Server running on port ${port}`));
+app.listen(port, '0.0.0.0', () => {
+    console.log(`🌙 Luna Whisper Server running on port ${port}`);
+});
