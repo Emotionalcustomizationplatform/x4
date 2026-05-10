@@ -24,7 +24,7 @@ console.log('✅ Resend 客户端初始化成功');
 const LOG_DIR = path.resolve(__dirname, 'logs');
 if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 
-// ---------- 2. 请求日志中间件（可选，但强烈推荐） ----------
+// ---------- 2. 请求日志中间件 ----------
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
     next();
@@ -44,10 +44,10 @@ app.post('/api/submit', async (req, res) => {
         const planName = session_plan === '30min' ? '30 Minutes' :
                         session_plan === '60min' ? '60 Minutes' : '90 Minutes Premium';
 
-        // 发送邮件
+        // ✅ 重要修改：发件人使用 Resend 测试域，避免 403
         const emailResult = await resend.emails.send({
             from: 'Luna Whisper <noreply@resend.dev>',
-            to: ['dpx204825@gmail.com'],   // 可以后续改成环境变量 process.env.TO_EMAIL
+            to: ['dpx204825@gmail.com'],
             reply_to: email,
             subject: `🌙 新预约 - ${name} - ${planName}`,
             html: `
@@ -63,17 +63,14 @@ app.post('/api/submit', async (req, res) => {
             `
         });
 
-        // ---------- 关键：打印完整结果 ----------
         console.log('📧 Resend API 返回:', JSON.stringify(emailResult, null, 2));
 
-        // 返回支付链接（如果邮件发送失败，这里依然会返回，你可以根据 emailResult 做判断）
         if (emailResult && emailResult.id) {
             res.json({
                 status: 'success',
                 redirect_url: `https://paypal.me/dpx710/${price}USD`
             });
         } else {
-            // 如果 Resend 返回但没有 id，可能是失败
             console.error('⚠️ Resend 返回异常，缺少 id');
             res.status(500).json({ status: 'error', message: '邮件服务异常，请稍后再试' });
         }
