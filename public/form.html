@@ -38,6 +38,11 @@
         .btn-primary { background: var(--accent); color:#000; font-size:1.1rem; }
 
         .lang-switch { position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.1); padding:5px; border-radius:50px; z-index:100; }
+
+        .notice {
+            background: rgba(200,182,255,0.15); border: 1px solid var(--accent);
+            border-radius: 12px; padding: 12px 16px; margin: 20px 0; font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -81,6 +86,11 @@
             <input type="tel" name="whatsapp" class="form-input" placeholder="WhatsApp Number" required>
             <input type="text" name="preferred_time" class="form-input" placeholder="Preferred Time (e.g. Tonight 11PM UTC)" required>
             <textarea name="special_request" class="form-input" rows="3" placeholder="Special requests (optional)"></textarea>
+
+            <div class="notice">
+                <strong>📌 提醒：</strong> 付款完成后，请截图发送到您的邮箱或 WhatsApp，我们将立刻为您安排。 <br>
+                <strong>Reminder:</strong> After payment, please send a screenshot to your email or WhatsApp for immediate confirmation.
+            </div>
 
             <button type="button" class="btn btn-primary" onclick="submitBooking()">Confirm & Pay Now</button>
         </div>
@@ -129,12 +139,11 @@ async function submitBooking() {
         });
         const result = await response.json();
 
-        if (result.status === 'success') {
-            alert("✅ Booking received! Redirecting to payment...");
-            // 成功后跳转到后端返回的支付链接
+        if (result.redirect_url) {
+            // 直接跳转付款，不阻塞
             window.location.href = result.redirect_url;
         } else {
-            alert('❌ Error: ' + (result.message || 'Unknown error'));
+            alert('❌ 预订失败，请刷新后重试。');
         }
     } catch (err) {
         console.error(err);
