@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luna Whisper · 真人ASMR睡眠陪伴</title>
-  <meta name="description" content="$10/次，真人ASMR耳语、睡前故事，温柔陪伴你入睡。">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     :root { --bg: #0a0a1f; --card: rgba(255,255,255,0.06); --border: rgba(180,180,255,0.15); --accent: #c8b6ff; --text: #ffffff; --text-secondary: #b0b0cc; }
@@ -26,7 +25,7 @@
     .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:100px 20px 60px; }
     .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.5rem, 6vw, 4.5rem); margin-bottom:20px; }
     .hero p { font-size:1.2rem; color:var(--text-secondary); max-width:600px; margin-bottom:40px; }
-    .trust-bar { display:flex; justify-content:center; gap:30px; margin:40px 0; padding:20px; background:var(--card); border-radius:16px; border:1px solid var(--border); }
+    .trust-bar { display:flex; justify-content:center; gap:30px; margin:40px 0; padding:20px; background:var(--card); border-radius:16px; border:1px solid var(--border); flex-wrap:wrap; }
     .trust-item { text-align:center; } .trust-number { font-size:1.8rem; font-weight:700; color:var(--accent); }
     .section { padding:80px 0; border-top:1px solid var(--border); }
     .section-header { text-align:center; margin-bottom:50px; }
@@ -37,6 +36,7 @@
     .companion-card:hover { transform:translateY(-5px); border-color:var(--accent); }
     .companion-img { width:100%; height:280px; object-fit:cover; }
     .companion-info { padding:20px; text-align:center; }
+    .companion-info audio { width:100%; margin-top:12px; border-radius:8px; background:rgba(255,255,255,0.05); }
     .testimonial-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:25px; }
     .plan-card { background:var(--card); border:1px solid var(--accent); border-radius:20px; padding:40px; text-align:center; max-width:400px; margin:0 auto; }
     .plan-price { font-size:3rem; color:var(--accent); font-weight:700; }
@@ -58,7 +58,6 @@
     <div class="nav-right">
       <button class="btn-outline" id="showAuth">我的账户</button>
       <button class="btn-outline" id="rechargeBtn" style="display:none;">💰 充值</button>
-      <!-- 修改为 form.html -->
       <a href="form.html" class="btn-hero">立即预约</a>
     </div>
   </div>
@@ -72,16 +71,39 @@
     <div class="trust-item"><div class="trust-number">100%</div><div>私密保密</div></div>
     <div class="trust-item"><div class="trust-number">✨</div><div>真人声音</div></div>
   </div>
-  <!-- 修改为 form.html -->
   <a href="form.html" class="btn-hero">今晚预约你的陪伴师</a>
 </section>
 
-<section class="section container">
+<section class="section container" id="companions">
   <div class="section-header"><h2>认识你的睡眠陪伴师</h2></div>
   <div class="grid grid-3">
-    <div class="companion-card"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=500" class="companion-img"><div class="companion-info"><h3>Isla Montgomery</h3><p>温暖耳语师 · 英国</p></div></div>
-    <div class="companion-card"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500" class="companion-img"><div class="companion-info"><h3>Ethan Brooks</h3><p>沉稳低音 · 美国</p></div></div>
-    <div class="companion-card"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500" class="companion-img"><div class="companion-info"><h3>Amélie Moreau</h3><p>优雅梦幻 · 法国</p></div></div>
+    <!-- Isla -->
+    <div class="companion-card">
+      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=500" class="companion-img" alt="Isla">
+      <div class="companion-info">
+        <h3>Isla Montgomery</h3>
+        <p>温暖耳语师 · 英国</p>
+        <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+      </div>
+    </div>
+    <!-- Ethan -->
+    <div class="companion-card">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500" class="companion-img" alt="Ethan">
+      <div class="companion-info">
+        <h3>Ethan Brooks</h3>
+        <p>沉稳低音 · 美国</p>
+        <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"></audio>
+      </div>
+    </div>
+    <!-- Amélie -->
+    <div class="companion-card">
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500" class="companion-img" alt="Amélie">
+      <div class="companion-info">
+        <h3>Amélie Moreau</h3>
+        <p>优雅梦幻 · 法国</p>
+        <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg"></audio>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -96,7 +118,6 @@
     <h3>单次陪伴</h3>
     <div class="plan-price">$10</div>
     <p>≈ ¥70 · 30-45分钟</p>
-    <!-- 修改为 form.html -->
     <a href="form.html" class="btn-hero" style="margin-top:20px;">立即预约</a>
   </div>
 </section>
@@ -126,7 +147,7 @@
   <div class="modal">
     <button class="modal-close" onclick="document.getElementById('rechargeModal').classList.remove('active')">&times;</button>
     <h3>账户充值</h3>
-    <p style="color:var(--accent);">🎉 首充双倍！充多少送多少</p>
+    <p id="rechargeHint" style="color:var(--accent); margin-bottom:15px;">🎉 首充双倍！充多少送多少</p>
     <input type="number" id="rechargeAmount" class="modal-input" placeholder="金额 (USD)" min="5" value="10">
     <button class="modal-btn" id="genRechargeLink">生成支付链接</button>
     <div id="rechargeResult" style="margin-top:15px; display:none;">
@@ -201,7 +222,10 @@ authForm.addEventListener('submit', async (e) => {
   }
 });
 
-rechargeBtn.addEventListener('click', () => document.getElementById('rechargeModal').classList.add('active'));
+rechargeBtn.addEventListener('click', () => {
+  document.getElementById('rechargeModal').classList.add('active');
+  document.getElementById('rechargeHint').textContent = currentUser && currentUser.rechargeCount === 0 ? '🎉 首充双倍！充多少送多少' : '充值金额：';
+});
 document.getElementById('genRechargeLink').addEventListener('click', async () => {
   const amount = document.getElementById('rechargeAmount').value;
   if (!currentToken) return alert('请先登录');
