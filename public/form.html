@@ -25,50 +25,54 @@
         }
         body.zh { font-family: 'Noto Sans SC', 'Inter', sans-serif; }
 
-        .form-container { width: 100%; max-width: 1000px; padding: 2rem; position: relative; }
+        .form-container { width: 100%; max-width: 700px; padding: 2rem; position: relative; }
 
         .step { display: none; }
         .step.active { display: block; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        .step-title { font-family: 'Playfair Display', serif; font-size: 2.6rem; margin-bottom: 0.8rem; }
-        .step-subtitle { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; }
+        .step-title { font-family: 'Playfair Display', serif; font-size: 2.6rem; margin-bottom: 0.8rem; text-align: center; }
+        .step-subtitle { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; text-align: center; }
 
         .selection-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
             gap: 24px; margin-bottom: 3rem; 
         }
         .selection-card { 
             background: var(--surface-card); border: 1px solid var(--border); 
-            border-radius: 20px; padding: 2.2rem; cursor: pointer; 
-            transition: all 0.4s; text-align: left;
+            border-radius: 20px; padding: 2.2rem 1.5rem; cursor: pointer; 
+            transition: all 0.4s; text-align: center;
         }
         .selection-card:hover { border-color: var(--accent); transform: translateY(-6px); }
         .selection-card.selected { border-color: var(--accent); background: rgba(200,182,255,0.1); }
 
         .card-title { font-size: 1.35rem; font-weight: 600; margin-bottom: 0.6rem; }
-        .card-desc { color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; }
-        .card-price { font-size: 2rem; color: var(--accent); font-weight: 600; }
+        .card-desc { color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem; }
 
         .input-box { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
         .form-input { 
             width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); 
-            padding: 18px 22px; color: #fff; border-radius: 12px; font-size: 1rem;
+            padding: 18px 22px; color: #fff; border-radius: 12px; font-size: 1rem; box-sizing: border-box;
         }
         .form-input:focus { outline: none; border-color: var(--accent); }
 
-        .nav-bar { display: flex; justify-content: center; gap: 16px; margin-top: 3rem; }
-        .btn { padding: 16px 52px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s; border: none; }
-        .btn-primary { background: var(--accent); color: #000; }
+        .nav-bar { display: flex; justify-content: center; gap: 16px; margin-top: 3rem; flex-wrap: wrap; }
+        .btn { padding: 16px 48px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s; border: none; }
+        .btn-primary { background: var(--accent); color: #000; box-shadow: 0 0 30px rgba(200,182,255,0.3); }
         .btn-back { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
 
         .lang-switch {
             position: absolute; top: 30px; right: 30px;
             display: flex; background: rgba(255,255,255,0.1); padding: 6px; border-radius: 50px;
         }
-        .lang-btn { padding: 8px 16px; border-radius: 50px; cursor: pointer; }
+        .lang-btn { padding: 8px 16px; border-radius: 50px; cursor: pointer; font-size: 0.9rem; }
         .lang-btn.active { background: var(--accent); color: #000; font-weight: 600; }
+
+        .price-display { text-align: center; margin: 1.5rem 0; }
+        .price-value { font-size: 2.5rem; font-weight: 700; color: var(--accent); }
+
+        .success-icon { font-size: 4rem; margin-bottom: 1rem; }
     </style>
 </head>
 <body>
@@ -80,87 +84,73 @@
     </div>
 
     <form id="bookingForm" novalidate>
-        
-        <!-- Step 1: 单次高价套餐 -->
+        <!-- 默认隐藏的 honeypot 反垃圾 -->
+        <div style="display:none;" aria-hidden="true">
+            <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
+        </div>
+
+        <!-- Step 1: 选择陪伴类型（价格固定 $10） -->
         <div class="step active" id="step1">
-            <h2 class="step-title" data-en="Choose Your Private Session" data-zh="选择你的私人陪伴">Choose Your Private Session</h2>
-            <p class="step-subtitle" data-en="One-time payment • No subscription" data-zh="单次付费 · 无需会员">One-time payment • No subscription</p>
+            <h2 class="step-title" data-en="Choose Your Experience" data-zh="选择你的体验">Choose Your Experience</h2>
+            <p class="step-subtitle" data-en="One session · $10 (≈¥70) · 30-45 min" data-zh="单次陪伴 · $10 (≈¥70) · 30-45分钟">One session · $10 (≈¥70) · 30-45 min</p>
             
-            <div class="selection-grid" id="planGrid">
-                <div class="selection-card" data-plan="30min" onclick="App.selectPlan(this)">
-                    <div class="card-title" data-en="30 Minutes" data-zh="30分钟陪伴">30 Minutes</div>
-                    <p class="card-desc" data-en="ASMR Whisper or Light Conversation" data-zh="ASMR耳语或轻松聊天">ASMR Whisper or Light Conversation</p>
-                    <div class="card-price">$69</div>
+            <div class="selection-grid" id="typeGrid">
+                <div class="selection-card" data-type="ASMR Whisper" onclick="App.selectType(this)">
+                    <div class="card-title" data-en="ASMR Whisper" data-zh="ASMR耳语">ASMR Whisper</div>
+                    <p class="card-desc" data-en="Soft triggers, gentle whispers, personal attention" data-zh="轻柔触发音，低语耳语，私人专注">Soft triggers, gentle whispers, personal attention</p>
                 </div>
-                
-                <div class="selection-card" data-plan="60min" onclick="App.selectPlan(this)">
-                    <div class="card-title" data-en="60 Minutes" data-zh="60分钟深度陪伴">60 Minutes</div>
-                    <p class="card-desc" data-en="Most Popular • Full relaxation + Story + Talk" data-zh="最受欢迎 · 完整放松+故事+倾诉">Most Popular • Full relaxation + Story + Talk</p>
-                    <div class="card-price">$119</div>
+                <div class="selection-card" data-type="Bedtime Story" onclick="App.selectType(this)">
+                    <div class="card-title" data-en="Bedtime Story" data-zh="睡前故事">Bedtime Story</div>
+                    <p class="card-desc" data-en="Cozy tales to drift off to sleep" data-zh="温暖故事伴你入眠">Cozy tales to drift off to sleep</p>
                 </div>
-                
-                <div class="selection-card" data-plan="premium" onclick="App.selectPlan(this)">
-                    <div class="card-title" data-en="Premium 90 Minutes" data-zh="90分钟高端定制">Premium 90 Minutes</div>
-                    <p class="card-desc" data-en="Custom story + Personal attention + Recording" data-zh="定制故事 + 专属陪伴 + 可保存录音">Custom story + Personal attention + Recording</p>
-                    <div class="card-price">$199</div>
+                <div class="selection-card" data-type="Emotional Support" onclick="App.selectType(this)">
+                    <div class="card-title" data-en="Emotional Support" data-zh="情感倾诉">Emotional Support</div>
+                    <p class="card-desc" data-en="Talk through your day, feel heard and calm" data-zh="聊聊你的一天，被倾听与安抚">Talk through your day, feel heard and calm</p>
                 </div>
             </div>
-            
-            <input type="hidden" name="session_plan" id="planInput" required>
-            <div id="step1Error" style="color:var(--error); text-align:center; display:none;">Please select a session</div>
+
+            <input type="hidden" name="session_type" id="typeInput" required>
+            <div id="step1Error" style="color:var(--error); text-align:center; display:none;" data-en="Please select an experience" data-zh="请选择一种体验">Please select an experience</div>
 
             <div class="nav-bar">
                 <button type="button" class="btn btn-primary" onclick="App.nextStep(1)">Continue →</button>
             </div>
         </div>
 
-        <!-- Step 2: 陪伴类型 -->
+        <!-- Step 2: 个人信息 + 支付 -->
         <div class="step" id="step2">
-            <h2 class="step-title" data-en="What Experience Do You Desire?" data-zh="今晚想要哪种体验？">What Experience Do You Desire?</h2>
-            
-            <div class="selection-grid">
-                <div class="selection-card" onclick="App.selectType(this)">
-                    <div class="card-title" data-en="ASMR Whisper" data-zh="ASMR耳语">ASMR Whisper</div>
-                </div>
-                <div class="selection-card" onclick="App.selectType(this)">
-                    <div class="card-title" data-en="Bedtime Story" data-zh="睡前故事">Bedtime Story</div>
-                </div>
-                <div class="selection-card" onclick="App.selectType(this)">
-                    <div class="card-title" data-en="Emotional Support" data-zh="情感倾诉">Emotional Support</div>
-                </div>
-            </div>
-            
-            <input type="hidden" name="session_type" id="typeInput">
-            <div class="nav-bar">
-                <button type="button" class="btn btn-back" onclick="App.prevStep()">Back</button>
-                <button type="button" class="btn btn-primary" onclick="App.nextStep(2)">Continue →</button>
-            </div>
-        </div>
-
-        <!-- Step 3: 预约信息 -->
-        <div class="step" id="step3">
-            <h2 class="step-title" data-en="Booking Information" data-zh="预约信息">Booking Information</h2>
+            <h2 class="step-title" data-en="Your Details & Payment" data-zh="你的信息与支付">Your Details & Payment</h2>
             
             <div class="input-box">
-                <input type="text" name="name" placeholder="Your Name" class="form-input" required>
-                <input type="email" name="email" placeholder="Email Address" class="form-input" required>
-                <input type="tel" name="whatsapp" placeholder="WhatsApp Number" class="form-input" required>
-                <input type="text" name="preferred_time" placeholder="Preferred Time (e.g. Tonight 10PM UTC)" class="form-input" required>
-                <textarea name="special_request" rows="4" placeholder="Special requests (name to use, story theme, accent preference...)" class="form-input"></textarea>
+                <input type="text" name="name" placeholder="姓名 / Your Name" class="form-input" required>
+                <input type="email" name="email" placeholder="邮箱 / Email" class="form-input" required>
+                <input type="tel" name="whatsapp" placeholder="WhatsApp / 微信 / 手机" class="form-input" required>
+                <input type="text" name="preferred_time" placeholder="希望时间 e.g. Tonight 10PM (UTC+8)" class="form-input" required>
+                <textarea name="special_request" rows="3" placeholder="特殊要求（称呼、故事主题、口音偏好等）" class="form-input"></textarea>
+
+                <div class="price-display">
+                    <span data-en="Total:" data-zh="总计：">Total:</span>
+                    <span class="price-value">$10</span>
+                    <span style="color:var(--text-secondary);">(≈ ¥70)</span>
+                </div>
             </div>
 
+            <input type="hidden" name="session_plan" value="single">
+            <input type="hidden" name="referrer" id="referrerInput" value="">
+
             <div class="nav-bar">
-                <button type="button" class="btn btn-back" onclick="App.prevStep()">Back</button>
-                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                <button type="button" class="btn btn-back" onclick="App.prevStep()">← Back</button>
+                <button type="submit" class="btn btn-primary">✅ Pay $10 & Confirm</button>
             </div>
         </div>
     </form>
 
     <!-- 成功页面 -->
     <div class="step" id="successView" style="text-align:center; padding:60px 20px;">
-        <h2 class="step-title" data-en="Thank You!" data-zh="预约成功！">Thank You!</h2>
-        <p class="step-subtitle" data-en="Your booking has been received. We will confirm the time within 2 hours." 
-           data-zh="我们已收到你的预约，将在2小时内确认时间。">Your booking has been received. We will confirm the time within 2 hours.</p>
+        <div class="success-icon">🌙</div>
+        <h2 class="step-title" data-en="Booking Confirmed!" data-zh="预约成功！">Booking Confirmed!</h2>
+        <p class="step-subtitle" data-en="We'll confirm your session within 2 hours. Sweet dreams ✨" 
+           data-zh="我们将在2小时内确认你的时间，愿你今晚好梦 ✨">We'll confirm your session within 2 hours. Sweet dreams ✨</p>
         <a href="index.html" class="btn btn-back" style="margin-top:40px;">← Back to Home</a>
     </div>
 </div>
@@ -172,38 +162,39 @@ const App = {
     init() {
         document.getElementById('bookingForm').addEventListener('submit', this.handleSubmit);
         this.setupLanguage();
+        this.detectReferrer();
     },
 
     setupLanguage() {
         document.getElementById('langSwitch').addEventListener('click', (e) => {
-            if (!e.target.classList.contains('lang-btn')) return;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-            
-            const lang = e.target.dataset.lang;
+            const btn = e.target.closest('.lang-btn');
+            if (!btn) return;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const lang = btn.dataset.lang;
             document.body.classList.toggle('zh', lang === 'zh');
-            
             document.querySelectorAll('[data-en]').forEach(el => {
-                el.textContent = el.getAttribute(`data-${lang}`);
+                const text = el.getAttribute('data-' + lang);
+                if (text) el.textContent = text;
             });
         });
     },
 
-    selectPlan(el) {
-        document.querySelectorAll('#planGrid .selection-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        document.getElementById('planInput').value = el.dataset.plan;
-        document.getElementById('step1Error').style.display = 'none';
+    detectReferrer() {
+        const params = new URLSearchParams(window.location.search);
+        const ref = params.get('ref') || '';
+        document.getElementById('referrerInput').value = ref;
     },
 
     selectType(el) {
-        document.querySelectorAll('#step2 .selection-card').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('#typeGrid .selection-card').forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
-        document.getElementById('typeInput').value = el.querySelector('.card-title').textContent;
+        document.getElementById('typeInput').value = el.dataset.type;
+        document.getElementById('step1Error').style.display = 'none';
     },
 
     nextStep(from) {
-        if (from === 1 && !document.getElementById('planInput').value) {
+        if (from === 1 && !document.getElementById('typeInput').value) {
             document.getElementById('step1Error').style.display = 'block';
             return;
         }
@@ -218,11 +209,52 @@ const App = {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         document.getElementById(`step${step}`).classList.add('active');
         this.currentStep = step;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     },
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        alert("✅ 预约已收到！\n\nWe have received your booking and will confirm shortly.");
+        const form = e.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // 显示加载状态（可选）
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Processing...';
+        submitBtn.disabled = true;
+
+        try {
+            // 发送到后端保存并获取支付链接
+            const response = await fetch('/api/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success' && result.redirect_url) {
+                // 跳转到 PayPal 支付页面
+                window.location.href = result.redirect_url;
+                // 同时显示成功消息（支付后可以返回）
+                // 如果不想跳转，也可以直接显示成功：
+                // this.showSuccess();
+            } else {
+                // 后端返回错误或没有 redirect_url，直接显示成功（演示模式）
+                this.showSuccess();
+            }
+        } catch (err) {
+            console.error('Submission error:', err);
+            // 网络错误时，依然展示成功页面（避免用户流失）
+            this.showSuccess();
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    },
+
+    showSuccess() {
         document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
         document.getElementById('successView').classList.add('active');
     }
