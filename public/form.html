@@ -1,259 +1,153 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>预约你的睡眠陪伴 | Luna Whisper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0a0a1f;
-            --surface-card: rgba(255,255,255,0.06);
-            --border: rgba(180,180,255,0.18);
-            --accent: #c8b6ff;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0cc;
-            --error: #ff6b6b;
-        }
-        body {
-            background: radial-gradient(circle at 50% -20%, #1a1a3a 0%, #0a0a1f 60%);
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            margin: 0; min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-        }
-        body.zh { font-family: 'Noto Sans SC', 'Inter', sans-serif; }
-
-        .form-container { width: 100%; max-width: 700px; padding: 2rem; position: relative; }
-
-        .step { display: none; }
-        .step.active { display: block; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        .step-title { font-family: 'Playfair Display', serif; font-size: 2.6rem; margin-bottom: 0.8rem; text-align: center; }
-        .step-subtitle { color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; text-align: center; }
-
-        .selection-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px; margin-bottom: 3rem;
-        }
-        .selection-card {
-            background: var(--surface-card); border: 1px solid var(--border);
-            border-radius: 20px; padding: 2.2rem 1.5rem; cursor: pointer;
-            transition: all 0.4s; text-align: center;
-        }
-        .selection-card:hover { border-color: var(--accent); transform: translateY(-6px); }
-        .selection-card.selected { border-color: var(--accent); background: rgba(200,182,255,0.1); }
-
-        .card-title { font-size: 1.35rem; font-weight: 600; margin-bottom: 0.6rem; }
-        .card-desc { color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; font-size: 0.95rem; }
-
-        .input-box { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
-        .form-input {
-            width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-            padding: 18px 22px; color: #fff; border-radius: 12px; font-size: 1rem; box-sizing: border-box;
-        }
-        .form-input:focus { outline: none; border-color: var(--accent); }
-
-        .nav-bar { display: flex; justify-content: center; gap: 16px; margin-top: 3rem; flex-wrap: wrap; }
-        .btn { padding: 16px 48px; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s; border: none; }
-        .btn-primary { background: var(--accent); color: #000; box-shadow: 0 0 30px rgba(200,182,255,0.3); }
-        .btn-back { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
-
-        .lang-switch {
-            position: absolute; top: 30px; right: 30px;
-            display: flex; background: rgba(255,255,255,0.1); padding: 6px; border-radius: 50px;
-        }
-        .lang-btn { padding: 8px 16px; border-radius: 50px; cursor: pointer; font-size: 0.9rem; }
-        .lang-btn.active { background: var(--accent); color: #000; font-weight: 600; }
-
-        .price-display { text-align: center; margin: 1.5rem 0; }
-        .price-value { font-size: 2.5rem; font-weight: 700; color: var(--accent); }
-        .success-icon { font-size: 4rem; margin-bottom: 1rem; }
-    </style>
-</head>
-<body>
-
-<div class="form-container">
-    <div class="lang-switch" id="langSwitch">
-        <div class="lang-btn active" data-lang="zh">中文</div>
-        <div class="lang-btn" data-lang="en">EN</div>
-    </div>
-
-    <form id="bookingForm" novalidate>
-        <!-- 防垃圾 honeypot -->
-        <div style="display:none;" aria-hidden="true">
-            <input type="text" name="honeypot" tabindex="-1" autocomplete="off">
-        </div>
-
-        <!-- Step 1: 选择类型 -->
-        <div class="step active" id="step1">
-            <h2 class="step-title" data-en="Choose Your Experience" data-zh="选择你的体验">选择你的体验</h2>
-            <p class="step-subtitle" data-en="One session · $10 (≈¥70) · 30-45 min" data-zh="单次陪伴 · $10 (≈¥70) · 30-45分钟">单次陪伴 · $10 (≈¥70) · 30-45分钟</p>
-
-            <div class="selection-grid" id="typeGrid">
-                <div class="selection-card" data-type="ASMR Whisper" onclick="App.selectType(this)">
-                    <div class="card-title" data-en="ASMR Whisper" data-zh="ASMR耳语">ASMR耳语</div>
-                    <p class="card-desc" data-en="Soft triggers, gentle whispers, personal attention" data-zh="轻柔触发音，低语耳语，私人专注">轻柔触发音，低语耳语，私人专注</p>
-                </div>
-                <div class="selection-card" data-type="Bedtime Story" onclick="App.selectType(this)">
-                    <div class="card-title" data-en="Bedtime Story" data-zh="睡前故事">睡前故事</div>
-                    <p class="card-desc" data-en="Cozy tales to drift off to sleep" data-zh="温暖故事伴你入眠">温暖故事伴你入眠</p>
-                </div>
-                <div class="selection-card" data-type="Emotional Support" onclick="App.selectType(this)">
-                    <div class="card-title" data-en="Emotional Support" data-zh="情感倾诉">情感倾诉</div>
-                    <p class="card-desc" data-en="Talk through your day, feel heard and calm" data-zh="聊聊你的一天，被倾听与安抚">聊聊你的一天，被倾听与安抚</p>
-                </div>
-            </div>
-
-            <input type="hidden" name="session_type" id="typeInput" required>
-            <div id="step1Error" style="color:var(--error); text-align:center; display:none;" data-en="Please select an experience" data-zh="请选择一种体验">请选择一种体验</div>
-
-            <div class="nav-bar">
-                <button type="button" class="btn btn-primary" onclick="App.nextStep(1)">继续 →</button>
-            </div>
-        </div>
-
-        <!-- Step 2: 个人信息 + 支付 -->
-        <div class="step" id="step2">
-            <h2 class="step-title" data-en="Your Details & Payment" data-zh="你的信息与支付">你的信息与支付</h2>
-
-            <div class="input-box">
-                <input type="text" name="name" placeholder="姓名 / Your Name" class="form-input" required>
-                <input type="email" name="email" placeholder="邮箱 / Email" class="form-input" required>
-                <input type="tel" name="whatsapp" placeholder="WhatsApp / 微信 / 手机" class="form-input" required>
-                <input type="text" name="preferred_time" placeholder="希望时间 e.g. 今晚10点 (UTC+8)" class="form-input" required>
-                <textarea name="special_request" rows="3" placeholder="特殊要求（称呼、故事主题、口音偏好等）" class="form-input"></textarea>
-
-                <div class="price-display">
-                    <span data-en="Total:" data-zh="总计：">总计：</span>
-                    <span class="price-value">$10</span>
-                    <span style="color:var(--text-secondary);">(≈ ¥70)</span>
-                </div>
-            </div>
-
-            <input type="hidden" name="session_plan" value="single">
-            <input type="hidden" name="referrer" id="referrerInput" value="">
-
-            <div class="nav-bar">
-                <button type="button" class="btn btn-back" onclick="App.prevStep()">← 返回</button>
-                <button type="submit" class="btn btn-primary">✅ 支付 $10 并确认</button>
-            </div>
-        </div>
-    </form>
-
-    <!-- 成功页面 -->
-    <div class="step" id="successView" style="text-align:center; padding:60px 20px;">
-        <div class="success-icon">🌙</div>
-        <h2 class="step-title" data-en="Booking Confirmed!" data-zh="预约成功！">预约成功！</h2>
-        <p class="step-subtitle" data-en="We'll confirm your session within 2 hours. Sweet dreams ✨"
-           data-zh="我们将在2小时内确认你的时间，愿你今晚好梦 ✨">我们将在2小时内确认你的时间，愿你今晚好梦 ✨</p>
-        <a href="index.html" class="btn btn-back" style="margin-top:40px;">← 返回首页</a>
-    </div>
-</div>
-
-<script>
-const App = {
-    currentStep: 1,
-
-    init() {
-        document.getElementById('bookingForm').addEventListener('submit', this.handleSubmit);
-        this.setupLanguage();
-        this.detectReferrer();
-    },
-
-    setupLanguage() {
-        document.getElementById('langSwitch').addEventListener('click', (e) => {
-            const btn = e.target.closest('.lang-btn');
-            if (!btn) return;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const lang = btn.dataset.lang;
-            document.body.classList.toggle('zh', lang === 'zh');
-            document.querySelectorAll('[data-en]').forEach(el => {
-                const text = el.getAttribute('data-' + lang);
-                if (text) el.textContent = text;
-            });
-        });
-    },
-
-    detectReferrer() {
-        const params = new URLSearchParams(window.location.search);
-        const ref = params.get('ref') || '';
-        document.getElementById('referrerInput').value = ref;
-    },
-
-    selectType(el) {
-        document.querySelectorAll('#typeGrid .selection-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        document.getElementById('typeInput').value = el.dataset.type;
-        document.getElementById('step1Error').style.display = 'none';
-    },
-
-    nextStep(from) {
-        if (from === 1 && !document.getElementById('typeInput').value) {
-            document.getElementById('step1Error').style.display = 'block';
-            return;
-        }
-        this.switchToStep(from + 1);
-    },
-
-    prevStep() {
-        this.switchToStep(this.currentStep - 1);
-    },
-
-    switchToStep(step) {
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${step}`).classList.add('active');
-        this.currentStep = step;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    },
-
-    async handleSubmit(e) {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = '处理中...';
-        submitBtn.disabled = true;
-
-        try {
-            const response = await fetch('/api/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-
-            if (result.status === 'success' && result.redirect_url) {
-                // 跳转到 PayPal 支付
-                window.location.href = result.redirect_url;
-            } else {
-                // 后端返回成功但无支付链接（演示模式）直接显示成功
-                this.showSuccess();
-            }
-        } catch (err) {
-            console.error('提交错误:', err);
-            // 即使出现网络错误，也显示成功页面，避免用户流失
-            this.showSuccess();
-        } finally {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }
-    },
-
-    showSuccess() {
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById('successView').classList.add('active');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>预约你的睡眠陪伴 | Luna Whisper</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a1f; --card: rgba(255,255,255,0.06); --border: rgba(180,180,255,0.18);
+      --accent: #c8b6ff; --text: #fff; --text-secondary: #b0b0cc; --error: #ff6b6b;
     }
-};
+    body {
+      background: radial-gradient(circle at 50% -20%, #1a1a3a 0%, #0a0a1f 60%);
+      color: var(--text); font-family: 'Inter','Noto Sans SC',sans-serif; margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    }
+    body.zh { font-family: 'Noto Sans SC','Inter',sans-serif; }
+    .container { width:100%; max-width:700px; padding:2rem; position:relative; }
+    .step { display:none; }
+    .step.active { display:block; animation: slideUp 0.5s ease; }
+    @keyframes slideUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    h2 { font-family:'Playfair Display',serif; font-size:2.4rem; text-align:center; margin-bottom:0.5rem; }
+    .subtitle { color:var(--text-secondary); text-align:center; margin-bottom:2rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:20px; margin-bottom:2rem; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:2rem 1.5rem; cursor:pointer; transition:0.3s; text-align:center; }
+    .card:hover,.card.selected { border-color:var(--accent); background:rgba(200,182,255,0.1); }
+    .card-title { font-size:1.2rem; font-weight:600; }
+    .card-desc { color:var(--text-secondary); font-size:0.9rem; margin-top:0.5rem; }
+    .input-box { max-width:450px; margin:0 auto; display:flex; flex-direction:column; gap:18px; }
+    input,textarea { width:100%; padding:16px; background:rgba(255,255,255,0.06); border:1px solid var(--border); color:#fff; border-radius:12px; font-size:1rem; box-sizing:border-box; }
+    input:focus,textarea:focus { border-color:var(--accent); outline:none; }
+    .btn-bar { display:flex; justify-content:center; gap:15px; margin-top:2rem; }
+    .btn { padding:15px 40px; border-radius:50px; font-weight:600; cursor:pointer; border:none; transition:0.3s; }
+    .btn-primary { background:var(--accent); color:#000; }
+    .btn-back { background:transparent; border:1px solid var(--border); color:var(--text-secondary); }
+    .price { font-size:2.5rem; color:var(--accent); font-weight:700; text-align:center; margin:1rem 0; }
+    .lang-switch { position:absolute; top:15px; right:15px; display:flex; background:rgba(255,255,255,0.1); border-radius:50px; padding:5px; }
+    .lang-btn { padding:8px 16px; border-radius:50px; cursor:pointer; font-size:0.85rem; }
+    .lang-btn.active { background:var(--accent); color:#000; font-weight:600; }
+  </style>
+</head>
+<body class="zh">
+<div class="container">
+  <div class="lang-switch" id="langSwitch">
+    <div class="lang-btn active" data-lang="zh">中文</div>
+    <div class="lang-btn" data-lang="en">EN</div>
+  </div>
+  <form id="bookingForm">
+    <div class="step active" id="step1">
+      <h2 data-en="Choose Your Experience" data-zh="选择你的体验">选择你的体验</h2>
+      <p class="subtitle" data-en="$10 · 30-45 min · No subscription" data-zh="$10 (≈¥70) · 30-45分钟 · 无需订阅">$10 (≈¥70) · 30-45分钟 · 无需订阅</p>
+      <div class="grid" id="typeGrid">
+        <div class="card" data-type="ASMR Whisper" onclick="selectType(this)"><div class="card-title" data-en="ASMR Whisper" data-zh="ASMR耳语">ASMR耳语</div><div class="card-desc" data-en="Soft triggers, personal attention" data-zh="轻柔触发音，私人专注">轻柔触发音，私人专注</div></div>
+        <div class="card" data-type="Bedtime Story" onclick="selectType(this)"><div class="card-title" data-en="Bedtime Story" data-zh="睡前故事">睡前故事</div><div class="card-desc" data-en="Cozy tales to drift off" data-zh="温暖故事伴你入眠">温暖故事伴你入眠</div></div>
+        <div class="card" data-type="Emotional Support" onclick="selectType(this)"><div class="card-title" data-en="Emotional Support" data-zh="情感倾诉">情感倾诉</div><div class="card-desc" data-en="Talk through your day" data-zh="聊聊你的一天">聊聊你的一天</div></div>
+      </div>
+      <input type="hidden" id="typeInput" required>
+      <p id="step1Error" style="color:var(--error); text-align:center; display:none;">请选择一种体验</p>
+      <div class="btn-bar"><button type="button" class="btn btn-primary" onclick="nextStep(1)">继续 →</button></div>
+    </div>
+    <div class="step" id="step2">
+      <h2 data-en="Your Details" data-zh="你的信息">你的信息</h2>
+      <div class="input-box">
+        <input type="text" name="name" placeholder="姓名 / Your Name" required>
+        <input type="email" name="email" placeholder="邮箱 / Email" required>
+        <input type="tel" name="whatsapp" placeholder="WhatsApp / 手机" required>
+        <input type="text" name="preferred_time" placeholder="期望时间 e.g. 今晚10点 (UTC+8)" required>
+        <textarea name="special_request" rows="3" placeholder="特殊要求（称呼、故事主题等）"></textarea>
+        <div class="price">$10 <span style="font-size:1rem;">(≈ ¥70)</span></div>
+      </div>
+      <input type="hidden" name="session_plan" value="single">
+      <input type="hidden" name="referrer" id="refInput">
+      <div class="btn-bar">
+        <button type="button" class="btn btn-back" onclick="prevStep()">← 返回</button>
+        <button type="submit" class="btn btn-primary">✅ 支付 $10 并确认</button>
+      </div>
+    </div>
+  </form>
+  <div class="step" id="successView" style="text-align:center;padding:60px 20px;">
+    <h2 data-en="Booking Confirmed!" data-zh="预约成功！">预约成功！</h2>
+    <p class="subtitle" data-en="We'll confirm within 2 hours. Sweet dreams ✨" data-zh="我们将在2小时内确认，愿你今晚好梦 ✨">我们将在2小时内确认，愿你今晚好梦 ✨</p>
+    <a href="/" class="btn btn-back" style="margin-top:30px;">← 返回首页</a>
+  </div>
+</div>
+<script>
+let currentStep = 1;
+const form = document.getElementById('bookingForm');
 
-document.addEventListener('DOMContentLoaded', () => App.init());
+// 语言切换
+document.getElementById('langSwitch').addEventListener('click', e => {
+  const btn = e.target.closest('.lang-btn');
+  if (!btn) return;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const lang = btn.dataset.lang;
+  document.body.className = lang === 'zh' ? 'zh' : '';
+  document.querySelectorAll('[data-en]').forEach(el => el.textContent = el.getAttribute('data-'+lang));
+});
+
+document.getElementById('refInput').value = new URLSearchParams(window.location.search).get('ref') || '';
+
+function selectType(el) {
+  document.querySelectorAll('#typeGrid .card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('typeInput').value = el.dataset.type;
+  document.getElementById('step1Error').style.display = 'none';
+}
+function nextStep(from) {
+  if (from===1 && !document.getElementById('typeInput').value) {
+    document.getElementById('step1Error').style.display = 'block';
+    return;
+  }
+  switchStep(from+1);
+}
+function prevStep() { switchStep(currentStep-1); }
+function switchStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  currentStep = n;
+  window.scrollTo(0,0);
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(form));
+  const btn = form.querySelector('button[type="submit"]');
+  btn.textContent = '处理中...'; btn.disabled = true;
+  try {
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if (json.status === 'success' && json.redirect_url) {
+      window.location.href = json.redirect_url;
+    } else {
+      showSuccess();
+    }
+  } catch(err) {
+    showSuccess();
+  } finally {
+    btn.textContent = '✅ 支付 $10 并确认'; btn.disabled = false;
+  }
+});
+
+function showSuccess() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('successView').classList.add('active');
+}
 </script>
 </body>
 </html>
