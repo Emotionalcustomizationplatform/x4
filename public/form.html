@@ -13,143 +13,112 @@
             --card: rgba(255,255,255,0.06);
             --border: rgba(180,180,255,0.18);
             --accent: #c8b6ff;
-            --text: #ffffff;
-            --text-secondary: #b0b0cc;
         }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin:0; padding:20px; min-height:100vh; }
         body.zh { font-family: 'Noto Sans SC', 'Inter', sans-serif; }
 
-        .form-container { width: 100%; max-width: 960px; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 40px auto; }
         .step { display: none; }
-        .step.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+        .step.active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(15px);} to {opacity:1; transform:translateY(0);} }
 
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; margin-bottom: 24px; }
-        .price { font-size: 2.6rem; font-weight: 600; color: var(--accent); margin: 16px 0; }
+        .card { 
+            background: var(--card); border: 1px solid var(--border); 
+            border-radius: 20px; padding: 28px; margin-bottom: 20px; 
+            cursor: pointer; transition: all 0.3s;
+        }
+        .card:hover { transform: translateY(-4px); }
+        .card.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,182,255,0.2); }
 
-        .trust-bar { background: rgba(200,182,255,0.1); padding: 12px 20px; border-radius: 12px; text-align: center; font-size: 0.95rem; margin: 20px 0; }
-        
-        .form-input { width: 100%; padding: 16px 20px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 12px; color: white; margin-bottom: 16px; }
-        .form-input:focus { outline: none; border-color: var(--accent); }
+        .price { font-size: 2.6rem; color: var(--accent); font-weight: 600; margin: 12px 0; }
+        .form-input { width:100%; padding:16px 20px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:12px; color:#fff; margin-bottom:16px; }
+        .form-input:focus { border-color: var(--accent); outline:none; }
 
-        .btn { padding: 16px 52px; border-radius: 50px; font-weight: 600; cursor: pointer; border: none; width: 100%; margin-top: 20px; }
-        .btn-primary { background: var(--accent); color: #000; font-size: 1.1rem; }
-        
-        .lang-switch { position: fixed; top: 30px; right: 30px; background: rgba(255,255,255,0.1); padding: 6px; border-radius: 50px; z-index: 100; }
-        .lang-btn { padding: 8px 16px; border-radius: 50px; cursor: pointer; }
-        .lang-btn.active { background: var(--accent); color: #000; }
+        .btn { padding: 16px 40px; border-radius: 50px; font-weight: 600; width:100%; margin-top:20px; cursor:pointer; }
+        .btn-primary { background: var(--accent); color:#000; font-size:1.1rem; }
+
+        .lang-switch { position:fixed; top:20px; right:20px; background:rgba(255,255,255,0.1); padding:5px; border-radius:50px; z-index:100; }
     </style>
 </head>
 <body>
 
-<div class="form-container">
+<div class="container">
     <div class="lang-switch" id="langSwitch">
         <div class="lang-btn active" data-lang="en">EN</div>
         <div class="lang-btn" data-lang="zh">中文</div>
     </div>
 
-    <form id="bookingForm" novalidate>
-        
-        <!-- Step 1: 选择时长 -->
+    <form id="bookingForm">
+        <!-- Step 1 -->
         <div class="step active" id="step1">
-            <h2 data-en="Choose Your Session Length" data-zh="选择陪伴时长" style="text-align:center; font-size:2.4rem;">Choose Your Session Length</h2>
-            <p data-en="One-time payment • No subscription required" data-zh="单次付费 · 无需订阅" style="text-align:center; color:var(--text-secondary);">One-time payment • No subscription required</p>
-            
-            <div class="grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px;">
-                <div class="card" onclick="selectPlan(this)" data-plan="30min">
-                    <h3 data-en="30 Minutes" data-zh="30分钟">30 Minutes</h3>
-                    <div class="price">$69</div>
-                    <p data-en="Quick ASMR or gentle chat" data-zh="快速ASMR或温柔聊天">Quick ASMR or gentle chat</p>
-                </div>
-                
-                <div class="card" onclick="selectPlan(this)" data-plan="60min" style="border-color:var(--accent);">
-                    <h3 data-en="60 Minutes" data-zh="60分钟">60 Minutes</h3>
-                    <div class="price">$119</div>
-                    <p style="color:var(--accent);"><strong data-en="Most Popular" data-zh="最受欢迎">Most Popular</strong></p>
-                    <p data-en="Full session with story + deep relaxation" data-zh="完整故事+深度放松">Full session with story + deep relaxation</p>
-                </div>
-                
-                <div class="card" onclick="selectPlan(this)" data-plan="90min">
-                    <h3 data-en="90 Minutes Premium" data-zh="90分钟高端">90 Minutes Premium</h3>
-                    <div class="price">$199</div>
-                    <p data-en="Custom story + recording + personal attention" data-zh="定制故事 + 录音 + 专属陪伴">Custom story + recording + personal attention</p>
-                </div>
+            <h2 data-en="Choose Your Session" data-zh="选择陪伴时长" style="text-align:center;font-size:2.4rem;margin-bottom:8px;">Choose Your Session</h2>
+            <p data-en="One-time payment • No subscription" data-zh="单次付费" style="text-align:center;color:#aaa;">One-time payment • No subscription</p>
+
+            <div onclick="selectPlan(this)" class="card" data-plan="30min">
+                <h3 data-en="30 Minutes" data-zh="30分钟">30 Minutes</h3>
+                <div class="price">$69</div>
             </div>
-            
-            <input type="hidden" id="planInput" name="session_plan" required>
-            <button type="button" class="btn btn-primary" onclick="nextStep(1)" data-en="Continue" data-zh="下一步">Continue</button>
+            <div onclick="selectPlan(this)" class="card selected" data-plan="60min">
+                <h3 data-en="60 Minutes" data-zh="60分钟">60 Minutes</h3>
+                <div class="price">$119</div>
+                <p style="color:var(--accent);"><strong>Most Popular</strong></p>
+            </div>
+            <div onclick="selectPlan(this)" class="card" data-plan="90min">
+                <h3 data-en="90 Minutes Premium" data-zh="90分钟高端">90 Minutes Premium</h3>
+                <div class="price">$199</div>
+            </div>
+
+            <input type="hidden" id="planInput" value="60min">
+            <button type="button" class="btn btn-primary" onclick="goToStep2()">Continue →</button>
         </div>
 
-        <!-- Step 2: 预约信息 -->
+        <!-- Step 2 -->
         <div class="step" id="step2">
-            <h2 data-en="Tell Us About Your Booking" data-zh="填写预约信息">Tell Us About Your Booking</h2>
-            
-            <div class="trust-bar">
-                🔒 Your information is private and secure • Sessions are confidential
-            </div>
+            <h2 data-en="Your Booking Details" data-zh="预约信息">Your Booking Details</h2>
             
             <input type="text" name="name" class="form-input" placeholder="Your Name" required>
             <input type="email" name="email" class="form-input" placeholder="Email Address" required>
-            <input type="tel" name="whatsapp" class="form-input" placeholder="WhatsApp Number (Recommended)" required>
-            <input type="text" name="preferred_time" class="form-input" placeholder="Preferred Time (e.g. Tonight 10PM UTC)" required>
-            
-            <textarea name="special_request" class="form-input" rows="4" placeholder="Special requests (preferred companion, story theme, accent, etc.)"></textarea>
-            
-            <button type="button" class="btn btn-primary" onclick="nextStep(2)" data-en="Confirm & Pay" data-zh="确认并支付">Confirm & Pay</button>
+            <input type="tel" name="whatsapp" class="form-input" placeholder="WhatsApp Number" required>
+            <input type="text" name="preferred_time" class="form-input" placeholder="Preferred Time (e.g. Tonight 11PM UTC)" required>
+            <textarea name="special_request" class="form-input" rows="3" placeholder="Special requests (optional)"></textarea>
+
+            <button type="button" class="btn btn-primary" onclick="submitBooking()">Confirm & Pay Now</button>
         </div>
     </form>
-
-    <!-- Success -->
-    <div class="step" id="successView" style="text-align:center;">
-        <h2 data-en="Thank You!" data-zh="预约成功！">Thank You!</h2>
-        <p data-en="Your booking request has been received. We will confirm within 2 hours." 
-           data-zh="我们已收到你的预约，将在2小时内确认时间。">Your booking request has been received. We will confirm within 2 hours.</p>
-        <a href="index.html" class="btn" style="background:transparent; border:1px solid var(--accent); color:var(--accent);">Back to Home</a>
-    </div>
 </div>
 
 <script>
-const App = {
-    currentStep: 1,
+function selectPlan(el) {
+    document.querySelectorAll('#step1 .card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('planInput').value = el.dataset.plan;
+}
+
+function goToStep2() {
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+}
+
+async function submitBooking() {
+    const plan = document.getElementById('planInput').value;
+    let price = plan === '30min' ? 69 : plan === '60min' ? 119 : 199;
+
+    // 模拟提交成功后跳转支付
+    alert("✅ Booking received! Redirecting to payment...");
     
-    init() {
-        document.getElementById('bookingForm').addEventListener('submit', e => e.preventDefault());
-        this.setupLanguage();
-    },
+    // 跳转到 PayPal（请改成你自己的 PayPal 链接）
+    window.location.href = `https://paypal.me/dpx710/${price}USD?memo=LunaWhisper_${Date.now()}`;
+}
 
-    setupLanguage() {
-        document.getElementById('langSwitch').addEventListener('click', e => {
-            if (!e.target.classList.contains('lang-btn')) return;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            
-            const lang = e.target.dataset.lang;
-            document.body.classList.toggle('zh', lang === 'zh');
-            
-            document.querySelectorAll('[data-en]').forEach(el => {
-                el.textContent = el.getAttribute(`data-${lang}`);
-            });
-        });
-    },
-
-    selectPlan(el) {
-        document.querySelectorAll('#step1 .card').forEach(c => c.style.borderColor = '');
-        el.style.borderColor = 'var(--accent)';
-        document.getElementById('planInput').value = el.dataset.plan;
-    },
-
-    nextStep(from) {
-        if (from === 1 && !document.getElementById('planInput').value) {
-            alert("请选择时长 / Please select a session length");
-            return;
-        }
-        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-        document.getElementById(`step${from + 1}`).classList.add('active');
-        this.currentStep = from + 1;
-    }
-};
-
-document.addEventListener('DOMContentLoaded', () => App.init());
+// 语言切换
+document.getElementById('langSwitch').addEventListener('click', e => {
+    if (!e.target.classList.contains('lang-btn')) return;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    
+    const lang = e.target.dataset.lang;
+    document.body.classList.toggle('zh', lang === 'zh');
+});
 </script>
 </body>
 </html>
