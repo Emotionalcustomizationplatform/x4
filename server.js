@@ -6,150 +6,161 @@ const { Resend } = require('resend');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const app = express();
 const port = process.env.PORT || 3000;
-const publicPath = path.resolve(__dirname, 'public');
+const publicPath = path.join(__dirname, 'public');
+const dataPath = path.join(__dirname, 'data');
+
+// 创建数据目录
+if (!fs.existsSync(dataPath)) fs.mkdirSync(dataPath, { recursive: true });
+
+// 简易 JSON 数据库
+const DB = {
+  users: JSON.parse(fs.readFileSync(path.join(dataPath, 'users.json'), 'utf-8') || '[]'),
+  orders: JSON.parse(fs.readFileSync(path.join(dataPath, 'orders.json'), 'utf-8') || '[]'),
+  saveUsers() { fs.writeFileSync(path.join(dataPath, 'users.json'), JSON.stringify(this.users, null, 2)); },
+  saveOrders() { fs.writeFileSync(path.join(dataPath, 'orders.json'), JSON.stringify(this.orders, null, 2)); }
+};
 
 app.set('trust proxy', 1);
 app.use(cors());
 app.use(bodyParser.json());
 
-// 检查 Resend API Key
-if (!process.env.RESEND_API_KEY) {
-    console.error("❌ 错误: 缺少 RESEND_API_KEY，邮件发送将不可用");
+// Resend 邮件服务
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const JWT_SECRET = process.env.JWT_SECRET || 'luna-secret-change-me';
+const ADMIN_KEY = process.env.ADMIN_KEY || 'admin123';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'your@email.com';
+
+async function sendEmail(to, subject, html) {
+  if (!resend) return;
+  try {
+    await resend.emails.send({ from: 'Luna Whisper <no-reply@lunawhisper.com>', to, subject, html });
+  } catch (e) { console.error('邮件失败:', e.message); }
 }
-const resend = new Resend(process.env.RESEND_API_KEY);
 
-// 日志目录
-const LOG_DIR = path.resolve(__dirname, 'logs');
-if (!fs.existsSync(LOG_DIR)) {
-    fs.mkdirSync(LOG_DIR, { recursive: true });
-}
+// ==================== 注册 ====================
+app.post('/api/register', async (req, res) => {
+  const { email, password, name } = req.body;
+  if (!email || !password) return res.status(400).json({ error: '邮箱和密码必填' });
+  if (DB.users.find(u => u.email === email)) return res.status(400).json({ error: '该邮箱已注册' });
+  const hashed = await bcrypt.hash(password, 10);
+  const user = {
+    id: crypto.randomUUID(),
+    email,
+    password: hashed,
+    name: name || email.split('@')[0],
+    balance: 0,
+    rechargeCount: 0,
+    createdAt: new Date()
+  };
+  DB.users.push(user);
+  DB.saveUsers();
+  const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+  res.json({ token, user: { name: user.name, email: user.email, balance: user.balance } });
+});
 
-// 写入每日日志
-const writeLog = async (data) => {
-    const dateStr = new Date().toISOString().split('T')[0];
-    const file = path.join(LOG_DIR, `luna_whisper_leads_${dateStr}.jsonl`);
-    const line = JSON.stringify({ ts: new Date().toISOString(), ...data }) + '\n';
-    try {
-        await fs.promises.appendFile(file, line);
-    } catch (e) {
-        console.error('日志写入失败:', e.message);
-    }
-};
+// ==================== 登录 ====================
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = DB.users.find(u => u.email === email);
+  if (!user) return res.status(400).json({ error: '账号不存在' });
+  const valid = await bcrypt.compare(password, user.password);
+  if (!valid) return res.status(400).json({ error: '密码错误' });
+  const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+  res.json({ token, user: { name: user.name, email: user.email, balance: user.balance } });
+});
 
-// ---------- 核心提交接口 ----------
+// ==================== 获取用户信息 ====================
+app.get('/api/user', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: '未登录' });
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = DB.users.find(u => u.id === decoded.userId);
+    if (!user) return res.status(401).json({ error: '用户不存在' });
+    res.json({ name: user.name, email: user.email, balance: user.balance, rechargeCount: user.rechargeCount });
+  } catch (e) { res.status(401).json({ error: '登录过期' }); }
+});
+
+// ==================== 充值（生成 PayPal 链接） ====================
+app.post('/api/recharge', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: '请先登录' });
+  let userId;
+  try { userId = jwt.verify(token, JWT_SECRET).userId; } catch (e) { return res.status(401).json({ error: '登录过期' }); }
+  const { amount } = req.body;
+  const amt = parseFloat(amount);
+  if (!amt || amt < 5) return res.status(400).json({ error: '最低充值 $5' });
+  const user = DB.users.find(u => u.id === userId);
+  if (!user) return res.status(400).json({ error: '用户不存在' });
+  const order = {
+    id: crypto.randomUUID().slice(0, 8).toUpperCase(),
+    userId,
+    email: user.email,
+    amount: amt,
+    isFirst: user.rechargeCount === 0,
+    bonus: user.rechargeCount === 0 ? amt : 0,
+    status: 'pending',
+    createdAt: new Date()
+  };
+  DB.orders.push(order);
+  DB.saveOrders();
+  const paypalLink = `https://paypal.me/dpx710/${amt}USD?memo=RECHARGE_${order.id}`;
+  res.json({ orderId: order.id, paypalLink, isFirst: order.isFirst, bonus: order.bonus, message: `充值 $${amt}，首充额外送 $${order.bonus}` });
+});
+
+// ==================== 用户通知管理员已支付 ====================
+app.post('/api/recharge/confirm/:orderId', async (req, res) => {
+  const order = DB.orders.find(o => o.id === req.params.orderId);
+  if (!order) return res.status(400).json({ error: '订单不存在' });
+  await sendEmail(
+    ADMIN_EMAIL,
+    `💰 充值待确认 - ${order.amount} USD (${order.id})`,
+    `<h2>充值待确认</h2><p>订单: ${order.id}</p><p>用户: ${order.email}</p><p>金额: $${order.amount}</p><p>首充: ${order.isFirst ? '是（赠送 $'+order.bonus+'）' : '否'}</p><p><a href="http://localhost:${port}/api/admin/confirm-recharge/${order.id}?key=${ADMIN_KEY}">点击确认到账</a></p>`
+  );
+  res.json({ success: true, message: '已通知管理员' });
+});
+
+// ==================== 管理员确认充值 ====================
+app.get('/api/admin/confirm-recharge/:orderId', (req, res) => {
+  if (req.query.key !== ADMIN_KEY) return res.status(403).send('无权操作');
+  const order = DB.orders.find(o => o.id === req.params.orderId);
+  if (!order || order.status === 'completed') return res.send('已完成或不存在');
+  const user = DB.users.find(u => u.id === order.userId);
+  if (!user) return res.send('用户不存在');
+  user.balance += order.amount;
+  if (order.isFirst && order.bonus > 0) {
+    user.balance += order.bonus;
+    user.rechargeCount = 1;
+  }
+  order.status = 'completed';
+  DB.saveUsers();
+  DB.saveOrders();
+  res.send(`✅ 充值成功！用户 ${user.email} 余额增加 $${order.amount + order.bonus}，当前余额 $${user.balance}`);
+});
+
+// ==================== 预约提交（$10 固定价格） ====================
 app.post('/api/submit', async (req, res) => {
-    try {
-        const {
-            name,
-            email,
-            whatsapp,
-            session_plan,   // 前端传 "single"
-            session_type,
-            preferred_time,
-            special_request,
-            referrer,
-            honeypot
-        } = req.body;
-
-        // 1. 反垃圾：honeypot 有值直接返回成功，不处理
-        if (honeypot) {
-            return res.json({ status: 'success' });
-        }
-
-        // 2. 必填字段验证
-        if (!name || !email || !session_type) {
-            return res.status(400).json({
-                status: 'error',
-                message: 'Missing required fields: name, email, session_type'
-            });
-        }
-
-        // 3. 价格统一 $10
-        const price = 10;
-        const planName = 'Single Session ($10)';
-
-        // 4. 生成唯一提交ID
-        const submissionId = crypto.randomUUID().slice(0, 8).toUpperCase();
-
-        // 5. 安全过滤
-        const safeText = (str) => (str || '').replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-        const cleanData = {
-            id: submissionId,
-            name: safeText(name),
-            email: safeText(email),
-            whatsapp: safeText(whatsapp),
-            plan: planName,
-            amount: price,
-            session_type: safeText(session_type || 'Not specified'),
-            preferred_time: safeText(preferred_time),
-            special_request: safeText(special_request),
-            ref: safeText(referrer),
-            ip: req.ip
-        };
-
-        // 6. 写入日志
-        await writeLog(cleanData);
-
-        // 7. 发送邮件通知
-        const subject = `🌙 New Booking - ${cleanData.name} (${planName})`;
-
-        await resend.emails.send({
-            from: 'Luna Whisper <no-reply@yourdomain.com>',  // 改成你自己验证过的域名
-            to: ['dpx204825@gmail.com'],                     // 你的接收邮箱
-            reply_to: cleanData.email,
-            subject: subject,
-            html: `
-                <h2>🌙 新预约通知</h2>
-                <p><strong>客户姓名：</strong> ${cleanData.name}</p>
-                <p><strong>邮箱：</strong> ${cleanData.email}</p>
-                <p><strong>WhatsApp：</strong> ${cleanData.whatsapp || '未提供'}</p>
-                <p><strong>预约类型：</strong> ${cleanData.plan}</p>
-                <p><strong>陪伴选择：</strong> ${cleanData.session_type}</p>
-                <p><strong>期望时间：</strong> ${cleanData.preferred_time}</p>
-                <hr>
-                <p><strong>特殊需求：</strong><br>${cleanData.special_request || '无'}</p>
-                <p><strong>推荐来源：</strong> ${cleanData.ref || '直接访问'}</p>
-                <p><strong>提交ID：</strong> ${cleanData.id}</p>
-                <p style="margin-top:25px; color:#888;">请及时与客户确认时间安排。</p>
-            `
-        });
-
-        // 8. 返回 PayPal 支付链接
-        const redirectUrl = `https://paypal.me/dpx710/${price}USD?memo=LW_${submissionId}`;
-
-        return res.status(201).json({
-            status: 'success',
-            submission_id: submissionId,
-            redirect_url: redirectUrl
-        });
-
-    } catch (err) {
-        console.error('服务器内部错误:', err);
-        return res.status(500).json({
-            status: 'error',
-            message: 'Internal server error'
-        });
-    }
+  const { name, email, session_type, preferred_time, special_request, referrer, honeypot } = req.body;
+  if (honeypot) return res.json({ status: 'success' });
+  if (!name || !email || !session_type) return res.status(400).json({ error: '缺少必填项' });
+  const submissionId = crypto.randomUUID().slice(0, 8).toUpperCase();
+  const logEntry = {
+    id: submissionId, name, email, amount: 10, session_type, preferred_time, special_request, ref: referrer, ip: req.ip, ts: new Date()
+  };
+  const logDir = path.join(__dirname, 'logs');
+  if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
+  fs.appendFileSync(path.join(logDir, `leads_${new Date().toISOString().split('T')[0]}.jsonl`), JSON.stringify(logEntry) + '\n');
+  await sendEmail(ADMIN_EMAIL, `🌙 新预约 - ${name}`, `<h2>新预约</h2><p>姓名: ${name}</p><p>邮箱: ${email}</p><p>类型: ${session_type}</p><p>时间: ${preferred_time}</p>`);
+  res.json({ status: 'success', submission_id: submissionId, redirect_url: `https://paypal.me/dpx710/10USD?memo=LW_${submissionId}` });
 });
 
-// 静态文件服务（前端页面）
+// 静态文件 & SPA 回退
 app.use(express.static(publicPath));
+app.get('*', (req, res) => res.sendFile(path.join(publicPath, 'index.html')));
 
-// SPA 回退到 index.html
-app.get('*', (req, res) => {
-    const indexPath = path.join(publicPath, 'index.html');
-    if (fs.existsSync(indexPath)) {
-        res.sendFile(indexPath);
-    } else {
-        res.status(404).send('Page not found');
-    }
-});
-
-// 启动服务器
-app.listen(port, '0.0.0.0', () => {
-    console.log(`🌙 Luna Whisper 服务器运行在端口 ${port}`);
-});
+app.listen(port, '0.0.0.0', () => console.log(`🌙 Luna Whisper 已启动：http://localhost:${port}`));
