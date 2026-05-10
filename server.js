@@ -44,36 +44,45 @@ app.post('/api/submit', async (req, res) => {
         const planName = session_plan === '30min' ? '30 Minutes' :
                         session_plan === '60min' ? '60 Minutes' : '90 Minutes Premium';
 
-        // ✅ 重要修改：发件人使用 Resend 测试域，避免 403
-        const emailResult = await resend.emails.send({
-            from: 'Luna Whisper <noreply@resend.dev>',
-            to: ['dpx204825@gmail.com'],
-            reply_to: email,
-            subject: `🌙 新预约 - ${name} - ${planName}`,
-            html: `
-                <h2>🌙 新预约通知</h2>
-                <p><strong>姓名：</strong> ${name}</p>
-                <p><strong>邮箱：</strong> ${email}</p>
-                <p><strong>WhatsApp：</strong> ${whatsapp || '未提供'}</p>
-                <p><strong>时长：</strong> ${planName} ($${price})</p>
-                <p><strong>期望时间：</strong> ${preferred_time || '未指定'}</p>
-                <p><strong>特殊要求：</strong> ${special_request || '无'}</p>
-                <hr>
-                <p>请尽快联系客户确认时间。</p>
-            `
+        // 发送邮件（可能失败，但不影响付款流程）
+        let emailResult;
+        try {
+            emailResult = await resend.emails.send({
+                from: 'Luna Whisper <noreply@resend.dev>',
+                to: ['dpx204825@gmail.com'],
+                reply_to: email,
+                subject: `🌙 新预约 - ${name} - ${planName}`,
+                html: `
+                    <h2>🌙 新预约通知</h2>
+                    <p><strong>姓名：</strong> ${name}</p>
+                    <p><strong>邮箱：</strong> ${email}</p>
+                    <p><strong>WhatsApp：</strong> ${whatsapp || '未提供'}</p>
+                    <p><strong>时长：</strong> ${planName} ($${price})</p>
+                    <p><strong>期望时间：</strong> ${preferred_time || '未指定'}</p>
+                    <p><strong>特殊要求：</strong> ${special_request || '无'}</p>
+                    <hr />
+                    <p>请尽快联系客户确认时间。</p>
+                `
+            });
+            console.log('📧 Resend API 返回:', JSON.stringify(emailResult, null, 2));
+            if (!emailResult || !emailResult.id) {
+                console.warn('⚠️ 邮件可能未成功发送，但继续返回支付链接');
+            }
+        } catch (emailErr) {
+            console.error('❌ 邮件发送异常:', emailErr);
+            // 不中断业务
+        }
+
+        // 生成带备注的 PayPal 链接，方便对账
+        const memo = `LunaWhisper_${encodeURIComponent(name)}_${Date.now()}`;
+        const payLink = `https://www.paypal.com/paypalme/dpx710/${price}?memo=${memo}`;
+
+        // 无论邮件是否成功，都返回支付链接
+        res.json({
+            status: 'success',
+            redirect_url: payLink
         });
 
-        console.log('📧 Resend API 返回:', JSON.stringify(emailResult, null, 2));
-
-        if (emailResult && emailResult.id) {
-            res.json({
-                status: 'success',
-                redirect_url: `https://paypal.me/dpx710/${price}USD`
-            });
-        } else {
-            console.error('⚠️ Resend 返回异常，缺少 id');
-            res.status(500).json({ status: 'error', message: '邮件服务异常，请稍后再试' });
-        }
     } catch (err) {
         console.error("❌ 错误:", err);
         res.status(500).json({ status: 'error', message: err.message });
