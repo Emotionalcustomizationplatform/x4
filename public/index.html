@@ -3,247 +3,178 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Luna Whisper - 真人ASMR睡眠陪伴，每晚温柔的声音陪你入眠">
   <title>Luna Whisper · 真人ASMR睡眠陪伴</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg: #0a0a1f; --card: rgba(255,255,255,0.06); --border: rgba(180,180,255,0.15); --accent: #c8b6ff; --text: #ffffff; --text-secondary: #b0b0cc; }
+    :root {
+      --bg: #0a0a1f;
+      --card: rgba(255,255,255,0.06);
+      --border: rgba(180,180,255,0.15);
+      --accent: #c8b6ff;
+      --text: #ffffff;
+      --text-secondary: #b0b0cc;
+    }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter','Noto Sans SC',sans-serif; overflow-x: hidden; }
-    body.zh { font-family: 'Noto Sans SC','Inter',sans-serif; }
-    .ambient-bg { position:fixed; inset:0; z-index:-1; background:radial-gradient(circle at 50% 20%, #1a1a3a 0%, #0a0a1f 70%); }
-    .ambient-bg::after { content:''; position:absolute; inset:0; box-shadow:10vw 20vh 2px rgba(200,182,255,0.6); animation:twinkle 8s infinite alternate; }
-    @keyframes twinkle { 0%{opacity:0.3;} 100%{opacity:0.8;} }
-    .container { max-width:1200px; margin:0 auto; padding:0 24px; }
-    .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; padding:20px 0; transition:0.3s; }
-    .navbar.scrolled { background:rgba(10,10,31,0.95); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); padding:12px 0; }
-    .nav-content { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
-    .logo { font-size:1.5rem; font-weight:700; text-decoration:none; color:var(--text); } .logo span { color:var(--accent); }
-    .nav-right { display:flex; align-items:center; gap:12px; }
-    .btn-outline { background:transparent; border:1px solid var(--border); color:var(--text); padding:10px 20px; border-radius:50px; font-size:0.9rem; cursor:pointer; transition:0.3s; }
-    .btn-outline:hover { background:rgba(255,255,255,0.1); border-color:var(--accent); }
-    .btn-hero { background:var(--accent); color:#0a0a1f; padding:14px 36px; border-radius:50px; font-weight:700; text-decoration:none; display:inline-block; box-shadow:0 0 30px rgba(200,182,255,0.3); }
-    .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:100px 20px 60px; }
-    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.5rem, 6vw, 4.5rem); margin-bottom:20px; }
-    .hero p { font-size:1.2rem; color:var(--text-secondary); max-width:600px; margin-bottom:40px; }
-    .trust-bar { display:flex; justify-content:center; gap:30px; margin:40px 0; padding:20px; background:var(--card); border-radius:16px; border:1px solid var(--border); flex-wrap:wrap; }
-    .trust-item { text-align:center; } .trust-number { font-size:1.8rem; font-weight:700; color:var(--accent); }
-    .section { padding:80px 0; border-top:1px solid var(--border); }
-    .section-header { text-align:center; margin-bottom:50px; }
-    .section-header h2 { font-family:'Playfair Display',serif; font-size:2.2rem; }
-    .grid { display:grid; gap:24px; }
-    .grid-3 { grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); }
-    .companion-card { background:var(--card); border:1px solid var(--border); border-radius:20px; overflow:hidden; transition:0.3s; }
-    .companion-card:hover { transform:translateY(-5px); border-color:var(--accent); }
-    .companion-img { width:100%; height:280px; object-fit:cover; }
-    .companion-info { padding:20px; text-align:center; }
-    .companion-info audio { width:100%; margin-top:12px; border-radius:8px; background:rgba(255,255,255,0.05); }
-    .testimonial-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:25px; }
-    .plan-card { background:var(--card); border:1px solid var(--accent); border-radius:20px; padding:40px; text-align:center; max-width:400px; margin:0 auto; }
-    .plan-price { font-size:3rem; color:var(--accent); font-weight:700; }
-    footer { text-align:center; padding:50px 20px; border-top:1px solid var(--border); color:var(--text-secondary); }
-    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); z-index:2000; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:0.3s; }
-    .modal-overlay.active { opacity:1; pointer-events:auto; }
-    .modal { background:#111127; border:1px solid var(--border); border-radius:20px; padding:40px 30px; width:90%; max-width:420px; position:relative; }
-    .modal-close { position:absolute; top:12px; right:16px; background:none; border:none; color:var(--text-secondary); font-size:1.5rem; cursor:pointer; }
-    .modal-input { width:100%; padding:14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:#fff; border-radius:10px; margin-bottom:12px; }
-    .modal-btn { width:100%; padding:14px; background:var(--accent); color:#000; border:none; border-radius:50px; font-weight:600; cursor:pointer; margin-top:8px; }
-    .whatsapp-float { position:fixed; bottom:30px; right:30px; width:55px; height:55px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff; text-decoration:none; box-shadow:0 8px 25px rgba(0,0,0,0.4); }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Noto Sans SC', sans-serif;
+      line-height: 1.6;
+    }
+    .ambient-bg {
+      position: fixed; inset: 0; z-index: -1;
+      background: radial-gradient(circle at 50% 20%, #1a1a3a 0%, #0a0a1f 70%);
+    }
+    .ambient-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 40%, rgba(200,182,255,0.18) 0%, transparent 60%);
+      animation: twinkle 15s infinite alternate ease-in-out;
+    }
+    @keyframes twinkle { 0% { opacity: 0.35; } 100% { opacity: 0.9; } }
+
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; transition: 0.4s; }
+    .navbar.scrolled { background: rgba(10,10,31,0.95); backdrop-filter: blur(16px); padding: 14px 0; border-bottom: 1px solid var(--border); }
+
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 20px 80px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 8vw, 5rem); line-height: 1.1; margin-bottom: 24px; }
+    .hero p { font-size: 1.25rem; color: var(--text-secondary); max-width: 680px; margin-bottom: 48px; }
+
+    .trust-bar {
+      display: flex; justify-content: center; gap: 40px; margin: 40px 0; padding: 24px 40px;
+      background: var(--card); border-radius: 20px; border: 1px solid var(--border); flex-wrap: wrap;
+    }
+    .trust-number { font-size: 2rem; font-weight: 700; color: var(--accent); }
+
+    .section { padding: 100px 0; border-top: 1px solid var(--border); }
+    .section-header { text-align: center; margin-bottom: 60px; }
+    .section-header h2 { font-family: 'Playfair Display', serif; font-size: 2.6rem; margin-bottom: 16px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+    .companion-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    .companion-card:hover {
+      transform: translateY(-12px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(200,182,255,0.15);
+    }
+    .companion-img { width: 100%; height: 340px; object-fit: cover; }
+    .companion-info { padding: 24px; text-align: center; }
+    .companion-info audio { width: 100%; margin-top: 16px; border-radius: 12px; }
   </style>
 </head>
 <body class="zh">
 <div class="ambient-bg"></div>
+
 <nav class="navbar" id="navbar">
-  <div class="container nav-content">
+  <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
     <a href="/" class="logo">Luna <span>Whisper</span></a>
-    <div class="nav-right">
-      <button class="btn-outline" id="showAuth">我的账户</button>
-      <button class="btn-outline" id="rechargeBtn" style="display:none;">💰 充值</button>
+    <div>
+      <button class="btn-outline" id="showAuth" style="margin-right:12px;">我的账户</button>
       <a href="form.html" class="btn-hero">立即预约</a>
     </div>
   </div>
 </nav>
 
 <section class="hero container">
-  <h1>让温柔的声音<br>带你进入深眠</h1>
-  <p>真人ASMR耳语 · 个性化睡前故事 · 每晚温暖的情感陪伴</p>
+  <h1>今晚，让温柔的声音<br>抱你入睡</h1>
+  <p>真人ASMR耳语 · 专属睡前故事 · 中外陪伴师为你说晚安</p>
+  
   <div class="trust-bar">
-    <div class="trust-item"><div class="trust-number">2300+</div><div>宁静夜晚</div></div>
-    <div class="trust-item"><div class="trust-number">100%</div><div>私密保密</div></div>
-    <div class="trust-item"><div class="trust-number">✨</div><div>真人声音</div></div>
+    <div class="trust-item"><div class="trust-number">2800+</div><div>陪伴夜晚</div></div>
+    <div class="trust-item"><div class="trust-number">100%</div><div>私密保护</div></div>
+    <div class="trust-item"><div class="trust-number">❤️</div><div>真人真声</div></div>
   </div>
-  <a href="form.html" class="btn-hero">今晚预约你的陪伴师</a>
+
+  <a href="form.html" class="btn-hero" style="font-size:1.15rem;">今晚就预约陪伴师 →</a>
 </section>
 
 <section class="section container" id="companions">
-  <div class="section-header"><h2>认识你的睡眠陪伴师</h2></div>
-  <div class="grid grid-3">
-    <!-- Isla -->
+  <div class="section-header">
+    <h2>我们的陪伴师</h2>
+    <p style="color:var(--text-secondary); max-width:620px; margin:0 auto;">中外陪伴师团队，满足不同口味与情感需求</p>
+  </div>
+  
+  <div class="grid">
+    <!-- 中国陪伴师 -->
     <div class="companion-card">
-      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=500" class="companion-img" alt="Isla">
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=700&fit=crop" class="companion-img" alt="林晓柔">
+      <div class="companion-info">
+        <h3>林晓柔</h3>
+        <p>中国 · 温柔治愈系</p>
+        <audio controls preload="none">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+    </div>
+
+    <div class="companion-card">
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=700&fit=crop" class="companion-img" alt="张晚宁">
+      <div class="companion-info">
+        <h3>张晚宁</h3>
+        <p>中国 · 低沉安心声</p>
+        <audio controls preload="none">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+    </div>
+
+    <!-- 其他陪伴师 -->
+    <div class="companion-card">
+      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&h=700&fit=crop" class="companion-img" alt="Isla">
       <div class="companion-info">
         <h3>Isla Montgomery</h3>
-        <p>温暖耳语师 · 英国</p>
-        <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"></audio>
+        <p>英国 · 英式温柔耳语</p>
+        <audio controls preload="none">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg">
+        </audio>
       </div>
     </div>
-    <!-- Ethan -->
+
     <div class="companion-card">
-      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500" class="companion-img" alt="Ethan">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop" class="companion-img" alt="Ethan">
       <div class="companion-info">
         <h3>Ethan Brooks</h3>
-        <p>沉稳低音 · 美国</p>
-        <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg"></audio>
+        <p>美国 · 沉稳大叔音</p>
+        <audio controls preload="none">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" type="audio/mpeg">
+        </audio>
       </div>
     </div>
-    <!-- Amélie -->
+
     <div class="companion-card">
-      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500" class="companion-img" alt="Amélie">
+      <img src="https://images.unsplash.com/photo-1580489944761-09be1ec59862?w=600&h=700&fit=crop" class="companion-img" alt="Amélie">
       <div class="companion-info">
         <h3>Amélie Moreau</h3>
-        <p>优雅梦幻 · 法国</p>
-        <audio controls preload="none"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" type="audio/mpeg"></audio>
+        <p>法国 · 浪漫梦幻语调</p>
+        <audio controls preload="none">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" type="audio/mpeg">
+        </audio>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section container">
-  <div class="section-header"><h2>客户反馈</h2></div>
-  <div class="grid grid-3" id="testimonials"></div>
-</section>
+<footer style="text-align:center; padding:60px 20px; color:var(--text-secondary); border-top:1px solid var(--border);">
+  © 2025 Luna Whisper · 非医疗放松陪伴服务 · 所有对话严格保密
+</footer>
 
-<section class="section container">
-  <div class="section-header"><h2>简单定价</h2></div>
-  <div class="plan-card">
-    <h3>单次陪伴</h3>
-    <div class="plan-price">$10</div>
-    <p>≈ ¥70 · 30-45分钟</p>
-    <a href="form.html" class="btn-hero" style="margin-top:20px;">立即预约</a>
-  </div>
-</section>
+<a href="https://wa.me/13045967785" class="whatsapp-float" target="_blank" style="position:fixed; bottom:30px; right:30px; width:62px; height:62px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; color:white; box-shadow:0 8px 25px rgba(0,0,0,0.4); z-index:999;">💬</a>
 
-<footer>© 2024 Luna Whisper · 非医疗放松陪伴服务</footer>
-<a href="https://wa.me/13045967785" class="whatsapp-float" target="_blank">💬</a>
-
-<!-- 登录 Modal -->
-<div class="modal-overlay" id="authModal">
-  <div class="modal">
-    <button class="modal-close" id="closeAuth">&times;</button>
-    <h3 id="modalTitle">登录</h3>
-    <form id="authForm">
-      <input type="email" class="modal-input" id="authEmail" placeholder="邮箱" required>
-      <input type="password" class="modal-input" id="authPassword" placeholder="密码" required>
-      <div id="nameField" style="display:none;"><input type="text" class="modal-input" id="authName" placeholder="姓名"></div>
-      <button type="submit" class="modal-btn" id="submitBtn">登录</button>
-    </form>
-    <p style="text-align:center; margin-top:15px; color:var(--text-secondary);">
-      <span id="toggleText">还没有账号？</span> <span id="toggleBtn" style="color:var(--accent); cursor:pointer;">立即注册</span>
-    </p>
-  </div>
-</div>
-
-<!-- 充值 Modal -->
-<div class="modal-overlay" id="rechargeModal">
-  <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('rechargeModal').classList.remove('active')">&times;</button>
-    <h3>账户充值</h3>
-    <p id="rechargeHint" style="color:var(--accent); margin-bottom:15px;">🎉 首充双倍！充多少送多少</p>
-    <input type="number" id="rechargeAmount" class="modal-input" placeholder="金额 (USD)" min="5" value="10">
-    <button class="modal-btn" id="genRechargeLink">生成支付链接</button>
-    <div id="rechargeResult" style="margin-top:15px; display:none;">
-      <p>支付链接：<a id="paypalLink" href="#" target="_blank" style="color:var(--accent);"></a></p>
-      <button class="modal-btn" id="confirmPaymentBtn">我已支付，通知管理员</button>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-let currentToken = localStorage.getItem('luna_token');
-let currentUser = null;
-const authBtn = document.getElementById('showAuth');
-const rechargeBtn = document.getElementById('rechargeBtn');
-const authModal = document.getElementById('authModal');
-const authForm = document.getElementById('authForm');
-let isLoginMode = true;
-
-(async function init() {
-  if (currentToken) {
-    try {
-      const res = await axios.get('/api/user', { headers: { Authorization: 'Bearer '+currentToken } });
-      currentUser = res.data;
-      updateUIAfterLogin();
-    } catch(e) {
-      localStorage.removeItem('luna_token');
-      currentToken = null;
-    }
-  }
-  document.getElementById('testimonials').innerHTML = ['Rachel Kim','David Chen','Emily Watson'].map(name =>
-    `<div class="testimonial-card"><p>"Luna Whisper 改变了我的睡眠。"</p><strong>— ${name}</strong></div>`
-  ).join('');
-})();
-
-function updateUIAfterLogin() {
-  authBtn.textContent = '👤 ' + currentUser.name;
-  rechargeBtn.style.display = 'inline-block';
-}
-
-authBtn.addEventListener('click', () => {
-  if (currentUser) return;
-  authModal.classList.add('active');
-  document.getElementById('nameField').style.display = isLoginMode ? 'none' : 'block';
-  document.getElementById('modalTitle').textContent = isLoginMode ? '登录' : '注册';
-  document.getElementById('submitBtn').textContent = isLoginMode ? '登录' : '注册';
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
 });
-document.getElementById('closeAuth').addEventListener('click', () => authModal.classList.remove('active'));
-document.getElementById('toggleBtn').addEventListener('click', () => {
-  isLoginMode = !isLoginMode;
-  document.getElementById('nameField').style.display = isLoginMode ? 'none' : 'block';
-  document.getElementById('modalTitle').textContent = isLoginMode ? '登录' : '注册';
-  document.getElementById('submitBtn').textContent = isLoginMode ? '登录' : '注册';
-  document.getElementById('toggleBtn').textContent = isLoginMode ? '立即注册' : '返回登录';
-});
-
-authForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('authEmail').value;
-  const password = document.getElementById('authPassword').value;
-  const name = document.getElementById('authName')?.value;
-  const endpoint = isLoginMode ? '/api/login' : '/api/register';
-  try {
-    const res = await axios.post(endpoint, { email, password, name });
-    currentToken = res.data.token;
-    currentUser = res.data.user;
-    localStorage.setItem('luna_token', currentToken);
-    updateUIAfterLogin();
-    authModal.classList.remove('active');
-  } catch(err) {
-    alert(err.response?.data?.error || '操作失败');
-  }
-});
-
-rechargeBtn.addEventListener('click', () => {
-  document.getElementById('rechargeModal').classList.add('active');
-  document.getElementById('rechargeHint').textContent = currentUser && currentUser.rechargeCount === 0 ? '🎉 首充双倍！充多少送多少' : '充值金额：';
-});
-document.getElementById('genRechargeLink').addEventListener('click', async () => {
-  const amount = document.getElementById('rechargeAmount').value;
-  if (!currentToken) return alert('请先登录');
-  try {
-    const res = await axios.post('/api/recharge', { amount }, { headers: { Authorization: 'Bearer '+currentToken } });
-    document.getElementById('paypalLink').href = res.data.paypalLink;
-    document.getElementById('paypalLink').textContent = `支付 $${amount} (点击打开)`;
-    document.getElementById('rechargeResult').style.display = 'block';
-    document.getElementById('confirmPaymentBtn').onclick = async () => {
-      await axios.post('/api/recharge/confirm/'+res.data.orderId);
-      alert('已通知管理员，稍后到账');
-    };
-  } catch(err) {
-    alert(err.response?.data?.error || '错误');
-  }
-});
-
-window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80));
 </script>
 </body>
 </html>
