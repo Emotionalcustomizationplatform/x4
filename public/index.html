@@ -315,162 +315,165 @@
     <footer>
         <p data-i18n="footer_text">© 2026 Luna Whisper · For relaxation and entertainment purposes only · 18+ · Private & Confidential</p>
     </footer>
-
     <script>
-        // ==================== 语言系统 ====================
-        const translations = {
-            en: {
-                nav_companions: "Companions",
-                nav_pricing: "Pricing",
-                nav_faq: "FAQ",
-                nav_cta: "Reserve Now",
-                hero_title: "Let a Gentle Real Voice<br>Guide You to Sleep",
-                hero_sub: "Real human whispers, bedtime stories, emotional comfort & ASMR.<br>真人ASMR耳语 · 个性化睡前故事 · 温暖情感陪伴",
-                hero_btn: "🌙 Reserve Tonight's Session",
-                feat1: "100% Real Human",
-                feat2: "Private & Secure",
-                feat3: "ASMR Optimized",
-                companions_title: "Meet Your Real Companions",
-                companions_sub: "Every voice is a warm hug for your night.",
-                elena_tag: "🎀 Gentle British Whisperer · 英式温柔低语",
-                elena_desc: "Soft, magnetic British accent, light as night feathers, guiding you into sleep.",
-                marcus_tag: "💛 Warm American Storyteller · 温暖美式讲述者",
-                marcus_desc: "A comforting deep voice that reads bedtime stories like a caring friend.",
-                pricing_title: "Choose Your Session",
-                pricing_sub: "One‑time payment. No subscriptions.",
-                plan1_desc: "Gentle whispers & emotional comfort",
-                plan2_desc: "Personalized bedtime stories & deep companionship",
-                plan3_desc: "Premium deep relaxation experience",
-                popular_badge: "Most Popular",
-                sticky_text: "Ready for a peaceful night?",
-                sticky_btn: "Book Your Session",
-                footer_text: "© 2026 Luna Whisper · For relaxation and entertainment purposes only · 18+ · Private & Confidential"
-            },
-            zh: {
-                nav_companions: "陪伴者",
-                nav_pricing: "方案",
-                nav_faq: "常见问题",
-                nav_cta: "立即预约",
-                hero_title: "让温柔的真实声音<br>带你入眠",
-                hero_sub: "真人ASMR耳语 · 个性化睡前故事 · 温暖情感陪伴<br>Real human whispers, bedtime stories, emotional comfort.",
-                hero_btn: "🌙 预约今晚的陪伴",
-                feat1: "100% 真人",
-                feat2: "私密安全",
-                feat3: "ASMR 优化",
-                companions_title: "遇见你的专属陪伴者",
-                companions_sub: "每一种声音，都是夜晚的温柔拥抱。",
-                elena_tag: "🎀 英式温柔低语者",
-                elena_desc: "柔软磁性的英国口音，像夜晚的羽毛一样轻柔，带你慢慢放松入睡。",
-                marcus_tag: "💛 温暖美式讲述者",
-                marcus_desc: "深沉温暖的声音，像知心朋友一样为你朗读睡前故事。",
-                pricing_title: "选择陪伴时长",
-                pricing_sub: "单次付费 · 无订阅",
-                plan1_desc: "轻柔耳语 + 情绪安抚",
-                plan2_desc: "个性化睡前陪伴 + 深度连接",
-                plan3_desc: "高级定制放松体验",
-                popular_badge: "最受欢迎",
-                sticky_text: "准备享受宁静之夜？",
-                sticky_btn: "立即预约",
-                footer_text: "© 2026 Luna Whisper · 仅用于放松和娱乐 · 18+ · 私密且保密"
-            }
-        };
-
-        let currentLang = 'en';
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            // 更新所有带有 data-i18n 属性的元素
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang] && translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
-                }
-            });
-            // 更新语言按钮状态
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.lang === lang) {
-                    btn.classList.add('active');
-                }
-            });
-            localStorage.setItem('luna_lang', lang);
+    // ==================== 语言系统 ====================
+    const translations = {
+        en: {
+            nav_companions: "Companions",
+            nav_pricing: "Pricing",
+            nav_faq: "FAQ",
+            nav_cta: "Reserve Now",
+            hero_title: "Let a Gentle Real Voice<br>Guide You to Sleep",
+            hero_sub: "Real human whispers, bedtime stories, emotional comfort & ASMR.<br>真人ASMR耳语 · 个性化睡前故事 · 温暖情感陪伴",
+            hero_btn: "🌙 Reserve Tonight's Session",
+            feat1: "100% Real Human",
+            feat2: "Private & Secure",
+            feat3: "ASMR Optimized",
+            companions_title: "Meet Your Real Companions",
+            companions_sub: "Every voice is a warm hug for your night.",
+            elena_tag: "🎀 Gentle British Whisperer · 英式温柔低语",
+            elena_desc: "Soft, magnetic British accent, light as night feathers, guiding you into sleep.",
+            marcus_tag: "💛 Warm American Storyteller · 温暖美式讲述者",
+            marcus_desc: "A comforting deep voice that reads bedtime stories like a caring friend.",
+            pricing_title: "Choose Your Session",
+            pricing_sub: "One‑time payment. No subscriptions.",
+            plan1_desc: "Gentle whispers & emotional comfort",
+            plan2_desc: "Personalized bedtime stories & deep companionship",
+            plan3_desc: "Premium deep relaxation experience",
+            popular_badge: "Most Popular",
+            sticky_text: "Ready for a peaceful night?",
+            sticky_btn: "Book Your Session",
+            footer_text: "© 2026 Luna Whisper · For relaxation and entertainment purposes only · 18+ · Private & Confidential"
+        },
+        zh: {
+            nav_companions: "陪伴者",
+            nav_pricing: "方案",
+            nav_faq: "常见问题",
+            nav_cta: "立即预约",
+            hero_title: "让温柔的真实声音<br>带你入眠",
+            hero_sub: "真人ASMR耳语 · 个性化睡前故事 · 温暖情感陪伴<br>Real human whispers, bedtime stories, emotional comfort.",
+            hero_btn: "🌙 预约今晚的陪伴",
+            feat1: "100% 真人",
+            feat2: "私密安全",
+            feat3: "ASMR 优化",
+            companions_title: "遇见你的专属陪伴者",
+            companions_sub: "每一种声音，都是夜晚的温柔拥抱。",
+            elena_tag: "🎀 英式温柔低语者",
+            elena_desc: "柔软磁性的英国口音，像夜晚的羽毛一样轻柔，带你慢慢放松入睡。",
+            marcus_tag: "💛 温暖美式讲述者",
+            marcus_desc: "深沉温暖的声音，像知心朋友一样为你朗读睡前故事。",
+            pricing_title: "选择陪伴时长",
+            pricing_sub: "单次付费 · 无订阅",
+            plan1_desc: "轻柔耳语 + 情绪安抚",
+            plan2_desc: "个性化睡前陪伴 + 深度连接",
+            plan3_desc: "高级定制放松体验",
+            popular_badge: "最受欢迎",
+            sticky_text: "准备享受宁静之夜？",
+            sticky_btn: "立即预约",
+            footer_text: "© 2026 Luna Whisper · 仅用于放松和娱乐 · 18+ · 私密且保密"
         }
+    };
 
-        // 语言切换事件监听
-        document.getElementById('langSwitch').addEventListener('click', function(e) {
-            const langBtn = e.target.closest('.lang-btn');
-            if (langBtn) {
-                const lang = langBtn.dataset.lang;
-                setLanguage(lang);
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
             }
         });
-
-        // 初始化语言
-        const savedLang = localStorage.getItem('luna_lang');
-        // 如果浏览器语言是中文，默认中文
-        const defaultLang = savedLang || (navigator.language.startsWith('zh') ? 'zh' : 'en');
-        setLanguage(defaultLang);
-
-        // ==================== 星空背景（轻量） ====================
-        (function() {
-            const hero = document.querySelector('.hero');
-            const canvas = document.createElement('canvas');
-            canvas.style.position = 'absolute';
-            canvas.style.top = '0';
-            canvas.style.left = '0';
-            canvas.style.width = '100%';
-            canvas.style.height = '100%';
-            canvas.style.pointerEvents = 'none';
-            canvas.style.zIndex = '1';
-            hero.appendChild(canvas);
-            const ctx = canvas.getContext('2d');
-            let stars = [];
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+        // 更新按钮状态
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            if (btn.dataset.lang === lang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
             }
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                initStars();
-            });
+        });
+        localStorage.setItem('luna_lang', lang);
+    }
 
-            function initStars() {
-                const count = Math.floor((canvas.width * canvas.height) / 2000);
-                stars = [];
-                for (let i = 0; i < count; i++) {
-                    stars.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        r: Math.random() * 2,
-                        alpha: Math.random(),
-                        delta: Math.random() * 0.008 + 0.002
-                    });
-                }
+    // 直接给两个按钮绑定事件，不使用 closest
+    document.getElementById('langSwitch').addEventListener('click', function(e) {
+        if (e.target.classList.contains('lang-btn')) {
+            const lang = e.target.dataset.lang;
+            setLanguage(lang);
+        }
+    });
+
+    // 初始语言
+    const savedLang = localStorage.getItem('luna_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+    setLanguage(savedLang);
+
+    // ==================== 图片加载回退 ====================
+    window.addEventListener('load', function() {
+        document.querySelectorAll('img.companion-img').forEach(img => {
+            if (img.naturalWidth === 0 && img.naturalHeight === 0) {
+                img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="260"><rect fill="%231e1e3a" width="400" height="260"/><text fill="%23c8b6ff" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="18">' + img.alt.split(' -')[0] + '</text></svg>';
             }
+        });
+    });
 
-            function drawStars() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                stars.forEach(s => {
-                    s.alpha += s.delta;
-                    if (s.alpha >= 1 || s.alpha <= 0.2) s.delta = -s.delta;
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
-                    ctx.fill();
-                });
-                requestAnimationFrame(drawStars);
-            }
+    // ==================== 星空背景 ====================
+    (function() {
+        const hero = document.querySelector('.hero');
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        hero.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        let stars = [];
 
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', () => {
             resizeCanvas();
             initStars();
-            drawStars();
-        })();
-
-        // Navbar 滚动效果
-        window.addEventListener('scroll', () => {
-            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
         });
-    </script>
-</body>
-</html>
+
+        function initStars() {
+            const count = Math.floor((canvas.width * canvas.height) / 2000);
+            stars = [];
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 2,
+                    alpha: Math.random(),
+                    delta: Math.random() * 0.008 + 0.002
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                s.alpha += s.delta;
+                if (s.alpha >= 1 || s.alpha <= 0.2) s.delta = -s.delta;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(drawStars);
+        }
+
+        resizeCanvas();
+        initStars();
+        drawStars();
+    })();
+
+    // Navbar 滚动效果
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+    });
+</script>
