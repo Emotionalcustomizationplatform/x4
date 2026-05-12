@@ -1,100 +1,475 @@
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const bodyParser = require('body-parser');
 const { Resend } = require('resend');
 const fs = require('fs');
 const path = require('path');
 
 const app = express();
+
 const port = process.env.PORT || 3000;
-const publicPath = path.resolve(__dirname, 'public');
+
+const publicPath =
+path.resolve(__dirname, 'public');
+
+
+
+// =============================
+// Security
+// =============================
+
+app.use(helmet());
 
 app.use(cors());
-app.use(bodyParser.json());
 
-// ---------- 1. 检查必要的环境变量 ----------
-if (!process.env.RESEND_API_KEY) {
-    console.error('❌ 致命错误：环境变量 RESEND_API_KEY 未设置！');
-    process.exit(1);
-}
-const resend = new Resend(process.env.RESEND_API_KEY);
-console.log('✅ Resend 客户端初始化成功');
+app.use(bodyParser.json({
+    limit:'1mb'
+}));
 
-const LOG_DIR = path.resolve(__dirname, 'logs');
-if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 
-// ---------- 2. 请求日志中间件 ----------
-app.use((req, res, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-    next();
+
+// =============================
+// Rate Limit
+// =============================
+
+const limiter = rateLimit({
+
+    windowMs: 15 * 60 * 1000,
+
+    max: 20,
+
+    message:{
+        status:'error',
+        message:'Too many requests'
+    }
+
 });
 
-// ---------- 3. 核心预约接口 ----------
-app.post('/api/submit', async (req, res) => {
-    try {
-        const { name, email, whatsapp, session_plan, preferred_time, special_request } = req.body;
+app.use('/api/', limiter);
 
-        if (!name || !email) {
-            return res.status(400).json({ status: 'error', message: 'Missing name or email' });
-        }
 
-        // 价格映射
-        let price = session_plan === '30min' ? 69 : session_plan === '60min' ? 119 : 199;
-        const planName = session_plan === '30min' ? '30 Minutes' :
-                        session_plan === '60min' ? '60 Minutes' : '90 Minutes Premium';
 
-        // 发送邮件（可能失败，但不影响付款流程）
-        let emailResult;
-        try {
-            emailResult = await resend.emails.send({
-                from: 'Luna Whisper <noreply@resend.dev>',
-                to: ['dpx204825@gmail.com'],
-                reply_to: email,
-                subject: `🌙 新预约 - ${name} - ${planName}`,
-                html: `
-                    <h2>🌙 新预约通知</h2>
-                    <p><strong>姓名：</strong> ${name}</p>
-                    <p><strong>邮箱：</strong> ${email}</p>
-                    <p><strong>WhatsApp：</strong> ${whatsapp || '未提供'}</p>
-                    <p><strong>时长：</strong> ${planName} ($${price})</p>
-                    <p><strong>期望时间：</strong> ${preferred_time || '未指定'}</p>
-                    <p><strong>特殊要求：</strong> ${special_request || '无'}</p>
-                    <hr />
-                    <p>请尽快联系客户确认时间。</p>
-                `
+// =============================
+// Environment Check
+// =============================
+
+if(!process.env.RESEND_API_KEY){
+
+    console.error(
+    '❌ Missing RESEND_API_KEY'
+    );
+
+    process.exit(1);
+
+}
+
+const resend =
+new Resend(process.env.RESEND_API_KEY);
+
+console.log(
+'✅ Resend initialized'
+);
+
+
+
+// =============================
+// Logs
+// =============================
+
+const LOG_DIR =
+path.resolve(__dirname, 'logs');
+
+if(!fs.existsSync(LOG_DIR)){
+
+    fs.mkdirSync(LOG_DIR,{
+        recursive:true
+    });
+
+}
+
+const ORDER_LOG =
+path.join(LOG_DIR,'orders.txt');
+
+
+
+// =============================
+// Helpers
+// =============================
+
+function escapeHtml(str=''){
+
+    return str
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+
+}
+
+function getPlanData(plan){
+
+    switch(plan){
+
+        case '30min':
+            return {
+                name:'30 Minutes',
+                price:10
+            };
+
+        case '60min':
+            return {
+                name:'60 Minutes',
+                price:29
+            };
+
+        case '90min':
+            return {
+                name:'90 Minutes Premium',
+                price:59
+            };
+
+        default:
+            return null;
+
+    }
+
+}
+
+
+
+// =============================
+// Request Logger
+// =============================
+
+app.use((req,res,next)=>{
+
+    console.log(
+    `[${new Date().toISOString()}] ${req.method} ${req.url}`
+    );
+
+    next();
+
+});
+
+
+
+// =============================
+// Booking API
+// =============================
+
+app.post('/api/submit', async(req,res)=>{
+
+    try{
+
+        const {
+
+            name,
+            email,
+            whatsapp,
+            session_plan,
+            preferred_time,
+            special_request,
+            website
+
+        } = req.body;
+
+
+
+        // =============================
+        // Honeypot Anti-Spam
+        // =============================
+
+        if(website){
+
+            return res.status(400).json({
+
+                status:'error',
+                message:'Spam detected'
+
             });
-            console.log('📧 Resend API 返回:', JSON.stringify(emailResult, null, 2));
-            if (!emailResult || !emailResult.id) {
-                console.warn('⚠️ 邮件可能未成功发送，但继续返回支付链接');
-            }
-        } catch (emailErr) {
-            console.error('❌ 邮件发送异常:', emailErr);
-            // 不中断业务
+
         }
 
-        // 生成带备注的 PayPal 链接，方便对账
-        const memo = `LunaWhisper_${encodeURIComponent(name)}_${Date.now()}`;
-        const payLink = `https://www.paypal.com/paypalme/dpx710/${price}?memo=${memo}`;
 
-        // 无论邮件是否成功，都返回支付链接
-        res.json({
-            status: 'success',
-            redirect_url: payLink
+
+        // =============================
+        // Validation
+        // =============================
+
+        if(
+            !name ||
+            !email ||
+            !whatsapp ||
+            !preferred_time
+        ){
+
+            return res.status(400).json({
+
+                status:'error',
+                message:'Missing required fields'
+
+            });
+
+        }
+
+        const planData =
+        getPlanData(session_plan);
+
+        if(!planData){
+
+            return res.status(400).json({
+
+                status:'error',
+                message:'Invalid plan'
+
+            });
+
+        }
+
+
+
+        // =============================
+        // Safe Values
+        // =============================
+
+        const safeName =
+        escapeHtml(name);
+
+        const safeEmail =
+        escapeHtml(email);
+
+        const safeWhatsapp =
+        escapeHtml(whatsapp);
+
+        const safeTime =
+        escapeHtml(preferred_time);
+
+        const safeRequest =
+        escapeHtml(special_request || '');
+
+
+
+        // =============================
+        // Order ID
+        // =============================
+
+        const orderId =
+        `LW-${Date.now()}`;
+
+
+
+
+        // =============================
+        // Save Local Log
+        // =============================
+
+        const orderLogText = `
+
+====================================
+
+Order ID: ${orderId}
+
+Name: ${safeName}
+
+Email: ${safeEmail}
+
+WhatsApp: ${safeWhatsapp}
+
+Plan: ${planData.name}
+
+Price: $${planData.price}
+
+Preferred Time: ${safeTime}
+
+Special Request: ${safeRequest}
+
+Created: ${new Date().toISOString()}
+
+====================================
+
+`;
+
+        fs.appendFileSync(
+            ORDER_LOG,
+            orderLogText
+        );
+
+
+
+        // =============================
+        // Send Email
+        // =============================
+
+        try{
+
+            const emailResult =
+            await resend.emails.send({
+
+                from:
+                'Luna Whisper <noreply@resend.dev>',
+
+                to:[
+                    'dpx204825@gmail.com'
+                ],
+
+                reply_to:safeEmail,
+
+                subject:
+                `🌙 ${orderId} - ${safeName} - ${planData.name}`,
+
+                html:`
+
+                <div style="font-family:Arial;padding:20px;">
+
+                    <h2>
+                        🌙 New Luna Whisper Booking
+                    </h2>
+
+                    <hr>
+
+                    <p>
+                        <strong>Order ID:</strong>
+                        ${orderId}
+                    </p>
+
+                    <p>
+                        <strong>Name:</strong>
+                        ${safeName}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        ${safeEmail}
+                    </p>
+
+                    <p>
+                        <strong>WhatsApp:</strong>
+                        ${safeWhatsapp}
+                    </p>
+
+                    <p>
+                        <strong>Session:</strong>
+                        ${planData.name}
+                    </p>
+
+                    <p>
+                        <strong>Price:</strong>
+                        $${planData.price}
+                    </p>
+
+                    <p>
+                        <strong>Preferred Time:</strong>
+                        ${safeTime}
+                    </p>
+
+                    <p>
+                        <strong>Special Request:</strong>
+                        ${safeRequest || 'None'}
+                    </p>
+
+                </div>
+
+                `
+
+            });
+
+            console.log(
+            '📧 Email sent:',
+            emailResult?.id
+            );
+
+        }catch(emailErr){
+
+            console.error(
+            '❌ Email failed:',
+            emailErr
+            );
+
+        }
+
+
+
+        // =============================
+        // PayPal Link
+        // =============================
+
+        const memo =
+        encodeURIComponent(orderId);
+
+        const payLink =
+
+        `https://www.paypal.com/paypalme/dpx710/${planData.price}?memo=${memo}`;
+
+
+
+        // =============================
+        // Success Response
+        // =============================
+
+        return res.json({
+
+            status:'success',
+
+            order_id:orderId,
+
+            redirect_url:payLink
+
         });
 
-    } catch (err) {
-        console.error("❌ 错误:", err);
-        res.status(500).json({ status: 'error', message: err.message });
+
+
+    }catch(err){
+
+        console.error(
+        '❌ Server Error:',
+        err
+        );
+
+        return res.status(500).json({
+
+            status:'error',
+
+            message:'Internal server error'
+
+        });
+
     }
+
 });
 
-// 静态文件 + SPA 支持
-app.use(express.static(publicPath));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(publicPath, 'index.html'));
+
+
+// =============================
+// Static Files
+// =============================
+
+app.use(
+    express.static(publicPath)
+);
+
+app.get('*',(req,res)=>{
+
+    res.sendFile(
+        path.join(publicPath,'index.html')
+    );
+
 });
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`🌙 Luna Whisper Server running on http://localhost:${port}`);
+
+
+// =============================
+// Start Server
+// =============================
+
+app.listen(port,'0.0.0.0',()=>{
+
+    console.log(
+    `🌙 Luna Whisper running on port ${port}`
+    );
+
 });
