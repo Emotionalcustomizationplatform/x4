@@ -50,7 +50,6 @@
             padding:8px 16px;
             border-radius:999px;
             cursor:pointer;
-            transition:.2s;
         }
 
         .lang-btn.active{
@@ -130,12 +129,12 @@
             font-size:1.08rem;
             cursor:pointer;
             margin-top:10px;
-            border:none;
         }
 
         .btn-primary{
             background:var(--accent);
             color:#000;
+            border:none;
         }
 
         .btn-secondary{
@@ -152,324 +151,237 @@
             margin:24px 0;
             font-size:0.95rem;
         }
-
-        textarea{
-            resize:vertical;
-        }
-
-        @media(max-width:768px){
-
-            body{
-                padding:16px;
-            }
-
-            .card{
-                padding:24px;
-            }
-
-            .price{
-                font-size:2.6rem;
-            }
-
-        }
     </style>
 </head>
+
 <body>
 
 <div class="lang-switch" id="langSwitch">
-    <div class="lang-btn">EN</div>
-    <div class="lang-btn active">中文</div>
+    <div class="lang-btn" data-lang="en">EN</div>
+    <div class="lang-btn active" data-lang="zh">中文</div>
 </div>
 
 <div class="container">
 
-    <form id="bookingForm">
+<form id="bookingForm">
 
-        <!-- STEP 1 -->
+<!-- STEP 1 -->
+<div class="step active" id="step1">
 
-        <div class="step active" id="step1">
+    <h1 style="text-align:center; font-size:2.6rem; margin-bottom:8px;">
+        选择陪伴时长
+    </h1>
 
-            <h1 style="text-align:center;font-size:2.6rem;margin-bottom:8px;">
-                选择陪伴时长
-            </h1>
+    <p style="text-align:center; color:#aaa; margin-bottom:40px;">
+        单次付费 · 无订阅
+    </p>
 
-            <p style="text-align:center;color:#aaa;margin-bottom:40px;">
-                单次付费 · 无订阅
-            </p>
+    <!-- 30 -->
+    <div onclick="selectPlan(this)"
+         class="card"
+         data-plan="30min"
+         data-price="10">
 
-            <!-- 30 -->
+        <h3>30 分钟</h3>
 
-            <div class="card"
-                 data-plan="30min"
-                 data-price="10">
+        <div class="price">$10</div>
 
-                <h3>30 分钟</h3>
+        <p style="color:#bbb;">
+            轻柔耳语 + 情绪安抚
+        </p>
 
-                <div class="price">$10</div>
+    </div>
 
-                <p style="color:#bbb;">
-                    轻柔耳语 + 情绪安抚
-                </p>
+    <!-- 60 -->
+    <div onclick="selectPlan(this)"
+         class="card selected"
+         data-plan="60min"
+         data-price="29">
 
-            </div>
+        <h3>60 分钟</h3>
 
-            <!-- 60 -->
+        <div class="price">$29</div>
 
-            <div class="card selected"
-                 data-plan="60min"
-                 data-price="29">
+        <p style="color:#c8b6ff; font-weight:600;">
+            最受欢迎
+        </p>
 
-                <h3>60 分钟</h3>
+        <p style="color:#bbb;">
+            个性化睡前陪伴 + 故事讲述
+        </p>
 
-                <div class="price">$29</div>
+    </div>
 
-                <p style="color:#c8b6ff;font-weight:600;">
-                    最受欢迎
-                </p>
+    <!-- 90 -->
+    <div onclick="selectPlan(this)"
+         class="card"
+         data-plan="90min"
+         data-price="59">
 
-                <p style="color:#bbb;">
-                    个性化睡前陪伴 + 故事讲述
-                </p>
+        <h3>90 分钟 Premium</h3>
 
-            </div>
+        <div class="price">$59</div>
 
-            <!-- 90 -->
+        <p style="color:#bbb;">
+            深度放松 + 专属定制
+        </p>
 
-            <div class="card"
-                 data-plan="90min"
-                 data-price="59">
+    </div>
 
-                <h3>90 分钟 Premium</h3>
+    <input type="hidden" id="planInput" value="60min">
+    <input type="hidden" id="priceInput" value="29">
 
-                <div class="price">$59</div>
+    <button type="button"
+            class="btn btn-primary"
+            onclick="goToStep2()">
 
-                <p style="color:#bbb;">
-                    深度放松 + 专属定制
-                </p>
+        下一步 →
 
-            </div>
+    </button>
 
-            <input type="hidden"
-                   id="planInput"
-                   value="60min">
+</div>
 
-            <input type="hidden"
-                   id="priceInput"
-                   value="29">
+<!-- STEP 2 -->
+<div class="step" id="step2">
 
-            <button type="button"
-                    class="btn btn-primary"
-                    onclick="goToStep2()">
+    <h1 style="text-align:center; font-size:2.4rem; margin-bottom:8px;">
+        预约信息
+    </h1>
 
-                下一步 →
+    <p style="text-align:center; color:#aaa; margin-bottom:30px;">
+        私密 · 真人陪伴
+    </p>
 
-            </button>
+    <input type="text"
+           name="name"
+           class="form-input"
+           placeholder="您的姓名"
+           required>
 
-        </div>
+    <input type="email"
+           name="email"
+           class="form-input"
+           placeholder="邮箱地址"
+           required>
 
-        <!-- STEP 2 -->
+    <input type="tel"
+           name="whatsapp"
+           class="form-input"
+           placeholder="WhatsApp 号码（含国家代码）"
+           required>
 
-        <div class="step"
-             id="step2">
+    <input type="text"
+           name="preferred_time"
+           class="form-input"
+           placeholder="期望时间（如：今晚11点）"
+           required>
 
-            <h1 style="text-align:center;font-size:2.4rem;margin-bottom:8px;">
-                预约信息
-            </h1>
+    <textarea name="special_request"
+              class="form-input"
+              rows="3"
+              placeholder="特殊需求（可选）"></textarea>
 
-            <p style="text-align:center;color:#aaa;margin-bottom:30px;">
-                私密 · 真人陪伴
-            </p>
+    <div class="notice">
+        <strong>支付说明：</strong>
+        点击下方按钮后将跳转到 PayPal 安全支付页面。
+        支付成功后我们会通过 WhatsApp 联系您。
+    </div>
 
-            <input type="text"
-                   name="name"
-                   class="form-input"
-                   placeholder="您的姓名"
-                   required>
+    <button type="button"
+            class="btn btn-secondary"
+            onclick="goBackToStep1()">
 
-            <input type="email"
-                   name="email"
-                   class="form-input"
-                   placeholder="邮箱地址"
-                   required>
+        ← 返回修改时长
 
-            <input type="tel"
-                   name="whatsapp"
-                   class="form-input"
-                   placeholder="WhatsApp 号码（含国家代码）"
-                   required>
+    </button>
 
-            <input type="text"
-                   name="preferred_time"
-                   class="form-input"
-                   placeholder="期望时间（如：今晚11点）"
-                   required>
+    <button type="button"
+            class="btn btn-primary"
+            onclick="submitBooking()">
 
-            <textarea name="special_request"
-                      class="form-input"
-                      rows="3"
-                      placeholder="特殊需求（可选）"></textarea>
+        确认支付 $
+        <span id="showPrice">29</span>
 
-            <div class="notice">
+    </button>
 
-                <strong>支付说明：</strong>
+</div>
 
-                点击支付后将跳转 PayPal。
-
-                支付完成后我们会通过 WhatsApp 联系你。
-
-            </div>
-
-            <button type="button"
-                    class="btn btn-secondary"
-                    onclick="goBackToStep1()">
-
-                ← 返回修改时长
-
-            </button>
-
-            <button type="button"
-                    class="btn btn-primary"
-                    onclick="submitBooking()">
-
-                确认支付 $
-                <span id="showPrice">29</span>
-
-            </button>
-
-        </div>
-
-    </form>
-
+</form>
 </div>
 
 <script>
 
-const cards =
-document.querySelectorAll('#step1 .card');
+// 自动读取首页套餐参数
+window.addEventListener('DOMContentLoaded', () => {
 
-const planInput =
-document.getElementById('planInput');
+    const params = new URLSearchParams(window.location.search);
 
-const priceInput =
-document.getElementById('priceInput');
+    const plan = params.get('plan');
+    const price = params.get('price');
 
-const showPrice =
-document.getElementById('showPrice');
+    if(plan && price){
 
+        document.getElementById('planInput').value = plan;
+        document.getElementById('priceInput').value = price;
 
+        document.getElementById('showPrice').textContent = price;
 
-// ====================
-// 套餐选择
-// ====================
+        document.querySelectorAll('#step1 .card').forEach(card => {
 
-cards.forEach(card => {
+            card.classList.remove('selected');
 
-    card.addEventListener('click', () => {
-
-        cards.forEach(c => {
-
-            c.classList.remove('selected');
+            if(card.dataset.plan === plan){
+                card.classList.add('selected');
+            }
 
         });
-
-        card.classList.add('selected');
-
-        const plan =
-        card.dataset.plan;
-
-        const price =
-        card.dataset.price;
-
-        planInput.value =
-        plan;
-
-        priceInput.value =
-        price;
-
-        showPrice.textContent =
-        price;
-
-    });
+    }
 
 });
 
+function selectPlan(el){
 
+    document.querySelectorAll('#step1 .card').forEach(card => {
+        card.classList.remove('selected');
+    });
 
-// ====================
-// 下一步
-// ====================
+    el.classList.add('selected');
+
+    document.getElementById('planInput').value = el.dataset.plan;
+    document.getElementById('priceInput').value = el.dataset.price;
+    document.getElementById('showPrice').textContent = el.dataset.price;
+}
 
 function goToStep2(){
 
-    document.getElementById('step1')
-    .classList.remove('active');
-
-    document.getElementById('step2')
-    .classList.add('active');
-
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
 }
-
-
-
-// ====================
-// 返回
-// ====================
 
 function goBackToStep1(){
 
-    document.getElementById('step2')
-    .classList.remove('active');
-
-    document.getElementById('step1')
-    .classList.add('active');
-
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('step1').classList.add('active');
 }
-
-
-
-// ====================
-// 提交支付
-// ====================
 
 async function submitBooking(){
 
-    const btn =
-    document.querySelector('#step2 .btn-primary');
+    const btn = document.querySelector('#step2 .btn-primary');
+    const originalText = btn.innerHTML;
 
-    const originalText =
-    btn.innerHTML;
-
-    btn.innerHTML =
-    '正在跳转 PayPal...';
-
+    btn.innerHTML = '正在跳转支付...';
     btn.disabled = true;
 
-    const form =
-    document.getElementById('bookingForm');
-
-    const formData =
-    new FormData(form);
+    const form = document.getElementById('bookingForm');
+    const formData = new FormData(form);
 
     const data = {
-
-        name:
-        formData.get('name'),
-
-        email:
-        formData.get('email'),
-
-        whatsapp:
-        formData.get('whatsapp'),
-
-        preferred_time:
-        formData.get('preferred_time'),
-
-        special_request:
-        formData.get('special_request'),
-
-        session_plan:
-        planInput.value
-
+        name: formData.get('name'),
+        email: formData.get('email'),
+        whatsapp: formData.get('whatsapp'),
+        session_plan: document.getElementById('planInput').value,
+        preferred_time: formData.get('preferred_time'),
+        special_request: formData.get('special_request')
     };
 
     if(
@@ -478,88 +390,59 @@ async function submitBooking(){
         !data.whatsapp ||
         !data.preferred_time
     ){
-
         alert('请填写完整信息');
 
-        btn.innerHTML =
-        originalText;
-
+        btn.innerHTML = originalText;
         btn.disabled = false;
 
         return;
-
     }
 
-    try{
+    try {
 
-        const response =
-        await fetch('/api/submit', {
-
+        const response = await fetch('/api/submit', {
             method:'POST',
-
             headers:{
                 'Content-Type':'application/json'
             },
-
             body:JSON.stringify(data)
-
         });
 
-        const result =
-        await response.json();
+        const result = await response.json();
 
         if(result.redirect_url){
 
-            window.location.href =
-            result.redirect_url;
+            window.location.href = result.redirect_url;
 
         }else{
 
             alert('支付链接生成失败');
 
-            btn.innerHTML =
-            originalText;
-
+            btn.innerHTML = originalText;
             btn.disabled = false;
-
         }
 
-    }catch(err){
+    } catch(err){
 
         console.error(err);
 
-        alert('网络错误，请重试');
+        alert('网络错误，请稍后重试');
 
-        btn.innerHTML =
-        originalText;
-
+        btn.innerHTML = originalText;
         btn.disabled = false;
-
     }
-
 }
 
-
-
-// ====================
-// 语言按钮 UI
-// ====================
-
-document.getElementById('langSwitch')
-.addEventListener('click', e => {
+// 语言切换
+document.getElementById('langSwitch').addEventListener('click', e => {
 
     if(e.target.classList.contains('lang-btn')){
 
-        document
-        .querySelectorAll('.lang-btn')
-        .forEach(btn => {
-
+        document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.classList.remove('active');
-
         });
 
         e.target.classList.add('active');
-
     }
 
 });
