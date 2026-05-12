@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Luna Whisper • Real Voice Sleep Companion</title>
-    <meta name="description" content="Real human whisper calls, bedtime stories, emotional companionship and ASMR.">
+    <title>Luna Whisper · Real Voice Sleep Companion</title>
+    <meta name="description" content="Real human whisper calls, bedtime stories, emotional companionship and ASMR. 真人女聲低語 · 睡前故事 · 情感陪伴">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root{
@@ -14,231 +16,291 @@
             --accent:#c8b6ff;
             --card:rgba(255,255,255,0.07);
             --border:rgba(200,182,255,0.18);
+            --text-light:#eee;
+            --text-muted:#b0aac8;
         }
 
         *{ margin:0; padding:0; box-sizing:border-box; }
 
         body{
             background:var(--bg);
-            color:#fff;
-            font-family:'Inter',sans-serif;
+            color:var(--text-light);
+            font-family:'Inter','Noto Sans SC',sans-serif;
             line-height:1.6;
         }
 
         .container{ width:min(1180px,92%); margin:auto; }
 
+        /* ===== Nav ===== */
+        .nav{
+            position:fixed; top:0; left:0; right:0; z-index:1000;
+            background:rgba(10,10,31,0.78); backdrop-filter:blur(20px);
+            border-bottom:1px solid rgba(200,182,255,0.08);
+        }
+        .nav-inner{
+            width:min(1180px,92%); margin:auto;
+            display:flex; align-items:center; justify-content:space-between;
+            height:64px; gap:16px;
+        }
+        .nav-logo{
+            font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:600;
+            color:#fff; text-decoration:none; display:flex; align-items:center; gap:8px;
+        }
+        .nav-logo .moon-icon{
+            width:24px; height:24px; border-radius:50%;
+            background:var(--accent); box-shadow:0 0 18px rgba(200,182,255,0.5);
+        }
+        .nav-links{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+        .nav-links a{
+            color:var(--text-muted); text-decoration:none; font-size:0.88rem;
+            padding:8px 16px; border-radius:999px; transition:0.2s; white-space:nowrap;
+        }
+        .nav-links a:hover, .nav-links a.active{ color:#fff; background:rgba(200,182,255,0.12); }
+        .nav-cta{
+            background:var(--accent) !important; color:#000 !important;
+            font-weight:600 !important; box-shadow:0 0 24px rgba(200,182,255,0.25);
+        }
+
+        /* ===== Hero ===== */
         .hero{
-            min-height:100vh;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-            text-align:center;
-            padding:130px 20px 100px;
-            background:radial-gradient(circle at 50% 30%, #1a1a3a, #0a0a1f);
-            position:relative;
-            overflow:hidden;
+            min-height:100vh; display:flex; flex-direction:column;
+            justify-content:center; align-items:center; text-align:center;
+            padding:140px 20px 100px;
+            background:radial-gradient(circle at 50% 30%, #1a1a3e, #0a0a1f);
+            position:relative; overflow:hidden;
         }
-
         .hero-glow{
-            position:absolute;
-            width:620px; height:620px;
-            background:rgba(200,182,255,0.14);
-            filter:blur(150px);
-            top:-180px;
-            border-radius:50%;
+            position:absolute; width:620px; height:620px;
+            background:rgba(200,182,255,0.12); filter:blur(150px);
+            top:-180px; left:50%; transform:translateX(-50%); border-radius:50%;
         }
-
         .hero h1{
             font-family:'Playfair Display',serif;
-            font-size:clamp(2.8rem,8vw,5.6rem);
-            line-height:1.08;
-            margin-bottom:24px;
+            font-size:clamp(2.5rem,7vw,5rem); line-height:1.1; margin-bottom:24px;
         }
-
-        .hero p{
-            max-width:720px;
-            font-size:1.22rem;
-            color:#ddd;
-            margin-bottom:40px;
-        }
-
+        .hero p{ max-width:700px; font-size:1.18rem; color:#ccc; margin-bottom:40px; }
         .btn-hero{
-            background:var(--accent);
-            color:#000;
-            padding:18px 50px;
-            border-radius:999px;
-            font-size:1.12rem;
-            font-weight:600;
-            text-decoration:none;
-            box-shadow:0 0 80px rgba(200,182,255,0.3);
-            transition:0.3s;
-            display:inline-block;
+            background:var(--accent); color:#000; padding:18px 50px;
+            border-radius:999px; font-size:1.1rem; font-weight:600;
+            text-decoration:none; box-shadow:0 0 70px rgba(200,182,255,0.3);
+            transition:0.3s; display:inline-block;
         }
-        .btn-hero:hover{ transform:translateY(-5px); }
+        .btn-hero:hover{ transform:translateY(-5px); background:#d9ccff; }
 
-        .section{ padding:100px 20px; }
-        .section-header{ text-align:center; margin-bottom:70px; }
+        /* ===== Sections ===== */
+        .section{ padding:90px 20px; }
+        .section-header{ text-align:center; margin-bottom:60px; }
         .section-header h2{
             font-family:'Playfair Display',serif;
-            font-size:clamp(2.3rem,6vw,3rem);
+            font-size:clamp(2rem,5vw,2.8rem);
         }
-
         .grid{
             display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-            gap:28px;
+            grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+            gap:26px;
         }
 
         .card{
-            background:var(--card);
-            border:1px solid var(--border);
-            border-radius:24px;
-            overflow:hidden;
-            transition:0.4s ease;
+            background:var(--card); border:1px solid var(--border);
+            border-radius:24px; overflow:hidden; transition:0.35s ease;
         }
-        .card:hover{
-            transform:translateY(-12px);
-            box-shadow:0 25px 50px rgba(0,0,0,0.4);
-        }
+        .card:hover{ transform:translateY(-10px); box-shadow:0 25px 50px rgba(0,0,0,0.4); }
 
         .companion-img{
-            width:100%;
-            height:340px;
-            object-fit:cover;
+            width:100%; height:300px; object-fit:cover; display:block;
+            background:#1a1a3a; /* 加载前背景 */
         }
 
         .card-body{ padding:24px; }
-        .card h3{ font-size:1.6rem; margin-bottom:6px; }
+        .card h3{ font-size:1.5rem; margin-bottom:6px; }
+        .card .role-tag{ color:var(--accent); font-size:0.85rem; margin-bottom:8px; display:block; }
+        .card p{ color:var(--text-muted); font-size:0.95rem; margin-bottom:12px; }
+        .audio-wrapper{ margin-top:10px; }
+        .audio-wrapper audio{ width:100%; border-radius:10px; }
 
+        /* ===== Pricing ===== */
         .pricing-card{
-            text-align:center;
-            padding:36px 24px;
-            background:var(--card);
-            border:1px solid var(--border);
-            border-radius:24px;
-            transition:0.3s;
+            text-align:center; padding:36px 22px;
+            background:var(--card); border:1px solid var(--border);
+            border-radius:24px; transition:0.3s; position:relative;
         }
         .pricing-card.popular{
             border:2px solid var(--accent);
-            transform:scale(1.04);
+            box-shadow:0 0 45px rgba(200,182,255,0.12);
         }
-        .price{
-            font-size:2.9rem;
-            color:var(--accent);
-            font-weight:700;
-            margin:16px 0;
+        .popular-badge{
+            position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+            background:var(--accent); color:#000; padding:5px 18px;
+            border-radius:999px; font-size:0.78rem; font-weight:700;
         }
+        .price{ font-size:2.8rem; color:var(--accent); font-weight:700; margin:14px 0; }
+        .btn-hero-sm{
+            background:var(--accent); color:#000; padding:12px 28px;
+            border-radius:999px; font-weight:600; text-decoration:none;
+            display:inline-block; margin-top:16px; transition:0.2s;
+        }
+        .btn-hero-sm:hover{ background:#d9ccff; }
 
+        /* ===== Footer ===== */
         footer{
-            text-align:center;
-            padding:60px 20px;
-            color:#888;
-            font-size:0.95rem;
+            text-align:center; padding:50px 20px;
+            color:#777; font-size:0.9rem; border-top:1px solid rgba(200,182,255,0.08);
         }
+        .footer-links{ display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-bottom:8px; }
+        .footer-links a{ color:var(--text-muted); text-decoration:none; font-size:0.85rem; }
+        .footer-links a:hover{ color:#fff; }
 
+        /* ===== WhatsApp Float ===== */
         .whatsapp-float{
-            position:fixed;
-            right:24px; bottom:24px;
-            width:70px; height:70px;
-            background:#25D366;
-            color:#fff;
-            font-size:38px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            box-shadow:0 10px 30px rgba(0,0,0,0.5);
-            z-index:999;
-            text-decoration:none;
+            position:fixed; right:22px; bottom:22px;
+            width:60px; height:60px; background:#25D366; color:#fff;
+            font-size:32px; border-radius:50%; display:flex;
+            align-items:center; justify-content:center;
+            box-shadow:0 8px 30px rgba(0,0,0,0.5); z-index:999;
+            text-decoration:none; transition:0.3s;
         }
+        .whatsapp-float:hover{ transform:scale(1.08); }
 
         @media(max-width:768px){
-            .pricing-card.popular{ transform:scale(1.02); }
+            .nav-links a{ font-size:0.75rem; padding:6px 10px; }
+            .hero{ padding:120px 16px 80px; }
         }
     </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
+<!-- Navigation -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">
+            <span class="moon-icon"></span> Luna Whisper
+        </a>
+        <div class="nav-links">
+            <a href="#companions">Companions</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#testimonials">Reviews</a>
+            <a href="#faq">FAQ</a>
+            <a href="#pricing" class="nav-cta">Reserve Now</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
     <div class="hero-glow"></div>
     <h1>Let a Gentle Real Voice<br>Guide You to Sleep</h1>
     <p>真人女聲低語 · 睡前故事 · 情感陪伴 · ASMR<br>
-       今晚讓溫柔的聲音陪你安心入睡</p>
-    <a href="form.html?plan=60min&price=29" class="btn-hero">
-        Reserve Tonight’s Session
-    </a>
+       Real Human Whisper — Your Nightly Companion</p>
+    <a href="#pricing" class="btn-hero">🌙 Reserve Tonight's Session</a>
 </section>
 
-<!-- COMPANIONS -->
-<section class="section">
+<!-- Companions -->
+<section class="section" id="companions">
     <div class="container">
         <div class="section-header">
             <h2>Meet Your Real Companions</h2>
         </div>
         <div class="grid">
+            <!-- Elena -->
             <div class="card">
-                <img loading="lazy" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&fit=crop" alt="Elena - Gentle British Whisper" class="companion-img">
+                <img loading="lazy"
+                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&fit=crop&q=80"
+                     alt="Elena - Gentle British Whisper"
+                     class="companion-img"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%231a1a3a%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23c8b6ff%22 x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2218%22%3EElena%3C/text%3E%3C/svg%3E'">
                 <div class="card-body">
                     <h3>Elena</h3>
-                    <p style="color:var(--accent);">英式溫柔低語 · 治癒系聲音</p>
+                    <span class="role-tag">🎀 英式溫柔低語 · Gentle British Whisper</span>
                     <p>柔軟磁性的英國口音，像夜晚的羽毛一樣輕柔，帶你慢慢放鬆入睡。</p>
-                    <audio controls style="width:100%; margin-top:14px;">
-                        <source src="YOUR_AUDIO_ELENA.mp3" type="audio/mpeg">
-                    </audio>
+                    <div class="audio-wrapper">
+                        <audio controls preload="none">
+                            <source src="YOUR_AUDIO_ELENA.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
                 </div>
             </div>
 
+            <!-- Sophia -->
             <div class="card">
-                <img loading="lazy" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&fit=crop" alt="Sophia - Warm Emotional Companion" class="companion-img">
+                <img loading="lazy"
+                     src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&fit=crop&q=80"
+                     alt="Sophia - Warm Emotional Companion"
+                     class="companion-img"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%231a1a3a%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23c8b6ff%22 x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2218%22%3ESophia%3C/text%3E%3C/svg%3E'">
                 <div class="card-body">
                     <h3>Sophia</h3>
-                    <p style="color:var(--accent);">溫暖情感陪伴</p>
-                    <p>像温柔姐姐一樣陪著你，講故事、傾聽心事，讓你不再孤單入睡。</p>
-                    <audio controls style="width:100%; margin-top:14px;">
-                        <source src="YOUR_AUDIO_SOPHIA.mp3" type="audio/mpeg">
-                    </audio>
+                    <span class="role-tag">💛 溫暖情感陪伴 · Warm Listener</span>
+                    <p>像溫柔姐姐一樣陪著你，講故事、傾聽心事，讓你不再孤單入睡。</p>
+                    <div class="audio-wrapper">
+                        <audio controls preload="none">
+                            <source src="YOUR_AUDIO_SOPHIA.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Luna -->
+            <div class="card">
+                <img loading="lazy"
+                     src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&fit=crop&q=80"
+                     alt="Luna - ASMR Specialist"
+                     class="companion-img"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22%3E%3Crect fill=%22%231a1a3a%22 width=%22400%22 height=%22300%22/%3E%3Ctext fill=%22%23c8b6ff%22 x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2218%22%3ELuna%3C/text%3E%3C/svg%3E'">
+                <div class="card-body">
+                    <h3>Luna</h3>
+                    <span class="role-tag">✨ ASMR 耳語藝術家 · ASMR Artist</span>
+                    <p>細膩的觸發音、輕聲細語，專為敏感耳朵打造的極致放鬆體驗。</p>
+                    <div class="audio-wrapper">
+                        <audio controls preload="none">
+                            <source src="YOUR_AUDIO_LUNA.mp3" type="audio/mpeg">
+                        </audio>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- PRICING -->
-<section class="section">
+<!-- Pricing -->
+<section class="section" id="pricing">
     <div class="container">
         <div class="section-header">
             <h2>Choose Your Session</h2>
         </div>
         <div class="grid">
             <div class="pricing-card">
-                <h3>30 Minutes</h3>
+                <h3>🌿 30 Minutes</h3>
                 <div class="price">$10</div>
-                <p>Gentle whispers & emotional comfort</p>
-                <a href="form.html?plan=30min&price=10" class="btn-hero" style="padding:12px 32px; font-size:1rem; margin-top:20px; display:inline-block;">Book Now</a>
+                <p>Gentle whispers & comfort</p>
+                <a href="form.html?plan=30min&price=10" class="btn-hero-sm">Book Now</a>
             </div>
-
             <div class="pricing-card popular">
-                <h3>60 Minutes</h3>
+                <span class="popular-badge">Most Popular</span>
+                <h3>🌛 60 Minutes</h3>
                 <div class="price">$29</div>
-                <p style="color:var(--accent); font-weight:600;">Most Popular</p>
-                <p>Personalized bedtime stories & deep companionship</p>
-                <a href="form.html?plan=60min&price=29" class="btn-hero" style="padding:12px 32px; font-size:1rem; margin-top:20px; display:inline-block;">Reserve Tonight</a>
+                <p>Bedtime stories & deep care</p>
+                <a href="form.html?plan=60min&price=29" class="btn-hero-sm">Reserve Tonight</a>
             </div>
-
             <div class="pricing-card">
-                <h3>90 Minutes Premium</h3>
+                <h3>💫 90 Minutes</h3>
                 <div class="price">$59</div>
-                <p>Deep personalized relaxation experience</p>
-                <a href="form.html?plan=90min&price=59" class="btn-hero" style="padding:12px 32px; font-size:1rem; margin-top:20px; display:inline-block;">Choose Premium</a>
+                <p>Premium deep relaxation</p>
+                <a href="form.html?plan=90min&price=59" class="btn-hero-sm">Choose Premium</a>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Footer -->
 <footer>
-    <p>For relaxation and entertainment purposes only • 18+ • Private & Confidential</p>
+    <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="#companions">Companions</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#">Contact</a>
+    </div>
+    <p>For relaxation and entertainment only · 18+ · Private & Confidential</p>
+    <p style="margin-top:4px; font-size:0.78rem;">© 2026 Luna Whisper</p>
 </footer>
 
 <a href="https://wa.me/13045967785" class="whatsapp-float" target="_blank">💬</a>
