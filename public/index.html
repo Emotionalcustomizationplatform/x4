@@ -1,186 +1,588 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luna Whisper • 真实声音睡眠陪伴</title>
-    <meta name="description" content="真人ASMR耳语、个性化睡前故事、温暖情感陪伴。帮助你放松入睡。">
-    <meta property="og:title" content="Luna Whisper • 真实声音睡眠陪伴">
-    <meta property="og:description" content="让温柔真实的声音陪伴你进入梦乡">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-    
+    <title>Luna Whisper • Real Voice Sleep Companion</title>
+
+    <meta name="description"
+          content="Real human whisper calls, personal bedtime stories, calming ASMR, and emotional sleep companionship.">
+
+    <meta property="og:title"
+          content="Luna Whisper • Real Voice Sleep Companion">
+
+    <meta property="og:description"
+          content="Let a gentle real voice guide you peacefully into sleep tonight.">
+
+    <meta name="theme-color" content="#0a0a1f">
+
+    <link rel="canonical" href="https://yourdomain.com/">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap"
+          rel="stylesheet">
+
     <style>
-        :root {
-            --bg: #0a0a1f;
-            --accent: #c8b6ff;
-            --card: rgba(255,255,255,0.08);
-            --border: rgba(200,182,255,0.15);
-        }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { 
-            background: var(--bg); 
-            color: #fff; 
-            font-family: 'Inter', sans-serif; 
-            line-height: 1.6;
+
+        :root{
+            --bg:#0a0a1f;
+            --accent:#c8b6ff;
+            --card:rgba(255,255,255,0.08);
+            --border:rgba(200,182,255,0.15);
         }
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 100px 20px 80px;
-            background: radial-gradient(circle at 50% 30%, #1a1a3a, #0a0a1f);
-        }
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.6rem, 7.5vw, 5.2rem);
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 620px;
-            margin-bottom: 40px;
-            color: #ddd;
-        }
-        .btn-hero {
-            background: var(--accent);
-            color: #000;
-            padding: 16px 48px;
-            border-radius: 50px;
-            font-size: 1.15rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .btn-hero:focus { outline: 3px solid #fff; outline-offset: 4px; }
-
-        .section { padding: 90px 20px; }
-        .section-header { text-align: center; margin-bottom: 60px; }
-        .section-header h2 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: clamp(2.1rem, 5.5vw, 2.7rem); 
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 24px; 
-        }
-        .card { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 20px; 
-            padding: 20px; 
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: translateY(-6px); }
-        .companion-img { 
-            width: 100%; 
-            height: 240px; 
-            object-fit: cover; 
-            border-radius: 16px; 
-            loading: lazy;
+        body{
+            background:var(--bg);
+            color:#fff;
+            font-family:'Inter',sans-serif;
+            line-height:1.6;
         }
 
-        .pricing-card { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 20px; 
-            padding: 28px 20px; 
-            text-align: center; 
+        .container{
+            width:min(1180px,92%);
+            margin:auto;
         }
-        .pricing-card.popular { border: 2px solid var(--accent); }
-        .price { font-size: 2.6rem; color: var(--accent); font-weight: 600; margin: 12px 0; }
 
-        .whatsapp-float {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 65px;
-            height: 65px;
-            background: #25D366;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            z-index: 999;
-            text-decoration: none;
+        .hero{
+            position:relative;
+            overflow:hidden;
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+
+            text-align:center;
+
+            padding:100px 20px 80px;
+
+            background:
+            radial-gradient(circle at 50% 30%, #1a1a3a, #0a0a1f);
         }
+
+        .hero-glow{
+            position:absolute;
+            width:500px;
+            height:500px;
+            background:rgba(200,182,255,.12);
+            filter:blur(120px);
+            border-radius:50%;
+            top:-120px;
+            z-index:0;
+        }
+
+        .hero h1,
+        .hero p,
+        .hero a{
+            position:relative;
+            z-index:2;
+        }
+
+        .hero h1{
+            font-family:'Playfair Display',serif;
+            font-size:clamp(2.7rem,7vw,5.3rem);
+            line-height:1.08;
+            margin-bottom:24px;
+        }
+
+        .hero p{
+            max-width:720px;
+            color:#ddd;
+            font-size:1.18rem;
+            margin-bottom:40px;
+        }
+
+        .btn-hero{
+            background:var(--accent);
+            color:#000;
+            text-decoration:none;
+
+            padding:16px 42px;
+
+            border-radius:999px;
+
+            font-weight:600;
+            font-size:1.05rem;
+
+            transition:.3s ease;
+
+            box-shadow:
+            0 0 80px rgba(200,182,255,.15);
+        }
+
+        .btn-hero:hover{
+            transform:translateY(-3px);
+        }
+
+        .btn-hero:focus{
+            outline:3px solid #fff;
+            outline-offset:4px;
+        }
+
+        .section{
+            padding:90px 20px;
+        }
+
+        .section-header{
+            text-align:center;
+            margin-bottom:60px;
+        }
+
+        .section-header h2{
+            font-family:'Playfair Display',serif;
+            font-size:clamp(2rem,5vw,2.8rem);
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns:
+            repeat(auto-fit,minmax(280px,1fr));
+
+            gap:24px;
+        }
+
+        .card,
+        .pricing-card{
+
+            background:var(--card);
+
+            border:1px solid var(--border);
+
+            border-radius:22px;
+
+            backdrop-filter:blur(20px);
+        }
+
+        .card{
+            padding:20px;
+            transition:.3s ease;
+        }
+
+        .card:hover{
+            transform:translateY(-6px);
+        }
+
+        .companion-img{
+            width:100%;
+            height:260px;
+            object-fit:cover;
+            border-radius:16px;
+        }
+
+        .pricing-card{
+            text-align:center;
+            padding:32px 22px;
+        }
+
+        .pricing-card.popular{
+            border:2px solid var(--accent);
+        }
+
+        .price{
+            font-size:2.7rem;
+            color:var(--accent);
+            font-weight:700;
+            margin:14px 0;
+        }
+
+        audio{
+            width:100%;
+            margin-top:14px;
+        }
+
+        .whatsapp-float{
+            position:fixed;
+
+            right:24px;
+            bottom:24px;
+
+            width:68px;
+            height:68px;
+
+            border-radius:50%;
+
+            background:#25D366;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            text-decoration:none;
+
+            color:#fff;
+
+            font-size:34px;
+
+            z-index:999;
+
+            box-shadow:
+            0 10px 25px rgba(0,0,0,.4);
+        }
+
+        footer{
+            text-align:center;
+            padding:40px 20px;
+            color:#999;
+            font-size:.92rem;
+        }
+
+        @media(max-width:768px){
+
+            .hero{
+                padding-top:120px;
+            }
+
+            .hero p{
+                font-size:1rem;
+            }
+
+            .btn-hero{
+                width:100%;
+                max-width:320px;
+            }
+
+        }
+
     </style>
 </head>
+
 <body>
 
-    <!-- Hero -->
-    <section class="hero">
-        <h1>Let a Gentle Real Voice<br>Guide You to Sleep</h1>
-        <p>真人ASMR耳语 · 个性化睡前故事 · 温暖的情感陪伴</p>
-        <a href="form.html" class="btn-hero">立即预约今晚</a>
-    </section>
+<!-- HERO -->
 
-    <!-- 导师展示 -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Meet Your Real Companions</h2>
-            </div>
-            <div class="grid">
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" alt="Elena Voss - Gentle British Whisperer" class="companion-img">
-                    <h3 style="margin:16px 0 8px;">Elena Voss</h3>
-                    <p>Gentle British Whisperer</p>
-                    <audio controls style="width:100%; margin-top:12px;">
-                        <source src="YOUR_AUDIO_ELENA.mp3" type="audio/mpeg">
-                    </audio>
-                </div>
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" alt="Marcus Reed - Warm American Storyteller" class="companion-img">
-                    <h3 style="margin:16px 0 8px;">Marcus Reed</h3>
-                    <p>Warm American Storyteller</p>
-                    <audio controls style="width:100%; margin-top:12px;">
-                        <source src="YOUR_AUDIO_MARCUS.mp3" type="audio/mpeg">
-                    </audio>
-                </div>
-            </div>
+<section class="hero">
+
+    <div class="hero-glow"></div>
+
+    <h1>
+        Let a Gentle Real Voice<br>
+        Guide You to Sleep
+    </h1>
+
+    <p>
+        Real human whisper calls, personal bedtime stories,
+        soft emotional companionship, and calming ASMR experiences
+        designed to help you fully relax tonight.
+    </p>
+
+    <a href="form.html" class="btn-hero">
+        Reserve Tonight’s Session
+    </a>
+
+</section>
+
+<!-- COMPANIONS -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Meet Your Real Companions</h2>
         </div>
-    </section>
 
-    <!-- 定价 -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Choose Your Session</h2>
+        <div class="grid">
+
+            <div class="card">
+
+                <img
+                    loading="lazy"
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800"
+                    alt="Elena"
+                    class="companion-img"
+                >
+
+                <h3 style="margin:16px 0 8px;">
+                    Elena
+                </h3>
+
+                <p>
+                    Soft British whispers · Calm bedtime energy
+                </p>
+
+                <audio controls>
+                    <source src="YOUR_AUDIO_ELENA.mp3"
+                            type="audio/mpeg">
+                </audio>
+
             </div>
-            <div class="grid">
-                <div class="pricing-card">
-                    <h3>30 Minutes</h3>
-                    <div class="price">$69</div>
-                    <a href="form.html" class="btn-hero" style="padding:12px 32px; font-size:1rem;">立即预定</a>
-                </div>
-                <div class="pricing-card popular">
-                    <h3>60 Minutes</h3>
-                    <div class="price">$119</div>
-                    <p style="color:var(--accent); font-weight:600;">Most Popular</p>
-                    <a href="form.html" class="btn-hero" style="padding:12px 32px; font-size:1rem;">立即预定</a>
-                </div>
-                <div class="pricing-card">
-                    <h3>90 Minutes Premium</h3>
-                    <div class="price">$199</div>
-                    <a href="form.html" class="btn-hero" style="padding:12px 32px; font-size:1rem;">立即预定</a>
-                </div>
+
+            <div class="card">
+
+                <img
+                    loading="lazy"
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800"
+                    alt="Daniel"
+                    class="companion-img"
+                >
+
+                <h3 style="margin:16px 0 8px;">
+                    Daniel
+                </h3>
+
+                <p>
+                    Warm storytelling · Deep relaxing voice
+                </p>
+
+                <audio controls>
+                    <source src="YOUR_AUDIO_DANIEL.mp3"
+                            type="audio/mpeg">
+                </audio>
+
             </div>
+
         </div>
-    </section>
 
-    <!-- WhatsApp -->
-    <a href="https://wa.me/13045967785" class="whatsapp-float" target="_blank" aria-label="联系 WhatsApp">💬</a>
+    </div>
+
+</section>
+
+<!-- PRICING -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Choose Your Session</h2>
+        </div>
+
+        <div class="grid">
+
+            <div class="pricing-card">
+
+                <h3>30 Minutes</h3>
+
+                <div class="price">$10</div>
+
+                <p>
+                    Gentle whispers & calming bedtime conversation
+                </p>
+
+                <br>
+
+                <a href="form.html"
+                   class="btn-hero"
+                   style="padding:12px 30px; font-size:1rem;">
+                    Book Now
+                </a>
+
+            </div>
+
+            <div class="pricing-card popular">
+
+                <h3>60 Minutes</h3>
+
+                <div class="price">$29</div>
+
+                <p style="color:var(--accent); font-weight:600;">
+                    Most Popular
+                </p>
+
+                <br>
+
+                <p>
+                    Longer emotional companionship & storytelling
+                </p>
+
+                <br>
+
+                <a href="form.html"
+                   class="btn-hero"
+                   style="padding:12px 30px; font-size:1rem;">
+                    Reserve Tonight
+                </a>
+
+            </div>
+
+            <div class="pricing-card">
+
+                <h3>90 Minutes Premium</h3>
+
+                <div class="price">$59</div>
+
+                <p>
+                    Deep personalized relaxation experience
+                </p>
+
+                <br>
+
+                <a href="form.html"
+                   class="btn-hero"
+                   style="padding:12px 30px; font-size:1rem;">
+                    Premium Session
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-header">
+            <h2>How It Works</h2>
+        </div>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h3>
+                    1. Choose Your Companion
+                </h3>
+
+                <p>
+                    Select the voice and atmosphere you prefer.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    2. Tell Us Your Mood
+                </h3>
+
+                <p>
+                    Whispers, storytelling, emotional comfort,
+                    or quiet company.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    3. Receive Your Session
+                </h3>
+
+                <p>
+                    We’ll send your private session access directly.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    4. Relax & Sleep
+                </h3>
+
+                <p>
+                    Let a calm real voice help you unwind tonight.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- TESTIMONIALS -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-header">
+            <h2>Loved By Night Owls Worldwide</h2>
+        </div>
+
+        <div class="grid">
+
+            <div class="card">
+
+                <p>
+                    “I haven’t slept this peacefully in months.”
+                </p>
+
+                <br>
+
+                <strong>
+                    — Sarah, New York
+                </strong>
+
+            </div>
+
+            <div class="card">
+
+                <p>
+                    “The voice felt incredibly comforting and real.”
+                </p>
+
+                <br>
+
+                <strong>
+                    — Kevin, Toronto
+                </strong>
+
+            </div>
+
+            <div class="card">
+
+                <p>
+                    “Perfect after stressful late-night work sessions.”
+                </p>
+
+                <br>
+
+                <strong>
+                    — Mia, Singapore
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+        Private & confidential support ·
+        Average response under 5 minutes
+    </p>
+
+    <br>
+
+    <p>
+        For relaxation and entertainment purposes only.
+        Not a medical or psychological service.
+        18+ only.
+    </p>
+
+</footer>
+
+<!-- WHATSAPP -->
+
+<a href="https://wa.me/13045967785"
+   class="whatsapp-float"
+   target="_blank"
+   aria-label="Contact WhatsApp">
+    💬
+</a>
 
 </body>
 </html>
