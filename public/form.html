@@ -1,575 +1,332 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>
-Book Your Private Sleep Session | Luna Whisper
-</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap"
-      rel="stylesheet">
-
-<style>
-
-:root{
-
-    --bg:#0a0a1f;
-    --surface:#111127;
-    --card:rgba(255,255,255,0.06);
-    --border:rgba(180,180,255,0.18);
-    --accent:#c8b6ff;
-
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    background:var(--bg);
-
-    color:#fff;
-
-    font-family:'Inter',sans-serif;
-
-    min-height:100vh;
-
-    padding:20px;
-
-    line-height:1.6;
-
-}
-
-body.zh{
-    font-family:'Noto Sans SC','Inter',sans-serif;
-}
-
-.container{
-
-    max-width:920px;
-
-    margin:40px auto;
-
-}
-
-.lang-switch{
-
-    position:fixed;
-
-    top:20px;
-    right:20px;
-
-    display:flex;
-
-    gap:4px;
-
-    background:rgba(255,255,255,0.08);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    padding:5px;
-
-    border-radius:999px;
-
-    z-index:100;
-
-    backdrop-filter:blur(20px);
-
-}
-
-.lang-btn{
-
-    padding:8px 16px;
-
-    border-radius:999px;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    color:#fff;
-
-    font-size:.92rem;
-
-}
-
-.lang-btn.active{
-
-    background:var(--accent);
-
-    color:#000;
-
-    font-weight:600;
-
-}
-
-.step{
-    display:none;
-}
-
-.step.active{
-
-    display:block;
-
-    animation:fadeIn .4s ease;
-
-}
-
-@keyframes fadeIn{
-
-    from{
-        opacity:0;
-        transform:translateY(14px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-
-}
-
-.card{
-
-    background:rgba(255,255,255,0.06);
-
-    border:1px solid var(--border);
-
-    border-radius:24px;
-
-    padding:28px;
-
-    margin-bottom:20px;
-
-    cursor:pointer;
-
-    transition:all .3s ease;
-
-    backdrop-filter:blur(20px);
-
-}
-
-.card:hover{
-
-    transform:translateY(-5px);
-
-    border-color:var(--accent);
-
-}
-
-.card.selected{
-
-    border-color:var(--accent);
-
-    box-shadow:
-    0 0 0 3px rgba(200,182,255,0.18);
-
-}
-
-.price{
-
-    font-size:2.8rem;
-
-    color:var(--accent);
-
-    font-weight:700;
-
-    margin:12px 0;
-
-}
-
-.form-input{
-
-    width:100%;
-
-    padding:16px 20px;
-
-    background:rgba(255,255,255,0.05);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:14px;
-
-    color:#fff;
-
-    margin-bottom:16px;
-
-    transition:.25s;
-
-    font-size:1rem;
-
-}
-
-.form-input:focus{
-
-    border-color:var(--accent);
-
-    outline:none;
-
-    box-shadow:
-    0 0 0 4px rgba(200,182,255,.12);
-
-}
-
-textarea.form-input{
-    resize:vertical;
-}
-
-.btn{
-
-    width:100%;
-
-    border:none;
-
-    cursor:pointer;
-
-    padding:16px 40px;
-
-    border-radius:999px;
-
-    font-weight:600;
-
-    transition:.3s ease;
-
-}
-
-.btn-primary{
-
-    background:var(--accent);
-
-    color:#000;
-
-    font-size:1.08rem;
-
-    margin-top:20px;
-
-}
-
-.btn-primary:hover{
-    transform:translateY(-2px);
-}
-
-.notice{
-
-    background:
-    rgba(200,182,255,0.12);
-
-    border:1px solid var(--accent);
-
-    border-radius:16px;
-
-    padding:16px 18px;
-
-    margin-top:20px;
-
-    margin-bottom:20px;
-
-    font-size:.95rem;
-
-    color:#eee;
-
-}
-
-.trust-row{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:12px;
-
-    color:#aaa;
-
-    font-size:.92rem;
-
-    margin-top:10px;
-
-    margin-bottom:8px;
-
-}
-
-.page-title{
-
-    text-align:center;
-
-    margin-bottom:8px;
-
-    font-size:clamp(2rem,5vw,2.8rem);
-
-    font-family:'Playfair Display',serif;
-
-}
-
-.page-subtitle{
-
-    text-align:center;
-
-    color:#aaa;
-
-    margin-bottom:38px;
-
-}
-
-@media(max-width:768px){
-
-    body{
-        padding:16px;
-    }
-
-    .container{
-        margin-top:80px;
-    }
-
-    .card{
-        padding:22px;
-    }
-
-    .price{
-        font-size:2.3rem;
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预约今晚的陪伴 | Luna Whisper</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --bg:#0a0a1f;
+            --accent:#c8b6ff;
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            background:var(--bg);
+            color:#fff;
+            font-family:'Inter',sans-serif;
+            min-height:100vh;
+            padding:20px;
+            line-height:1.6;
+        }
+
+        .container{
+            max-width:920px;
+            margin:40px auto;
+        }
+
+        .lang-switch{
+            position:fixed;
+            top:20px;
+            right:20px;
+            display:flex;
+            gap:4px;
+            background:rgba(255,255,255,0.08);
+            padding:5px;
+            border-radius:999px;
+            z-index:100;
+            backdrop-filter:blur(20px);
+        }
+
+        .lang-btn{
+            padding:8px 16px;
+            border-radius:999px;
+            cursor:pointer;
+        }
+
+        .lang-btn.active{
+            background:var(--accent);
+            color:#000;
+            font-weight:600;
+        }
+
+        .step{
+            display:none;
+        }
+
+        .step.active{
+            display:block;
+            animation:fadeIn .4s ease;
+        }
+
+        @keyframes fadeIn{
+            from{
+                opacity:0;
+                transform:translateY(20px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        .card{
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(180,180,255,0.18);
+            border-radius:24px;
+            padding:28px;
+            margin-bottom:20px;
+            cursor:pointer;
+            transition:all .3s ease;
+            position:relative;
+            z-index:2;
+        }
+
+        .card *{
+            pointer-events:none;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+        }
+
+        .card.selected{
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(200,182,255,0.25);
+        }
+
+        .price{
+            font-size:2.9rem;
+            color:var(--accent);
+            font-weight:700;
+            margin:12px 0;
+        }
+
+        .form-input{
+            width:100%;
+            padding:16px 20px;
+            background:rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,.1);
+            border-radius:14px;
+            color:#fff;
+            margin-bottom:16px;
+            font-size:1rem;
+        }
+
+        .form-input:focus{
+            border-color:var(--accent);
+            outline:none;
+            box-shadow:0 0 0 4px rgba(200,182,255,.15);
+        }
+
+        .btn{
+            width:100%;
+            padding:16px;
+            border-radius:999px;
+            font-weight:600;
+            font-size:1.08rem;
+            cursor:pointer;
+            margin-top:10px;
+            border:none;
+        }
+
+        .btn-primary{
+            background:var(--accent);
+            color:#000;
+        }
+
+        .btn-secondary{
+            background:transparent;
+            color:#bbb;
+            border:1px solid rgba(255,255,255,0.2);
+        }
+
+        .notice{
+            background:rgba(200,182,255,0.1);
+            border:1px solid var(--accent);
+            border-radius:16px;
+            padding:18px;
+            margin:24px 0;
+            font-size:0.95rem;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="lang-switch" id="langSwitch">
-
-    <div class="lang-btn active"
-         data-lang="en">
-         EN
-    </div>
-
-    <div class="lang-btn"
-         data-lang="zh">
-         中文
-    </div>
-
+    <div class="lang-btn" data-lang="en">EN</div>
+    <div class="lang-btn active" data-lang="zh">中文</div>
 </div>
 
 <div class="container">
 
 <form id="bookingForm">
 
-<!-- STEP 1 -->
+    <!-- STEP 1 -->
 
-<div class="step active" id="step1">
+    <div class="step active" id="step1">
 
-    <h1 class="page-title"
-        data-en="Choose Your Session"
-        data-zh="选择陪伴时长">
+        <h1 style="text-align:center; font-size:2.6rem; margin-bottom:8px;">
+            选择陪伴时长
+        </h1>
 
-        Choose Your Session
-
-    </h1>
-
-    <p class="page-subtitle"
-       data-en="One-time payment • No subscription"
-       data-zh="单次付费 · 无订阅">
-
-       One-time payment • No subscription
-
-    </p>
-
-    <!-- PLAN 1 -->
-
-    <div onclick="selectPlan(this)"
-         class="card"
-         data-plan="30min">
-
-        <h3 data-en="30 Minutes"
-            data-zh="30分钟">
-
-            30 Minutes
-
-        </h3>
-
-        <div class="price">$10</div>
-
-        <p style="color:#bbb;"
-           data-en="Gentle whisper & emotional comfort"
-           data-zh="轻柔耳语与情绪陪伴">
-
-           Gentle whisper & emotional comfort
-
+        <p style="text-align:center; color:#aaa; margin-bottom:40px;">
+            单次付费 · 无订阅
         </p>
 
+        <!-- 30分钟 -->
+
+        <div onclick="selectPlan(this)"
+             class="card"
+             data-plan="30min"
+             data-price="10">
+
+            <h3>30 分钟</h3>
+
+            <div class="price">$10</div>
+
+            <p style="color:#bbb;">
+                轻柔耳语 + 情绪安抚
+            </p>
+
+        </div>
+
+        <!-- 60分钟 -->
+
+        <div onclick="selectPlan(this)"
+             class="card selected"
+             data-plan="60min"
+             data-price="29">
+
+            <h3>60 分钟</h3>
+
+            <div class="price">$29</div>
+
+            <p style="color:#c8b6ff; font-weight:600;">
+                最受欢迎
+            </p>
+
+            <p style="color:#bbb;">
+                个性化睡前陪伴 + 故事讲述
+            </p>
+
+        </div>
+
+        <!-- 90分钟 -->
+
+        <div onclick="selectPlan(this)"
+             class="card"
+             data-plan="90min"
+             data-price="59">
+
+            <h3>90 分钟 Premium</h3>
+
+            <div class="price">$59</div>
+
+            <p style="color:#bbb;">
+                深度放松 + 专属定制
+            </p>
+
+        </div>
+
+        <input type="hidden"
+               id="planInput"
+               value="60min">
+
+        <input type="hidden"
+               id="priceInput"
+               value="29">
+
+        <button type="button"
+                class="btn btn-primary"
+                onclick="goToStep2()">
+
+            下一步 →
+
+        </button>
+
     </div>
 
-    <!-- PLAN 2 -->
+    <!-- STEP 2 -->
 
-    <div onclick="selectPlan(this)"
-         class="card selected"
-         data-plan="60min">
+    <div class="step"
+         id="step2">
 
-        <h3 data-en="60 Minutes"
-            data-zh="60分钟">
+        <h1 style="text-align:center; font-size:2.4rem; margin-bottom:8px;">
+            预约信息
+        </h1>
 
-            60 Minutes
-
-        </h3>
-
-        <div class="price">$29</div>
-
-        <p style="color:var(--accent); font-weight:600;">
-            Most Popular
+        <p style="text-align:center; color:#aaa; margin-bottom:30px;">
+            私密 · 真人陪伴
         </p>
 
-        <p style="color:#bbb;"
-           data-en="Personalized bedtime companionship"
-           data-zh="个性化睡前陪伴">
+        <input type="text"
+               name="name"
+               class="form-input"
+               placeholder="您的姓名"
+               required>
 
-           Personalized bedtime companionship
+        <input type="email"
+               name="email"
+               class="form-input"
+               placeholder="邮箱地址"
+               required>
 
-        </p>
+        <input type="tel"
+               name="whatsapp"
+               class="form-input"
+               placeholder="WhatsApp 号码（含国家代码）"
+               required>
 
-    </div>
+        <input type="text"
+               name="preferred_time"
+               class="form-input"
+               placeholder="期望时间（如：今晚11点）"
+               required>
 
-    <!-- PLAN 3 -->
+        <textarea name="special_request"
+                  class="form-input"
+                  rows="3"
+                  placeholder="特殊需求（可选）"></textarea>
 
-    <div onclick="selectPlan(this)"
-         class="card"
-         data-plan="90min">
+        <div class="notice">
 
-        <h3 data-en="90 Minutes Premium"
-            data-zh="90分钟高级陪伴">
+            <strong>支付说明：</strong>
 
-            90 Minutes Premium
+            点击下方按钮后将跳转 PayPal 安全支付页面。
 
-        </h3>
+            支付成功后我们会立即通过 WhatsApp 联系你安排专属陪伴。
 
-        <div class="price">$59</div>
+        </div>
 
-        <p style="color:#bbb;"
-           data-en="Deep relaxing premium experience"
-           data-zh="深度放松高端体验">
+        <button type="button"
+                class="btn btn-secondary"
+                onclick="goBackToStep1()"
+                style="margin-bottom:12px;">
 
-           Deep relaxing premium experience
+            ← 返回修改时长
 
-        </p>
+        </button>
 
-    </div>
+        <button type="button"
+                class="btn btn-primary"
+                onclick="submitBooking()">
 
-    <input type="hidden"
-           id="planInput"
-           value="60min">
+            确认支付 $
+            <span id="showPrice">29</span>
 
-    <button type="button"
-            class="btn btn-primary"
-            onclick="goToStep2()">
-
-        Continue →
-
-    </button>
-
-</div>
-
-<!-- STEP 2 -->
-
-<div class="step" id="step2">
-
-    <h1 class="page-title"
-        data-en="Your Booking Details"
-        data-zh="预约信息">
-
-        Your Booking Details
-
-    </h1>
-
-    <p class="page-subtitle"
-       data-en="Private & confidential • Human-only companionship • No subscription"
-       data-zh="私密陪伴 · 真人互动 · 无自动续费">
-
-       Private & confidential • Human-only companionship • No subscription
-
-    </p>
-
-    <!-- honeypot -->
-
-    <input type="hidden"
-           name="website">
-
-    <input type="text"
-           name="name"
-           class="form-input"
-           placeholder="Your Name"
-           required>
-
-    <input type="email"
-           name="email"
-           class="form-input"
-           placeholder="Email Address"
-           required>
-
-    <input type="tel"
-           name="whatsapp"
-           class="form-input"
-           placeholder="WhatsApp Number"
-           required>
-
-    <input type="text"
-           name="preferred_time"
-           class="form-input"
-           placeholder="Preferred Time (e.g. Tonight 11PM UTC)"
-           required>
-
-    <textarea name="special_request"
-              rows="4"
-              class="form-input"
-              placeholder="Special requests (optional)"></textarea>
-
-    <div class="trust-row">
-
-        <span>🔒 Secure Checkout</span>
-
-        <span>💳 Stripe Accepted</span>
-
-        <span>🛡 Private Session</span>
+        </button>
 
     </div>
-
-    <div class="notice">
-
-        <strong>
-            📌 Reminder:
-        </strong>
-
-        After payment, please wait for our message
-        or send your payment screenshot to WhatsApp.
-        We’ll arrange your private session immediately.
-
-        <br><br>
-
-        <strong>
-            温馨提示：
-        </strong>
-
-        完成付款后，请等待我们联系您，
-        或发送付款截图到 WhatsApp，
-        我们会立刻为您安排。
-
-    </div>
-
-    <button type="button"
-            class="btn btn-primary"
-            onclick="submitBooking()">
-
-        Confirm & Pay Now
-
-    </button>
-
-</div>
 
 </form>
 
@@ -579,7 +336,8 @@ textarea.form-input{
 
 function selectPlan(el){
 
-    document.querySelectorAll('#step1 .card')
+    document
+    .querySelectorAll('#step1 .card')
     .forEach(card => {
 
         card.classList.remove('selected');
@@ -590,6 +348,12 @@ function selectPlan(el){
 
     document.getElementById('planInput').value =
     el.dataset.plan;
+
+    document.getElementById('priceInput').value =
+    el.dataset.price;
+
+    document.getElementById('showPrice').textContent =
+    el.dataset.price;
 
 }
 
@@ -603,17 +367,28 @@ function goToStep2(){
 
 }
 
+function goBackToStep1(){
+
+    document.getElementById('step2')
+    .classList.remove('active');
+
+    document.getElementById('step1')
+    .classList.add('active');
+
+}
+
 async function submitBooking(){
 
     const btn =
     document.querySelector('#step2 .btn-primary');
 
-    btn.innerHTML = 'Processing...';
+    const originalText =
+    btn.innerHTML;
+
+    btn.innerHTML =
+    '正在跳转 PayPal...';
 
     btn.disabled = true;
-
-    const plan =
-    document.getElementById('planInput').value;
 
     const form =
     document.getElementById('bookingForm');
@@ -632,17 +407,14 @@ async function submitBooking(){
         whatsapp:
         formData.get('whatsapp'),
 
-        session_plan:
-        plan,
-
         preferred_time:
         formData.get('preferred_time'),
 
         special_request:
         formData.get('special_request'),
 
-        website:
-        formData.get('website')
+        session_plan:
+        document.getElementById('planInput').value
 
     };
 
@@ -653,11 +425,10 @@ async function submitBooking(){
         !data.preferred_time
     ){
 
-        alert(
-        'Please fill in all required fields / 请填写所有必填字段'
-        );
+        alert('请填写完整信息');
 
-        btn.innerHTML = 'Confirm & Pay Now';
+        btn.innerHTML =
+        originalText;
 
         btn.disabled = false;
 
@@ -690,11 +461,10 @@ async function submitBooking(){
 
         }else{
 
-            alert(
-            '❌ Booking failed. Please refresh and try again.'
-            );
+            alert('支付链接生成失败');
 
-            btn.innerHTML = 'Confirm & Pay Now';
+            btn.innerHTML =
+            originalText;
 
             btn.disabled = false;
 
@@ -704,11 +474,10 @@ async function submitBooking(){
 
         console.error(err);
 
-        alert(
-        '❌ Network error. Please try again.'
-        );
+        alert('网络错误，请稍后重试');
 
-        btn.innerHTML = 'Confirm & Pay Now';
+        btn.innerHTML =
+        originalText;
 
         btn.disabled = false;
 
@@ -716,45 +485,22 @@ async function submitBooking(){
 
 }
 
-function updateLanguage(lang){
-
-    document.querySelectorAll('[data-en]')
-    .forEach(el => {
-
-        el.textContent =
-        lang === 'zh'
-        ? el.dataset.zh
-        : el.dataset.en;
-
-    });
-
-}
-
 document.getElementById('langSwitch')
 .addEventListener('click',e => {
 
-    if(
-        !e.target.classList.contains('lang-btn')
-    ) return;
+    if(e.target.classList.contains('lang-btn')){
 
-    document.querySelectorAll('.lang-btn')
-    .forEach(btn => {
+        document
+        .querySelectorAll('.lang-btn')
+        .forEach(btn => {
 
-        btn.classList.remove('active');
+            btn.classList.remove('active');
 
-    });
+        });
 
-    e.target.classList.add('active');
+        e.target.classList.add('active');
 
-    const lang =
-    e.target.dataset.lang;
-
-    document.body.classList.toggle(
-        'zh',
-        lang === 'zh'
-    );
-
-    updateLanguage(lang);
+    }
 
 });
 
