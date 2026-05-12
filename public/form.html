@@ -50,6 +50,7 @@
             padding:8px 16px;
             border-radius:999px;
             cursor:pointer;
+            transition:.2s;
         }
 
         .lang-btn.active{
@@ -86,12 +87,6 @@
             margin-bottom:20px;
             cursor:pointer;
             transition:all .3s ease;
-            position:relative;
-            z-index:2;
-        }
-
-        .card *{
-            pointer-events:none;
         }
 
         .card:hover{
@@ -157,205 +152,252 @@
             margin:24px 0;
             font-size:0.95rem;
         }
+
+        textarea{
+            resize:vertical;
+        }
+
+        @media(max-width:768px){
+
+            body{
+                padding:16px;
+            }
+
+            .card{
+                padding:24px;
+            }
+
+            .price{
+                font-size:2.6rem;
+            }
+
+        }
     </style>
 </head>
-
 <body>
 
 <div class="lang-switch" id="langSwitch">
-    <div class="lang-btn" data-lang="en">EN</div>
-    <div class="lang-btn active" data-lang="zh">中文</div>
+    <div class="lang-btn">EN</div>
+    <div class="lang-btn active">中文</div>
 </div>
 
 <div class="container">
 
-<form id="bookingForm">
+    <form id="bookingForm">
 
-    <!-- STEP 1 -->
+        <!-- STEP 1 -->
 
-    <div class="step active" id="step1">
+        <div class="step active" id="step1">
 
-        <h1 style="text-align:center; font-size:2.6rem; margin-bottom:8px;">
-            选择陪伴时长
-        </h1>
+            <h1 style="text-align:center;font-size:2.6rem;margin-bottom:8px;">
+                选择陪伴时长
+            </h1>
 
-        <p style="text-align:center; color:#aaa; margin-bottom:40px;">
-            单次付费 · 无订阅
-        </p>
-
-        <!-- 30分钟 -->
-
-        <div onclick="selectPlan(this)"
-             class="card"
-             data-plan="30min"
-             data-price="10">
-
-            <h3>30 分钟</h3>
-
-            <div class="price">$10</div>
-
-            <p style="color:#bbb;">
-                轻柔耳语 + 情绪安抚
+            <p style="text-align:center;color:#aaa;margin-bottom:40px;">
+                单次付费 · 无订阅
             </p>
+
+            <!-- 30 -->
+
+            <div class="card"
+                 data-plan="30min"
+                 data-price="10">
+
+                <h3>30 分钟</h3>
+
+                <div class="price">$10</div>
+
+                <p style="color:#bbb;">
+                    轻柔耳语 + 情绪安抚
+                </p>
+
+            </div>
+
+            <!-- 60 -->
+
+            <div class="card selected"
+                 data-plan="60min"
+                 data-price="29">
+
+                <h3>60 分钟</h3>
+
+                <div class="price">$29</div>
+
+                <p style="color:#c8b6ff;font-weight:600;">
+                    最受欢迎
+                </p>
+
+                <p style="color:#bbb;">
+                    个性化睡前陪伴 + 故事讲述
+                </p>
+
+            </div>
+
+            <!-- 90 -->
+
+            <div class="card"
+                 data-plan="90min"
+                 data-price="59">
+
+                <h3>90 分钟 Premium</h3>
+
+                <div class="price">$59</div>
+
+                <p style="color:#bbb;">
+                    深度放松 + 专属定制
+                </p>
+
+            </div>
+
+            <input type="hidden"
+                   id="planInput"
+                   value="60min">
+
+            <input type="hidden"
+                   id="priceInput"
+                   value="29">
+
+            <button type="button"
+                    class="btn btn-primary"
+                    onclick="goToStep2()">
+
+                下一步 →
+
+            </button>
 
         </div>
 
-        <!-- 60分钟 -->
+        <!-- STEP 2 -->
 
-        <div onclick="selectPlan(this)"
-             class="card selected"
-             data-plan="60min"
-             data-price="29">
+        <div class="step"
+             id="step2">
 
-            <h3>60 分钟</h3>
+            <h1 style="text-align:center;font-size:2.4rem;margin-bottom:8px;">
+                预约信息
+            </h1>
 
-            <div class="price">$29</div>
-
-            <p style="color:#c8b6ff; font-weight:600;">
-                最受欢迎
+            <p style="text-align:center;color:#aaa;margin-bottom:30px;">
+                私密 · 真人陪伴
             </p>
 
-            <p style="color:#bbb;">
-                个性化睡前陪伴 + 故事讲述
-            </p>
+            <input type="text"
+                   name="name"
+                   class="form-input"
+                   placeholder="您的姓名"
+                   required>
+
+            <input type="email"
+                   name="email"
+                   class="form-input"
+                   placeholder="邮箱地址"
+                   required>
+
+            <input type="tel"
+                   name="whatsapp"
+                   class="form-input"
+                   placeholder="WhatsApp 号码（含国家代码）"
+                   required>
+
+            <input type="text"
+                   name="preferred_time"
+                   class="form-input"
+                   placeholder="期望时间（如：今晚11点）"
+                   required>
+
+            <textarea name="special_request"
+                      class="form-input"
+                      rows="3"
+                      placeholder="特殊需求（可选）"></textarea>
+
+            <div class="notice">
+
+                <strong>支付说明：</strong>
+
+                点击支付后将跳转 PayPal。
+
+                支付完成后我们会通过 WhatsApp 联系你。
+
+            </div>
+
+            <button type="button"
+                    class="btn btn-secondary"
+                    onclick="goBackToStep1()">
+
+                ← 返回修改时长
+
+            </button>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    onclick="submitBooking()">
+
+                确认支付 $
+                <span id="showPrice">29</span>
+
+            </button>
 
         </div>
 
-        <!-- 90分钟 -->
-
-        <div onclick="selectPlan(this)"
-             class="card"
-             data-plan="90min"
-             data-price="59">
-
-            <h3>90 分钟 Premium</h3>
-
-            <div class="price">$59</div>
-
-            <p style="color:#bbb;">
-                深度放松 + 专属定制
-            </p>
-
-        </div>
-
-        <input type="hidden"
-               id="planInput"
-               value="60min">
-
-        <input type="hidden"
-               id="priceInput"
-               value="29">
-
-        <button type="button"
-                class="btn btn-primary"
-                onclick="goToStep2()">
-
-            下一步 →
-
-        </button>
-
-    </div>
-
-    <!-- STEP 2 -->
-
-    <div class="step"
-         id="step2">
-
-        <h1 style="text-align:center; font-size:2.4rem; margin-bottom:8px;">
-            预约信息
-        </h1>
-
-        <p style="text-align:center; color:#aaa; margin-bottom:30px;">
-            私密 · 真人陪伴
-        </p>
-
-        <input type="text"
-               name="name"
-               class="form-input"
-               placeholder="您的姓名"
-               required>
-
-        <input type="email"
-               name="email"
-               class="form-input"
-               placeholder="邮箱地址"
-               required>
-
-        <input type="tel"
-               name="whatsapp"
-               class="form-input"
-               placeholder="WhatsApp 号码（含国家代码）"
-               required>
-
-        <input type="text"
-               name="preferred_time"
-               class="form-input"
-               placeholder="期望时间（如：今晚11点）"
-               required>
-
-        <textarea name="special_request"
-                  class="form-input"
-                  rows="3"
-                  placeholder="特殊需求（可选）"></textarea>
-
-        <div class="notice">
-
-            <strong>支付说明：</strong>
-
-            点击下方按钮后将跳转 PayPal 安全支付页面。
-
-            支付成功后我们会立即通过 WhatsApp 联系你安排专属陪伴。
-
-        </div>
-
-        <button type="button"
-                class="btn btn-secondary"
-                onclick="goBackToStep1()"
-                style="margin-bottom:12px;">
-
-            ← 返回修改时长
-
-        </button>
-
-        <button type="button"
-                class="btn btn-primary"
-                onclick="submitBooking()">
-
-            确认支付 $
-            <span id="showPrice">29</span>
-
-        </button>
-
-    </div>
-
-</form>
+    </form>
 
 </div>
 
 <script>
 
-function selectPlan(el){
+const cards =
+document.querySelectorAll('#step1 .card');
 
-    document
-    .querySelectorAll('#step1 .card')
-    .forEach(card => {
+const planInput =
+document.getElementById('planInput');
 
-        card.classList.remove('selected');
+const priceInput =
+document.getElementById('priceInput');
+
+const showPrice =
+document.getElementById('showPrice');
+
+
+
+// ====================
+// 套餐选择
+// ====================
+
+cards.forEach(card => {
+
+    card.addEventListener('click', () => {
+
+        cards.forEach(c => {
+
+            c.classList.remove('selected');
+
+        });
+
+        card.classList.add('selected');
+
+        const plan =
+        card.dataset.plan;
+
+        const price =
+        card.dataset.price;
+
+        planInput.value =
+        plan;
+
+        priceInput.value =
+        price;
+
+        showPrice.textContent =
+        price;
 
     });
 
-    el.classList.add('selected');
+});
 
-    document.getElementById('planInput').value =
-    el.dataset.plan;
 
-    document.getElementById('priceInput').value =
-    el.dataset.price;
 
-    document.getElementById('showPrice').textContent =
-    el.dataset.price;
-
-}
+// ====================
+// 下一步
+// ====================
 
 function goToStep2(){
 
@@ -367,6 +409,12 @@ function goToStep2(){
 
 }
 
+
+
+// ====================
+// 返回
+// ====================
+
 function goBackToStep1(){
 
     document.getElementById('step2')
@@ -376,6 +424,12 @@ function goBackToStep1(){
     .classList.add('active');
 
 }
+
+
+
+// ====================
+// 提交支付
+// ====================
 
 async function submitBooking(){
 
@@ -414,7 +468,7 @@ async function submitBooking(){
         formData.get('special_request'),
 
         session_plan:
-        document.getElementById('planInput').value
+        planInput.value
 
     };
 
@@ -439,7 +493,7 @@ async function submitBooking(){
     try{
 
         const response =
-        await fetch('/api/submit',{
+        await fetch('/api/submit', {
 
             method:'POST',
 
@@ -474,7 +528,7 @@ async function submitBooking(){
 
         console.error(err);
 
-        alert('网络错误，请稍后重试');
+        alert('网络错误，请重试');
 
         btn.innerHTML =
         originalText;
@@ -485,8 +539,14 @@ async function submitBooking(){
 
 }
 
+
+
+// ====================
+// 语言按钮 UI
+// ====================
+
 document.getElementById('langSwitch')
-.addEventListener('click',e => {
+.addEventListener('click', e => {
 
     if(e.target.classList.contains('lang-btn')){
 
