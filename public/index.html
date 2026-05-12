@@ -78,9 +78,9 @@
         .lang-btn {
             padding:6px 14px; border-radius:20px; cursor:pointer;
             font-size:0.8rem; font-weight:500; transition:0.2s;
-            background: transparent; color: var(--muted); border:none;
+            background: transparent; color: var(--muted); border:1px solid transparent;
         }
-        .lang-btn.active { background: var(--accent); color:#000; font-weight:600; }
+        .lang-btn.active { background: var(--accent); color:#000; font-weight:600; border-color:var(--accent); }
 
         /* Hero */
         .hero {
@@ -138,8 +138,7 @@
         .card:hover { transform: translateY(-8px); border-color: rgba(200,182,255,0.3); box-shadow:0 20px 40px rgba(0,0,0,0.5); }
         .companion-img {
             width:100%; height:260px; object-fit:cover; display:block;
-            background: #1e1e3a;
-            border-radius: 0;
+            background: #1e1e3a; /* 加载前背景 */
         }
         .card-body { padding: 20px 24px 24px; }
         .card-body h3 { font-size:1.4rem; margin-bottom:4px; }
@@ -243,7 +242,10 @@
             <div class="grid">
                 <!-- Elena Voss -->
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" alt="Elena Voss - Gentle British Whisperer" class="companion-img" />
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800" 
+                         alt="Elena Voss - Gentle British Whisperer" 
+                         class="companion-img"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22260%22%3E%3Crect fill=%22%231e1e3a%22 width=%22400%22 height=%22260%22/%3E%3Ctext fill=%22%23c8b6ff%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2218%22%3EElena%3C/text%3E%3C/svg%3E';" />
                     <div class="card-body">
                         <h3>Elena Voss</h3>
                         <span class="tag" data-i18n="elena_tag">🎀 Gentle British Whisperer · 英式温柔低语</span>
@@ -255,7 +257,10 @@
                 </div>
                 <!-- Marcus Reed -->
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" alt="Marcus Reed - Warm American Storyteller" class="companion-img" />
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" 
+                         alt="Marcus Reed - Warm American Storyteller" 
+                         class="companion-img"
+                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22260%22%3E%3Crect fill=%22%231e1e3a%22 width=%22400%22 height=%22260%22/%3E%3Ctext fill=%22%23c8b6ff%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-size=%2218%22%3EMarcus%3C/text%3E%3C/svg%3E';" />
                     <div class="card-body">
                         <h3>Marcus Reed</h3>
                         <span class="tag" data-i18n="marcus_tag">💛 Warm American Storyteller · 温暖美式讲述者</span>
@@ -312,7 +317,7 @@
     </footer>
 
     <script>
-        // 语言系统
+        // ==================== 语言系统 ====================
         const translations = {
             en: {
                 nav_companions: "Companions",
@@ -370,76 +375,99 @@
             }
         };
 
+        let currentLang = 'en';
+
         function setLanguage(lang) {
+            currentLang = lang;
+            // 更新所有带有 data-i18n 属性的元素
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
                     el.innerHTML = translations[lang][key];
                 }
             });
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
+            // 更新语言按钮状态
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
             localStorage.setItem('luna_lang', lang);
         }
 
-        document.getElementById('langSwitch').addEventListener('click', (e) => {
-            if (e.target.classList.contains('lang-btn')) {
-                setLanguage(e.target.dataset.lang);
+        // 语言切换事件监听
+        document.getElementById('langSwitch').addEventListener('click', function(e) {
+            const langBtn = e.target.closest('.lang-btn');
+            if (langBtn) {
+                const lang = langBtn.dataset.lang;
+                setLanguage(lang);
             }
         });
 
-        const savedLang = localStorage.getItem('luna_lang') || 
-                          (navigator.language.startsWith('zh') ? 'zh' : 'en');
-        setLanguage(savedLang);
+        // 初始化语言
+        const savedLang = localStorage.getItem('luna_lang');
+        // 如果浏览器语言是中文，默认中文
+        const defaultLang = savedLang || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+        setLanguage(defaultLang);
 
-        // 星空背景（轻量）
-        const canvas = document.createElement('canvas');
-        canvas.style.position = 'absolute';
-        canvas.style.top = 0;
-        canvas.style.left = 0;
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.pointerEvents = 'none';
-        document.querySelector('.hero').appendChild(canvas);
-        const ctx = canvas.getContext('2d');
-        let stars = [];
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', () => {
+        // ==================== 星空背景（轻量） ====================
+        (function() {
+            const hero = document.querySelector('.hero');
+            const canvas = document.createElement('canvas');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '1';
+            hero.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                initStars();
+            });
+
+            function initStars() {
+                const count = Math.floor((canvas.width * canvas.height) / 2000);
+                stars = [];
+                for (let i = 0; i < count; i++) {
+                    stars.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        r: Math.random() * 2,
+                        alpha: Math.random(),
+                        delta: Math.random() * 0.008 + 0.002
+                    });
+                }
+            }
+
+            function drawStars() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(s => {
+                    s.alpha += s.delta;
+                    if (s.alpha >= 1 || s.alpha <= 0.2) s.delta = -s.delta;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(drawStars);
+            }
+
             resizeCanvas();
             initStars();
-        });
-        function initStars() {
-            const count = Math.floor((canvas.width * canvas.height) / 2000);
-            stars = [];
-            for (let i = 0; i < count; i++) {
-                stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    r: Math.random() * 2,
-                    alpha: Math.random(),
-                    delta: Math.random() * 0.008 + 0.002
-                });
-            }
-        }
-        function drawStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(s => {
-                s.alpha += s.delta;
-                if (s.alpha >= 1 || s.alpha <= 0.2) s.delta = -s.delta;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
-                ctx.fill();
-            });
-            requestAnimationFrame(drawStars);
-        }
-        resizeCanvas();
-        initStars();
-        drawStars();
+            drawStars();
+        })();
 
+        // Navbar 滚动效果
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
         });
