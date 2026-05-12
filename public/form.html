@@ -1,220 +1,540 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>预约今晚的陪伴 | Luna Whisper</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luna Whisper · 预约陪伴</title>
+    <meta name="description" content="Complete your booking for a real human whisper session." />
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
 
     <style>
-        :root{ --bg:#0a0a1f; --accent:#c8b6ff; }
-        *{ margin:0; padding:0; box-sizing:border-box; }
-
-        body{
-            background:var(--bg);
-            color:#fff;
-            font-family:'Inter',sans-serif;
-            min-height:100vh;
-            padding:20px;
-            line-height:1.6;
+        :root {
+            --bg: #0a0a1f;
+            --accent: #c8b6ff;
+            --surface: rgba(255,255,255,0.05);
+            --border: rgba(200,182,255,0.15);
+            --text: #f1f1f8;
+            --muted: #b0aac8;
+            --radius: 20px;
+            --transition: 0.3s ease;
         }
 
-        .container{ max-width:920px; margin:40px auto; }
-
-        .lang-switch{
-            position:fixed; top:20px; right:20px; display:flex; gap:4px;
-            background:rgba(255,255,255,0.08); padding:5px; border-radius:999px;
-            z-index:100; backdrop-filter:blur(20px);
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .lang-btn{
-            padding:8px 16px; border-radius:999px; cursor:pointer;
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* 语言切换 */
+        .lang-switch {
+            position: fixed; top:20px; right:20px; z-index:100;
+            display: flex; gap:2px; background: rgba(255,255,255,0.08);
+            border-radius: 24px; padding:3px;
+            backdrop-filter: blur(12px);
         }
-        .lang-btn.active{
-            background:var(--accent); color:#000; font-weight:600;
+        .lang-btn {
+            padding:6px 14px; border-radius:20px; cursor:pointer;
+            font-size:0.8rem; font-weight:500; border:none;
+            background: transparent; color: var(--muted); transition:0.2s;
+        }
+        .lang-btn.active { background: var(--accent); color:#000; font-weight:600; }
+
+        /* 步骤 */
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+
+        h1 { text-align:center; font-family: 'Playfair Display', serif; font-size: 2.3rem; margin-bottom: 8px; }
+        .sub { text-align:center; color: var(--muted); margin-bottom: 36px; }
+
+        /* 套餐卡片 */
+        .plans { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+        .plan-card {
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 24px; cursor:pointer;
+            transition: var(--transition); display: flex; justify-content:space-between; align-items:center;
+        }
+        .plan-card:hover { border-color: rgba(200,182,255,0.3); }
+        .plan-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200,182,255,0.2);
+            background: rgba(200,182,255,0.05);
+        }
+        .plan-info h3 { font-size:1.2rem; }
+        .plan-info p { color: var(--muted); font-size:0.9rem; }
+        .plan-price { font-size:2rem; font-weight:700; color: var(--accent); display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
+        .cny-price { font-size:0.95rem; font-weight:400; color: #a0a0c0; }
+        .badge-popular { background: var(--accent); color:#000; font-size:0.7rem; padding:2px 12px; border-radius:12px; margin-left:8px; font-weight:600; }
+
+        /* 表单 */
+        .form-group { margin-bottom: 18px; }
+        .form-input {
+            width:100%; padding:14px 18px; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 14px;
+            color:#fff; font-size:0.95rem; outline:none; transition: var(--transition);
+        }
+        .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,182,255,0.1); }
+        label { display:block; margin-bottom:6px; font-size:0.9rem; color: var(--muted); font-weight:500; }
+
+        .payment-options { display: flex; gap:12px; margin-bottom: 24px; }
+        .pay-option {
+            flex:1; text-align:center; padding:14px; border:1px solid var(--border);
+            border-radius: 14px; cursor:pointer; transition: var(--transition);
+            background: rgba(255,255,255,0.03);
+        }
+        .pay-option:hover { border-color: var(--accent); }
+        .pay-option.selected { border-color: var(--accent); background: rgba(200,182,255,0.08); }
+        .pay-option .pay-icon { font-size:1.8rem; margin-bottom:4px; }
+
+        .btn {
+            width:100%; padding:16px; border-radius: 40px; font-weight:600;
+            font-size:1rem; cursor:pointer; transition: var(--transition); border:none;
+            background: var(--accent); color:#000; margin-top:8px;
+        }
+        .btn:disabled { opacity:0.5; pointer-events:none; }
+        .btn-secondary { background: transparent; border:1px solid rgba(255,255,255,0.2); color:#fff; }
+
+        .notice {
+            background: rgba(200,182,255,0.06); border:1px solid var(--accent);
+            border-radius:14px; padding:16px; margin:20px 0; font-size:0.9rem;
         }
 
-        .step{ display:none; }
-        .step.active{ display:block; animation:fadeIn .4s ease; }
-
-        @keyframes fadeIn{ from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
-
-        .card{
-            background:rgba(255,255,255,0.06);
-            border:1px solid rgba(180,180,255,0.18);
-            border-radius:24px;
-            padding:28px;
-            margin-bottom:20px;
-            cursor:pointer;
-            transition:all .3s ease;
+        /* 微信支付区域 */
+        .wechat-section { display:none; text-align:center; margin:20px 0; }
+        .wechat-section.active { display:block; }
+        .order-id-box {
+            background: rgba(200,182,255,0.1); border:1px solid var(--accent);
+            border-radius:14px; padding:16px; margin-bottom:16px;
+            display:flex; align-items:center; justify-content:center; gap:12px;
+            flex-wrap:wrap;
         }
-        .card:hover{ transform:translateY(-5px); }
-        .card.selected{
-            border-color:var(--accent);
-            box-shadow:0 0 0 3px rgba(200,182,255,0.25);
+        .order-id-box span { font-weight:600; font-size:1.2rem; color: var(--accent); letter-spacing:1px; }
+        .copy-btn {
+            background: var(--accent); color:#000; border:none;
+            padding:8px 16px; border-radius:20px; cursor:pointer;
+            font-weight:600; font-size:0.85rem; transition:0.2s;
         }
+        .copy-btn:hover { background:#d9ccff; }
+        .wechat-qr { text-align:center; }
+        .wechat-qr img { width:240px; border-radius:12px; background:#fff; padding:8px; }
+        .wechat-qr p { margin-top:8px; color: var(--muted); font-size:0.85rem; }
 
-        .price{ font-size:2.9rem; color:var(--accent); font-weight:700; margin:12px 0; }
+        .submit-price-info { text-align:center; margin-bottom:8px; font-size:0.9rem; color: var(--muted); }
+        .submit-price-info span { color: var(--accent); font-weight:600; }
 
-        .form-input{
-            width:100%; padding:16px 20px; background:rgba(255,255,255,0.05);
-            border:1px solid rgba(255,255,255,.1); border-radius:14px;
-            color:#fff; margin-bottom:16px;
-        }
-        .form-input:focus{
-            border-color:var(--accent); outline:none;
-            box-shadow:0 0 0 4px rgba(200,182,255,.15);
-        }
-
-        .btn{
-            width:100%; padding:16px; border-radius:999px;
-            font-weight:600; font-size:1.08rem; cursor:pointer; margin-top:12px;
-        }
-        .btn-primary{ background:var(--accent); color:#000; border:none; }
-        .btn-secondary{ background:transparent; color:#bbb; border:1px solid rgba(255,255,255,0.2); }
-
-        .notice{
-            background:rgba(200,182,255,0.1);
-            border:1px solid var(--accent);
-            border-radius:16px;
-            padding:18px;
-            margin:24px 0;
+        @media (max-width: 500px) {
+            .plan-card { flex-direction:column; align-items:flex-start; gap:8px; }
+            .plan-price { align-items:flex-start; }
+            .order-id-box { flex-direction:column; gap:8px; }
+            .payment-options { flex-direction:column; }
         }
     </style>
 </head>
 <body>
 
 <div class="lang-switch" id="langSwitch">
-    <div class="lang-btn" data-lang="en">EN</div>
-    <div class="lang-btn active" data-lang="zh">中文</div>
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">中文</button>
 </div>
 
 <div class="container">
-<form id="bookingForm">
 
-    <!-- STEP 1 -->
+    <!-- ══════ STEP 1 : 选择套餐 ══════ -->
     <div class="step active" id="step1">
-        <h1 style="text-align:center; font-size:2.6rem; margin-bottom:8px;">选择陪伴时长</h1>
-        <p style="text-align:center; color:#aaa; margin-bottom:40px;">单次付费 · 无订阅</p>
+        <h1 data-i18n="step1_title">Choose Your Session</h1>
+        <p class="sub" data-i18n="step1_sub">One‑time payment · No subscriptions</p>
 
-        <div onclick="selectPlan(this)" class="card" data-plan="30min" data-price="10">
-            <h3>30 分钟</h3>
-            <div class="price">$10</div>
-            <p style="color:#bbb;">轻柔耳语 + 情绪安抚</p>
+        <div class="plans" id="planList">
+            <div class="plan-card" data-plan="30min" data-price="10" onclick="selectPlan(this)">
+                <div class="plan-info">
+                    <h3>🌿 <span data-i18n="plan30_name">30 Minutes</span></h3>
+                    <p data-i18n="plan30_desc">Gentle whispers & emotional comfort</p>
+                </div>
+                <div class="plan-price">
+                    <span>$10</span>
+                    <span class="cny-price">≈ ¥70</span>
+                </div>
+            </div>
+            <div class="plan-card" data-plan="60min" data-price="29" onclick="selectPlan(this)">
+                <div class="plan-info">
+                    <h3>🌛 <span data-i18n="plan60_name">60 Minutes</span><span class="badge-popular" data-i18n="popular_badge">Most Popular</span></h3>
+                    <p data-i18n="plan60_desc">Personalized bedtime stories & deep companionship</p>
+                </div>
+                <div class="plan-price">
+                    <span>$29</span>
+                    <span class="cny-price">≈ ¥203</span>
+                </div>
+            </div>
+            <div class="plan-card" data-plan="90min" data-price="59" onclick="selectPlan(this)">
+                <div class="plan-info">
+                    <h3>💫 <span data-i18n="plan90_name">90 Minutes Premium</span></h3>
+                    <p data-i18n="plan90_desc">Premium deep relaxation experience</p>
+                </div>
+                <div class="plan-price">
+                    <span>$59</span>
+                    <span class="cny-price">≈ ¥413</span>
+                </div>
+            </div>
         </div>
 
-        <div onclick="selectPlan(this)" class="card" data-plan="60min" data-price="29">
-            <h3>60 分钟</h3>
-            <div class="price">$29</div>
-            <p style="color:#c8b6ff; font-weight:600;">最受欢迎</p>
-            <p style="color:#bbb;">个性化睡前陪伴 + 故事讲述</p>
-        </div>
-
-        <div onclick="selectPlan(this)" class="card" data-plan="90min" data-price="59">
-            <h3>90 分钟 Premium</h3>
-            <div class="price">$59</div>
-            <p style="color:#bbb;">深度放松 + 专属定制</p>
-        </div>
-
-        <input type="hidden" id="planInput" value="60min">
-        <input type="hidden" id="priceInput" value="29">
-
-        <button type="button" class="btn btn-primary" onclick="goToStep2()">下一步 →</button>
+        <button class="btn" onclick="goToStep2()" data-i18n="next_btn">Next →</button>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- ══════ STEP 2 : 填写信息 ══════ -->
     <div class="step" id="step2">
-        <h1 style="text-align:center; font-size:2.4rem; margin-bottom:8px;">预约信息</h1>
-        <p style="text-align:center; color:#aaa; margin-bottom:30px;">私密 · 真人陪伴</p>
+        <h1 data-i18n="step2_title">Your Details</h1>
+        <p class="sub" data-i18n="step2_sub">Private & secure · Real human companion</p>
 
-        <input type="text" name="name" class="form-input" placeholder="您的姓名" required>
-        <input type="email" name="email" class="form-input" placeholder="邮箱地址" required>
-        <input type="tel" name="whatsapp" class="form-input" placeholder="WhatsApp 号码（含国家代码）" required>
-        <input type="text" name="preferred_time" class="form-input" placeholder="期望时间（如：今晚11点）" required>
-        <textarea name="special_request" class="form-input" rows="3" placeholder="特殊需求（可选）"></textarea>
+        <form id="bookingForm" onsubmit="handleSubmit(event)">
+            <input type="hidden" id="planInput" value="60min" />
+            <input type="hidden" id="priceInput" value="29" />
+            <input type="hidden" name="website" value="" />
+            <input type="hidden" id="orderIdInput" value="" />
+            <input type="hidden" id="cnyPriceInput" value="" />
 
-        <div class="notice">
-            <strong>支付说明：</strong>点击下方按钮将跳转到安全支付页面。支付成功后我们会通过 WhatsApp 联系您。
-        </div>
+            <div class="form-group">
+                <label data-i18n="label_name">Your Name</label>
+                <input type="text" name="name" class="form-input" required placeholder="Jamie" />
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_email">Email</label>
+                <input type="email" name="email" class="form-input" required placeholder="jamie@example.com" />
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_whatsapp">WhatsApp (with country code)</label>
+                <input type="tel" name="whatsapp" class="form-input" required placeholder="+1 234 567 8900" />
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_time">Preferred Time</label>
+                <input type="text" name="preferred_time" class="form-input" required placeholder="e.g. Tonight 11pm" />
+            </div>
+            <div class="form-group">
+                <label data-i18n="label_request">Special Requests (optional)</label>
+                <textarea name="special_request" class="form-input" rows="2" placeholder="Any preferences..."></textarea>
+            </div>
 
-        <button type="button" class="btn btn-secondary" onclick="goBackToStep1()">← 返回修改时长</button>
-        
-        <button type="button" class="btn btn-primary" onclick="submitBooking()">
-            确认支付 $<span id="showPrice">29</span>
-        </button>
+            <!-- 支付方式 -->
+            <label data-i18n="label_payment">Payment Method</label>
+            <div class="payment-options" id="paymentMethods">
+                <div class="pay-option selected" data-method="paypal" onclick="selectPayment(this)">
+                    <div class="pay-icon">🅿️</div>
+                    <span>PayPal</span>
+                </div>
+                <div class="pay-option" data-method="wechat" onclick="selectPayment(this)">
+                    <div class="pay-icon">💚</div>
+                    <span>WeChat Pay</span>
+                </div>
+            </div>
+
+            <!-- 微信支付区域 -->
+            <div class="wechat-section" id="wechatSection">
+                <div class="order-id-box">
+                    <span data-i18n="order_id_label">Order ID:</span>
+                    <span id="orderIdDisplay"></span>
+                    <button type="button" class="copy-btn" onclick="copyOrderId()" data-i18n="copy_btn">Copy</button>
+                </div>
+                <div class="wechat-qr">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAASABIAAD/4SMNRXhpZgAATU0AKgAAAAgABgESAAMAAAABAAEAAAEaAAUAAAABAAAAVgEbAAUAAAABAAAAXgEoAAMAAAABAAIAAAITAAMAAAABAAEAAIdpAAQAAAABAAAAZgAAAMAAAABIAAAAAQAAAEgAAAABAAeQAAAHAAAABDAyMjGRAQAHAAAABAECAwCgAAAHAAAABDAxMDCgAQADAAAAAQABAACgAgAEAAAAAQAAAzygAwAEAAAAAQAABGSkBgADAAAAAQAAAAAAAAAAAAYBAwADAAAAAQAGAAABGgAFAAAAAQAAAQ4BGwAFAAAAAQAAARYBKAADAAAAAQACAAACAQAEAAAAAQAAAR4CAgAEAAAAAQAAIeUAAAAAAAAASAAAAAEAAABIAAAAAf/Y/9sAhAABAQEBAQECAQECAwICAgMEAwMDAwQFBAQEBAQFBgUFBQUFBQYGBgYGBgYGBwcHBwcHCAgICAgJCQkJCQkJCQkJAQEBAgICAgQCAgQJBgUGCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQn/3QAEAAj/wAARCACgAHYDASIAAhEBAxEB/8QBogAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoLEAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+foBAAMBAQEBAQEBAQEAAAAAAAABAgMEBQYHCAkKCxEAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDHooor+dz/AJVwor7K/Zy/ZC1D9ofw8ut6RrlrayJq8FjcW2d80NoYpZZ7kx46oseUQH5xnoQAemm/YqGnfGvR/hVqXiB5YNZsbW+ilsbRpp1WYQ7laGZrccGQ7ShdjgfIDwPTp5PiJQVSMdHsfqOX+DHEmJwVHMaOG/dVWoxleKTb0W70Pg+ivvb4u/sRXPw60ATeHtS1DWdXa++wJaCwhSOSR5khgCyx3cufM3cbVbpyFr0HT/8AgnDd6na679n8WIl1o8yWSwtZSHzLuO4FpdIu0/OqTB0Qx53EDgVp/YWK5uTl/I9GHgHxVLEzwkMN78VdrnhtZvfmtf3XputLrVH5kUV+gHwx/YjsfiB8OrPx5Nr15H9rsL3URHbWUEieXZXL22wNNeQN5j7NwygUA4LZpNP/AGILO6+Imq+CbnxQLeHTv7NIlkt1Dhb+2W6LTqJmSFVVhEjb2Dy8LwGISyTEtRajvtt2/wAjKj4FcT1KVCtDDrlrW5PehreLmuunur9D4Aor9B/Ef7APibSvGXhXwxoOuQarF4gupIZ5Io2D28MPmSyXITlWiW1j8zO/7xC46VzPif8AY1tNE+ED/GDT/GNpc2Ko9ymbS6RZLVgv2cqTFkSSMdpVgFXj5sZxMsmxCveO3oY4rwR4moe09thuX2au7ygtFGMna8leylG9trpM+HqK+/tC/YO1PW/hrc/ECDxMpVJLTydmkau0Tw3Ecjl8iz3MAFGGjVkweWHy58e0z9mPXdV+HY8fwarYw299qk9hpM95NHY2l7DZJuubhZrtotqqTGqKRlju4Gw1lLK66t7vTyOHF+EXENBQdTD/ABRc1aUJe6na/ut9bJd20lq0fMVFe4fHv4K3PwN8VWXhqfUrTUxeadZ3wktLiGfabiCOVlbyXcKAz4jJxvQBxwa8Prkq0pQk4SWqPic5ybE5fiqmBxkOWpB2a7NEyfdp1NT7tOrM8w//0Meiiiv53P8AlXPun9nD9qLQfg14P0nwvrM180MXiOPVLuG0t4Av2WG2njCmTej3DNLKrCOTCIE4PNdx4q/bL8B6t8b/AA38UNF0+58jS9IbSrj7bZWxljxAI1mtNkr7JSw+9kGNThT3r88NG0bVvEWr2ugaBbSXl9eypBbwQqXkkkc7VRFHJJPAAr65H/BPP9tcgEfDrU+f9q3/APjte/hMZjZwUKMbqNtl2P6G4O4245xuXU8BktCdWlQcGuSnKfK46x1V7bbfcbHxO/aysfF3wP8ADXwv0KxEF1Z3JvryYNeJ9lmj8tbdbVpL2YvsRXBLgKN3yIpyT9A6v+3F8NrjRfEOheGtT17RbzXNbvNUt9Vt7K2kNlBLeNdxweRLOd7FzuaRGj28AKSN1fM//DvL9tf/AKJ1qX/fVv8A/HaP+HeX7a//AETrUv8Avq3/APjtdcZ5mpOXs3sl8L2R9jhs38UqdepiP7OquU4Rp/wKitGKcUlypWum7ta9rWVtvwl+1np/g3QLTwLptqJNKtPDNxo6zz6fZXFwby7uWuJZj5ysTCNxxCX2nAyPT0fTf21/CGleKfFmsww3r2t5DpLaVD9mtow95pmnvZedNGp8uJCSrrGu9VAwFrx3/h3l+2v/ANE61L/vq3/+O0f8O8v21/8AonWpf99W/wD8dqYSzONkqb02919rHJgsX4o4eEKdPL61ofCvYTslySppJWtZRlovJHsXiP8AbS+H3iLx14N8UWtrrdhB4e1e91C4hkmS4Uw6gv7yCPGwhISiLEh+XazDChVBzNe/ap+D+qfA24+EtvbaiP8AimrXToIGsrYW6ajFFCHm88TmYqZUkYZTHI4AxXmH/DvL9tf/AKJ1qX/fVv8A/HaP+HeX7a//AETrUv8Avq3/APjtNyzJ3/dvX+6+1v0OmrmfihP2rnltX94mpfuJrRwjC1kkrcsY6Wtpex2vhf8Aab+E/g/wnY+A4o9e1C5s7GewtfE5MMN7p0Fz9+G1s97xPGuXCNLL5iB28spxXkXhz43WPgjwXpXg/wALahdMdL8Q3tys11bJLE2l3drHbPG1s0pQ7wJC8G7bz97PI6j/AId5ftr/APROtS/76t//AI7XOeLf2Hv2tvAvhu88X+K/AWpWem6fEZrmfETiONRlnIjdm2qOSccD2rnqRx6V3TaS8notP8j5rM8N4gqiqlXLasI0o2TVGpHliuV726ckfed5WSV7JW85+O/jXw149+IP9s+D/PbTrfTtO0+J7mNYZJPsNnFbM5jVnCBjGSF3HAxzXjlFFeFVqOcnN9T8BzjNKmOxdTGVrc025O22rvp5Eyfdp1NT7tOrM80//9HHooor+dz/AJVz6u/YWUN+2N8Nwwz/AMTy2/rX9sVfxPfsKf8AJ43w3/7Dlv8A1r+2Gv1DgX/d5+v6H+x/7Nz/AJJnH/8AX5f+kRCiv4+v+CtH/BTP41/sfftDfGTxd4o+Lvjbwp4E8Faz4O8O6RofgvSvDl1K1xr2iXOpTzzS61ayttDWrABX43dMDjC8N/t0/tuax8LdeXwd8avE9/8AbdS+Hms+H/EGr6NoKfYNN8SeG7zXrmz1z7LZrbRW0ohW2aICT7W1uivtcg/cH+jJ/ZFRX8q6/8ABbT43/Czxv4R/Zy+Jkvhzw146+J73PjjQrz4gXEdhZWnhzUib6y8N3kNk6XGnazZ2s8Nv5uopDbSPDKRI+5CcL9pL/gtnrvjTxx4N8Ufs1+OrXwRrnw7u/7T+KPgfUvsPiDSYfCVwRbrqs2p6EL0zTLdz2MUNtp108u65/exYRtoB/WLRX8Ovgj/AIKd/wDBYn9vr42/tD+PP2P/ABt4V8B/CjwP4hPgqN/Edk1nJ4dtPMnlg8RyR3kIuGuXSxFrLZSq7Ca7Crb5T5dD9sD/AIKiftPfsteG9Z+KXxv+Ovja20XwzZ/DrQkt/Bnh7QYZb/VfEXhqfVL3UJoPENitxbrJLaOwgZY3j3hTGuCAAf29V5P8eFVvgh4wVhkHRb/j/t3evx8/4IzftLfG749eK/ifpfxN+IOsfELQLXRvAviLw7c6/Y6ZZahbW/ijR31KWCddKhht2KEquQD93g1+wvx2/wCSJeL/APsC33/pO9RU+Fnj8Q/8i+v/AIJfkfwhR/6tfoKfTI/9Wv0FPr+ej/luWxMn3adTU+7TqBn/0seiiiv53P8AlXPq/YU/5PG+G//Yct/61/bDX8T37Cn/ACeN8N/+w5b/ANa/thr9Q4F/3efr+h/sf+zc/wCSZx//AF+X/pET+N3/AILJ/GD9mD9kH9sHx749+J3xA+IHhiPxzY6Je6pb2vgzR9a8OS6lpkEVjYW1tea5pN3D9taymuLk+VJtVIpEbDlUr87/ANqTwX8YvjFo+nfBv4DeE/F/xruvi94r8Ma00l/rHhrRU1bwrpWh38GkSDSPDc9jeaZYPBNb3cEl9BBCskUCSEOyo32J/wcaXfgn9qb4j+Kv2DNB05/CXinQJdD+JVzrfjPVzp/hrxFZ6Va/YJNO0g3VxHElzFHqO+YW4QuIZAd0uyvGP+CXml+LPD/wCzHrvxOsfEWk6P4e1HxS3hm1h8QW15HpX/AAi09xJqmnT6dqunovi+wt/IsIY9PXWruO0mjdI0Vy0QP3B/oyY3xN/bH+IPwevdI8JePPA6GbTLnSPA1hpvxQ8KWh1lbjw7p01je3Ws+K7+zGi3tldx282oJ9kvnunuI7dIf3DTI3y94h/b68JeG/jbeaj8PNd+GME409rZtek02ztNKT4amLyvtGs2OmxRPdaxrt62k6sLWwia60+SGSIxW0ayxj9Wv22vh5+yb4s/Z00vXf267u++LWkeNviF4o8ReAL3RtW1ewm0Sxvr5dQS01Kxu1lhS/sDObRreezJt4w0GxTuWvHvip4W/wCCZWp69q3x3+Jv7Ld7qEniLwxF4W1Mrd29laX8YltZI7z7PY28C2d4Tap/pVsltuV5FKHfgfIZvx5lWAr/AM1XFWfazy/yPSo5RiKkYyjHSW22vTQ4/wDZ61z4R/Fj4N2/h/4o+JdSlstB0nRLbWdR03wprthpvxC8OW9h5jDRfPsI7vVPEFzqsWnX880/mzt5U7Wx+xtcA/R+qeHfjb8atc1j44eMtP8AiL4D134i+EtD1q28O+JE+Gd5qHjC+8P2MdpE9no+qRTT2+oPazzTzRrBEkZ3xbUYolZnjb9lH9nf9oH/AIVH4z8JXHia2nn+H2oQeEvBdxqPim9g0XUtLnitNIuBe6CsNrYLaaTbX1pZvctFLctIvmNORI1a37Cujft1P4K+K/7Tv7Qehad4VtPDfhfwnb+Ar7xRqOj3HjjSoLW3htrK/vH1aeWx0iXULLMurLcLbySzMfJXIGPqcNiIVacatPZq69DhrUZU5unNWa0PvH/ggH8W/gb8bPFvxy8cfC/xR4u8VeIB/wAIlZeI38V6Xpuivp1zaadPDFpUNhptrZxwNpwV7afMQUun7slea/e347f8kS8X/APYFvv8A0nevzW/4JWePfEvxK8RfFzxd4xPhiTVLjV7P7TceDbS2s9EupQkwe6tVkRNXnFwf3hur8vFc58yyd4DuP6U/Hb/AJIl4v8A+wLff+k71dT4WeHxD/yL6/8Agl+R/CFH/q1+gp9Mj/1a/QU+v56P+W5bEyfdp1NT7tOoGf/Tx6KKK/nc/wCVc+r/ANhT/k8b4b/9hy3/AK1/bDX8T37Cn/J43w3/AOw5b/1r+2Gv1DgX/d5+v6H+x/7Nz/kmcf8A9fl/6RE/jk/4Ko/A/X/hj/wV6039p34q+BNB+JXhvW9Gt77w1c+JNN8Wa1Y+H5tKihsrvT/smjrLp0b6iZmuFkvYvIQxb5GXFfH/AMPPjl8Uf2u9K1f4zeJfiv4a8DWPhj4nalaxfD/xHHoc/hi48PaRBqdnZQ383hCJtSW20yHy4Ybm+nFi03lG3dna3J+2v+Cq/wAYvgl8Ef8AgrJpPxH13xD4r/4SrTPDrwaX8NfD2qXt/wD8LB1K/to7S3ifT7aWa20u1s7eWbzjcpZyTkCWIyKpcfhr8Rfh3d/ADTNN+BP7a2jeLPAXxk8WR/8ACFaN8K/hfZeDNT8/wlPdw6lbxvcJDeXMi20thZK8mqXDXkw+dWeLz2r7g/0ZPpX48/Dj4DftYf8ABPr4Q/Ej9gi/k8J6TaeM/FU+v+XrGqXkN7rKG0jub6L+07ia+it71ovtMUVyUm2SBpF8xmJ+ILP4UfFn42mb4a6N4u1O91XWGktIYDdSzKDM4wIolJZG42xEc1+sv7ByftJ6lrPij9h/Q/B+grqPwq8Va94q8d6Jq2maNqGo6nb69qQliNrqulSR+G9OvbO2kSO7s5Z4iojZYIdsW1aHxn/4KK/sv/CnVfif+0X+x1onwuu9J+G3jyy8J3+gPFBZ65Z6Dby3Fpqev2V+LlDqRuGiX+z0sBP5ENxvkTegr8o4n4DxuPzD61CpFRVraa9PI9Ori6PsKaUXzQu/J9l5Hrvw1/ZO+Lv7M3ww+Fvi3w4uv6j8RPB8OnaBaXFrqV83h6Rlt/FeoX1v4lisJv8Aj1jjaEeaAJ4bh7dVdUZgfyA+Bn7dvin9p3xp4G/Z1/4Jv/DLwvq/jPVbi08cfEAa94j1S40vVJLWwmsbXTJR4r1Ey3selx37vcwDzEkmt1khVokzX7b+D/2qPgpB4sm+Af8AwhPxU8MeEPE6adr+ifE5PsEOkS6LPAfsF3Y2Fso+3tf2V0WmsWtp7xI3aaaCM2zvF8XW/wCxFJr/AO1v/wAI3+xd8X/hP4h8Z/CzXlj+F8Xhs2Fve6BpFza3UlppuqfaFjt/ENpLYoLe6mj+3ajHceWxlSMz5/SsupzhQhCotUrfcfH8N5hmOKwcMRm1BUazveClzpa6e910t+R+5X/Bv38HvhJ8NoPjT4g+HHxLm+Lmq6vq2l23iPxJHNp39ky6tp0NxBdW+jWVoEmtNOtpS8Vss0SRPEENruiGa/dv47f8kS8X/wDYFvv/AEnevx0/4It/DSw8KeLvjT4/1bR5vDnjHxPdaA3ijRFtdK03TtH1O0tJo5tL02w09Ip1tLF2eCK8ukb7ciLPDNOhMh/Yv47f8kS8X/8AYFvv/Sd66qnws14h/wCRfX/wS/I/hCj/ANWv0FPpkf8Aq1+gp9fz0f8ALctiZPu06mp92nUDP//Ux6KKK/nc/wCVc+r/ANhT/k8b4b/9hy3/AK1/bDX8T37Cn/J43w3/AOw5b/1r+2Gv1DgX/d5+v6H+x/7Nz/kmcf8A9fl/6RE/iw/4K4/tm3X7JP7Y3xg/aK8Z+Ldb8O2HgTWfBnh3Q18IeGfB15qy3Gt6DdX0s8mo67ptxdbVFsyKFm+VX2gbeB8//FX4NfF//gpV4WubRfHHiPxL4mj134c+JfDHiK20XR9K8Ziz8TeEtRvW099V0WytbW3SEyo7zXkqQeXCYkfzZIlb+j/9pD/gkhd/HX9oLxt8d/DHxd1XwnF4+OkSapoZ8P8AhvXdPa40W0NlbTout6detHIImcZQr9416b+yZ/wTG8P/ALOfjHW/iP8AEH4ga78RPEGrajo2ow3VzHaaHFa/2Fp8+mWUCWehRWNpJbJbXDL5EsLRZCNt3IpH3B/oyfyueBPFX7avhD/gmr8ff2E/iTrPhpde8OatceAdW8RaLpepaZ4va+iuJJ9L1K4WK3hl1y3vrKylWNrKO61CRZ1nnzGtw4/Lbwb+zx4/+Onx9+CH7M3j3wB4F8L6RbeFvDl7Jdw6LrLW3irxDpWgYh0W8vbeJmtNcsrb7V9stY5Le2lu4HF2kjqor/SB8c/sh/DfXNd8WfEjwD/xSvjvxfc6Xe3HiSKCG/uYLnSITa201vBqCXFtDILN5bbfHEp8uV+d3NcL4u/Yb8P/ABD+J2tax478SXV54A1MLeW3gq1s7HTrXT9a85JpNZtdSsYYNVS+mbzfNf7XhxPKCCGxQB/Gd8LfHP7I/wALPh3cftHf8FDovil4M034y+HvFGgeHtC1q31VdIsNU06+gh0+eK2sEMuka1qcKPMI9PW2sY4TcwW6R25WKvG47y58afsyfs7eEdf/AGX/ABt4bGhPoz3GoR2mk+Gr6VtC0ibw/fjTbnTjZ69LPd6leQ6g0E7tPLBBLJEhhSQj+xn9tP8A4JVaP+3J468R+Jvip8Stei0jU/DyaLouhxW9hJY6DdreWd6dWsllgZmvy1nsWWYuUilljTajlT2Xwz/4Ju2sfxM8O/Gr9rL4leI/jb4s8DX32/wnfa19m0qLR5XhkglZLHRI7GzuXkSQjzLqCZ0GRGVDMCAflb/wbg/DD9sf9mfxR+0f+x5+2pra+I/EXw713RltNTd4bq4vLLULe6mguHvsG7njljVHhjupGe3Q+WFj5Wv6Lvjt/wAkS8X/APYFvv8A0neuA+B3wG8WfCjx9498eeLvF114wl8aajHd28d3pul2TabbQiRYbNJ7C1gmuo4kcIj3bzSKqgBhk57/AOO3/JEvF/8A2Bb7/wBJ3qKnws8fiH/kX1/8EvyP4Qo/9Wv0FPpkf+rX6Cn1/PR/y3LYmT7tOpqfdp1Az//Vx6KKK/nc/wCVc+r/ANhT/k8b4b/9hy3/AK1/bDX8F3wp+IutfCH4l6F8UfDscct9oF7Fewxyg+W7RHO1sYO1hwcfhX7VJ/wXM8UbB5nw8td2OcX74/D9zX3nCec4bDUpQrStr28vI/0l+hN9IThThDJcZgeIMR7Kc6ilH3JyTXKl9mLta3kf0T0V/O1/w/N8S/8ARO7b/wAGD/8Axmj/AIfm+Jf+id23/gwf/wCM19X/AK1YD/n5+D/yP7V/4nb8NP8AoYf+Uqv/AMgfvX8RfDWt+LvDP9h6BqEmlyvc2jyTwu0cnkRTxvOiOnKs8SsgI6E+lfGvjn9kH4t6l8T7Xxt4G+J+tWmmWmmzWw069uZbjzLt4p0jmaTPyrG0qOAFzlOCK/N7/h+b4l/6J3bf+DB//jNH/D83xL/0Tu2/8GD/APxmj/WrAf8APz8H/kH/ABO34af9DD/ylV/+QP6Io1ZY1VzuIABPrT6/na/4fm+Jf+id23/gwf8A+M0f8PzfEv8A0Tu2/wDBg/8A8Zo/1qwH/Pz8H/kH/E7fhp/0MP8AylV/+QP6Ja8p+O3/ACRLxf8A9gW+/wDSd6/DD/h+b4l/6J3bf+DB/wD4zXA/FL/gs9448f8Aw71nwNpPgm002XV7SWz+1NdvN5SzIUZgnlplgDxk4zUVeKsByu0/wf8AkeTn301/DeeBrQpY9uTjJJKlV1dtFrBL8kfifH/q1+gp9IAFAUdqWvxs/wAGkTJ92nU1Pu06gZ//1seiuu8W/D/x54BuzYeOdEv9GmHGy9tpID+G9R+lcgCCMr0r+eZQcdGj/lgxeDrYefsq8HGS6NWf3C0UUVJzBRRRQAUUUUAFFFFABRRRQAUUUmVBC9/SgCdPu06vUvB3wL+Nnj+0+2+B/CGs6tABnzLSxnlTHsypj8q7P/hkn9qX/onXiP8A8Ftx/wDEV0xwdVq6g/uPpMPwbnFWCqUsJUcXs1CVvwR/9f++bVNG0fW7Y2WtWkN3CwwY5o1kUj6MCK+Z/GP7D37I/jx3m8SfD/R2lk5aSCAWz/99QeWa+qqKyq4enNWnFM8HOuFcrzKPJmOGhVXacIyX4pn5deI/wDgj/8AsZ64XfT7HVdJZun2S+fA+izCUYrwfW/+CHnwdupGbw/411mzX+FZYrefH5LHX7e1+TH7aP8AwVN8J/s1eMp/hR8P9HXxJ4jswv2xpZfKtLV2AZY2KgtJJtIJVdoXjnPA8HMcuy2jD2leCS9P8j+avFfwm8I8iwEs14kwFGlTva6i4tt7KKp2bfklt5HynrP/AAQwvUyfD3xGR/RbnTdv6pOf5V51ef8ABDz40I//ABL/ABrosi9t8Nwh/QNX1r+yV/wVT8W/GjxD/ZHxR8Ef2dpKHFxr9hIw0+y/u/ajcYVFPTIlJ9ENfqj8Ufi54W+FGk6dqOueZczavew2Fja220yzyzHJ27iqhIog80jEhVjRj6A8eDyLK8TDnox0+aPz3gL6N/g1xhgf7RyLCtw2+OvFr5Tlt2a07bH88Ev/AARF/aGX/U+K/D7fX7SP/aRquP8AgiR+0d38T+Hf++rr/wCM1+vOi/8ABSz9l/Vw8/2+7S2jvVtHnitnuViV4J545pFtxI6IwtnUjZlGK7woOa9w+IH7Uvwx+Gvja58C+Il1CS5tNOg1CV7KynvET7U8qQQuLZJHjkl8iRl3qq4Xr0Fbf6nYH+X8T6mX0C/Dr/nxU/8ABkj8I4f+CIf7QDf67xboCfQXJ/8AaYrotN/4Ic/FVyP7X8daTEP+mNtO/wD6EUr9r/BH7Wvwj8b+BJvHsKaxp8NlbW1xe215o+ox3NsbkhViMf2cmR1Y7XEPmBcZzt5rhNK/b6/Z+1TxtrfgoNrMTaJDZzNMdE1RlkF2JSAEW1Mi7PK53qoOflzg40jwjgF9j8WdmG+gp4bw+LCSl61Z/o0fm3o3/BDDSxhvEPxHmb1W201V/wDHnnb/ANBr1vw5/wAESP2erBg3ibxNrupAdo2t7cfpE9fpT45/aP8AhL8N/F2heEPGmqQ6Y+vWdxfx3F3LFa28FvbmJd87zvH5fmPMkca4LM2RgbTiH4UftM/Bb41+LfEXgr4ca9Y6nfeGrlLeZba6t5/OVreC48+EQyOWhXz1jL4AEisvauinw1gY7U0fWZb9EDw3wutPK4v/ABSnL/0qTPl3wr/wSh/Yn8MyLLP4bn1Vl/5/72eQH/gKsi/pX1P4J/Zf/Z0+HLLL4J8EaLp8i4xJHZxGTj/bZS3617vRXo0cuw9P4IJfJH6pkPhRwxldnl2XUabXWNOCf32uRxRRQRiKBQirwAowB+AqSiiuw+/SSVkf/9D+/iiiigAr+Wf9rbw14g/ZC/bK8U+NPHfhez8beF/iALu9t7O++aGfeyy/NtBdHtZ9vQDKHAPzcf1MVj3Hh/QbvUxrV1ZQS3ixGATtGpkEROSgYjO0nkjpXlZtln1mCSdmtv8Ahj8S8cfB7/XDAUKNGv7GtRmpwnyqaWnLJOD92ScW1Z6fK6f8dOkxftRft7+PNO+Hmg2TJpEMirDY6fb/AGTRdKgzy/loBGuxejOWkboCTX9KH7V3w5uP+FF+FtGtr2+ltPDeueHGube2iEr6hbwX1tE8UyhWcx4/eMseCxQAnbkH7UtLGysIvIsIUgT+7GoUfkMVarLKMn+q80pS5pP9DxfAbwE/1NWKxOKxksVicRy885aK0L8sYxu7JXfXskkkfzvap8Afjl4Ku/CuqaxoesX0dzDYa9e/ZJJZGisXVX8Q2MtrLJMTJDEsKWxLrLJI5REf5yv0J+0R4FsvDvj74paroWnXd5D42n8F3F5eXMM16ke6TUY2l8o2t2RFbxRxL5aRfuwQTtzmv2dor2j+hz8rf2RPE3hz4SeA/iF/wk0FwNDsLmyC3+maXdxtdNdxbClvbQ6fbXDyRttUlI3wSOVwcfLHwl+H2v8Awr+JmheP/if4U8Y+HPCmh3Juf+Es83Vb7VNfitQ6WEOtadBcXMtnFCsrNKZYWEzqDtt1Z0P780UAfmn8UPgFp/jb9q7UvHOlX+pWk/ij4fXcaatsaeKweyvtPkskt4mTYAGMkzQkbpt0gPy8L6J+xjDpes618SviFpeneRbav4gtvst2dMm0sXKQ6LpkE7wwXMccyw/aYpQAQRlTgnrX3RRQAUUUUAFFFFAH/9k=" alt="WeChat Pay QR Code" />
+                    <p data-i18n="wechat_instruction">Please note the Order ID when making the payment, then confirm with us via WhatsApp.</p>
+                </div>
+            </div>
+
+            <!-- PayPal 支付提示 -->
+            <div class="notice" id="paypalNotice" data-i18n="payment_notice">
+                After clicking confirm, you will be redirected to PayPal. We'll contact you via WhatsApp once payment is received.
+            </div>
+
+            <div class="submit-price-info">
+                <span data-i18n="total_label">Total:</span> $<span id="showPrice">29</span>
+                <span>（≈ ¥<span id="showCny">203</span>）</span>
+            </div>
+
+            <button type="button" class="btn btn-secondary" onclick="goBackToStep1()" data-i18n="back_btn">← Change Plan</button>
+            <button type="submit" class="btn" id="submitBtn">
+                <span data-i18n="confirm_btn">Confirm Payment $</span><span id="showPriceBtn">29</span>
+                <span style="font-weight:400; opacity:0.8;">（≈ ¥<span id="showCnyBtn">203</span>）</span>
+            </button>
+        </form>
     </div>
-
-</form>
 </div>
 
 <script>
-// ==================== 修复后的核心逻辑 ====================
-window.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const plan = params.get('plan');
-    const price = params.get('price');
+    // ==================== 汇率设置（可随时修改） ====================
+    const USD_TO_CNY_RATE = 7.0;  // 1 USD = 7 RMB，修改这个数字即可调整汇率
 
-    if (plan && price) {
-        // 清空所有选中状态
-        document.querySelectorAll('#step1 .card').forEach(card => {
-            card.classList.remove('selected');
+    // ==================== 语言系统 ====================
+    const translations = {
+        en: {
+            step1_title: "Choose Your Session",
+            step1_sub: "One‑time payment · No subscriptions",
+            plan30_name: "30 Minutes",
+            plan30_desc: "Gentle whispers & emotional comfort",
+            plan60_name: "60 Minutes",
+            plan60_desc: "Personalized bedtime stories & deep companionship",
+            plan90_name: "90 Minutes Premium",
+            plan90_desc: "Premium deep relaxation experience",
+            popular_badge: "Most Popular",
+            next_btn: "Next →",
+            step2_title: "Your Details",
+            step2_sub: "Private & secure · Real human companion",
+            label_name: "Your Name",
+            label_email: "Email",
+            label_whatsapp: "WhatsApp (with country code)",
+            label_time: "Preferred Time",
+            label_request: "Special Requests (optional)",
+            label_payment: "Payment Method",
+            payment_notice: "After clicking confirm, you will be redirected to PayPal. We'll contact you via WhatsApp once payment is received.",
+            wechat_instruction: "Please note the Order ID when making the payment, then confirm with us via WhatsApp.",
+            order_id_label: "Order ID:",
+            copy_btn: "Copy",
+            back_btn: "← Change Plan",
+            confirm_btn: "Confirm Payment $",
+            total_label: "Total:",
+            submitting: "Processing...",
+            error_fill: "Please fill in all required fields.",
+            error_network: "Network error, please try again.",
+            error_paylink: "Failed to generate payment link.",
+            copied: "Copied!"
+        },
+        zh: {
+            step1_title: "选择陪伴时长",
+            step1_sub: "单次付费 · 无订阅",
+            plan30_name: "30 分钟",
+            plan30_desc: "轻柔耳语 + 情绪安抚",
+            plan60_name: "60 分钟",
+            plan60_desc: "个性化睡前陪伴 + 深度连接",
+            plan90_name: "90 分钟 Premium",
+            plan90_desc: "高级定制放松体验",
+            popular_badge: "最受欢迎",
+            next_btn: "下一步 →",
+            step2_title: "预约信息",
+            step2_sub: "私密 · 真人陪伴",
+            label_name: "您的姓名",
+            label_email: "邮箱地址",
+            label_whatsapp: "WhatsApp 号码（含国家代码）",
+            label_time: "期望时间",
+            label_request: "特殊需求（可选）",
+            label_payment: "支付方式",
+            payment_notice: "点击确认后，将跳转 PayPal。收到款项后我们会通过 WhatsApp 联系您。",
+            wechat_instruction: "请转账时备注订单号，然后通过 WhatsApp 与我们确认。",
+            order_id_label: "订单号：",
+            copy_btn: "复制",
+            back_btn: "← 返回修改时长",
+            confirm_btn: "确认支付 $",
+            total_label: "合计：",
+            submitting: "处理中...",
+            error_fill: "请填写所有必填字段。",
+            error_network: "网络错误，请稍后重试。",
+            error_paylink: "支付链接生成失败。",
+            copied: "已复制！"
+        }
+    };
+
+    let currentLang = 'en';
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
         });
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
+        localStorage.setItem('luna_lang', lang);
+    }
 
-        // 找到对应卡片并选中
-        const targetCard = document.querySelector(`#step1 .card[data-plan="${plan}"]`);
-        if (targetCard) {
-            targetCard.classList.add('selected');
+    document.getElementById('langSwitch').addEventListener('click', (e) => {
+        if (e.target.classList.contains('lang-btn')) {
+            setLanguage(e.target.dataset.lang);
+        }
+    });
+
+    const savedLang = localStorage.getItem('luna_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+    setLanguage(savedLang);
+
+    // ==================== 订单号生成 ====================
+    function generateOrderId() {
+        const timestamp = Date.now().toString(36).toUpperCase();
+        const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+        return `LW-${timestamp}-${random}`;
+    }
+
+    const orderId = generateOrderId();
+    document.getElementById('orderIdInput').value = orderId;
+    document.getElementById('orderIdDisplay').textContent = orderId;
+
+    function copyOrderId() {
+        navigator.clipboard.writeText(orderId).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            const original = btn.textContent;
+            btn.textContent = translations[currentLang].copied;
+            setTimeout(() => {
+                btn.textContent = original;
+            }, 2000);
+        });
+    }
+
+    // ==================== 套餐选择 + 人民币换算 ====================
+    function selectPlan(el) {
+        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+        el.classList.add('selected');
+
+        const usdPrice = parseInt(el.dataset.price);
+        const cnyPrice = Math.round(usdPrice * USD_TO_CNY_RATE);
+
+        // 更新隐藏字段
+        document.getElementById('planInput').value = el.dataset.plan;
+        document.getElementById('priceInput').value = usdPrice;
+        document.getElementById('cnyPriceInput').value = cnyPrice;
+
+        // 更新所有显示美元和人民币的位置
+        document.getElementById('showPrice').textContent = usdPrice;
+        document.getElementById('showPriceBtn').textContent = usdPrice;
+        document.getElementById('showCny').textContent = cnyPrice;
+        document.getElementById('showCnyBtn').textContent = cnyPrice;
+    }
+
+    // URL参数自动选中
+    (function() {
+        const params = new URLSearchParams(window.location.search);
+        const plan = params.get('plan');
+        const price = params.get('price');
+        if (plan && price) {
+            const target = document.querySelector(`.plan-card[data-plan="${plan}"]`);
+            if (target) {
+                selectPlan(target);
+                return;
+            }
+        }
+        const defaultCard = document.querySelector('.plan-card[data-plan="60min"]');
+        if (defaultCard) selectPlan(defaultCard);
+    })();
+
+    // ==================== 支付方式选择 ====================
+    function selectPayment(el) {
+        document.querySelectorAll('.pay-option').forEach(opt => opt.classList.remove('selected'));
+        el.classList.add('selected');
+        const method = el.dataset.method;
+        const wechatSection = document.getElementById('wechatSection');
+        const paypalNotice = document.getElementById('paypalNotice');
+
+        if (method === 'wechat') {
+            wechatSection.classList.add('active');
+            paypalNotice.style.display = 'none';
+        } else {
+            wechatSection.classList.remove('active');
+            paypalNotice.style.display = 'block';
+        }
+    }
+
+    // ==================== 步骤切换 ====================
+    function goToStep2() {
+        document.getElementById('step1').classList.remove('active');
+        document.getElementById('step2').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBackToStep1() {
+        document.getElementById('step2').classList.remove('active');
+        document.getElementById('step1').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==================== 表单提交 ====================
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+
+        // 验证
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const whatsapp = form.whatsapp.value.trim();
+        const preferredTime = form.preferred_time.value.trim();
+        if (!name || !email || !whatsapp || !preferredTime) {
+            alert(translations[currentLang].error_fill);
+            return;
         }
 
-        document.getElementById('planInput').value = plan;
-        document.getElementById('priceInput').value = price;
-        document.getElementById('showPrice').textContent = price;
+        const selectedPayment = document.querySelector('.pay-option.selected');
+        const paymentMethod = selectedPayment ? selectedPayment.dataset.method : 'paypal';
+        const usdPrice = parseInt(document.getElementById('priceInput').value);
+        const cnyPrice = parseInt(document.getElementById('cnyPriceInput').value);
+
+        // 微信支付处理
+        if (paymentMethod === 'wechat') {
+            alert('请使用微信扫描二维码支付，并在转账备注中填写订单号：' + orderId + '\n支付后请通过 WhatsApp 联系我们确认。');
+            try {
+                await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name, email, whatsapp,
+                        session_plan: document.getElementById('planInput').value,
+                        session_price_usd: usdPrice,
+                        session_price_cny: cnyPrice,
+                        preferred_time: preferredTime,
+                        special_request: form.special_request.value,
+                        payment_method: 'wechat',
+                        order_id: orderId,
+                        website: ''
+                    })
+                });
+            } catch (err) { console.log('Backup notification sent'); }
+            return;
+        }
+
+        // PayPal 流程
+        submitBtn.innerHTML = translations[currentLang].submitting;
+        submitBtn.disabled = true;
+
+        const data = {
+            name, email, whatsapp,
+            session_plan: document.getElementById('planInput').value,
+            session_price_usd: usdPrice,
+            session_price_cny: cnyPrice,
+            preferred_time: preferredTime,
+            special_request: form.special_request.value,
+            payment_method: 'paypal',
+            order_id: orderId,
+            website: ''
+        };
+
+        try {
+            const response = await fetch('/api/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'success' && result.redirect_url) {
+                window.location.href = result.redirect_url;
+            } else {
+                throw new Error(result.message || 'Unknown error');
+            }
+        } catch (err) {
+            console.error(err);
+            alert(translations[currentLang].error_network + ' ' + err.message);
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
     }
-});
-
-function selectPlan(el){
-    // 清除所有选中
-    document.querySelectorAll('#step1 .card').forEach(card => {
-        card.classList.remove('selected');
-    });
-    
-    // 选中当前点击的
-    el.classList.add('selected');
-
-    document.getElementById('planInput').value = el.dataset.plan;
-    document.getElementById('priceInput').value = el.dataset.price;
-    document.getElementById('showPrice').textContent = el.dataset.price;
-}
-
-function goToStep2(){
-    document.getElementById('step1').classList.remove('active');
-    document.getElementById('step2').classList.add('active');
-}
-
-function goBackToStep1(){
-    document.getElementById('step2').classList.remove('active');
-    document.getElementById('step1').classList.add('active');
-}
-
-async function submitBooking(){
-    const btn = document.querySelector('#step2 .btn-primary');
-    const originalText = btn.innerHTML;
-    
-    btn.innerHTML = '正在跳转支付...';
-    btn.disabled = true;
-
-    const price = document.getElementById('priceInput').value;
-
-    // 这里是测试模式（真实项目要换成支付链接）
-    setTimeout(() => {
-        alert(`✅ 你已选择 $${price} 的陪伴套餐\n\n正在跳转支付页面...（测试模式）`);
-        // window.location.href = `/pay?plan=${document.getElementById('planInput').value}&price=${price}`;
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }, 600);
-}
 </script>
-
 </body>
 </html>
